@@ -14,5 +14,6 @@ class Examination extends Model
         'active',
         'notice',
         'institution',
+        'exam_date',
     ];
 }

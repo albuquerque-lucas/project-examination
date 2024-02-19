@@ -23,11 +23,11 @@ class ExaminationFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence,
-            'active' => $this->faker->boolean,
+            'title' => $this->fake()->sentence(),
+            'active' => $this->fake()->boolean(),
             'notice' => null,
-            'institution' => $this->faker->company,
-            'exam_date' => $this->faker->date,
+            'institution' => $this->fake()->company(),
+            'exam_date' => $this->fake()->date(),
         ];
     }
 }

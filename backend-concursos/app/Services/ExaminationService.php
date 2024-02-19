@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Examination;
+
 class ExaminationService
 {
     public function getAll()
     {
-        echo "Ola mundo Service.";
+        return Examination::all();
     }
 }

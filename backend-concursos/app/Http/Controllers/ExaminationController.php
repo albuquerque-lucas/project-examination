@@ -16,6 +16,6 @@ class ExaminationController extends Controller
 
     public function index()
     {
-        $this->examinationService->getAll();
+        return $this->examinationService->getAll();
     }
 }
