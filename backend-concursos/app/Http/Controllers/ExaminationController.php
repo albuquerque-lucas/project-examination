@@ -16,6 +16,7 @@ class ExaminationController extends Controller
 
     public function index()
     {
-        return $this->examinationService->getAll();
+        $response = $this->examinationService->getAll();
+        return response()->json($response->data(), $response->status());
     }
 }
