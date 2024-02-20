@@ -12,8 +12,21 @@ class Account extends Model
     use HasFactory;
 
     protected $fillable = [
+        'username',
+        'email',
+        'password',
         'user_id',           // Relação de um para um com a Model User
         'account_plan_id',   // Relação de um para um com a Model AccountPlan
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
     
     public function examinations(): HasMany
