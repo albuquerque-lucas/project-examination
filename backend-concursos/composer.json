@@ -46,7 +46,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "sail": "./vendor/bin/sail artisan",
+        "artisan": "./vendor/bin/sail artisan",
+        "sail-up": "./vendor/bin/sail up",
         "refresh-db": [
             "./vendor/bin/sail artisan migrate:refresh",
             "./vendor/bin/sail artisan db:seed"
