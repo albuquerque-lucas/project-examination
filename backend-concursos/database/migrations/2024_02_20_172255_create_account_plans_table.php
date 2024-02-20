@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('account_plans', function (Blueprint $table) {
             $table->id();
+            $table->string('name'); // Nome do plano (ex: Plano Regular, Plano Premium, etc.)
+            $table->text('description')->nullable(); // Descrição do plano (pode ser nulo)
+            $table->decimal('price', 10, 2); // Preço do plano
+            $table->integer('duration_days')->nullable(); // Duração do plano em dias (pode ser nulo)
             $table->timestamps();
         });
     }

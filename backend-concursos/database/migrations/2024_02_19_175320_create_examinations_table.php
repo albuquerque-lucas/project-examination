@@ -7,15 +7,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
 
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('examinations', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->boolean('active');
-            $table->binary('notice')->nullable();
-            $table->string('institution');
-            $table->date('exam_date')->nullable();
+            $table->string('title'); // Título do concurso
+            $table->boolean('active'); // Indica se o concurso está ativo
+            $table->binary('notice')->nullable(); // Edital do concurso (pode ser nulo)
+            $table->string('institution'); // Instituição responsável pelo concurso
+            $table->date('exam_date')->nullable(); // Data do exame do concurso (pode ser nulo)
             $table->timestamps();
         });
     }
@@ -28,4 +31,5 @@ return new class extends Migration
         Schema::dropIfExists('examinations');
     }
 };
+
 
