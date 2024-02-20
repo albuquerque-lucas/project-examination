@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Account extends Model
@@ -11,9 +12,14 @@ class Account extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user',
-        'account_plan',
+        'user_id',           // Relação de um para um com a Model User
+        'account_plan_id',   // Relação de um para um com a Model AccountPlan
     ];
+    
+    public function examinations(): HasMany
+    {
+        return $this->hasMany(Examination::class);
+    }
 
     public function user(): HasOne
     {
@@ -24,4 +30,5 @@ class Account extends Model
     {
         return $this->hasOne(AccountPlan::class);
     }
+
 }
