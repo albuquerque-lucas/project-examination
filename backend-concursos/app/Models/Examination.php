@@ -21,12 +21,7 @@ class Examination extends Model
     protected $casts = [
         'exam_date' => 'datetime' // Converte 'exam_date' para um objeto DateTime automaticamente
     ];
-
-    /**
-     * Define o relacionamento muitos-para-muitos com a Model Account.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
+    
     public function accounts(): BelongsToMany
     {
         return $this->belongsToMany(Account::class);
