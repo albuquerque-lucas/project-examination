@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Examination;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class ExaminationFactory extends Factory
 {
@@ -23,12 +22,13 @@ class ExaminationFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->fake()->sentence(),
-            'active' => $this->fake()->boolean(),
-            'notice' => null,
-            'institution' => $this->fake()->company(),
-            'exam_date' => $this->fake()->date(),
+            'title' => $this->faker->sentence,
+            'active' => $this->faker->boolean,
+            'notice' => $this->faker->text,
+            'institution' => $this->faker->company,
+            'exam_date' => $this->faker->date,
         ];
+
     }
 }
 
