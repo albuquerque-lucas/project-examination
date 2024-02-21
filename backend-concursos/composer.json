@@ -45,7 +45,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "artisan": "./vendor/bin/sail artisan",
+        "sail-up": "./vendor/bin/sail up"
     },
     "extra": {
         "laravel": {
