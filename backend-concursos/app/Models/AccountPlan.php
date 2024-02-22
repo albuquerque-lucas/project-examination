@@ -24,6 +24,6 @@ class AccountPlan extends Model
      */
     public function accounts(): BelongsToMany
     {
-        return $this->belongsToMany(Account::class);
+        return $this->belongsToMany(User::class);
     }
 }
