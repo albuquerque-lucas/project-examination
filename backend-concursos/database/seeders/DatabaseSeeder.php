@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AccountPlansSeeder::class,
             UsersSeeder::class,
-            AccountsSeeder::class,
             ExaminationSeeder::class,
         ]);
     }
