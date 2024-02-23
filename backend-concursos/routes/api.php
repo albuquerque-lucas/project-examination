@@ -20,3 +20,7 @@ Route::get('/users/all', [UserController::class, 'getAll']);
 
 
 Route::get('/examinations/all', [ExaminationController::class, 'getAll']);
+Route::get('/examinations/examDate', [ExaminationController::class, 'getByExamDate']);
+Route::get('/examinations/institution', [ExaminationController::class, 'getByInstitution']);
+Route::get('/examinations/title', [ExaminationController::class, 'getByTitle']);
+Route::get('/examinations/{id}', [ExaminationController::class, 'getById']);
