@@ -113,4 +113,25 @@ class ExaminationService
             return $this->serviceResponse;
         }
     }
+
+    public function create(array $data): ServiceResponse
+    {
+        try {
+            $examination = Examination::create($data);
+
+            if(!$examination) {
+                $this->serviceResponse->setAttributes(500, (object)[
+                    'message' => 'Erro ao criar um novo concurso.'
+                ]);
+                return $this->serviceResponse;
+            }
+            
+            $this->serviceResponse->setAttributes(201, $examination);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $message = $exception->getMessage();
+            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro em Server' => $message]);
+            return $this->serviceResponse;
+        }
+    }
 }

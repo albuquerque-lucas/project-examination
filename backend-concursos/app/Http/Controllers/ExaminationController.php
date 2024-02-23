@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ExaminationFormRequest;
 use Illuminate\Http\Request;
 use App\Services\ExaminationService;
 use Exception;
@@ -72,6 +73,17 @@ class ExaminationController extends Controller
             $order = $request->input('order', 'desc');
     
             $response = $this->examinationService->getByExamDate($examDate, $order);
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['Controller Error' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function create(ExaminationFormRequest $request)
+    {
+        try {
+            $requestData = $request->all();
+            $response = $this->examinationService->create($requestData);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
             return response()->json(['Controller Error' => $exception->getMessage()], 500);
