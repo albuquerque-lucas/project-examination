@@ -19,4 +19,4 @@ use App\Http\Controllers\ExaminationController;
 Route::get('/users/all', [UserController::class, 'getAll']);
 
 
-Route::get('/examinations', [ExaminationController::class, 'index']);
+Route::get('/examinations/all', [ExaminationController::class, 'getAll']);

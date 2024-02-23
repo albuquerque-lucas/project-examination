@@ -15,10 +15,11 @@ class ExaminationController extends Controller
         $this->examinationService = $examinationService;
     }
 
-    public function index()
+    public function getAll(Request $request)
     {
         try {
-            $response = $this->examinationService->getAll();
+            $order = $request->query('order', 'desc');
+            $response = $this->examinationService->getAll($order);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
