@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\MissingInstitutionParameterException;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use InvalidArgumentException;
 
 class ValidateExamInstitutionGetter
 {
@@ -18,7 +18,7 @@ class ValidateExamInstitutionGetter
     {
         $institution = $request->query('institution');
         if (!$institution) {
-            throw new InvalidArgumentException('Missing required parameter: institution');
+            throw new MissingInstitutionParameterException('Missing required parameter: institution');
         }
         return $next($request);
     }

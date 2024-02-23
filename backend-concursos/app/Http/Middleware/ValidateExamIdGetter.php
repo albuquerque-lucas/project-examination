@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\MissingIdParameterException;
 use Closure;
 use Illuminate\Http\Request;
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 
 class ValidateExamIdGetter
@@ -18,7 +18,7 @@ class ValidateExamIdGetter
     {
         $id = $request->route('id');
         if (!$id) {
-            throw new InvalidArgumentException('Missing required parameter: id');
+            throw new MissingIdParameterException('Missing required parameter: id');
         }
         return $next($request);
     }

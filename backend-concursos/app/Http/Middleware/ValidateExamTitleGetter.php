@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\MissingTitleParameterException;
 use Closure;
 use Illuminate\Http\Request;
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 
 class ValidateExamTitleGetter
@@ -17,9 +17,8 @@ class ValidateExamTitleGetter
     public function handle(Request $request, Closure $next): Response
     {
         $title = $request->header('title');
-        $order = $request->input('order', 'desc');
         if (!$title) {
-            throw new InvalidArgumentException('Missing required parameter: title');
+            throw new MissingTitleParameterException('Missing required parameter: title');
         }
         return $next($request);
     }
