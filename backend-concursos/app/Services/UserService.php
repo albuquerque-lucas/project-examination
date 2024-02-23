@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Services;
-
-use App\Models\Examination;
 use App\Models\ServiceResponse;
+use App\Models\User;
 use Exception;
 
-class ExaminationService
+class UserService
 {
     private $serviceResponse;
 
@@ -18,10 +17,10 @@ class ExaminationService
     public function getAll(): ServiceResponse
     {
         try {
-            $examinations = Examination::all();
-            $this->serviceResponse->setAttributes(200, $examinations);
+            $userList = User::all();
+            $this->serviceResponse->setAttributes(200, $userList);
             return $this->serviceResponse;
-        } catch (Exception $exception) {
+        } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(500, (object)['error' => $exception->getMessage()]);
             return $this->serviceResponse;
         }

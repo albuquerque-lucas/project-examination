@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExaminationController;
@@ -15,9 +16,7 @@ use App\Http\Controllers\ExaminationController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/users/all', [UserController::class, 'getAll']);
 
 
 Route::get('/examinations', [ExaminationController::class, 'index']);

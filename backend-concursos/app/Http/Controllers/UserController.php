@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use App\Services\ExaminationService;
 use Exception;
 
-class ExaminationController extends Controller
+class UserController extends Controller
 {
-    protected $examinationService;
+    private $userService;
 
-    public function __construct(ExaminationService $examinationService)
+    public function __construct(UserService $userService)
     {
-        $this->examinationService = $examinationService;
+        $this->userService = $userService;
     }
 
-    public function index()
+    public function getAll()
     {
         try {
-            $response = $this->examinationService->getAll();
+            $response = $this->userService->getAll();
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
