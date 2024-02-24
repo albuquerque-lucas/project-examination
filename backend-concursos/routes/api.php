@@ -21,16 +21,19 @@ use App\Http\Middleware\ValidateExamTitleGetter;
 |
 */
 
-Route::get('/users/all', [UserController::class, 'getAll']);
+Route::get('/users/all', [UserController::class, "getAll"]);
 
 
-Route::get('/examinations/all', [ExaminationController::class, 'getAll'])
-  ->middleware(ValidateOrderParam::class);
-Route::get('/examinations/examDate', [ExaminationController::class, 'getByExamDate'])
+Route::get("/examinations/all", [ExaminationController::class, 'getAll'])
+->middleware(ValidateOrderParam::class);
+Route::post("/examinations/create", [ExaminationController::class, "create"]);
+
+
+Route::get('/examinations/examDate', [ExaminationController::class, "getByExamDate"])
   ->middleware(ValidateOrderParam::class, ValidadeExamDateGetter::class);
-Route::get('/examinations/institution', [ExaminationController::class, 'getByInstitution'])
+Route::get('/examinations/institution', [ExaminationController::class, "getByInstitution"])
   ->middleware(ValidateOrderParam::class, ValidateExamInstitutionGetter::class);
-Route::get('/examinations/title', [ExaminationController::class, 'getByTitle'])
+Route::get('/examinations/title', [ExaminationController::class, "getByTitle"])
   ->middleware(ValidateOrderParam::class, ValidateExamTitleGetter::class);
-Route::get('/examinations/{id}', [ExaminationController::class, 'getById'])
+Route::get('/examinations/{id}', [ExaminationController::class, "getById"])
   ->middleware(ValidateExamIdGetter::class);

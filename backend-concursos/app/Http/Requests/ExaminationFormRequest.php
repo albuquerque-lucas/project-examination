@@ -23,7 +23,6 @@ class ExaminationFormRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'notice' => 'file',
             'active' => 'required|integer',
             'institution' => 'required|string',
             'exam_date' => 'string'
