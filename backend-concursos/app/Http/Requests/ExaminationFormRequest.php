@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Validator;
 
 class ExaminationFormRequest extends FormRequest
 {
@@ -23,9 +24,21 @@ class ExaminationFormRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'active' => 'required|integer',
+            'active' => 'required|boolean',
             'institution' => 'required|string',
             'exam_date' => 'string'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'A title is required.',
+            'title.string' => 'The value of title should be a string.',
+            'active.required' => 'It is necessary to indicate whether the examination is currently active.',
+            'active.boolean' => 'The value of active should be a boolean.',
+            'institution.required' => 'It is necessary to indicate an institution.',
+            'institution.string' => 'The value of institution should be a string.'
         ];
     }
 }

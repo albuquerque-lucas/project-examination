@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('examinations', function (Blueprint $table) {
             $table->id();
             $table->string('title'); // Título do concurso
-            $table->boolean('active'); // Indica se o concurso está ativo
+            $table->boolean('active')->default(false); // Indica se o concurso está ativo
             $table->binary('notice')->nullable(); // Edital do concurso (pode ser nulo)
             $table->string('institution'); // Instituição responsável pelo concurso
             $table->date('exam_date')->nullable(); // Data do exame do concurso (pode ser nulo)

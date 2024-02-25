@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\InvalidDateFormatException;
 use App\Models\Examination;
 use App\Models\ServiceResponse;
 use Exception;
@@ -29,7 +30,7 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes($exception->getCode(), (object)['Ocorreu um erro' => $message]);
             return $this->serviceResponse;
         }
     }
@@ -46,7 +47,7 @@ class ExaminationService
         } catch(Exception $exception)
         {
             $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes($exception->getCode(), (object)['Ocorreu um erro' => $message]);
             return $this->serviceResponse;
         }
     }
@@ -67,7 +68,7 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes($exception->getCode(), (object)['Ocorreu um erro' => $message]);
             return $this->serviceResponse;
         }
     }
@@ -87,7 +88,7 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes($exception->getCode(), (object)['Ocorreu um erro' => $message]);
             return $this->serviceResponse;
         }
     }
@@ -97,7 +98,7 @@ class ExaminationService
         try {
             $parsedDate = DateTime::createFromFormat('Y-m-d', $examDate);
             if (!$parsedDate) {
-                throw new InvalidArgumentException('Data inválida. Use o formato YYYY-MM-DD.');
+                throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD.');
             }
     
             $query = Examination::query();
@@ -109,7 +110,7 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $message = $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro em Server' => $message]);
+            $this->serviceResponse->setAttributes($exception->getCode(), (object)['Ocorreu um erro em Server' => $message]);
             return $this->serviceResponse;
         }
     }

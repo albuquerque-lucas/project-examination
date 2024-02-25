@@ -26,7 +26,7 @@ Route::get('/users/all', [UserController::class, "getAll"]);
 
 Route::get("/examinations/all", [ExaminationController::class, 'getAll'])
 ->middleware(ValidateOrderParam::class);
-Route::post("/examinations/create", [ExaminationController::class, "create"]);
+Route::post("/create/examination", [ExaminationController::class, "create"]);
 
 
 Route::get('/examinations/examDate', [ExaminationController::class, "getByExamDate"])
