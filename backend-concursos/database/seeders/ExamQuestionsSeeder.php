@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Exam;
+use App\Models\ExamQuestion;
 
 class ExamQuestionsSeeder extends Seeder
 {
@@ -12,6 +13,10 @@ class ExamQuestionsSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Exam::all()->each(function (Exam $exam) {
+            ExamQuestion::factory(20)->create([
+                'exam_id' => $exam->id,
+            ]);
+        });
     }
 }

@@ -19,6 +19,7 @@ class ExamQuestionsAlternativesFactory extends Factory
         $letterOptions = ['a', 'b', 'c', 'd', 'e'];
         shuffle($letterOptions);
         return [
+            'letter' => $this->faker->randomElement($letterOptions),
             'text' => $this->faker->text(15),
             'is_answer' => false,
         ];
