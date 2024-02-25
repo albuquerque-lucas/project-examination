@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('exam_questions_alternatives', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('exam_questions')->constrained()->cascadeOnDelete();
+            $table
+                ->foreignId('exam_questions')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('letter');
             $table->string('text');
             $table->boolean('is_answer')->default(false);

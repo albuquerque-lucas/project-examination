@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->string('title'); // Título do concurso
             $table->boolean('active')->default(false); // Indica se o concurso está ativo
-            $table->binary('notice')->nullable(); // Edital do concurso (pode ser nulo)
             $table->string('institution'); // Instituição responsável pelo concurso
             $table->date('registration_start_date')->nullable(); // Data de início do período de inscrição
             $table->date('registration_end_date')->nullable();   // Data de término do período de inscrição

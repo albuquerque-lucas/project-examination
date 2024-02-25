@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('notices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('examinations')->constrained();
+            $table
+                ->foreignId('examinations')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('file');
-            $table->string('file_name');
+            $table->string('file_name')->nullable();
             $table->dateTime('publication_date');
             $table->timestamps();
         });
