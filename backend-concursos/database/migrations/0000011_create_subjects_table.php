@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('examinations');
+            $table->string('title');
             $table->timestamps();
         });
     }
