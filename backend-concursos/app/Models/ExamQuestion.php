@@ -30,4 +30,14 @@ class ExamQuestion extends Model
     {
         return $this->hasMany(ExamQuestionAlternative::class);
     }
+
+    public function subject(): BelongsTo
+    {
+        return $this->belongsTo(Subject::class);
+    }
+
+    public function topic(): BelongsTo
+    {
+        return $this->belongsTo(Topic::class);
+    }
 }

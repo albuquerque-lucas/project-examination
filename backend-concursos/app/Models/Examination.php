@@ -31,9 +31,9 @@ class Examination extends Model
         'exams_end_date' => 'date'
     ];
     
-    public function users(): HasMany
+    public function users(): BelongsToMany
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function notice(): HasOne
@@ -46,8 +46,13 @@ class Examination extends Model
         return $this->hasMany(Exam::class);
     }
 
-    public function subjects(): HasMany
+    public function subjects(): BelongsToMany
     {
-        return $this->hasMany(Subject::class);
+        return $this->belongsToMany(Subject::class);
+    }
+
+    public function studyAreas(): BelongsToMany
+    {
+        return $this->belongsToMany(StudyArea::class);
     }
 }
