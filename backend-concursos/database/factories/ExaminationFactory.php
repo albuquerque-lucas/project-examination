@@ -33,7 +33,7 @@ class ExaminationFactory extends Factory
             'registration_start_date' => $registrationStartDate,
             'registration_end_date' => Carbon::parse($registrationStartDate)->addWeeks(3)->toDateString(),
             'exams_start_date' => $examsStartDate,
-            'exams_end_day' => Carbon::parse($examsStartDate)->addWeeks(3)->toDateString(),
+            'exams_end_date' => Carbon::parse($examsStartDate)->addWeeks(3)->toDateString(),
         ];
 
     }

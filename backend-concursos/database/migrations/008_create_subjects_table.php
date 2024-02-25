@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Examination;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('examinations');
+            $table->foreignIdFor(Examination::class);
             $table->string('title');
             $table->timestamps();
         });

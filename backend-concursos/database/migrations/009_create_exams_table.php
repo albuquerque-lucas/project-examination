@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Examination;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,8 +15,7 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table
-                ->foreignId('examinations')
-                ->constrained()
+                ->foreignIdFor(Examination::class)
                 ->cascadeOnDelete();
             $table->string('title')->unique()->nullable();
             $table->text('description')->nullable();
