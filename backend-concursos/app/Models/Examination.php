@@ -15,7 +15,6 @@ class Examination extends Model
     protected $fillable = [
         'title',        // Título do concurso
         'active',       // Indica se o concurso está ativo
-        'notice',       // Edital do concurso (pode ser nulo)
         'institution',  // Instituição responsável pelo concurso
         'registration_start_date',     // Data de início do período de inscrição
         'registration_end_date', // Data to termino do periodo de inscricao
