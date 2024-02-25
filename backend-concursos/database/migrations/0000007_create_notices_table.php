@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('notices', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('examinations')->constrained();
             $table->string('file');
             $table->string('file_name');
             $table->dateTime('publication_date');

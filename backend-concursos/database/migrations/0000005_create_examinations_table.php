@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('exams_start_date')->nullable();      // Data de início do período de provas
             $table->date('exams_end_date')->nullable();        // Data de término do período de provas
             $table->timestamps();
+
         });
     }
 
