@@ -16,8 +16,10 @@ class ExamQuestionsAlternativesFactory extends Factory
      */
     public function definition(): array
     {
+        $letterOptions = ['a', 'b', 'c', 'd', 'e'];
         return [
-            //
+            'text' => $this->faker->text(15),
+            'is_answer' => $this->faker->boolean()
         ];
     }
 }

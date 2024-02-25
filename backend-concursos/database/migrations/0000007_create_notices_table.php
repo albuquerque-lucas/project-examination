@@ -19,6 +19,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->string('file');
             $table->string('file_name')->nullable();
+            $table->string('extension')->nullable();
             $table->dateTime('publication_date');
             $table->timestamps();
         });

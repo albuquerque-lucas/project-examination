@@ -17,10 +17,11 @@ return new class extends Migration
                 ->foreignId('examinations')
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->string('title')->unique();
-            $table->date('date');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->string('title')->unique()->nullable();
+            $table->text('description')->nullable();
+            $table->date('date')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->timestamps();
         });
     }

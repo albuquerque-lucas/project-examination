@@ -17,7 +17,8 @@ class ExamQuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => $this->faker->words(2, true),
+            'description' => $this->faker->paragraph(3, true),
         ];
     }
 }
