@@ -18,7 +18,10 @@ return new class extends Migration
             $table->boolean('active')->default(false); // Indica se o concurso está ativo
             $table->binary('notice')->nullable(); // Edital do concurso (pode ser nulo)
             $table->string('institution'); // Instituição responsável pelo concurso
-            $table->date('exam_date')->nullable(); // Data do exame do concurso (pode ser nulo)
+            $table->date('registration_start_date')->nullable(); // Data de início do período de inscrição
+            $table->date('registration_end_date')->nullable();   // Data de término do período de inscrição
+            $table->date('exams_start_date')->nullable();      // Data de início do período de provas
+            $table->date('exams_end_date')->nullable();        // Data de término do período de provas
             $table->timestamps();
         });
     }
