@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exam_questions_alternatives', function (Blueprint $table) {
+        Schema::create('exam_question_alternatives', function (Blueprint $table) {
             $table->id();
             $table
                 ->foreignIdFor(ExamQuestion::class)

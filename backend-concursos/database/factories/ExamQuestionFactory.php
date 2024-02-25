@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Exam;
+use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,10 +18,7 @@ class ExamQuestionFactory extends Factory
      */
     public function definition(): array
     {
-        $examsIds = Exam::pluck('id')->toArray();
-
         return [
-            'exam_id' => $this->faker->randomElement($examsIds),
             'title' => $this->faker->words(2, true),
             'description' => $this->faker->paragraph(3, true),
         ];

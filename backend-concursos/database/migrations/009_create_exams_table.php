@@ -17,7 +17,7 @@ return new class extends Migration
             $table
                 ->foreignIdFor(Examination::class)
                 ->cascadeOnDelete();
-            $table->string('title')->unique()->nullable();
+            $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->date('date')->nullable();
             $table->time('start_time')->nullable();

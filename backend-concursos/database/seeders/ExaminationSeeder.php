@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EducationalLevel;
 use Illuminate\Database\Seeder;
 use App\Models\Examination;
 
@@ -14,18 +15,10 @@ class ExaminationSeeder extends Seeder
      */
     public function run()
     {
-        // Define a quantidade desejada de registros
-        $numberOfRecords = 20;
-
-        // Utiliza o loop para criar os registros
-        for ($i = 1; $i <= $numberOfRecords; $i++) {
-            Examination::create([
-                'title' => "Concurso {$i}",
-                'active' => rand(0, 1),
-                'notice' => null,
-                'institution' => "Instituição {$i}",
-                'exam_date' => now()->addDays($i),
+        EducationalLevel::all()->each(function(EducationalLevel $educationalLevel) {
+            Examination::factory()->count(5)->create([
+                'educational_level_id' => $educationalLevel->id,
             ]);
-        }
+        });
     }
 }

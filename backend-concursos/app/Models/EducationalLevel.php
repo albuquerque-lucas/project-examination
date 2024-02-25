@@ -18,4 +18,9 @@ class EducationalLevel extends Model
     {
         return $this->hasMany(Examination::class);
     }
+
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(Subject::class);
+    }
 }

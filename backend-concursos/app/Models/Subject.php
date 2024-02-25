@@ -46,4 +46,9 @@ class Subject extends Model
     {
         return $this->belongsTo(StudyArea::class);
     }
+
+    public function educationalLevel(): BelongsTo
+    {
+        return $this->belongsTo(EducationalLevel::class);
+    }
 }

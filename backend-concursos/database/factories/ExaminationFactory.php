@@ -22,7 +22,7 @@ class ExaminationFactory extends Factory
      */
     public function definition()
     {
-
+        
         $registrationStartDate = $this->faker->date;
         $examsStartDate = $this->faker->date;
 
