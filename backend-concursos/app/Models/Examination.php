@@ -16,6 +16,8 @@ class Examination extends Model
         'title',        // Título do concurso
         'active',       // Indica se o concurso está ativo
         'institution',  // Instituição responsável pelo concurso
+        'educational_level', // Nivel de escolaridade exigido pelo concurso
+        'study_area', // Area de estudo e atuacao do concurso
         'registration_start_date',     // Data de início do período de inscrição
         'registration_end_date', // Data to termino do periodo de inscricao
         'exams_start_date', // Data do periodo de inicio das provas
