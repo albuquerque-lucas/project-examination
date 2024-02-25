@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StudyArea extends Model
 {
@@ -20,9 +21,9 @@ class StudyArea extends Model
         return $this->belongsToMany(Examination::class);
     }
 
-    public function subjects(): BelongsToMany
+    public function subjects(): HasMany
     {
-        return $this->BelongsToMany(Subject::class);
+        return $this->hasMany(Subject::class);
     }
 
     public function topics(): HasManyThrough

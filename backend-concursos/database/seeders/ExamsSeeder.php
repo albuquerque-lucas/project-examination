@@ -13,9 +13,9 @@ class ExamsSeeder extends Seeder
      */
     public function run(): void
     {
-        Examination::all()->each(function(Exam $exam) {
+        Examination::all()->each(function(Examination $examination) {
             Exam::factory(3)->create([
-                'exam_id' => $exam->id,
+                'examination_id' => $examination->id,
             ]);
         });
     }

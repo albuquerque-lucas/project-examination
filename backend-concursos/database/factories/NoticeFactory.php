@@ -18,7 +18,7 @@ class NoticeFactory extends Factory
     {
         return [
             'file' => 'storage/notice_files/no-file.jpg',
-            'file_name' => 'no-file',
+            'file_name' => "no-file-{$this->faker->firstName()}",
             'extension' => 'jpg',
             'publication_date' => $this->faker->date(),
         ];
