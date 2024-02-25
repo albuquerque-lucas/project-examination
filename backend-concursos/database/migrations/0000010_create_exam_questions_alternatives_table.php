@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\ExamQuestion;
+use App\Models\ExamQuestionAlternative;
 
 return new class extends Migration
 {
@@ -11,20 +13,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exam_questions_alternatives', function (Blueprint $table) {
-            $table->id();
-            $table
-                ->foreignId('exam_questions')
-                ->constrained()
-                ->cascadeOnDelete();
-            $table->string('letter');
-            $table->string('text');
-            $table->boolean('is_answer')->default(false);
-            $table->timestamps();
-
-            $table->index('is_answer');
-            $table->index('letter');
-        });
+        {
+            ExamQuestion::all()->each(function (ExamQuestion $examQuestion) {
+                $options = ['a', 'b', 'c', 'd', 'e'];
+                shuffle($options);
+    
+                foreach ($options as $key => $letter) {
+                    $isAnswer = $key === 0; // A primeira opção será a correta
+    
+                    ExamQuestionAlternative::factory()->create([
+                        'exam_questions' => $examQuestion->id,
+                        'letter' => $letter,
+                        'text' => "Alternative $letter Text", // Pode ajustar conforme necessário
+                        'is_answer' => $isAnswer,
+                    ]);
+                }
+            });
+        }
     }
 
     /**
