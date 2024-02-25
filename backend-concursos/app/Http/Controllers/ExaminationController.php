@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ExaminationFormRequest;
 use Illuminate\Http\Request;
 use App\Services\ExaminationService;
 use Exception;
@@ -20,14 +21,10 @@ class ExaminationController extends Controller
     {
         try {
             $order = $request->input('order', 'desc');
-
-            if (!in_array($order, ['asc', 'desc'])) {
-                throw new InvalidArgumentException('Parâmetro de ordenação inválido. Use "asc" ou "desc".');
-            }
             $response = $this->examinationService->getAll($order);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], 500);
+            return response()->json(['Controller Error' => $exception->getMessage()], $exception->getCode());
         }
     }
 
@@ -35,14 +32,11 @@ class ExaminationController extends Controller
     {
         try {
             $id = $request->route('id');
-            if (!$id) {
-                throw new Exception('Missing required parameter: id');
-            }
 
             $response = $this->examinationService->getById($id);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], 500);
+            return response()->json(['Controller Error' => $exception->getMessage()], $exception->getCode());
         }
     }
 
@@ -51,17 +45,11 @@ class ExaminationController extends Controller
         try {
             $title = $request->header('title');
             $order = $request->input('order', 'desc');
-            if (!$title) {
-                throw new Exception('Missing required parameter: title');
-            }
-            if (!in_array($order, ['asc', 'desc'])) {
-                throw new InvalidArgumentException('Parâmetro de ordenação inválido. Use "asc" ou "desc".');
-            }
 
             $response = $this->examinationService->getByTitle($title, $order);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], 500);
+            return response()->json(['Controller Error' => $exception->getMessage()], $exception->getCode());
         }
     }
 
@@ -70,17 +58,11 @@ class ExaminationController extends Controller
         try {
             $institution = $request->query('institution');
             $order = $request->input('order', 'desc');
-            if (!$institution) {
-                throw new Exception('Missing required parameter: institution');
-            }
-            if (!in_array($order, ['asc', 'desc'])) {
-                throw new InvalidArgumentException('Parâmetro de ordenação inválido. Use "asc" ou "desc".');
-            }
 
             $response = $this->examinationService->getByInstitution($institution, $order);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], 500);
+            return response()->json(['Controller Error' => $exception->getMessage()], $exception->getCode());
         }
     }
 
@@ -89,23 +71,22 @@ class ExaminationController extends Controller
         try {
             $examDate = $request->query('examDate');
             $order = $request->input('order', 'desc');
-
-            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $examDate)) {
-                throw new InvalidArgumentException('Data inválida. Use o formato YYYY-MM-DD.');
-            }
-    
-            if (!$examDate) {
-                throw new Exception('Missing required parameter: examDate');
-            }
-    
-            if (!in_array($order, ['asc', 'desc'])) {
-                throw new InvalidArgumentException('Parâmetro de ordenação inválido. Use "asc" ou "desc".');
-            }
     
             $response = $this->examinationService->getByExamDate($examDate, $order);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], 500);
+            return response()->json(['Controller Error' => $exception->getMessage()], $exception->getCode());
+        }
+    }
+
+    public function create(ExaminationFormRequest $request)
+    {
+        try {
+            $requestData = $request->all();
+            $response = $this->examinationService->create($requestData);
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['Controller Error' => $exception->getMessage()], $exception->getCode());
         }
     }
     

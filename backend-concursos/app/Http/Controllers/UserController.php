@@ -21,7 +21,7 @@ class UserController extends Controller
             $response = $this->userService->getAll();
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
+            return response()->json(['error' => $exception->getMessage()], $exception->getCode());
         }
     }
 }

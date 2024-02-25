@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Examination;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
 class ExaminationFactory extends Factory
 {
@@ -21,12 +22,18 @@ class ExaminationFactory extends Factory
      */
     public function definition()
     {
+        
+        $registrationStartDate = $this->faker->date;
+        $examsStartDate = $this->faker->date;
+
         return [
-            'title' => $this->faker->sentence,
+            'title' => $this->faker->words(3, true),
             'active' => $this->faker->boolean,
-            'notice' => $this->faker->text,
             'institution' => $this->faker->company,
-            'exam_date' => $this->faker->date,
+            'registration_start_date' => $registrationStartDate,
+            'registration_end_date' => Carbon::parse($registrationStartDate)->addWeeks(3)->toDateString(),
+            'exams_start_date' => $examsStartDate,
+            'exams_end_date' => Carbon::parse($examsStartDate)->addWeeks(3)->toDateString(),
         ];
 
     }
