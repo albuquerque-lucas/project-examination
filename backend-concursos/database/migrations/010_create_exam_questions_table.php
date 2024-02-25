@@ -17,6 +17,9 @@ return new class extends Migration
                 ->foreignId('exams')
                 ->constrained()
                 ->cascadeOnDelete();
+            $table
+                ->foreignId('subjects')
+                ->constrained();
             $table->string('title')->nullable();
             $table->text('description');
             $table->timestamps();

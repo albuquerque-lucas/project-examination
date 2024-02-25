@@ -14,6 +14,9 @@ return new class extends Migration
     {
         Schema::create('examinations', function (Blueprint $table) {
             $table->id();
+            $table
+                ->foreignId('educational_levels')
+                ->constrained(); // Nivel de escolaridade exigido pelo concurso;
             $table->string('title'); // Título do concurso
             $table->boolean('active')->default(false); // Indica se o concurso está ativo
             $table->string('institution')->nullable()->default(null); // Instituição responsável pelo concurso
