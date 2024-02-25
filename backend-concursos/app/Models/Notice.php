@@ -25,9 +25,4 @@ class Notice extends Model
     {
         return $this->belongsTo(Examination::class);
     }
-
-    public function exams(): HasMany
-    {
-        return $this->hasMany(Exam::class);
-    }
 }

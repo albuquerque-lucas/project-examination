@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Examination extends Model
@@ -29,13 +30,23 @@ class Examination extends Model
         'exams_end_date' => 'date'
     ];
     
-    public function accounts(): BelongsToMany
+    public function users(): HasMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(User::class);
     }
 
     public function notice(): HasOne
     {
         return $this->hasOne(Notice::class);
+    }
+
+    public function exams(): HasMany
+    {
+        return $this->hasMany(Exam::class);
+    }
+
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(Subject::class);
     }
 }
