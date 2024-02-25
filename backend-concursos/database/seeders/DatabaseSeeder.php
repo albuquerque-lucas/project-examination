@@ -24,12 +24,12 @@ class DatabaseSeeder extends Seeder
             EducationalLevelsSeeder::class,
             ExaminationSeeder::class,
             NoticesSeeder::class,
+            StudyAreasSeeder::class,
             SubjectsSeeder::class,
             ExamsSeeder::class,
             ExamQuestionsSeeder::class,
             ExamQuestionsAlternativesSeeder::class,
             TopicsSeeder::class,
-            StudyAreasSeeder::class,
         ]);
     }
 }

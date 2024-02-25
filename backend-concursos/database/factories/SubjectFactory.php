@@ -17,7 +17,7 @@ class SubjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->string(2, true),
+            'title' => $this->faker->words(2, true),
         ];
     }
 }

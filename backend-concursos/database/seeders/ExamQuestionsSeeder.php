@@ -14,11 +14,13 @@ class ExamQuestionsSeeder extends Seeder
      */
     public function run(): void
     {
-        $subjectIdList = Subject::pluck('id')->toArray();
-        Exam::all()->each(function (Exam $exam) use ($subjectIdList) {
+        $subjectIdList = range(1, 40);
+        $topicIdList = range(1, 160);
+        Exam::all()->each(function (Exam $exam) use ($subjectIdList, $topicIdList) {
             ExamQuestion::factory(20)->create([
                 'exam_id' => $exam->id,
                 'subject_id' => rand(1, count($subjectIdList)),
+                'topic_id' => rand(1, count($topicIdList))
             ]);
         });
     }

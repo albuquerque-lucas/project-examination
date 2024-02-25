@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('title'); // Título do concurso
             $table->boolean('active')->default(false); // Indica se o concurso está ativo
             $table->string('institution')->nullable()->default(null); // Instituição responsável pelo concurso
-            $table->string('educational_level')->nullable()->default(null); // Nivel de escolaridade exigido pelo concurso
-            $table->string('study_area')->nullable()->default(null); // Area de estudo e atuacao do concurso
             $table->date('registration_start_date')->nullable()->default(null); // Data de início do período de inscrição
             $table->date('registration_end_date')->nullable()->default(null);   // Data de término do período de inscrição
             $table->date('exams_start_date')->nullable()->default(null);      // Data de início do período de provas
