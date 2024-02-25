@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Examination extends Model
 {
@@ -16,8 +17,6 @@ class Examination extends Model
         'title',        // Título do concurso
         'active',       // Indica se o concurso está ativo
         'institution',  // Instituição responsável pelo concurso
-        'educational_level', // Nivel de escolaridade exigido pelo concurso
-        'study_area', // Area de estudo e atuacao do concurso
         'registration_start_date',     // Data de início do período de inscrição
         'registration_end_date', // Data to termino do periodo de inscricao
         'exams_start_date', // Data do periodo de inicio das provas
@@ -25,10 +24,10 @@ class Examination extends Model
     ];
 
     protected $casts = [
-        'registration_start_date' => 'date',
-        'registration_end_date' => 'date',
-        'exams_start_date' => 'date',
-        'exams_end_date' => 'date'
+        'registration_start_date' => 'date:Y-m-d',
+        'registration_end_date' => 'date:Y-m-d',
+        'exams_start_date' => 'date:Y-m-d',
+        'exams_end_date' => 'date:Y-m-d'
     ];
     
     public function users(): BelongsToMany
@@ -54,5 +53,10 @@ class Examination extends Model
     public function studyAreas(): BelongsToMany
     {
         return $this->belongsToMany(StudyArea::class);
+    }
+
+    public function educationalLevel(): BelongsTo
+    {
+        return $this->belongsTo(EducationalLevel::class);
     }
 }
