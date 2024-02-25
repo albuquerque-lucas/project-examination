@@ -12,6 +12,7 @@ class Notice extends Model
     use HasFactory;
 
     protected $fillable = [
+        'examination_id',
         'file',
         'file_name',
         'publication_date',

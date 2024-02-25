@@ -11,6 +11,7 @@ class ExamQuestionAlternative extends Model
     use HasFactory;
 
     protected $fillable = [
+        'exam_question_id',
         'letter',
         'text',
         'is_answer',

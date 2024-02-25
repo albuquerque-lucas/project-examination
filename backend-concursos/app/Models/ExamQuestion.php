@@ -12,6 +12,8 @@ class ExamQuestion extends Model
     use HasFactory;
 
     protected $fillable = [
+        'exam_id',
+        'subject_id',
         'title',
         'description',
     ];

@@ -14,6 +14,7 @@ class Exam extends Model
     use HasFactory;
 
     protected $fillable = [
+        'examination_id',
         'title',
         'date',
         'start_time',

@@ -12,6 +12,7 @@ class Topic extends Model
     use HasFactory;
 
     protected $fillable = [
+        'subject_id',
         'title',
         'description',
     ];
