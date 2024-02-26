@@ -118,7 +118,6 @@ class ExaminationService
     {
         try {
             $examination = Examination::create($data);
-
             if(!$examination) {
                 $this->serviceResponse->setAttributes(500, (object)[
                     'message' => 'Erro ao criar um novo concurso.'

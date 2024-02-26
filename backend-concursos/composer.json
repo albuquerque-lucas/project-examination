@@ -48,7 +48,16 @@
             "@php artisan key:generate --ansi"
         ],
         "artisan": "./vendor/bin/sail artisan",
-        "sail-up": "./vendor/bin/sail up"
+        "sail-up": "./vendor/bin/sail up",
+        "migrate": [
+            "./vendor/bin/sail artisan db:wipe",
+            "./vendor/bin/sail artisan migrate"
+        ],
+        "refresh:db": [
+            "./vendor/bin/sail artisan db:wipe",
+            "./vendor/bin/sail artisan migrate",
+            "./vendor/bin/sail artisan db:seed"
+        ]
     },
     "extra": {
         "laravel": {
