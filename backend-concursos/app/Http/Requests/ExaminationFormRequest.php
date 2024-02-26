@@ -23,16 +23,22 @@ class ExaminationFormRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'educational_level_id' => 'required|integer',
             'title' => 'required|string',
             'active' => 'required|boolean',
             'institution' => 'required|string',
-            'exam_date' => 'string'
+            'registration_start_date' => 'string',
+            'registration_end_date' => 'string',
+            'exams_start_date' => 'string',
+            'exams_end_date' => 'string',
         ];
     }
 
     public function messages(): array
     {
         return [
+            'educational_level_id.required' => 'O concurso informado precisa estar associado a um nivel de escolaridade. Nenhum informado.',
+            'educational_level_id.integer' => 'O nivel educacional informado deve estar no formato integer.',
             'title.required' => 'A title is required.',
             'title.string' => 'The value of title should be a string.',
             'active.required' => 'It is necessary to indicate whether the examination is currently active.',

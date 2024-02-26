@@ -29,8 +29,8 @@ Route::get("/examinations/all", [ExaminationController::class, 'getAll'])
 Route::post("/create/examination", [ExaminationController::class, "create"]);
 
 
-Route::get('/examinations/examDate', [ExaminationController::class, "getByExamDate"])
-  ->middleware(ValidateOrderParam::class, ValidadeExamDateGetter::class);
+Route::get('/examinations/registrationDate', [ExaminationController::class, "getByRegistrationDate"]);
+  // ->middleware(ValidateOrderParam::class, ValidadeExamDateGetter::class);
 Route::get('/examinations/institution', [ExaminationController::class, "getByInstitution"])
   ->middleware(ValidateOrderParam::class, ValidateExamInstitutionGetter::class);
 Route::get('/examinations/title', [ExaminationController::class, "getByTitle"])

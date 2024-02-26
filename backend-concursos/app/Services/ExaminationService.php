@@ -30,7 +30,7 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes($exception->getCode(), (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
             return $this->serviceResponse;
         }
     }
@@ -47,7 +47,7 @@ class ExaminationService
         } catch(Exception $exception)
         {
             $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes($exception->getCode(), (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
             return $this->serviceResponse;
         }
     }
@@ -68,7 +68,7 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes($exception->getCode(), (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
             return $this->serviceResponse;
         }
     }
@@ -88,29 +88,28 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes($exception->getCode(), (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
             return $this->serviceResponse;
         }
     }
 
-    public function getByExamDate(string $examDate, string $order): ServiceResponse
+    public function getByRegistrationDate(string $registrationDate, string $order, string $position): ServiceResponse
     {
         try {
-            $parsedDate = DateTime::createFromFormat('Y-m-d', $examDate);
+            $parsedDate = DateTime::createFromFormat('Y-m-d', $registrationDate);
             if (!$parsedDate) {
-                throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD.');
+                throw new InvalidDateFormatException('Data inválida. Use o formato Y-m-d.');
             }
-    
             $query = Examination::query();
             $query->orderBy('id', $order)
-                ->where('exam_date', 'like', $parsedDate->format('Y-m-d'));
+                ->where("registration_{$position}_date", $parsedDate->format('Y-m-d'));
     
             $examinations = $query->paginate();
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $message = $exception->getMessage();
-            $this->serviceResponse->setAttributes($exception->getCode(), (object)['Ocorreu um erro em Server' => $message]);
+            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro em Service' => $message]);
             return $this->serviceResponse;
         }
     }
