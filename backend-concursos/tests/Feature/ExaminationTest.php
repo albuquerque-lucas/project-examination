@@ -40,8 +40,53 @@ class ExaminationTest extends TestCase
             'exams_end_date' => '2025-04-21',
         ];
 
-        $response = $this->post('api/create/examination', $requestData);
+        $response = $this->postJson('api/create/examination', $requestData);
         $response->assertStatus(201)->assertJson($responseData);
+    }
+
+    public function test_gets_422_error_for_missing_institution_parameter_to_create_examination(): void
+    {
+        $requestData = [
+            'educational_level_id' => 4,
+            'title' => 'Concurso de Teste 01',
+        ];
+
+        $response = $this->postJson('api/create/examination', $requestData);
+        $response->assertStatus(422);
+        $data = $response->json();
+        $expectedMessage = "É necessário informar uma instituição.";
+        $this->assertEquals($expectedMessage, $data['message']);
+
+    }
+
+    public function test_gets_422_error_for_missing_title_parameter_to_create_examination(): void
+    {
+        $requestData = [
+            'educational_level_id' => 4,
+            'institution' => 'Institution de teste 01',
+        ];
+
+        $response = $this->postJson('api/create/examination', $requestData);
+        $response->assertStatus(422);
+        $data = $response->json();
+        $expectedMessage = "É necessário informar um título.";
+        $this->assertEquals($expectedMessage, $data['message']);
+
+    }
+
+    public function test_gets_422_error_for_missing_educational_level_parameter_to_create_examination(): void
+    {
+        $requestData = [
+            'title' => 'Concurso de Teste 01',
+            'institution' => 'Institution de teste 01',
+        ];
+
+        $response = $this->postJson('api/create/examination', $requestData);
+        $response->assertStatus(422);
+
+        $data = $response->json();
+        $expectedMessage = "O nivel de escolaridade do concurso é obrigatório. Nenhum foi informado.";
+        $this->assertEquals($expectedMessage, $data['message']);
     }
 
     public function test_get_all_examinations_page_1(): void
@@ -61,7 +106,7 @@ class ExaminationTest extends TestCase
     public function test_get_examinations_by_title(): void
     {
         $exampleExamination1 = Examination::factory()->create([
-            'title' => 'Examination Test Example One',
+            'title' => 'Examination Test Example Raziel',
             'educational_level_id' => 4,
         ]);
 
@@ -71,7 +116,7 @@ class ExaminationTest extends TestCase
         ]);
 
         $exampleExamination3 = Examination::factory()->create([
-            'title' => 'Examination Test Example One Two',
+            'title' => 'Examination Test Example Raziel Two',
             'educational_level_id' => 4,
         ]);
 
@@ -79,7 +124,7 @@ class ExaminationTest extends TestCase
             'educational_level_id' => 2,
         ]);
 
-        $response = $this->getJson('/api/examinations/title', ['title' => 'One']);
+        $response = $this->getJson('/api/examinations/title', ['title' => 'Raziel']);
         $response->assertStatus(200);
         $response->assertJsonStructure(['data']);
         $data = $response->json();
@@ -149,7 +194,35 @@ class ExaminationTest extends TestCase
         ]);
         
         $data = $response->json();
-        $expectedMessate = "Não foi encontrado nenhum objeto com este id.";
-        $this->assertEquals($expectedMessate, $data['message']);
+        $expectedMessage = "Não foi encontrado nenhum objeto com este id.";
+        $this->assertEquals($expectedMessage, $data['message']);
+    }
+
+    public function test_get_examinations_by_registration_date():void
+    {
+        $testStartDate = '2025-02-01';
+        $testEndDate = '2025-03-21';
+
+        Examination::factory(5)->create([
+            'educational_level_id' => 4,
+        ]);
+
+        $examinationTest = Examination::factory()->create([
+            'educational_level_id' => 4,
+            'registration_start_date' => $testStartDate,
+            'registration_end_date' =>  $testEndDate,
+        ]);
+
+        $response = $this->getJson("/api/examinations/registrationDate", ['registrationDate' => $testStartDate]);
+        $response->assertStatus(200);
+        $result = $response->json();
+        $data = $result['data'];
+        $formattedDate = $examinationTest->registration_start_date->format('Y-m-d');
+
+        $this->assertCount(1, $data);
+        $this->assertEquals($examinationTest->title, $data[0]['title']);
+        $this->assertEquals($examinationTest->institution, $data[0]['institution']);
+        $this->assertEquals($formattedDate, $data[0]['registration_start_date']);
+
     }
 }

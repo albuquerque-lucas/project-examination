@@ -17,14 +17,14 @@ class ValidadeExamDateGetter
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $examDate = $request->query('examDate');
-        $order = $request->input('order', 'desc');
-
-        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $examDate)) {
+        $registrationDate = $request->header('registrationDate');
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $registrationDate)) {
             throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD.');
         }
 
-        if (!$examDate) {
+
+
+        if (!$registrationDate) {
             throw new MissingExamDateParameterException('Missing required parameter: examDate');
         }
 

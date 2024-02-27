@@ -115,7 +115,7 @@ class ExaminationService
             $this->serviceResponse->setAttributes(201, $examination);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(402, (object)['message' => 'Não foi possível criar um novo registro de Examination.']);
+            $this->serviceResponse->setAttributes(422, (object)['message' => 'Não foi possível criar um novo registro de Examination.']);
             return $this->serviceResponse;
         }
     }

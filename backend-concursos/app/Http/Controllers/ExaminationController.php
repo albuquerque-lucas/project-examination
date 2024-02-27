@@ -24,7 +24,7 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getAll($order);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage()], 500);
         }
     }
 
@@ -36,7 +36,7 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getById($id);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage()], 500);
         }
     }
 
@@ -49,7 +49,7 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getByTitle($title, $order);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage()], 500);
         }
     }
 
@@ -61,21 +61,20 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getByInstitution($institution, $order);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage()], 500);
         }
     }
 
     public function getByRegistrationDate(Request $request)
     {
         try {
-            $registrationDate = $request->query('registrationDate');
+            $registrationDate = $request->header('registrationDate');
             $position = $request->query('position', 'start');
             $order = $request->input('order', 'desc');
-            
             $response = $this->examinationService->getByRegistrationDate($registrationDate, $order, $position);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], 500);
+            return response()->json(['message' => $exception->getMessage()], 500);
         }
     }
 
@@ -86,7 +85,7 @@ class ExaminationController extends Controller
             $response = $this->examinationService->create($requestData);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['Controller Error' => $exception->getMessage()], 500);
+            return response()->json(['message' => $exception->getMessage()], 500);
         }
     }
     

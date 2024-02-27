@@ -40,7 +40,11 @@ class ExaminationFormRequest extends FormRequest
             'educational_level_id' => 'nivel de escolaridade',
             'title' => 'título',
             'active' => 'ativo',
-            'intitution' => 'instituição',
+            'institution' => 'instituição',
+            'registration_start_date' => 'data de início de inscrição',
+            'registration_end_date' => 'data de término de inscrição',
+            'exams_start_date' => 'data de início da prova',
+            'exams_end_date' => 'data de término da prova',
         ];
     }
 
