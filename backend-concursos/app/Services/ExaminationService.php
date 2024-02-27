@@ -21,7 +21,6 @@ class ExaminationService
     public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
     {
         try {
-
             $query = Examination::query();
             $query->orderBy($orderBy, $order);
 
@@ -29,8 +28,7 @@ class ExaminationService
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch (Exception $exception) {
-            $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes(404, (object)['message' => 'Os registros solicitados não foram encontrados.']);
             return $this->serviceResponse;
         }
     }
@@ -46,8 +44,7 @@ class ExaminationService
             return $this->serviceResponse;
         } catch(Exception $exception)
         {
-            $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes(404, (object)['message' => 'Não foi encontrado nenhum objeto com este id.']);
             return $this->serviceResponse;
         }
     }
@@ -55,10 +52,6 @@ class ExaminationService
     public function getByTitle(string $title, string $order): ServiceResponse
     {
         try {
-            if (!in_array($order, ['asc', 'desc'])) {
-                throw new InvalidArgumentException('Parâmetro de ordenação inválido. Use "asc" ou "desc".');
-            }
-
             $query = Examination::query();
             $query->orderBy('id', $order)
                 ->where('title', 'like', "%{$title}%");
@@ -67,8 +60,7 @@ class ExaminationService
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch (Exception $exception) {
-            $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes(404, (object)['message' => 'Não foram títulos com as palavras utilizadas.']);
             return $this->serviceResponse;
         }
     }
@@ -87,8 +79,7 @@ class ExaminationService
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch (Exception $exception) {
-            $message =  $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro' => $message]);
+            $this->serviceResponse->setAttributes(404, (object)['message' => 'Não foram encontradas instituições com as palavras utilizadas.']);
             return $this->serviceResponse;
         }
     }
@@ -108,8 +99,7 @@ class ExaminationService
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch (Exception $exception) {
-            $message = $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro em Service' => $message]);
+            $this->serviceResponse->setAttributes(404, (object)['message' => 'A data especificada não pode ser encontrada.']);
             return $this->serviceResponse;
         }
     }
@@ -119,17 +109,13 @@ class ExaminationService
         try {
             $examination = Examination::create($data);
             if(!$examination) {
-                $this->serviceResponse->setAttributes(500, (object)[
-                    'message' => 'Erro ao criar um novo concurso.'
-                ]);
-                return $this->serviceResponse;
+                throw new Exception('Não foi possível criar um novo registro de Examination.');
             }
             
             $this->serviceResponse->setAttributes(201, $examination);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $message = $exception->getMessage();
-            $this->serviceResponse->setAttributes(500, (object)['Ocorreu um erro em Server' => $message]);
+            $this->serviceResponse->setAttributes(402, (object)['message' => 'Não foi possível criar um novo registro de Examination.']);
             return $this->serviceResponse;
         }
     }

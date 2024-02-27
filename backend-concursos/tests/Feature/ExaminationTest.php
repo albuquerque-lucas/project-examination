@@ -60,23 +60,54 @@ class ExaminationTest extends TestCase
 
     public function test_get_examinations_by_title(): void
     {
-        $exampleExamination = Examination::factory()->create([
-            'title' => 'Concurso Exemplo Teste',
+        $exampleExamination1 = Examination::factory()->create([
+            'title' => 'Examination Test Example One',
             'educational_level_id' => 4,
         ]);
 
-        $examinationList = Examination::factory(29)->create([
+        $exampleExamination2 = Examination::factory()->create([
+            'title' => 'Examination Test Example Two',
+            'educational_level_id' => 4,
+        ]);
+
+        $exampleExamination3 = Examination::factory()->create([
+            'title' => 'Examination Test Example One Two',
+            'educational_level_id' => 4,
+        ]);
+
+        $examinationList = Examination::factory(2)->create([
             'educational_level_id' => 2,
         ]);
 
-        $response = $this->getJson('/api/examinations/title', ['title' => 'Concurso']);
+        $response = $this->getJson('/api/examinations/title', ['title' => 'One']);
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['data']);
+        $data = $response->json();
+        $result = $data['data'];
+        $this->assertCount(2, $result);
+        $this->assertEquals($exampleExamination1->id, $result[1]['id']);
+        $this->assertEquals($exampleExamination3->title, $result[0]['title']);
+    }
+
+    public function test_get_examinations_by_institution():void
+    {
+        $exampleExamination = Examination::factory()->create([
+            'institution' => 'Example Institution Test',
+            'educational_level_id' => 4,
+        ]);
+
+        Examination::factory(29)->create([
+            'educational_level_id' => 2,
+        ]);
+
+        $response = $this->getJson('/api/examinations/institution', ['institution' => 'Test']);
         $response->assertStatus(200);
         $response->assertJsonStructure(['data']);
         $data = $response->json();
         $result = $data['data'];
         $this->assertCount(1, $result);
         $this->assertEquals($exampleExamination->id, $result[0]['id']);
-        $this->assertEquals($exampleExamination->title, $result[0]['title']);
+        $this->assertEquals($exampleExamination->institution, $result[0]['institution']);
     }
 
     public function test_get_examinations_by_id(): void
@@ -84,10 +115,9 @@ class ExaminationTest extends TestCase
         $examination = Examination::factory()->create([
             'educational_level_id' => 4,
         ]);
-
-        $response = $this->get("/api/examinations/{$examination->id}");
+        $response = $this->get("/api/examinations/$examination->id");
         $response->assertStatus(200);
-    
+        
         $response->assertJsonStructure([
             "id",
             "educational_level_id",
@@ -104,5 +134,22 @@ class ExaminationTest extends TestCase
         
         $data = $response->json();
         $this->assertEquals($examination->id, $data['id']);
+    }
+
+    public function test_gets_404_error_and_message_if_gets_for_inexistent_id():void
+    {
+        Examination::factory()->create([
+            'educational_level_id' => 4,
+        ]);
+        $response = $this->get("/api/examinations/400");
+        $response->assertStatus(404);
+        
+        $response->assertJsonStructure([
+            "message"
+        ]);
+        
+        $data = $response->json();
+        $expectedMessate = "Não foi encontrado nenhum objeto com este id.";
+        $this->assertEquals($expectedMessate, $data['message']);
     }
 }
