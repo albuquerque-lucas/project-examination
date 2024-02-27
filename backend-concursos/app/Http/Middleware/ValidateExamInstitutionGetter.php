@@ -16,7 +16,7 @@ class ValidateExamInstitutionGetter
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $institution = $request->query('institution');
+        $institution = $request->header('institution');
         if (!$institution) {
             throw new MissingInstitutionParameterException('Missing required parameter: institution');
         }

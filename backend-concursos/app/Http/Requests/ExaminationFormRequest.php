@@ -25,7 +25,7 @@ class ExaminationFormRequest extends FormRequest
         return [
             'educational_level_id' => 'required|integer',
             'title' => 'required|string',
-            'active' => 'required|boolean',
+            'active' => 'boolean',
             'institution' => 'required|string',
             'registration_start_date' => 'string',
             'registration_end_date' => 'string',
@@ -34,17 +34,26 @@ class ExaminationFormRequest extends FormRequest
         ];
     }
 
+    public function attributes(): array
+    {
+        return [
+            'educational_level_id' => 'nivel de escolaridade',
+            'title' => 'título',
+            'active' => 'ativo',
+            'intitution' => 'instituição',
+        ];
+    }
+
     public function messages(): array
     {
         return [
-            'educational_level_id.required' => 'O concurso informado precisa estar associado a um nivel de escolaridade. Nenhum informado.',
-            'educational_level_id.integer' => 'O nivel educacional informado deve estar no formato integer.',
-            'title.required' => 'A title is required.',
-            'title.string' => 'The value of title should be a string.',
-            'active.required' => 'It is necessary to indicate whether the examination is currently active.',
-            'active.boolean' => 'The value of active should be a boolean.',
-            'institution.required' => 'It is necessary to indicate an institution.',
-            'institution.string' => 'The value of institution should be a string.'
+            'educational_level_id.required' => 'O :attribute do concurso é obrigatório. Nenhum foi informado.',
+            'educational_level_id.integer' => 'O :attribute do concurso deve ser um número inteiro.',
+            'title.required' => 'É necessário informar um :attribute.',
+            'title.string' => 'O :attribute deve ser uma string.',
+            'active.boolean' => 'O :attribute deve ser verdadeiro ou falso.',
+            'institution.required' => 'É necessário informar uma :attribute.',
+            'institution.string' => 'A :attribute deve ser uma string.',
         ];
     }
 }

@@ -56,9 +56,8 @@ class ExaminationController extends Controller
     public function getByInstitution(Request $request)
     {
         try {
-            $institution = $request->query('institution');
+            $institution = $request->header('institution');
             $order = $request->input('order', 'desc');
-
             $response = $this->examinationService->getByInstitution($institution, $order);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
