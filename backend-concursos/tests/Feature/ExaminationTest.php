@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\Examination;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\TestResponse;
+use SebastianBergmann\Type\VoidType;
 use Tests\TestCase;
 
 class ExaminationTest extends TestCase
@@ -15,10 +17,7 @@ class ExaminationTest extends TestCase
      */
     public function test_user_can_create_an_examination_register(): void
     {
-        // $examination = Examination::factory()->create([
-        //     'educational_level_id' => 4,
-        // ]);
-        $response = $this->post('api/create/examination', [
+        $requestData = [
             'educational_level_id' => 4,
             'title' => 'Concurso de Teste 01',
             'active' => true,
@@ -27,17 +26,47 @@ class ExaminationTest extends TestCase
             'registration_end_date' => '25-03-16',
             'exams_start_date' => '25-04-14',
             'exams_end_date' => '25-04-21',
-        ]);
-        $response->assertStatus(201);
-        // // $response = $this->get('/');
+        ];
 
-        // // $response->assertStatus(200);
+        $responseData = [
+            'id' => 1,
+            'educational_level_id' => 4,
+            'title' => 'Concurso de Teste 01',
+            'active' => 1,
+            'institution' => 'Instituicao do teste 01',
+            'registration_start_date' => '2025-02-15',
+            'registration_end_date' => '2025-03-16',
+            'exams_start_date' => '2025-04-14',
+            'exams_end_date' => '2025-04-21',
+        ];
+
+        $response = $this->post('api/create/examination', $requestData);
+        $response->assertStatus(201)->assertJson($responseData);
     }
 
     public function test_user_can_get_examinations_registers_page_1(): void
     {
-        // $examinationList = Examination::all();
+        Examination::factory(20)->create([
+            'educational_level_id' => 4,
+        ]);
         $response = $this->getJson('/api/examinations/all');
         $response->assertStatus(200);
+        $response->assertJsonStructure(['data']);
+        $data = $response->json();
+        $result = $data['data'];
+        $this->assertIsArray($result);
+        $this->assertCount(15, $result);
+    }
+
+    public function test_get_by_title(): void
+    {
+        $exampleExamination = Examination::factory()->create([
+            'title' => 'Concurso Exemplo Teste',
+            'educational_level_id' => 4,
+        ]);
+
+        $examinationList = Examination::factory(29)->create([
+            'educational_level_id' => 2,
+        ]);
     }
 }
