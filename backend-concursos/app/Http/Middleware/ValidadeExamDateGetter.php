@@ -19,13 +19,11 @@ class ValidadeExamDateGetter
     {
         $registrationDate = $request->header('registrationDate');
         if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $registrationDate)) {
-            throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD.');
+            throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD.', 422);
         }
 
-
-
         if (!$registrationDate) {
-            throw new MissingExamDateParameterException('Missing required parameter: examDate');
+            throw new MissingExamDateParameterException('Esta faltando um parametro: registrationDate');
         }
 
 

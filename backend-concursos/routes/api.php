@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\ValidateExamIdGetter;
 use App\Http\Middleware\ValidateExamInstitutionGetter;
 use App\Http\Middleware\ValidateOrderParam;
+use App\Http\Middleware\ValidatePostExaminationsInputs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExaminationController;

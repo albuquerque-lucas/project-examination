@@ -44,6 +44,23 @@ class ExaminationTest extends TestCase
         $response->assertStatus(201)->assertJson($responseData);
     }
 
+    public function test_gets_error_if_tries_to_register_examination_with_invalid_date_format():void
+    {
+        $requestData = [
+            'educational_level_id' => 4,
+            'title' => 'Concurso de Teste 01',
+            'active' => true,
+            'institution' => 'Instituicao do teste 01',
+            'registration_start_date' => '2025',
+            'registration_end_date' => '2025',
+            'exams_start_date' => '25-04-14',
+            'exams_end_date' => '25-04-21',
+        ];
+
+        $response = $this->postJson('api/create/examination', $requestData);
+        $response->assertStatus(422);
+    }
+
     public function test_gets_422_error_for_missing_institution_parameter_to_create_examination(): void
     {
         $requestData = [
@@ -225,4 +242,24 @@ class ExaminationTest extends TestCase
         $this->assertEquals($formattedDate, $data[0]['registration_start_date']);
 
     }
+
+    // public function test_gets_422_if_registration_date_is_in_invalid_format():void
+    // {
+    //     $testStartDate = '2025';
+    //     $testEndDate = '2025-03-21';
+
+    //     Examination::factory(5)->create([
+    //         'educational_level_id' => 4,
+    //     ]);
+
+    //     $examinationTest = Examination::factory()->create([
+    //         'educational_level_id' => 4,
+    //         'registration_start_date' => $testStartDate,
+    //         'registration_end_date' =>  $testEndDate,
+    //     ]);
+    //     $response = $this->getJson("/api/examinations/registrationDate", ['registrationDate' => $testStartDate]);
+    //     $response->assertStatus(422);
+    //     $result = $response->json();
+
+    // }
 }

@@ -89,7 +89,7 @@ class ExaminationService
         try {
             $parsedDate = DateTime::createFromFormat('Y-m-d', $registrationDate);
             if (!$parsedDate) {
-                throw new InvalidDateFormatException('Data inválida. Use o formato Y-m-d.');
+                throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD. Service');
             }
             $query = Examination::query();
             $query->orderBy('id', $order)
@@ -108,11 +108,18 @@ class ExaminationService
     {
         try {
             $examination = Examination::create($data);
+
             if(!$examination) {
                 throw new Exception('Não foi possível criar um novo registro de Examination.');
             }
+
+            $responseData = (object)[
+                'message' => 'Concurso adicionado com sucesso.',
+                'id' => $examination->id,
+                'title' => $examination->title,
+            ];
             
-            $this->serviceResponse->setAttributes(201, $examination);
+            $this->serviceResponse->setAttributes(201, $responseData);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(422, (object)['message' => 'Não foi possível criar um novo registro de Examination.']);
