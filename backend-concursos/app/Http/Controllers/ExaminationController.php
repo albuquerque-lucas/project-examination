@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidDateFormatException;
+use App\Exceptions\MissingTitleParameterException;
 use App\Http\Requests\ExaminationFormRequest;
 use Illuminate\Http\Request;
 use App\Services\ExaminationService;
@@ -10,6 +11,7 @@ use Exception;
 use InvalidArgumentException;
 use DateTime;
 use Illuminate\Support\Carbon;
+use Spatie\FlareClient\Http\Exceptions\NotFound;
 
 class ExaminationController extends Controller
 {
@@ -34,7 +36,7 @@ class ExaminationController extends Controller
     public function getById(Request $request)
     {
         try {
-            $id = $request->route('id');
+            $id = $request->query('id');
 
             $response = $this->examinationService->getById($id);
             return response()->json($response->data(), $response->status());
@@ -45,15 +47,24 @@ class ExaminationController extends Controller
 
     public function getByTitle(Request $request)
     {
+
         try {
             $title = $request->header('title');
             $order = $request->input('order', 'desc');
-
             $response = $this->examinationService->getByTitle($title, $order);
-            return response()->json($response->data(), $response->status());
+            $responseData = response()->json($response->data(), $response->status());
+            $responseContent = json_decode($responseData->content());
+
+            if (empty($responseContent->data)) {
+                throw new NotFound('Nao foram encontrados registros com os dados fornecidos.', 404);
+            }
+
+            return response()->json($responseData);
+        } catch (NotFound $notFound) {
+            return response()->json(['message' => $notFound->getMessage(), 'code' => $notFound->getCode()], $notFound->getCode());
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 500);
-        }
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
+        } 
     }
 
     public function getByInstitution(Request $request)
@@ -62,9 +73,15 @@ class ExaminationController extends Controller
             $institution = $request->header('institution');
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByInstitution($institution, $order);
-            return response()->json($response->data(), $response->status());
+            $responseData = response()->json($response->data(), $response->status());
+            $responseContent = json_decode($responseData->content());
+            if (empty($responseContent->data)) {
+                throw new NotFound('Nao foram encontrados registros com os dados fornecidos.', 404);
+            }
+            
+            return response()->json($responseContent);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 500);
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
     }
 

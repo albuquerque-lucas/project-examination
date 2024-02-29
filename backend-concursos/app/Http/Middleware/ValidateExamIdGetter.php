@@ -16,10 +16,21 @@ class ValidateExamIdGetter
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $id = $request->route('id');
-        if (!$id) {
-            throw new MissingIdParameterException('Missing required parameter: id');
+        try {
+            $id = filter_var($request->query('id'), FILTER_VALIDATE_INT);
+            if (!$id) {
+                throw new MissingIdParameterException('Missing required parameter: id', 400);
+            }
+            return $next($request);
+
+        } catch (MissingIdParameterException $exception) {
+            return response()->json(
+                [
+                    'message' => $exception->getMessage(),
+                    'code' => $exception->getCode()
+                ],
+                $exception->getCode()
+            );
         }
-        return $next($request);
     }
 }

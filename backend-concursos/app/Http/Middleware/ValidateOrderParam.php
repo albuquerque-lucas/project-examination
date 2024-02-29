@@ -16,12 +16,19 @@ class ValidateOrderParam
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $order = $request->input('order', 'desc');
+        try {
+            $order = $request->query('order', 'desc');
+            if (!in_array($order, ['asc', 'desc'])) {
+                throw new InvalidArgumentException('Parâmetro de ordenação inválido. Use "asc" ou "desc".', 400);
+            }
+    
+            return $next($request);
 
-        if (!in_array($order, ['asc', 'desc'])) {
-            throw new InvalidArgumentException('Parâmetro de ordenação inválido. Use "asc" ou "desc".');
+        } catch (InvalidArgumentException $exception) {
+            return response()->json(['message' => $exception->getMessage(),
+            'code' => $exception->getCode()],
+            $exception->getCode(),
+            );
         }
-
-        return $next($request);
     }
 }

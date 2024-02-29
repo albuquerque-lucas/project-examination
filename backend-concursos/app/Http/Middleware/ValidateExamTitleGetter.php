@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Exceptions\MissingTitleParameterException;
 use Closure;
+use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,10 +17,23 @@ class ValidateExamTitleGetter
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $title = $request->header('title');
-        if (!$title) {
-            throw new MissingTitleParameterException('Missing required parameter: title');
+        try {
+            $title = $request->header('title');
+            if (!$title) {
+                throw new MissingTitleParameterException('E necessario informar o titulo do concurso.', 400);
+            }
+            return $next($request);
+
+        } catch( MissingTitleParameterException $missingParameterException) {
+            return response()->json(
+                [
+                    'message' => $missingParameterException->getMessage(),
+                    'code' => $missingParameterException->getCode()
+                ],
+                $missingParameterException->getCode()
+            );
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }
-        return $next($request);
     }
 }

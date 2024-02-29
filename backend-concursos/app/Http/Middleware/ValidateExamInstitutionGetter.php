@@ -6,6 +6,7 @@ use App\Exceptions\MissingInstitutionParameterException;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Exception;
 
 class ValidateExamInstitutionGetter
 {
@@ -16,10 +17,20 @@ class ValidateExamInstitutionGetter
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $institution = $request->header('institution');
-        if (!$institution) {
-            throw new MissingInstitutionParameterException('Missing required parameter: institution');
+        try {
+            $institution = $request->header('institution');
+            if (!$institution) {
+                throw new MissingInstitutionParameterException('E necessario informar a instituicao do concurso.', 400);
+            }
+            return $next($request);
+
+        } catch (MissingInstitutionParameterException $missingInstitutionParameterException) {
+            return response()->json(['message' => $missingInstitutionParameterException->getMessage(),
+            'code' => $missingInstitutionParameterException->getCode()],
+            $missingInstitutionParameterException->getCode(),
+        );
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
         }
-        return $next($request);
     }
 }

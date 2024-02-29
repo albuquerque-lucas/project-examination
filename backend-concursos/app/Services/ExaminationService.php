@@ -60,21 +60,16 @@ class ExaminationService
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch (Exception $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => 'Não foram títulos com as palavras utilizadas.']);
+            $this->serviceResponse->setAttributes(400, (object)['message' => 'Algo aconteceu. O servico nao pode completar a requisicao.']);
             return $this->serviceResponse;
         }
     }
     public function getByInstitution(string $institution, string $order): ServiceResponse
     {
         try {
-            if (!in_array($order, ['asc', 'desc'])) {
-                throw new InvalidArgumentException('Parâmetro de ordenação inválido. Use "asc" ou "desc".');
-            }
-
             $query = Examination::query();
             $query->orderBy('id', $order)
-                ->where('institution', 'like', "%{$institution}%");
-
+            ->where('institution', 'like', "%{$institution}%");
             $examinations = $query->paginate();
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
