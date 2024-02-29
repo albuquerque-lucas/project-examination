@@ -41,3 +41,6 @@ Route::get('/examinations/title', [ExaminationController::class, "getByTitle"])
 
 Route::get('/examinations/examination-id', [ExaminationController::class, "getById"])
   ->middleware(ValidateExamIdGetter::class);
+
+  Route::get('/examinations/educational-level', [ExaminationController::class, 'getByEducationalLevel'])
+  ->middleware(ValidateOrderParam::class);

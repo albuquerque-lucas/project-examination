@@ -8,6 +8,8 @@ use App\Models\ServiceResponse;
 use Exception;
 use InvalidArgumentException;
 use DateTime;
+use Spatie\FlareClient\Http\Exceptions\NotFound;
+use App\Models\Notice;
 
 class ExaminationService
 {
@@ -38,13 +40,12 @@ class ExaminationService
         try {
             $examination = Examination::query()
                 ->where('id', $id)
+                ->with(['notice', 'exams'])
                 ->firstOrFail();
-            
             $this->serviceResponse->setAttributes(200, $examination);
             return $this->serviceResponse;
-        } catch(Exception $exception)
-        {
-            $this->serviceResponse->setAttributes(404, (object)['message' => 'Não foi encontrado nenhum obcdjeto com este id.']);
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(404, (object)['message' => 'Não foi encontrado nenhum objeto com este id.']);
             return $this->serviceResponse;
         }
     }
@@ -84,7 +85,7 @@ class ExaminationService
         try {
             $parsedDate = DateTime::createFromFormat('Y-m-d', $registrationDate);
             if (!$parsedDate) {
-                throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD. Service');
+                throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD. Service', 400);
             }
             $query = Examination::query();
             $query->orderBy('id', $order)
@@ -95,6 +96,27 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(404, (object)['message' => 'A data especificada não pode ser encontrada.']);
+            return $this->serviceResponse;
+        }
+    }
+
+    public function getByEducationalLevel(int $educationalLevelId, string $order): ServiceResponse
+    {
+        try {
+            $query = Examination::query();
+            $query->orderBy('id', $order)
+                ->where('educational_level_id', $educationalLevelId);
+
+            $examinations = $query->paginate();
+
+            if (!$examinations) {
+                throw new NotFound('Nao foram encontrados concursos deste nivel de escolaridade.');
+            }
+
+            $this->serviceResponse->setAttributes(200, $examinations);
+            return $this->serviceResponse;
+        } catch(NotFound $exception) {
+            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage()]);
             return $this->serviceResponse;
         }
     }

@@ -49,7 +49,7 @@ class ExaminationsTitleRoutesTest extends TestCase
 
         $response = $this->get("/api/examinations/title", ['title' => 'Titulo inexistente.']);
         $response->assertStatus(404)->assertJson([
-            "message"=> "Nao foram encontrados registros com os dados fornecidos.",
+            "message"=> "Nao foram encontrados registros com o titulo informado.",
             "code"=> 404
         ]);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidDateFormatException;
+use App\Exceptions\MissingIdParameterException;
 use App\Exceptions\MissingTitleParameterException;
 use App\Http\Requests\ExaminationFormRequest;
 use Illuminate\Http\Request;
@@ -29,19 +30,19 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getAll($order);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 500);
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }
     }
 
     public function getById(Request $request)
     {
         try {
-            $id = $request->route('id');
+            $id = $request->query('id');
 
             $response = $this->examinationService->getById($id);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 500);
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }
     }
 
@@ -56,7 +57,7 @@ class ExaminationController extends Controller
             $responseContent = json_decode($responseData->content());
 
             if (empty($responseContent->data)) {
-                throw new NotFound('Nao foram encontrados registros com os dados fornecidos.', 404);
+                throw new NotFound('Nao foram encontrados registros com o titulo informado.', 404);
             }
 
             return response()->json($responseData);
@@ -76,12 +77,12 @@ class ExaminationController extends Controller
             $responseData = response()->json($response->data(), $response->status());
             $responseContent = json_decode($responseData->content());
             if (empty($responseContent->data)) {
-                throw new NotFound('Nao foram encontrados registros com os dados fornecidos.', 404);
+                throw new NotFound('Nao foram encontrados registros com a instituicao informada.', 404);
             }
             
             return response()->json($responseContent);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }
     }
 
@@ -94,7 +95,32 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getByRegistrationDate($registrationDate, $order, $position);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
+        }
+    }
+
+    public function getByEducationalLevel(Request $request)
+    {
+        try {
+            $educationalLevelId = $request->query('educational-level');
+            $filteredId = filter_var($educationalLevelId, FILTER_VALIDATE_INT);
+
+            if (!$educationalLevelId) {
+                throw new MissingIdParameterException('Nao e possivel concluir a requisicao. Falta o parametro educational-level', 400);
+            }
+
+            $order = $request->input('order', 'desc');
+            $response = $this->examinationService->getByEducationalLevel($filteredId, $order);
+            $responseData = response()->json($response->data(), $response->status());
+            $responseContent = json_decode($responseData->content());
+
+            if (empty($responseContent->data)) {
+                throw new NotFound('Nao foram encontrados registros com os nivel de escolaridade fornecido.', 404);
+            }
+
+            return response()->json($responseContent);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }
     }
 
@@ -106,9 +132,9 @@ class ExaminationController extends Controller
             $response = $this->examinationService->create($requestData);
             return response()->json($response->data(), $response->status());
         } catch(InvalidDateFormatException $exception) {
-            return response()->json(['message' => $exception->getMessage()], 422);
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }
     }
 
