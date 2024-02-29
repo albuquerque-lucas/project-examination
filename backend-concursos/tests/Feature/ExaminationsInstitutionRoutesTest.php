@@ -41,4 +41,18 @@ class ExaminationsInstitutionRoutesTest extends TestCase
         $data = $response->json();
         $response->assertStatus(404);
     }
+
+    public function test_get_400_error_if_missing_institution_parameter(): void
+    {
+        $defaultExaminations = Examination::factory(4)->create([
+            'institution' => 'Institution de teste',
+            'educational_level_id' => 4,
+        ]);
+
+        $response = $this->get("/api/examinations/institution");
+        $response->assertStatus(400)->assertJson([
+            "message"=> "E necessario informar a instituicao do concurso.",
+            "code"=> 400
+        ]);
+    }
 }

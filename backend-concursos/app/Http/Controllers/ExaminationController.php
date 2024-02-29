@@ -36,7 +36,7 @@ class ExaminationController extends Controller
     public function getById(Request $request)
     {
         try {
-            $id = $request->query('id');
+            $id = $request->route('id');
 
             $response = $this->examinationService->getById($id);
             return response()->json($response->data(), $response->status());
@@ -94,7 +94,7 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getByRegistrationDate($registrationDate, $order, $position);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 500);
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
     }
 
@@ -108,7 +108,7 @@ class ExaminationController extends Controller
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage()], 422);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 500);
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
     }
 

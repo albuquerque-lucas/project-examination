@@ -44,7 +44,7 @@ class ExaminationService
             return $this->serviceResponse;
         } catch(Exception $exception)
         {
-            $this->serviceResponse->setAttributes(404, (object)['message' => 'Não foi encontrado nenhum objeto com este id.']);
+            $this->serviceResponse->setAttributes(404, (object)['message' => 'Não foi encontrado nenhum obcdjeto com este id.']);
             return $this->serviceResponse;
         }
     }

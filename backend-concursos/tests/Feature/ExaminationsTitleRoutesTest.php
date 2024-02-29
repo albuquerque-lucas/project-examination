@@ -48,8 +48,24 @@ class ExaminationsTitleRoutesTest extends TestCase
         ]);
 
         $response = $this->get("/api/examinations/title", ['title' => 'Titulo inexistente.']);
-        $data = $response->json();
-        $response->assertStatus(404);
+        $response->assertStatus(404)->assertJson([
+            "message"=> "Nao foram encontrados registros com os dados fornecidos.",
+            "code"=> 404
+        ]);
+    }
+
+    public function test_get_400_error_if_missing_institution_parameter(): void
+    {
+        $defaultExaminations = Examination::factory(4)->create([
+            'title' => 'Title de teste',
+            'educational_level_id' => 4,
+        ]);
+
+        $response = $this->get("/api/examinations/title");
+        $response->assertStatus(400)->assertJson([
+            "message"=> "E necessario informar o titulo do concurso.",
+            "code"=> 400
+        ]);
     }
 
 }
