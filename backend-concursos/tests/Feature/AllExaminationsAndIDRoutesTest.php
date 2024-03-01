@@ -86,7 +86,7 @@ class AllExaminationsAndIDRoutesTest extends TestCase
     {
         $response = $this->getJson("/api/examinations/examination-id?id=");
         $response->assertStatus(400)->assertJson([
-            "message"=> "Missing required parameter: id",
+            "message"=> "O parâmetro Id é obrigatório.",
             "code"=> 400
         ]);
     }

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Exceptions\MissingIdParameterException;
 
-class ValidateEducationalLevelParameterGetter
+class ValidateEducationalLevelGetter
 {
     /**
      * Handle an incoming request.

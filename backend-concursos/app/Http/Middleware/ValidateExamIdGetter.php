@@ -22,13 +22,14 @@ class ValidateExamIdGetter
             $id = filter_var($request->query('id'), FILTER_VALIDATE_INT);
             $idType = gettype($id);
 
+            if (!$id) {
+                throw new MissingRequiredParameter('Id');
+            }
+
             if ($idType !== "integer") {
                 throw new WrongInputType('integer', $idType);
             }
 
-            if (!$id) {
-                throw new MissingRequiredParameter('Id');
-            }
 
             return $next($request);
         } catch (MissingRequiredParameter $exception) {

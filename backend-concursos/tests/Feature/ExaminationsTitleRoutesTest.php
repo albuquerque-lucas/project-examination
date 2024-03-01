@@ -63,7 +63,7 @@ class ExaminationsTitleRoutesTest extends TestCase
 
         $response = $this->get("/api/examinations/title");
         $response->assertStatus(400)->assertJson([
-            "message"=> "E necessario informar o titulo do concurso.",
+            "message"=> "O parâmetro Título é obrigatório.",
             "code"=> 400
         ]);
     }

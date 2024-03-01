@@ -51,7 +51,7 @@ class ExaminationsInstitutionRoutesTest extends TestCase
 
         $response = $this->get("/api/examinations/institution");
         $response->assertStatus(400)->assertJson([
-            "message"=> "E necessario informar a instituicao do concurso.",
+            "message"=> "O parâmetro Instituição é obrigatório.",
             "code"=> 400
         ]);
     }

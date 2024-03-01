@@ -31,9 +31,9 @@ class ExaminationsEducationalLevelRoutesTest extends TestCase
 
     public function test_get_400_if_missing_educational_level_id_parameter(): void
     {
-        $response = $this->getJson('/api/examinations/educational-level?educational-level=');
+        $response = $this->getJson('/api/examinations/educational-level');
         $response->assertStatus(400)->assertJson([
-            "message" => "Nao e possivel concluir a requisicao. Falta o parametro educational-level",
+            "message" => "O parâmetro Nível de Escolaridade é obrigatório.",
             "code" => 400
         ]);
     }

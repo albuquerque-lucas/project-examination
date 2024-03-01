@@ -1,12 +1,10 @@
 <?php
 
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\ValidateEducationalLevelParameterGetter;
+use App\Http\Middleware\ValidateEducationalLevelGetter;
 use App\Http\Middleware\ValidateExamIdGetter;
 use App\Http\Middleware\ValidateExamInstitutionGetter;
 use App\Http\Middleware\ValidateOrderParam;
-use App\Http\Middleware\ValidatePostExaminationsInputs;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExaminationController;
 use App\Http\Middleware\ValidateExamDateGetter;
@@ -45,7 +43,7 @@ Route::get('/examinations/examination-id', [ExaminationController::class, "getBy
   ->middleware(ValidateExamIdGetter::class);
 
   Route::get('/examinations/educational-level', [ExaminationController::class, 'getByEducationalLevel'])
-  ->middleware(ValidateOrderParam::class, ValidateEducationalLevelParameterGetter::class);
+  ->middleware(ValidateOrderParam::class, ValidateEducationalLevelGetter::class);
 
   Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus'])
   ->middleware(ValidateOrderParam::class, ValidateActivityStatusGetter::class);
