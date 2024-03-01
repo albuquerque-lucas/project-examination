@@ -2,9 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\MissingRequiredParameter;
+use App\Exceptions\WrongInputType;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
+use Spatie\FlareClient\Http\Exceptions\MissingParameter;
 use Symfony\Component\HttpFoundation\Response;
 
 class ValidateActivityStatusGetter
@@ -17,15 +20,35 @@ class ValidateActivityStatusGetter
     public function handle(Request $request, Closure $next): Response
     {
         try {
-            $isActive = filter_var($request->header('active', true), FILTER_VALIDATE_BOOLEAN);
+            $isActive = $request->header('active');
             $isActiveType = gettype($isActive);
-            dd($isActiveType);
+
+            if ($isActiveType !== "boolean") {
+                throw new WrongInputType("boolean", $isActiveType);
+            }
+
+            if ($isActive === null) {
+                throw new MissingRequiredParameter('Status');
+            }
+
             return $next($request);
+        } catch(MissingRequiredParameter $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ], $exception->getCode());
+
+        } catch (WrongInputType $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ], $exception->getCode());
         } catch (Exception $exception) {
             return response()->json([
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ], $exception->getCode());
+
         }
     }
 }
