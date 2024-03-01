@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
 
-class ValidadeExamDateGetter
+class ValidateExamDateGetter
 {
     /**
      * Handle an incoming request.

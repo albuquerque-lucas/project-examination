@@ -10,6 +10,7 @@ use InvalidArgumentException;
 use DateTime;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use App\Models\Notice;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ExaminationService
 {
@@ -94,8 +95,15 @@ class ExaminationService
             $examinations = $query->paginate();
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
-        } catch (Exception $exception) {
+        } catch (InvalidDateFormatException $e) {
+            $this->serviceResponse->setAttributes(400, (object)['message' => $e->getMessage()]);
+            return $this->serviceResponse;
+        } catch (ModelNotFoundException $e) {
             $this->serviceResponse->setAttributes(404, (object)['message' => 'A data especificada não pode ser encontrada.']);
+            return $this->serviceResponse;
+        } catch (Exception $e) {
+            logger()->error("Exceção inesperada: {$e->getMessage()}");
+            $this->serviceResponse->setAttributes(500, (object)['message' => 'Ocorreu um erro interno. Tente novamente mais tarde.']);
             return $this->serviceResponse;
         }
     }
@@ -109,14 +117,37 @@ class ExaminationService
 
             $examinations = $query->paginate();
 
-            if (!$examinations) {
-                throw new NotFound('Nao foram encontrados concursos deste nivel de escolaridade.');
-            }
+            $this->checkToThrowNotFound($examinations);
 
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage()]);
+            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            return $this->serviceResponse;
+        }
+    }
+
+    public function getByActivityStatus(bool $active, string $order): ServiceResponse
+    {
+        try {
+            $query = Examination::query();
+            $query->orderBy('id', $order)
+                ->where('active', $active);
+
+            $list = $query->paginate();
+
+            $this->checkToThrowNotFound($list);
+
+            $this->serviceResponse->setAttributes(200, $list);
+            return $this->serviceResponse;
+        } catch (NotFound $exception) {
+            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
             return $this->serviceResponse;
         }
     }
@@ -141,6 +172,12 @@ class ExaminationService
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(422, (object)['message' => 'Não foi possível criar um novo registro de Examination.']);
             return $this->serviceResponse;
+        }
+    }
+
+    private function checkToThrowNotFound($item) {
+        if ($item->isEmpty()) {
+            throw new NotFound("Nao foram encontrados registros com os dados fornecidos.", 404);
         }
     }
 }

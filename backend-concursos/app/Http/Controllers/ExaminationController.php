@@ -92,8 +92,10 @@ class ExaminationController extends Controller
             $registrationDate = $request->header('registrationDate');
             $position = $request->query('position', 'start');
             $order = $request->input('order', 'desc');
+        
             $response = $this->examinationService->getByRegistrationDate($registrationDate, $order, $position);
             return response()->json($response->data(), $response->status());
+
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }
@@ -102,23 +104,27 @@ class ExaminationController extends Controller
     public function getByEducationalLevel(Request $request)
     {
         try {
-            $educationalLevelId = $request->query('educational-level');
+            $educationalLevelId = $request->header('educational-level');
             $filteredId = filter_var($educationalLevelId, FILTER_VALIDATE_INT);
-
-            if (!$educationalLevelId) {
-                throw new MissingIdParameterException('Nao e possivel concluir a requisicao. Falta o parametro educational-level', 400);
-            }
-
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByEducationalLevel($filteredId, $order);
             $responseData = response()->json($response->data(), $response->status());
-            $responseContent = json_decode($responseData->content());
 
-            if (empty($responseContent->data)) {
-                throw new NotFound('Nao foram encontrados registros com os nivel de escolaridade fornecido.', 404);
-            }
+            return $responseData;
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
+        }
+    }
 
-            return response()->json($responseContent);
+    public function getByActivityStatus(Request $request)
+    {
+        try {
+            $isActive = filter_var($request->header('active', true), FILTER_VALIDATE_BOOLEAN);
+            $order = $request->input('order', 'desc');
+            $response = $this->examinationService->getByActivityStatus($isActive, $order);
+            $responseData = response()->json($response->data(), $response->status());
+
+            return $responseData;
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }

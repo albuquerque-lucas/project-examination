@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\ValidateEducationalLevelParameterGetter;
 use App\Http\Middleware\ValidateExamIdGetter;
 use App\Http\Middleware\ValidateExamInstitutionGetter;
 use App\Http\Middleware\ValidateOrderParam;
@@ -8,8 +9,9 @@ use App\Http\Middleware\ValidatePostExaminationsInputs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExaminationController;
-use App\Http\Middleware\ValidadeExamDateGetter;
+use App\Http\Middleware\ValidateExamDateGetter;
 use App\Http\Middleware\ValidateExamTitleGetter;
+use App\Http\Middleware\ValidateActivityStatusGetter;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +33,7 @@ Route::get("/examinations/all", [ExaminationController::class, 'getAll'])
 Route::post("/create/examination", [ExaminationController::class, "create"]);
 
 Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"])
-  ->middleware(ValidateOrderParam::class, ValidadeExamDateGetter::class);
+  ->middleware(ValidateOrderParam::class, ValidateExamDateGetter::class);
 
 Route::get('/examinations/institution', [ExaminationController::class, "getByInstitution"])
   ->middleware(ValidateOrderParam::class, ValidateExamInstitutionGetter::class);
@@ -43,4 +45,7 @@ Route::get('/examinations/examination-id', [ExaminationController::class, "getBy
   ->middleware(ValidateExamIdGetter::class);
 
   Route::get('/examinations/educational-level', [ExaminationController::class, 'getByEducationalLevel'])
-  ->middleware(ValidateOrderParam::class);
+  ->middleware(ValidateOrderParam::class, ValidateEducationalLevelParameterGetter::class);
+
+  Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus'])
+  ->middleware(ValidateOrderParam::class, ValidateActivityStatusGetter::class);

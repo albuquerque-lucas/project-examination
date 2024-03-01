@@ -25,11 +25,11 @@ class ExaminationsEducationalLevelRoutesTest extends TestCase
         ]);
 
 
-        $response = $this->getJson('/api/examinations/educational-level?educational-level=4');
+        $response = $this->getJson('/api/examinations/educational-level', ['educational-level' => 4]);
         $response->assertStatus(200);
     }
 
-    public function test_get_400_if_missing_educational_level_ir_parameter(): void
+    public function test_get_400_if_missing_educational_level_id_parameter(): void
     {
         $response = $this->getJson('/api/examinations/educational-level?educational-level=');
         $response->assertStatus(400)->assertJson([
@@ -44,9 +44,9 @@ class ExaminationsEducationalLevelRoutesTest extends TestCase
             'educational_level_id' => 4
         ]);
 
-        $response = $this->getJson('/api/examinations/educational-level?educational-level=41231');
+        $response = $this->getJson('/api/examinations/educational-level', ['educational-level' => '123123']);
         $response->assertStatus(404)->assertJson([
-            "message" => "Nao foram encontrados registros com os nivel de escolaridade fornecido.",
+            "message" => "Nao foram encontrados registros com os dados fornecidos.",
             "code" => 404
         ]);
     }

@@ -54,7 +54,7 @@ class ExaminationsTitleRoutesTest extends TestCase
         ]);
     }
 
-    public function test_get_400_error_if_missing_institution_parameter(): void
+    public function test_get_400_error_if_missing_title_parameter(): void
     {
         $defaultExaminations = Examination::factory(4)->create([
             'title' => 'Title de teste',
