@@ -46,7 +46,7 @@ class ExaminationsEducationalLevelRoutesTest extends TestCase
 
         $response = $this->getJson('/api/examinations/educational-level', ['educational-level' => '123123']);
         $response->assertStatus(404)->assertJson([
-            "message" => "Nao foram encontrados registros com os dados fornecidos.",
+            "message" => "Não foram encontrados registros com os dados fornecidos.",
             "code" => 404
         ]);
     }

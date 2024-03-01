@@ -64,7 +64,7 @@ class AllExaminationsAndIDRoutesTest extends TestCase
         ]);
         
         $data = $response->json();
-        $expectedMessage = "Não foi encontrado nenhum objeto com este id.";
+        $expectedMessage = "Não foram encontrados registros com os dados fornecidos.";
         $this->assertEquals($expectedMessage, $data['message']);
     }
 

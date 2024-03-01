@@ -28,10 +28,16 @@ class ExaminationService
             $query->orderBy($orderBy, $order);
 
             $examinations = $query->paginate();
+
+            $this->checkToThrowNotFound($examinations);
+
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
-        } catch (Exception $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => 'Os registros solicitados não foram encontrados.']);
+        } catch(NotFound $exception) {
+            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
             return $this->serviceResponse;
         }
     }
@@ -40,13 +46,23 @@ class ExaminationService
     {
         try {
             $examination = Examination::query()
-                ->where('id', $id)
-                ->with(['notice', 'exams'])
-                ->firstOrFail();
+            ->where('id', $id)
+            ->with(['notice', 'exams'])
+            ->first();
+            $decodedExamination = json_decode($examination);
+
+            if ($decodedExamination === null) {
+                throw new NotFound("Não foram encontrados registros com os dados fornecidos.", 404);
+            }
+
             $this->serviceResponse->setAttributes(200, $examination);
+
+            return $this->serviceResponse;
+        } catch(NotFound $exception) {
+            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => 'Não foi encontrado nenhum objeto com este id.']);
+            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
             return $this->serviceResponse;
         }
     }
@@ -59,10 +75,16 @@ class ExaminationService
                 ->where('title', 'like', "%{$title}%");
 
             $examinations = $query->paginate();
+
+            $this->checkToThrowNotFound($examinations);
+
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
-        } catch (Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)['message' => 'Algo aconteceu. O servico nao pode completar a requisicao.']);
+        } catch(NotFound $exception) {
+            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
             return $this->serviceResponse;
         }
     }
@@ -73,10 +95,16 @@ class ExaminationService
             $query->orderBy('id', $order)
             ->where('institution', 'like', "%{$institution}%");
             $examinations = $query->paginate();
+
+            $this->checkToThrowNotFound($examinations);
+
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
-        } catch (Exception $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => 'Não foram encontradas instituições com as palavras utilizadas.']);
+        } catch(NotFound $exception) {
+            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
             return $this->serviceResponse;
         }
     }
@@ -93,17 +121,22 @@ class ExaminationService
                 ->where("registration_{$position}_date", $parsedDate->format('Y-m-d'));
     
             $examinations = $query->paginate();
+
+            $this->checkToThrowNotFound($examinations);
+
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
-        } catch (InvalidDateFormatException $e) {
-            $this->serviceResponse->setAttributes(400, (object)['message' => $e->getMessage()]);
+        } catch (InvalidDateFormatException $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
-        } catch (ModelNotFoundException $e) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => 'A data especificada não pode ser encontrada.']);
+        } catch(NotFound $exception) {
+            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
             return $this->serviceResponse;
-        } catch (Exception $e) {
-            logger()->error("Exceção inesperada: {$e->getMessage()}");
-            $this->serviceResponse->setAttributes(500, (object)['message' => 'Ocorreu um erro interno. Tente novamente mais tarde.']);
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
             return $this->serviceResponse;
         }
     }
@@ -177,7 +210,7 @@ class ExaminationService
 
     private function checkToThrowNotFound($item) {
         if ($item->isEmpty()) {
-            throw new NotFound("Nao foram encontrados registros com os dados fornecidos.", 404);
+            throw new NotFound("Não foram encontrados registros com os dados fornecidos.", 404);
         }
     }
 }
