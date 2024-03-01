@@ -54,11 +54,6 @@ class ExaminationController extends Controller
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByTitle($title, $order);
             $responseData = response()->json($response->data(), $response->status());
-            $responseContent = json_decode($responseData->content());
-
-            if (empty($responseContent->data)) {
-                throw new NotFound('Nao foram encontrados registros com o titulo informado.', 404);
-            }
 
             return response()->json($responseData);
         } catch (NotFound $notFound) {
@@ -75,12 +70,8 @@ class ExaminationController extends Controller
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByInstitution($institution, $order);
             $responseData = response()->json($response->data(), $response->status());
-            $responseContent = json_decode($responseData->content());
-            if (empty($responseContent->data)) {
-                throw new NotFound('Nao foram encontrados registros com a instituicao informada.', 404);
-            }
             
-            return response()->json($responseContent);
+            return response()->json($responseData);
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }

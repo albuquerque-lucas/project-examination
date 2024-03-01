@@ -6,11 +6,8 @@ use App\Exceptions\InvalidDateFormatException;
 use App\Models\Examination;
 use App\Models\ServiceResponse;
 use Exception;
-use InvalidArgumentException;
 use DateTime;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
-use App\Models\Notice;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ExaminationService
 {
