@@ -34,8 +34,8 @@ class ExaminationsTitleRoutesTest extends TestCase
         $response = $this->getJson('/api/examinations/title', ['title' => 'Raziel']);
         $response->assertStatus(200);
         $result = $response->json();
-        $data = $result['original']['data'];
-        $response->assertJsonStructure(['original']);
+        $data = $result['data'];
+        $response->assertJsonStructure(['data']);
         $this->assertCount(2, $data);
         $this->assertEquals($exampleExamination1->id, $data[1]['id']);
         $this->assertEquals($exampleExamination3->title, $data[0]['title']);
@@ -49,7 +49,7 @@ class ExaminationsTitleRoutesTest extends TestCase
 
         $response = $this->get("/api/examinations/title", ['title' => 'Titulo inexistente.']);
         $response->assertStatus(404)->assertJson([
-            "message"=> "Nao foram encontrados registros com o titulo informado.",
+            "message"=> "Não foram encontrados registros com os dados fornecidos.",
             "code"=> 404
         ]);
     }

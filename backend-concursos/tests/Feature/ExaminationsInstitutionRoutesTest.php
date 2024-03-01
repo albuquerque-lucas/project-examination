@@ -21,9 +21,9 @@ class ExaminationsInstitutionRoutesTest extends TestCase
         ]);
 
         $response = $this->getJson('/api/examinations/institution', ['institution' => 'Test']);
+        $data = $response->json();
         $response->assertStatus(200);
         $response->assertJsonStructure(['data']);
-        $data = $response->json();
         $result = $data['data'];
         $this->assertCount(1, $result);
         $this->assertEquals($exampleExamination->id, $result[0]['id']);
@@ -39,6 +39,7 @@ class ExaminationsInstitutionRoutesTest extends TestCase
 
         $response = $this->get("/api/examinations/institution", ['institution' => 'Inexistent']);
         $data = $response->json();
+        // dd($data);
         $response->assertStatus(404);
     }
 

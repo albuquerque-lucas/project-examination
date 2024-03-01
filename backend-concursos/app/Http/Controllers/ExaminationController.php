@@ -53,9 +53,8 @@ class ExaminationController extends Controller
             $title = $request->header('title');
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByTitle($title, $order);
-            $responseData = response()->json($response->data(), $response->status());
 
-            return response()->json($responseData);
+            return response()->json($response->data(), $response->status());
         } catch (NotFound $notFound) {
             return response()->json(['message' => $notFound->getMessage(), 'code' => $notFound->getCode()], $notFound->getCode());
         } catch (Exception $exception) {
@@ -69,12 +68,13 @@ class ExaminationController extends Controller
             $institution = $request->header('institution');
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByInstitution($institution, $order);
-            $responseData = response()->json($response->data(), $response->status());
-            
-            return response()->json($responseData);
+
+            return response()->json($response->data(), $response->status());
+        } catch (NotFound $notFound) {
+            return response()->json(['message' => $notFound->getMessage(), 'code' => $notFound->getCode()], 404);
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
-        }
+        } 
     }
 
     public function getByRegistrationDate(Request $request)
@@ -85,8 +85,8 @@ class ExaminationController extends Controller
             $order = $request->input('order', 'desc');
         
             $response = $this->examinationService->getByRegistrationDate($registrationDate, $order, $position);
-            return response()->json($response->data(), $response->status());
 
+            return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }
@@ -99,9 +99,8 @@ class ExaminationController extends Controller
             $filteredId = filter_var($educationalLevelId, FILTER_VALIDATE_INT);
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByEducationalLevel($filteredId, $order);
-            $responseData = response()->json($response->data(), $response->status());
 
-            return $responseData;
+            return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }
@@ -113,9 +112,8 @@ class ExaminationController extends Controller
             $isActive = filter_var($request->header('active', true), FILTER_VALIDATE_BOOLEAN);
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByActivityStatus($isActive, $order);
-            $responseData = response()->json($response->data(), $response->status());
 
-            return $responseData;
+            return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }
@@ -127,6 +125,7 @@ class ExaminationController extends Controller
             $requestData = $request->all();
             $this->validateAndFormatDates($requestData);
             $response = $this->examinationService->create($requestData);
+
             return response()->json($response->data(), $response->status());
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
