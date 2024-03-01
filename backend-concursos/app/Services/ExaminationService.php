@@ -34,10 +34,16 @@ class ExaminationService
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         }
     }
@@ -59,10 +65,16 @@ class ExaminationService
 
             return $this->serviceResponse;
         } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         }
     }
@@ -81,10 +93,16 @@ class ExaminationService
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         }
     }
@@ -101,10 +119,16 @@ class ExaminationService
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         }
     }
@@ -133,10 +157,16 @@ class ExaminationService
             ]);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         }
     }
@@ -155,10 +185,16 @@ class ExaminationService
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         }
     }
@@ -177,10 +213,16 @@ class ExaminationService
             $this->serviceResponse->setAttributes(200, $list);
             return $this->serviceResponse;
         } catch (NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         }
     }
@@ -203,7 +245,10 @@ class ExaminationService
             $this->serviceResponse->setAttributes(201, $responseData);
             return $this->serviceResponse;
         } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(422, (object)['message' => 'Não foi possível criar um novo registro de Examination.']);
+            $this->serviceResponse->setAttributes(422, (object)[
+                'message' => 'Não foi possível criar um novo registro de Examination.',
+                'code' => $exception->getCode()
+            ]);
             return $this->serviceResponse;
         }
     }
