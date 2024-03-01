@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\MissingRequiredParameter;
 use App\Exceptions\MissingTitleParameterException;
+use App\Exceptions\WrongInputType;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
@@ -19,21 +21,38 @@ class ValidateExamTitleGetter
     {
         try {
             $title = $request->header('title');
-            if (!$title) {
-                throw new MissingTitleParameterException('E necessario informar o titulo do concurso.', 400);
-            }
-            return $next($request);
+            $titleType = gettype($title);
 
-        } catch( MissingTitleParameterException $missingParameterException) {
-            return response()->json(
-                [
-                    'message' => $missingParameterException->getMessage(),
-                    'code' => $missingParameterException->getCode()
+            if (!$title) {
+                throw new MissingRequiredParameter('Título');
+            }
+
+            if ($titleType !== 'string') {
+                throw new WrongInputType('string', $titleType);
+            }
+
+            return $next($request);
+        } catch (MissingRequiredParameter $exception) {
+            return response()->json([
+                    'message' => $exception->getMessage(),
+                    'code' => $exception->getCode()
                 ],
-                $missingParameterException->getCode()
+                    $exception->getCode()
+            );
+        } catch (WrongInputType $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ],
+                $exception->getCode()
             );
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ],
+                $exception->getCode()
+            );
         }
     }
 }

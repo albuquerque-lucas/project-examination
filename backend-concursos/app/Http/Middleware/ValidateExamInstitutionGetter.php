@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\MissingInstitutionParameterException;
+use App\Exceptions\MissingRequiredParameter;
+use App\Exceptions\WrongInputType;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,18 +21,38 @@ class ValidateExamInstitutionGetter
     {
         try {
             $institution = $request->header('institution');
-            if (!$institution) {
-                throw new MissingInstitutionParameterException('E necessario informar a instituicao do concurso.', 400);
-            }
-            return $next($request);
+            $institutionType = gettype($institution);
 
-        } catch (MissingInstitutionParameterException $missingInstitutionParameterException) {
-            return response()->json(['message' => $missingInstitutionParameterException->getMessage(),
-            'code' => $missingInstitutionParameterException->getCode()],
-            $missingInstitutionParameterException->getCode(),
-        );
+            if (!$institution) {
+                throw new MissingRequiredParameter('Instituição');
+            }
+
+            if ($institutionType !== "string") {
+                throw new WrongInputType('string', $institutionType);
+            }
+
+            return $next($request);
+        } catch (MissingRequiredParameter $exception) {
+            return response()->json([
+                    'message' => $exception->getMessage(),
+                    'code' => $exception->getCode()
+                ],
+                    $exception->getCode()
+            );
+        } catch (WrongInputType $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ],
+                $exception->getCode()
+            );
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()]);
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ],
+                $exception->getCode()
+            );
         }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Exceptions\InvalidDateFormatException;
 use App\Exceptions\MissingExamDateParameterException;
+use App\Exceptions\MissingRequiredParameter;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,7 @@ class ValidateExamDateGetter
             $registrationDate = $request->header('registrationDate');
             
             if (!$registrationDate) {
-                throw new MissingExamDateParameterException('A requisicao nao pode ser completada. Faltando parametro registrationDate', 400);
+                throw new MissingRequiredParameter('Data');
             }
             
             if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $registrationDate)) {
@@ -31,21 +32,28 @@ class ValidateExamDateGetter
     
     
             return $next($request);
-        } catch (MissingExamDateParameterException $missingParameterException) {
-            return response()->json(
-                ['message' => $missingParameterException->getMessage(),
-                'code' => $missingParameterException->getCode()],
-                $missingParameterException->getCode(),
+        } catch (MissingRequiredParameter $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ],
+                $exception->getCode(),
             );
 
-        } catch (InvalidDateFormatException $invalidFormatException) {
-            return response()->json(['message' => $invalidFormatException->getMessage(),
-            'code' => $invalidFormatException->getCode()],
-            $invalidFormatException->getCode(),
-        );
-        } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage(), 'code' => $e->getCode()]);
+        } catch (InvalidDateFormatException $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ],
+                $exception->getCode(),
+            );
+        } catch (Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ],
+                $exception->getCode()
+            );
         }
-
     }
 }

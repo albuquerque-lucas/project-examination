@@ -18,6 +18,7 @@ class ValidateOrderParam
     {
         try {
             $order = $request->query('order', 'desc');
+
             if (!in_array($order, ['asc', 'desc'])) {
                 throw new InvalidArgumentException('Parâmetro de ordenação inválido. Use "asc" ou "desc".', 400);
             }
@@ -25,9 +26,11 @@ class ValidateOrderParam
             return $next($request);
 
         } catch (InvalidArgumentException $exception) {
-            return response()->json(['message' => $exception->getMessage(),
-            'code' => $exception->getCode()],
-            $exception->getCode(),
+            return response()->json([
+            'message' => $exception->getMessage(),
+            'code' => $exception->getCode()
+        ],
+                $exception->getCode(),
             );
         }
     }
