@@ -8,6 +8,9 @@ use App\Models\ServiceResponse;
 use Exception;
 use DateTime;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
+use Nette\Schema\ValidationException;
+use PDOException;
+use Log;
 
 class ExaminationService
 {
@@ -241,9 +244,22 @@ class ExaminationService
             
             $this->serviceResponse->setAttributes(201, $responseData);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
+        } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'message' => 'Não foi possível criar um novo registro de Examination.',
+                'message' => 'Validação falhou. Verifique os erros.',
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch (PDOException $exception) {
+            $this->serviceResponse->setAttributes(409, (object)[
+                'message' => 'Não foi possível criar o registro. Verifique os dados informados.',
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            $this->serviceResponse->setAttributes(500, (object)[
+                'message' => 'Erro interno no servidor.',
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -252,7 +268,7 @@ class ExaminationService
 
     private function checkToThrowNotFound($item) {
         if ($item->isEmpty()) {
-            throw new NotFound("Não foram encontrados registros com os dados fornecidos.", 404);
+            throw new NotFound('Não foram encontrados registros com os dados fornecidos.', 404);
         }
     }
 }

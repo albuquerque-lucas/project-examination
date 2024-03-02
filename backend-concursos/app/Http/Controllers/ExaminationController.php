@@ -68,12 +68,11 @@ class ExaminationController extends Controller
             $institution = $request->header('institution');
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByInstitution($institution, $order);
-
             return response()->json($response->data(), $response->status());
         } catch (NotFound $notFound) {
             return response()->json(['message' => $notFound->getMessage(), 'code' => $notFound->getCode()], 404);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         } 
     }
 
