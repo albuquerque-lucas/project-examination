@@ -21,7 +21,7 @@ class ExamQuestionAlternativeFactory extends Factory
         return [
             'letter' => $this->faker->randomElement($letterOptions),
             'text' => $this->faker->text(15),
-            'is_answer' => false,
+            'is_answer' => $this->faker->boolean(),
         ];
     }
 }

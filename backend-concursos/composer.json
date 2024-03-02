@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.8"
     },
     "require-dev": {
+        "brianium/paratest": "^7.4",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
@@ -47,7 +48,16 @@
             "@php artisan key:generate --ansi"
         ],
         "artisan": "./vendor/bin/sail artisan",
-        "sail-up": "./vendor/bin/sail up"
+        "sail-up": "./vendor/bin/sail up",
+        "migrate": [
+            "./vendor/bin/sail artisan db:wipe",
+            "./vendor/bin/sail artisan migrate"
+        ],
+        "refresh:db": [
+            "./vendor/bin/sail artisan db:wipe",
+            "./vendor/bin/sail artisan migrate",
+            "./vendor/bin/sail artisan db:seed"
+        ]
     },
     "extra": {
         "laravel": {

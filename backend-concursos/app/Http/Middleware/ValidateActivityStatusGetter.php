@@ -2,15 +2,15 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\MissingInstitutionParameterException;
 use App\Exceptions\MissingRequiredParameter;
 use App\Exceptions\WrongInputType;
 use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Exception;
+use Illuminate\Http\Request;
+use Spatie\FlareClient\Http\Exceptions\MissingParameter;
+use Symfony\Component\HttpFoundation\Response;
 
-class ValidateExamInstitutionGetter
+class ValidateActivityStatusGetter
 {
     /**
      * Handle an incoming request.
@@ -20,39 +20,35 @@ class ValidateExamInstitutionGetter
     public function handle(Request $request, Closure $next): Response
     {
         try {
-            $institution = $request->header('institution');
-            $institutionType = gettype($institution);
+            $isActive = $request->header('active');
+            $isActiveType = gettype($isActive);
 
-            if (!$institution) {
-                throw new MissingRequiredParameter('Instituição');
+            if ($isActiveType !== "boolean") {
+                throw new WrongInputType("boolean", $isActiveType);
             }
 
-            if ($institutionType !== "string") {
-                throw new WrongInputType('string', $institutionType);
+            if ($isActive === null) {
+                throw new MissingRequiredParameter('Status');
             }
 
             return $next($request);
-        } catch (MissingRequiredParameter $exception) {
+        } catch(MissingRequiredParameter $exception) {
             return response()->json([
-                    'message' => $exception->getMessage(),
-                    'code' => $exception->getCode()
-                ],
-                    $exception->getCode()
-            );
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ], $exception->getCode());
+
         } catch (WrongInputType $exception) {
             return response()->json([
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
-            ],
-                $exception->getCode()
-            );
+            ], $exception->getCode());
         } catch (Exception $exception) {
             return response()->json([
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
-            ],
-                $exception->getCode()
-            );
+            ], $exception->getCode());
+
         }
     }
 }

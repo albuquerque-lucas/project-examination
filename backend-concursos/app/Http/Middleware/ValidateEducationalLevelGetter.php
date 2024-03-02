@@ -2,15 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\MissingInstitutionParameterException;
 use App\Exceptions\MissingRequiredParameter;
-use App\Exceptions\WrongInputType;
 use Closure;
+use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Exception;
+use App\Exceptions\MissingIdParameterException;
 
-class ValidateExamInstitutionGetter
+class ValidateEducationalLevelGetter
 {
     /**
      * Handle an incoming request.
@@ -20,26 +19,13 @@ class ValidateExamInstitutionGetter
     public function handle(Request $request, Closure $next): Response
     {
         try {
-            $institution = $request->header('institution');
-            $institutionType = gettype($institution);
-
-            if (!$institution) {
-                throw new MissingRequiredParameter('Instituição');
-            }
-
-            if ($institutionType !== "string") {
-                throw new WrongInputType('string', $institutionType);
+            $educationalLevelId = $request->header('educational-level');
+            if (!$educationalLevelId) {
+                throw new MissingRequiredParameter('Nível de Escolaridade');
             }
 
             return $next($request);
         } catch (MissingRequiredParameter $exception) {
-            return response()->json([
-                    'message' => $exception->getMessage(),
-                    'code' => $exception->getCode()
-                ],
-                    $exception->getCode()
-            );
-        } catch (WrongInputType $exception) {
             return response()->json([
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()

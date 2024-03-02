@@ -2,15 +2,15 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\MissingInstitutionParameterException;
+use App\Exceptions\InvalidDateFormatException;
+use App\Exceptions\MissingExamDateParameterException;
 use App\Exceptions\MissingRequiredParameter;
-use App\Exceptions\WrongInputType;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
 
-class ValidateExamInstitutionGetter
+class ValidateExamDateGetter
 {
     /**
      * Handle an incoming request.
@@ -20,31 +20,32 @@ class ValidateExamInstitutionGetter
     public function handle(Request $request, Closure $next): Response
     {
         try {
-            $institution = $request->header('institution');
-            $institutionType = gettype($institution);
-
-            if (!$institution) {
-                throw new MissingRequiredParameter('Instituição');
+            $registrationDate = $request->header('registrationDate');
+            
+            if (!$registrationDate) {
+                throw new MissingRequiredParameter('Data');
             }
-
-            if ($institutionType !== "string") {
-                throw new WrongInputType('string', $institutionType);
+            
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $registrationDate)) {
+                throw new InvalidDateFormatException('Data informada no formato inválido. Utilize YYYY-MM-DD.', 400);
             }
-
+    
+    
             return $next($request);
         } catch (MissingRequiredParameter $exception) {
-            return response()->json([
-                    'message' => $exception->getMessage(),
-                    'code' => $exception->getCode()
-                ],
-                    $exception->getCode()
-            );
-        } catch (WrongInputType $exception) {
             return response()->json([
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ],
-                $exception->getCode()
+                $exception->getCode(),
+            );
+
+        } catch (InvalidDateFormatException $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ],
+                $exception->getCode(),
             );
         } catch (Exception $exception) {
             return response()->json([

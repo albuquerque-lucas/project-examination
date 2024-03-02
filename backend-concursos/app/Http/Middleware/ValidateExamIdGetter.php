@@ -2,10 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\MissingIdParameterException;
+use App\Exceptions\MissingRequiredParameter;
+use App\Exceptions\WrongInputType;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Exception;
 
 class ValidateExamIdGetter
 {
@@ -16,10 +18,41 @@ class ValidateExamIdGetter
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $id = $request->route('id');
-        if (!$id) {
-            throw new MissingIdParameterException('Missing required parameter: id');
+        try {
+            $id = filter_var($request->query('id'), FILTER_VALIDATE_INT);
+            $idType = gettype($id);
+
+            if (!$id) {
+                throw new MissingRequiredParameter('Id');
+            }
+
+            if ($idType !== "integer") {
+                throw new WrongInputType('integer', $idType);
+            }
+
+
+            return $next($request);
+        } catch (MissingRequiredParameter $exception) {
+            return response()->json([
+                    'message' => $exception->getMessage(),
+                    'code' => $exception->getCode()
+                ],
+                    $exception->getCode()
+            );
+        } catch (WrongInputType $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ],
+                $exception->getCode()
+            );
+        } catch (Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ],
+                $exception->getCode()
+            );
         }
-        return $next($request);
     }
 }

@@ -14,6 +14,7 @@ class ExamQuestion extends Model
     protected $fillable = [
         'exam_id',
         'subject_id',
+        'topic_id',
         'title',
         'description',
     ];

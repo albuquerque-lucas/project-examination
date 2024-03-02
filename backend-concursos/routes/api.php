@@ -1,14 +1,15 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\ValidateEducationalLevelGetter;
 use App\Http\Middleware\ValidateExamIdGetter;
 use App\Http\Middleware\ValidateExamInstitutionGetter;
 use App\Http\Middleware\ValidateOrderParam;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExaminationController;
-use App\Http\Middleware\ValidadeExamDateGetter;
+use App\Http\Middleware\ValidateExamDateGetter;
 use App\Http\Middleware\ValidateExamTitleGetter;
+use App\Http\Middleware\ValidateActivityStatusGetter;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,14 +27,23 @@ Route::get('/users/all', [UserController::class, "getAll"]);
 
 Route::get("/examinations/all", [ExaminationController::class, 'getAll'])
 ->middleware(ValidateOrderParam::class);
+
 Route::post("/create/examination", [ExaminationController::class, "create"]);
 
+Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"])
+  ->middleware(ValidateOrderParam::class, ValidateExamDateGetter::class);
 
-Route::get('/examinations/examDate', [ExaminationController::class, "getByExamDate"])
-  ->middleware(ValidateOrderParam::class, ValidadeExamDateGetter::class);
 Route::get('/examinations/institution', [ExaminationController::class, "getByInstitution"])
   ->middleware(ValidateOrderParam::class, ValidateExamInstitutionGetter::class);
+
 Route::get('/examinations/title', [ExaminationController::class, "getByTitle"])
   ->middleware(ValidateOrderParam::class, ValidateExamTitleGetter::class);
-Route::get('/examinations/{id}', [ExaminationController::class, "getById"])
+
+Route::get('/examinations/examination-id', [ExaminationController::class, "getById"])
   ->middleware(ValidateExamIdGetter::class);
+
+  Route::get('/examinations/educational-level', [ExaminationController::class, 'getByEducationalLevel'])
+  ->middleware(ValidateOrderParam::class, ValidateEducationalLevelGetter::class);
+
+  Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus'])
+  ->middleware(ValidateOrderParam::class, ValidateActivityStatusGetter::class);
