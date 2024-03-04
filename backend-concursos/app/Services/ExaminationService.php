@@ -25,10 +25,11 @@ class ExaminationService
     {
         try {
             $query = Examination::query();
-            $query->orderBy($orderBy, $order);
-
+            $query->orderBy($orderBy, $order)
+            ->with('notice', 'exams');
+            
+            
             $examinations = $query->paginate();
-
             $this->checkToThrowNotFound($examinations);
 
             $this->serviceResponse->setAttributes(200, $examinations);
@@ -39,24 +40,16 @@ class ExaminationService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
         }
     }
-
+    
     public function getById(int $id): ServiceResponse
     {
         try {
             $examination = Examination::query()
-            ->where('id', $id)
-            ->with(['notice', 'exams'])
-            ->first();
+            ->where('id', $id)->firstOrFail();
             $decodedExamination = json_decode($examination);
-
+            
             if ($decodedExamination === null) {
                 throw new NotFound("Não foram encontrados registros com os dados fornecidos.", 404);
             }
@@ -66,12 +59,6 @@ class ExaminationService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -98,12 +85,6 @@ class ExaminationService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
         }
     }
     public function getByInstitution(string $institution, string $order): ServiceResponse
@@ -120,12 +101,6 @@ class ExaminationService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -162,12 +137,6 @@ class ExaminationService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
         }
     }
 
@@ -190,12 +159,6 @@ class ExaminationService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
         }
     }
 
@@ -214,12 +177,6 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -253,13 +210,6 @@ class ExaminationService
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
                 'message' => 'Não foi possível criar o registro. Verifique os dados informados.',
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch (Exception $exception) {
-            Log::error($exception->getMessage());
-            $this->serviceResponse->setAttributes(500, (object)[
-                'message' => 'Erro interno no servidor.',
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;

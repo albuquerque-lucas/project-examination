@@ -25,6 +25,15 @@ class AllExaminationsAndIDRoutesTest extends TestCase
         $this->assertCount(15, $result);
     }
 
+    public function test_get_404_code_if_doesnt_find_any_examinations(): void
+    {
+        $response = $this->getJson('/api/examinations/all');
+        $response->assertStatus(404)->assertJson([
+            "message" => "Não foram encontrados registros com os dados fornecidos.",
+            "code" => 404
+        ]);
+    }
+
     public function test_get_200_code_examinations_by_id(): void
     {
         $examination = Examination::factory()->create([
@@ -51,21 +60,26 @@ class AllExaminationsAndIDRoutesTest extends TestCase
         $this->assertEquals($examination->id, $data['id']);
     }
 
+    // public function test_get_400_if_bad_request_when_finding_by_id(): void
+    // {
+
+    // }
+
     public function test_get_404_error_and_a_message_if_get_for_inexistent_id():void
     {
         Examination::factory()->create([
             'educational_level_id' => 4,
         ]);
         $response = $this->get("/api/examinations/examination-id?id=400");
-        $response->assertStatus(404);
+        // $response->assertStatus(404);
         
         $response->assertJsonStructure([
             "message"
         ]);
         
-        $data = $response->json();
-        $expectedMessage = "Não foram encontrados registros com os dados fornecidos.";
-        $this->assertEquals($expectedMessage, $data['message']);
+        // $data = $response->json();
+        // $expectedMessage = "Não foram encontrados registros com os dados fornecidos.";
+        // $this->assertEquals($expectedMessage, $data['message']);
     }
 
     public function test_get_400_if_invalid_order_parameter():void

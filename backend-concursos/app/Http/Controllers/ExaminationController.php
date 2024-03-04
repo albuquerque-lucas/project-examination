@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidDateFormatException;
-use App\Exceptions\MissingIdParameterException;
-use App\Exceptions\MissingTitleParameterException;
 use App\Http\Requests\ExaminationFormRequest;
 use Illuminate\Http\Request;
 use App\Services\ExaminationService;
 use Exception;
-use InvalidArgumentException;
-use DateTime;
 use Illuminate\Support\Carbon;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 
@@ -38,7 +34,6 @@ class ExaminationController extends Controller
     {
         try {
             $id = $request->query('id');
-
             $response = $this->examinationService->getById($id);
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
@@ -111,7 +106,7 @@ class ExaminationController extends Controller
             $isActive = filter_var($request->header('active', true), FILTER_VALIDATE_BOOLEAN);
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByActivityStatus($isActive, $order);
-
+            
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());

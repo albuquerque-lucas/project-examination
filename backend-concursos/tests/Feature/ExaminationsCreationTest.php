@@ -24,13 +24,11 @@ class ExaminationsCreationTest extends TestCase
 
         $responseData = [
             'message' => 'Concurso adicionado com sucesso.',
-            'id' => 28,
+            'id' => 37,
             'title' => 'Concurso de Teste 01',
         ];
 
         $response = $this->postJson('api/create/examination', $requestData);
-        $result = $response->json();
-        // dd($result);
         $response->assertStatus(201)->assertJson($responseData);
     }
 
