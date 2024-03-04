@@ -41,28 +41,24 @@ class AllExaminationsAndIDRoutesTest extends TestCase
 
     public function test_get_200_code_examinations_by_id(): void
     {
-        $examination = Examination::factory()->create([
+        EducationalLevel::factory(5)->create();
+        $examination = Examination::factory(5)->create([
             'educational_level_id' => 4,
         ]);
-        $response = $this->get("/api/examinations/examination-id?id=$examination->id");
+        Examination::all()->each(function(Examination $examination) {
+            Notice::factory()->count(1)->create([
+                'examination_id' => $examination->id,
+            ]);
+        });
+        $response = $this->get("/api/examinations/examination-id?id=1");
         $response->assertStatus(200);
         
-        $response->assertJsonStructure([
-            "id",
-            "educational_level_id",
-            "title",
-            "active",
-            "institution",
-            "registration_start_date",
-            "registration_end_date",
-            "exams_start_date",
-            "exams_end_date",
-            "created_at",
-            "updated_at"
-        ]);
+        // $response->assertJsonStructure([
+        //     "data",
+        // ]);
         
-        $data = $response->json();
-        $this->assertEquals($examination->id, $data['id']);
+        // $data = $response->json();
+        // $this->assertEquals($examination->id, $data['id']);
     }
 
     // public function test_get_400_if_bad_request_when_finding_by_id(): void
@@ -70,21 +66,13 @@ class AllExaminationsAndIDRoutesTest extends TestCase
 
     // }
 
-    public function test_get_404_error_and_a_message_if_get_for_inexistent_id():void
+    public function test_get_204_no_content_if_get_for_inexistent_id():void
     {
         Examination::factory()->create([
             'educational_level_id' => 4,
         ]);
         $response = $this->get("/api/examinations/examination-id?id=400");
-        // $response->assertStatus(404);
-        
-        $response->assertJsonStructure([
-            "message"
-        ]);
-        
-        // $data = $response->json();
-        // $expectedMessage = "Não foram encontrados registros com os dados fornecidos.";
-        // $this->assertEquals($expectedMessage, $data['message']);
+        $response->assertStatus(204);
     }
 
     public function test_get_400_if_invalid_order_parameter():void

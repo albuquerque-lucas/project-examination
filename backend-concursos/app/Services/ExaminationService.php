@@ -33,7 +33,7 @@ class ExaminationService
             $decoded = $examinations->toArray();
 
             if (empty($decoded['data'])) {
-                throw new NotFound('Não foram encontrados registros.', 404);
+                throw new NotFound('Não foram encontrados registros.', 204);
             };
 
             $this->serviceResponse->setAttributes(200, $examinations);
@@ -51,11 +51,10 @@ class ExaminationService
     {
         try {
             $examination = Examination::query()
-            ->where('id', $id)->firstOrFail();
-            $decodedExamination = json_decode($examination);
+            ->where('id', $id)->first();
             
-            if ($decodedExamination === null) {
-                throw new NotFound("Não foram encontrados registros com os dados fornecidos.", 404);
+            if ($examination === null) {
+                throw new NotFound("Não foram encontrados registros com os dados fornecidos.", 204);
             }
 
             $this->serviceResponse->setAttributes(200, $examination);

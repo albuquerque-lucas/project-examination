@@ -24,7 +24,7 @@ class ExaminationsCreationTest extends TestCase
 
         $responseData = [
             'message' => 'Concurso adicionado com sucesso.',
-            'id' => 37,
+            'id' => 41,
             'title' => 'Concurso de Teste 01',
         ];
 

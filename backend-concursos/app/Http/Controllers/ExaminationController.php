@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\InvalidDateFormatException;
 use App\Http\Requests\ExaminationFormRequest;
 use App\Http\Resources\ExaminationResource;
+use App\Http\Resources\UserResource;
 use Error;
 use Illuminate\Http\Request;
 use App\Services\ExaminationService;
@@ -27,10 +28,10 @@ class ExaminationController extends Controller
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getAll($order);
             $data = $response->data();
-            $convertedData = (array)$data;
+            $dataArray = (array)$data;
 
-            if (array_key_exists('code', $convertedData)) {
-                if ($convertedData['code'] === 404) {
+            if (array_key_exists('code', $dataArray)) {
+                if ($dataArray['code'] === 204) {
                     return response()->noContent();
                 }
             }
@@ -53,7 +54,16 @@ class ExaminationController extends Controller
         try {
             $id = $request->query('id');
             $response = $this->examinationService->getById($id);
-            return response()->json($response->data(), $response->status());
+            $data = $response->data();
+            $dataArray = (array)$data;
+
+            if (array_key_exists('code', $dataArray)) {
+                if ($dataArray['code'] === 204) {
+                    return response()->noContent();
+                }
+            }
+            $resource = new ExaminationResource($response->data());
+            return $resource;
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }
