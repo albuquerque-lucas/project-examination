@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidDateFormatException;
 use App\Http\Requests\ExaminationFormRequest;
+use App\Http\Resources\ExaminationResource;
 use Illuminate\Http\Request;
 use App\Services\ExaminationService;
 use Exception;
@@ -24,7 +25,8 @@ class ExaminationController extends Controller
         try {
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getAll($order);
-            return response()->json($response->data(), $response->status());
+            return ExaminationResource::collection($response->data());
+            //return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }

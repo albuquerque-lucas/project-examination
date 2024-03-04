@@ -28,7 +28,8 @@ class Examination extends Model
         'registration_start_date' => 'date:Y-m-d',
         'registration_end_date' => 'date:Y-m-d',
         'exams_start_date' => 'date:Y-m-d',
-        'exams_end_date' => 'date:Y-m-d'
+        'exams_end_date' => 'date:Y-m-d',
+        'active' => 'boolean'
     ];
     
     public function users(): BelongsToMany
@@ -53,7 +54,7 @@ class Examination extends Model
 
     public function studyAreas(): BelongsToMany
     {
-        return $this->belongsToMany(StudyArea::class);
+        return $this->belongsToMany(StudyArea::class)->as('areas');
     }
 
     public function educationalLevel(): BelongsTo
