@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\FlareClient\Http\Exceptions\NotFound;
 
 class ExaminationResource extends JsonResource
 {
@@ -20,7 +21,7 @@ class ExaminationResource extends JsonResource
             'title' => $this->title,
             'institution' => $this->institution,
             'educational_level' => $this->educationalLevel->name,
-            'active' => $this->active ? "Ativo" : "Inativo",
+            'active' => $this->active,
             'notice_path' => $this->notice->file,
             'registration_start_date' => $this->registration_start_date,
             'registration_end_date' => $this->registration_end_date,

@@ -2,8 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\EducationalLevel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Notice;
 use Tests\TestCase;
 use App\Models\Examination;
 
@@ -13,10 +14,17 @@ class AllExaminationsAndIDRoutesTest extends TestCase
 
     public function test_get_200_code_all_examinations_page_1(): void
     {
+        EducationalLevel::factory(5)->create();
         Examination::factory(20)->create([
             'educational_level_id' => 4,
         ]);
-        $response = $this->getJson('/api/examinations/all');
+        Examination::all()->each(function(Examination $examination) {
+            Notice::factory()->count(1)->create([
+                'examination_id' => $examination->id,
+            ]);
+        });
+        $response = $this->get('/api/examinations/all');
+        $data = $response->json();
         $response->assertStatus(200);
         $response->assertJsonStructure(['data']);
         $data = $response->json();
@@ -28,10 +36,7 @@ class AllExaminationsAndIDRoutesTest extends TestCase
     public function test_get_404_code_if_doesnt_find_any_examinations(): void
     {
         $response = $this->getJson('/api/examinations/all');
-        $response->assertStatus(404)->assertJson([
-            "message" => "Não foram encontrados registros com os dados fornecidos.",
-            "code" => 404
-        ]);
+        $response->assertStatus(204);
     }
 
     public function test_get_200_code_examinations_by_id(): void

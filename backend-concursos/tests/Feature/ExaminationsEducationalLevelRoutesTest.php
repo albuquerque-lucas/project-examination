@@ -9,6 +9,7 @@ use App\Models\Examination;
 
 class ExaminationsEducationalLevelRoutesTest extends TestCase
 {
+    use RefreshDatabase;
     public function test_get_200_code_examinations_by_educational_level(): void
     {
         $exampleExaminatiosList1 = Examination::factory(10)->create([

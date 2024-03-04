@@ -11,6 +11,7 @@ use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
 use PDOException;
 use Log;
+use Error;
 
 class ExaminationService
 {
@@ -28,9 +29,12 @@ class ExaminationService
             $query->orderBy($orderBy, $order)
             ->with('notice', 'exams');
             
-            
             $examinations = $query->paginate();
-            $this->checkToThrowNotFound($examinations);
+            $decoded = $examinations->toArray();
+
+            if (empty($decoded['data'])) {
+                throw new NotFound('Não foram encontrados registros.', 404);
+            };
 
             $this->serviceResponse->setAttributes(200, $examinations);
             return $this->serviceResponse;
