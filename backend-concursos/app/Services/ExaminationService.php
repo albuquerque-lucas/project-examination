@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\InvalidDateFormatException;
+use App\Http\Resources\ExaminationResource;
 use App\Models\Examination;
 use App\Models\ServiceResponse;
 use Exception;
@@ -25,18 +26,15 @@ class ExaminationService
     public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
     {
         try {
-            $query = Examination::query();
-            $query->orderBy($orderBy, $order)
-            ->with('notice', 'exams');
-            
-            $examinations = $query->paginate();
+            $examinations = Examination::getAllOrdered($order, $orderBy);
             $decoded = $examinations->toArray();
-
             if (empty($decoded['data'])) {
-                throw new NotFound('Não foram encontrados registros.', 204);
+                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
+                return $this->serviceResponse;
             };
-
-            $this->serviceResponse->setAttributes(200, $examinations);
+            $collection = ExaminationResource::collection($examinations);
+            
+            $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
@@ -50,9 +48,9 @@ class ExaminationService
     public function getById(int $id): ServiceResponse
     {
         try {
-            $examination = Examination::query()
-            ->where('id', $id)->first();
+            $examination = Examination::getById($id);
             
+            // dd($examination);
             if ($examination === null) {
                 throw new NotFound("Não foram encontrados registros com os dados fornecidos.", 204);
             }
@@ -72,11 +70,7 @@ class ExaminationService
     public function getByTitle(string $title, string $order): ServiceResponse
     {
         try {
-            $query = Examination::query();
-            $query->orderBy('id', $order)
-                ->where('title', 'like', "%{$title}%");
-
-            $examinations = $query->paginate();
+            $examinations = Examination::getByTitle($title, $order);
 
             $this->checkToThrowNotFound($examinations);
 
@@ -93,10 +87,7 @@ class ExaminationService
     public function getByInstitution(string $institution, string $order): ServiceResponse
     {
         try {
-            $query = Examination::query();
-            $query->orderBy('id', $order)
-            ->where('institution', 'like', "%{$institution}%");
-            $examinations = $query->paginate();
+            $examinations = Examination::getByInstitution($institution, $order);
 
             $this->checkToThrowNotFound($examinations);
 
@@ -111,19 +102,10 @@ class ExaminationService
         }
     }
 
-    public function getByRegistrationDate(string $registrationDate, string $order, string $position): ServiceResponse
+    public function getByRegistrationDate(DateTime $registrationDate, string $order, string $position): ServiceResponse
     {
         try {
-            $parsedDate = DateTime::createFromFormat('Y-m-d', $registrationDate);
-            if (!$parsedDate) {
-                throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD. Service', 400);
-            }
-            $query = Examination::query();
-            $query->orderBy('id', $order)
-                ->where("registration_{$position}_date", $parsedDate->format('Y-m-d'));
-    
-            $examinations = $query->paginate();
-
+            $examinations = Examination::getByRegistrationDate($registrationDate, $order, $position);
             $this->checkToThrowNotFound($examinations);
 
             $this->serviceResponse->setAttributes(200, $examinations);
@@ -146,11 +128,7 @@ class ExaminationService
     public function getByEducationalLevel(int $educationalLevelId, string $order): ServiceResponse
     {
         try {
-            $query = Examination::query();
-            $query->orderBy('id', $order)
-                ->where('educational_level_id', $educationalLevelId);
-
-            $examinations = $query->paginate();
+            $examinations = Examination::getByEducationalLevel($educationalLevelId, $order);
 
             $this->checkToThrowNotFound($examinations);
 
@@ -168,11 +146,7 @@ class ExaminationService
     public function getByActivityStatus(bool $active, string $order): ServiceResponse
     {
         try {
-            $query = Examination::query();
-            $query->orderBy('id', $order)
-                ->where('active', $active);
-
-            $list = $query->paginate();
+            $list = Examination::getByActivityStatus($active, $order);
 
             $this->checkToThrowNotFound($list);
 
@@ -223,5 +197,15 @@ class ExaminationService
         if ($item->isEmpty()) {
             throw new NotFound('Não foram encontrados registros com os dados fornecidos.', 404);
         }
+    }
+
+    private function validateDateFormat($date)
+    {
+        $parsedDate = DateTime::createFromFormat('Y-m-d', $date);
+        if (!$parsedDate) {
+            throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD. Service', 400);
+        }
+
+        return $parsedDate;
     }
 }

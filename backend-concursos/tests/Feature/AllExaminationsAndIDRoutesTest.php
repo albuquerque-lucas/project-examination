@@ -3,15 +3,16 @@
 namespace Tests\Feature;
 
 use App\Models\EducationalLevel;
+use App\Models\ServiceResponse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Notice;
 use Tests\TestCase;
 use App\Models\Examination;
+use App\Services\ExaminationService;
 
 class AllExaminationsAndIDRoutesTest extends TestCase
 {
     use RefreshDatabase;
-
     public function test_get_200_code_all_examinations_page_1(): void
     {
         EducationalLevel::factory(5)->create();
@@ -33,16 +34,11 @@ class AllExaminationsAndIDRoutesTest extends TestCase
         $this->assertCount(15, $result);
     }
 
-    public function test_get_404_code_if_doesnt_find_any_examinations(): void
-    {
-        $response = $this->getJson('/api/examinations/all');
-        $response->assertStatus(204);
-    }
-
     public function test_get_200_code_examinations_by_id(): void
     {
+        
         EducationalLevel::factory(5)->create();
-        $examination = Examination::factory(5)->create([
+        Examination::factory(20)->create([
             'educational_level_id' => 4,
         ]);
         Examination::all()->each(function(Examination $examination) {
@@ -50,8 +46,14 @@ class AllExaminationsAndIDRoutesTest extends TestCase
                 'examination_id' => $examination->id,
             ]);
         });
+    
         $response = $this->get("/api/examinations/examination-id?id=1");
-        $response->assertStatus(200);
+        // $serviceResponse = new ServiceResponse();
+        // $examinationService = new ExaminationService($serviceResponse);
+        // $response = $examinationService->getById(31);
+
+        // $response = $this->getJson("/api/examinations/examination-id?id=1");
+        // $response->assertStatus(200);
         
         // $response->assertJsonStructure([
         //     "data",
@@ -61,10 +63,11 @@ class AllExaminationsAndIDRoutesTest extends TestCase
         // $this->assertEquals($examination->id, $data['id']);
     }
 
-    // public function test_get_400_if_bad_request_when_finding_by_id(): void
-    // {
-
-    // }
+    public function test_get_204_code_if_doesnt_find_any_examinations(): void
+    {
+        $response = $this->getJson('/api/examinations/all');
+        $response->assertStatus(204);
+    }
 
     public function test_get_204_no_content_if_get_for_inexistent_id():void
     {

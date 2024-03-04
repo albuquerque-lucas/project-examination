@@ -12,6 +12,7 @@ use App\Services\ExaminationService;
 use Exception;
 use Illuminate\Support\Carbon;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
+use DateTime;
 
 class ExaminationController extends Controller
 {
@@ -29,15 +30,12 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getAll($order);
             $data = $response->data();
             $dataArray = (array)$data;
-
             if (array_key_exists('code', $dataArray)) {
                 if ($dataArray['code'] === 204) {
                     return response()->noContent();
                 }
             }
-
-            $collection = ExaminationResource::collection($data);
-            return $collection;
+            return response()->json($dataArray['resource'], $response->status());
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         } catch (Error $error) {
@@ -56,7 +54,7 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getById($id);
             $data = $response->data();
             $dataArray = (array)$data;
-
+            dd($data);
             if (array_key_exists('code', $dataArray)) {
                 if ($dataArray['code'] === 204) {
                     return response()->noContent();
@@ -105,8 +103,8 @@ class ExaminationController extends Controller
             $registrationDate = $request->header('registrationDate');
             $position = $request->query('position', 'start');
             $order = $request->input('order', 'desc');
-        
-            $response = $this->examinationService->getByRegistrationDate($registrationDate, $order, $position);
+            $parsedDate = $this->validateDateFormat($registrationDate);
+            $response = $this->examinationService->getByRegistrationDate($parsedDate, $order, $position);
 
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
@@ -169,6 +167,16 @@ class ExaminationController extends Controller
                 }
             }
         }
+    }
+
+    private function validateDateFormat($date)
+    {
+        $parsedDate = DateTime::createFromFormat('Y-m-d', $date);
+        if (!$parsedDate) {
+            throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD. Service', 400);
+        }
+
+        return $parsedDate;
     }
 
 
