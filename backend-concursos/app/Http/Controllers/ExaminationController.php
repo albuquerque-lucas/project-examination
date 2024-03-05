@@ -167,8 +167,6 @@ class ExaminationController extends Controller
 
             return response()->json($dataArray['resource'], 200);
         } catch (Exception $exception) {
-            dd($exception->getMessage());
-            dd("Pegou excessao desconhecida");
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }
     }
@@ -186,6 +184,24 @@ class ExaminationController extends Controller
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }
+    }
+
+    public function update(Request $request)
+    {
+        $data = $request->all();
+        $id = $data['id'];
+        $registrationDate = $data['registrationDate'];
+        $hasFile = false;
+
+        if ($request->hasFile('notice_file')) {
+            $noticePath = '';
+            $data['notice_file'] = $noticePath;
+            $hasFile = true;
+        }
+
+        $response = $this->examinationService->update($id, $data, $hasFile);
+
+        return response()->json($response->data(), $response->status());
     }
 
     private function validateAndFormatDates(array &$requestData)

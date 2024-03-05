@@ -13,6 +13,7 @@ use Nette\Schema\ValidationException;
 use PDOException;
 use Log;
 use Error;
+use Storage;
 
 class ExaminationService
 {
@@ -217,6 +218,46 @@ class ExaminationService
             return $this->serviceResponse;
         }
     }
+
+    public function update(int $id, array $data, bool $hasFile): ServiceResponse
+    {
+        try {
+            $examination = Examination::find($id);
+
+            if (!$examination) {
+                $this->serviceResponse->setAttributes(404, (object)[
+                    'message' => "Nao foi encontrado concurso com este id: $id"
+                ]);
+                return $this->serviceResponse;
+            }
+
+            if ($hasFile && Storage::disk('public')->exists($examination->notice()->file_name)) {
+                dd("Parando aplicacao antes de deletar do Storage");
+                Storage::disk('public')->delete($examination->notice()->file_name);
+            }
+
+            $examination->fill($data);
+
+            if ($examination->isDirty()) {
+                $examination->save();
+                $this->serviceResponse->setAttributes(200, $examination);
+            } else {
+                $this->serviceResponse->setAttributes(200, (object)[
+                    'message' => 'No changes to apply',
+                    'examination' => $examination
+                ]);
+            }
+
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        }
+    }
+
     private function validateDateFormat($date)
     {
         $parsedDate = DateTime::createFromFormat('Y-m-d', $date);

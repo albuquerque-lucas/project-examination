@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('exam_questions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Exam::class);
-            $table->foreignIdFor(Subject::class);
+            $table->foreignIdFor(Subject::class)->cascadeOnDelete();
             $table->foreignIdFor(Topic::class);
             $table->string('title')->nullable();
             $table->text('description');
