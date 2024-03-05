@@ -262,6 +262,43 @@ class ExaminationService
         }
     }
 
+    public function delete(int $id): ServiceResponse
+    {
+        try {
+            $examination = Examination::find($id);
+
+            if (!$examination) {
+                $this->serviceResponse->setAttributes(404, (object)[
+                    'message' => 'Concurso nao encontrado.',
+                    'deleted' => false,
+                ]);
+                return $this->serviceResponse;
+            }
+
+            $isDeleted = $examination->delete();
+
+            if (!$isDeleted) {
+                $this->serviceResponse->setAttributes(400, (object)[
+                    'message' => 'Erro ao tentar deletar o concurso.',
+                    'deleted' => false,
+                ]);
+                return $this->serviceResponse;
+            }
+
+            $this->serviceResponse->setAttributes(200, (object)[
+                'mensagem' => 'Projecto excluido com sucesso.',
+                'deleted' => true,
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        }
+    }
+
     private function validateDateFormat($date)
     {
         $parsedDate = DateTime::createFromFormat('Y-m-d', $date);

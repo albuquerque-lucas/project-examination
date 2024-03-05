@@ -32,6 +32,8 @@ Route::post("/create/examination", [ExaminationController::class, "create"]);
 
 Route::patch("/examinations/update/{id}", [ExaminationController::class, "update"]);
 
+Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delete"]);
+
 Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"])
   ->middleware(ValidateOrderParam::class, ValidateExamDateGetter::class);
 

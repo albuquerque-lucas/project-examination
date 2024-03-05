@@ -182,7 +182,7 @@ class ExaminationController extends Controller
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }
     }
 
@@ -204,6 +204,17 @@ class ExaminationController extends Controller
         $response = $this->examinationService->update($id, $data, $hasFile);
 
         return response()->json($response->data(), $response->status());
+    }
+
+    public function delete(int $id)
+    {
+        try {
+            $response = $this->examinationService->delete($id);
+            return response()->json($response->data(), $response->status());
+
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     private function validateAndFormatDates(array &$requestData)
