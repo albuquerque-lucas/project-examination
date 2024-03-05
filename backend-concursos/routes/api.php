@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\ValidateEducationalLevelGetter;
 use App\Http\Middleware\ValidateExamIdGetter;
@@ -24,6 +25,7 @@ use App\Http\Middleware\ValidateActivityStatusGetter;
 
 Route::get('/users/all', [UserController::class, "getAll"]);
 
+// ROTAS DE EXAMINATIONS
 
 Route::get("/examinations/all", [ExaminationController::class, 'getAll'])
 ->middleware(ValidateOrderParam::class);
@@ -51,3 +53,8 @@ Route::get('/examinations/examination-id', [ExaminationController::class, "getBy
 
   Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus'])
   ->middleware(ValidateOrderParam::class);
+
+
+  // ROTAS DE NOTICES
+
+  Route::get('/notices/all', [NoticeController::class, 'getAll']);

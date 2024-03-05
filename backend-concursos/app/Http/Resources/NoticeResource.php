@@ -14,6 +14,12 @@ class NoticeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'file_path' => $this->file,
+            'file_name' => $this->file_name,
+            'publication_date' => $this->publication_date,
+            'examination' => $this->examination,
+        ];
     }
 }
