@@ -19,7 +19,11 @@ class NoticeResource extends JsonResource
             'file_path' => $this->file,
             'file_name' => $this->file_name,
             'publication_date' => $this->publication_date,
-            'examination' => $this->examination,
+            'examination' => [
+                'id' => $this->examination->id,
+                'title' => $this->examination->title,
+                'institution' => $this->examination->institution,
+            ],
         ];
     }
 }
