@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -51,9 +52,9 @@ class Examination extends Model
         return $this->hasMany(Exam::class);
     }
 
-    public function subjects(): BelongsToMany
+    public function subjects(): HasManyThrough
     {
-        return $this->belongsToMany(Subject::class);
+        return $this->hasManyThrough(Subject::class, StudyArea::class);
     }
 
     public function studyAreas(): BelongsToMany

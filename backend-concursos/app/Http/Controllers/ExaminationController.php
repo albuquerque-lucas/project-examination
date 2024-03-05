@@ -167,8 +167,6 @@ class ExaminationController extends Controller
 
             return response()->json($dataArray['resource'], 200);
         } catch (Exception $exception) {
-            dd($exception->getMessage());
-            dd("Pegou excessao desconhecida");
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }
     }
@@ -184,7 +182,38 @@ class ExaminationController extends Controller
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $data = $request->all();
+        $hasFile = false;
+
+        if (array_key_exists('registrationDate', $data)) {
+            $registrationDate = $data['registrationDate'];
+        }
+
+        if ($request->hasFile('notice_file')) {
+            $noticePath = '';
+            $data['notice_file'] = $noticePath;
+            $hasFile = true;
+        }
+
+        $response = $this->examinationService->update($id, $data, $hasFile);
+
+        return response()->json($response->data(), $response->status());
+    }
+
+    public function delete(int $id)
+    {
+        try {
+            $response = $this->examinationService->delete($id);
+            return response()->json($response->data(), $response->status());
+
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }
     }
 

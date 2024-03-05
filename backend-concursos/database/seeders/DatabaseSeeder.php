@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
             AssociateExaminationsToStudyAreasSeeder::class,
             AssociateExamsToSubjectsSeeder::class,
             AssociateExaminationToUserSeeder::class,
-            AssociateExaminationToSubjectSeeder::class,
         ]);
     }
 }
