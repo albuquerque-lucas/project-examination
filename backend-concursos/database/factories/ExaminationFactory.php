@@ -37,5 +37,6 @@ class ExaminationFactory extends Factory
         ];
 
     }
+
 }
 

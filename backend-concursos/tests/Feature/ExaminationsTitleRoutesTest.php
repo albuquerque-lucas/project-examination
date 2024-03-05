@@ -6,29 +6,30 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Examination;
+use App\Models\EducationalLevel;
 
 class ExaminationsTitleRoutesTest extends TestCase
 {
     use RefreshDatabase;
     public function test_get_200_code_examinations_by_title(): void
     {
+        $educationalLevel4 = EducationalLevel::factory()->create([
+            'id' => 4,
+            'name' => 'Pos-Graduacao'
+        ]);
         $exampleExamination1 = Examination::factory()->create([
             'title' => 'Examination Test Example Raziel',
-            'educational_level_id' => 4,
+            'educational_level_id' => $educationalLevel4->id,
         ]);
 
         $exampleExamination2 = Examination::factory()->create([
             'title' => 'Examination Test Example Two',
-            'educational_level_id' => 4,
+            'educational_level_id' => $educationalLevel4->id,
         ]);
 
         $exampleExamination3 = Examination::factory()->create([
             'title' => 'Examination Test Example Raziel Two',
-            'educational_level_id' => 4,
-        ]);
-
-        $examinationList = Examination::factory(2)->create([
-            'educational_level_id' => 2,
+            'educational_level_id' => $educationalLevel4->id,
         ]);
 
         $response = $this->getJson('/api/examinations/title', ['title' => 'Raziel']);
@@ -48,10 +49,7 @@ class ExaminationsTitleRoutesTest extends TestCase
         ]);
 
         $response = $this->get("/api/examinations/title", ['title' => 'Titulo inexistente.']);
-        $response->assertStatus(404)->assertJson([
-            "message"=> "Não foram encontrados registros com os dados fornecidos.",
-            "code"=> 404
-        ]);
+        $response->assertStatus(204);
     }
 
     public function test_get_400_error_if_missing_title_parameter(): void

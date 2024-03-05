@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Examination;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -21,16 +22,15 @@ class ExaminationsCreationTest extends TestCase
             'exams_start_date' => '25-04-14',
             'exams_end_date' => '25-04-21',
         ];
-
+        
+        $examination = Examination::factory()->create($requestData);
         $responseData = [
             'message' => 'Concurso adicionado com sucesso.',
-            'id' => 28,
-            'title' => 'Concurso de Teste 01',
+            'id' => $examination->id + 1,
+            'title' => $examination->title,
         ];
 
         $response = $this->postJson('api/create/examination', $requestData);
-        $result = $response->json();
-        // dd($result);
         $response->assertStatus(201)->assertJson($responseData);
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Examination;
+use App\Models\EducationalLevel;
 
 class ExaminationsRegistrationDateRoutesTest extends TestCase
 {
@@ -13,15 +14,20 @@ class ExaminationsRegistrationDateRoutesTest extends TestCase
 
     public function test_get_200_code_examinations_by_date():void
     {
+        $educationalLevel4 = EducationalLevel::factory()->create([
+            'id' => 4,
+            'name' => 'Pos-Graduacao'
+        ]);
+        
         $testStartDate = '2025-02-01';
         $testEndDate = '2025-03-21';
 
         Examination::factory(5)->create([
-            'educational_level_id' => 4,
+            'educational_level_id' =>  $educationalLevel4->id,
         ]);
 
         $examinationTest = Examination::factory()->create([
-            'educational_level_id' => 4,
+            'educational_level_id' =>  $educationalLevel4->id,
             'registration_start_date' => $testStartDate,
             'registration_end_date' =>  $testEndDate,
         ]);
@@ -31,11 +37,10 @@ class ExaminationsRegistrationDateRoutesTest extends TestCase
         $result = $response->json();
         $data = $result['data'];
         $formattedDate = $examinationTest->registration_start_date->format('Y-m-d');
-
         $this->assertCount(1, $data);
         $this->assertEquals($examinationTest->title, $data[0]['title']);
         $this->assertEquals($examinationTest->institution, $data[0]['institution']);
-        $this->assertEquals($formattedDate, $data[0]['registration_start_date']);
+        $this->assertEquals("{$formattedDate}T00:00:00.000000Z", $data[0]['registration_start_date']);
 
     }
     public function test_get_400_if_registration_date_is_missing(): void

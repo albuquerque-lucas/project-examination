@@ -57,7 +57,9 @@
             "./vendor/bin/sail artisan db:wipe",
             "./vendor/bin/sail artisan migrate",
             "./vendor/bin/sail artisan db:seed"
-        ]
+        ],
+        "test": "./vendor/bin/sail artisan test",
+        "test:coverage": "./vendor/bin/sail artisan test --coverage"
     },
     "extra": {
         "laravel": {

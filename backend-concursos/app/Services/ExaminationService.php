@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\InvalidDateFormatException;
+use App\Http\Resources\ExaminationResource;
 use App\Models\Examination;
 use App\Models\ServiceResponse;
 use Exception;
@@ -11,6 +12,7 @@ use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
 use PDOException;
 use Log;
+use Error;
 
 class ExaminationService
 {
@@ -24,14 +26,15 @@ class ExaminationService
     public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
     {
         try {
-            $query = Examination::query();
-            $query->orderBy($orderBy, $order);
-
-            $examinations = $query->paginate();
-
-            $this->checkToThrowNotFound($examinations);
-
-            $this->serviceResponse->setAttributes(200, $examinations);
+            $examinations = Examination::getAllOrdered($order, $orderBy);
+            // dd($examinations);
+            $decoded = $examinations->toArray();
+            if (empty($decoded['data'])) {
+                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
+                return $this->serviceResponse;
+            };
+            $collection = ExaminationResource::collection($examinations);
+            $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
@@ -39,26 +42,16 @@ class ExaminationService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
         }
     }
-
+    
     public function getById(int $id): ServiceResponse
     {
         try {
-            $examination = Examination::query()
-            ->where('id', $id)
-            ->with(['notice', 'exams'])
-            ->first();
-            $decodedExamination = json_decode($examination);
-
-            if ($decodedExamination === null) {
-                throw new NotFound("Não foram encontrados registros com os dados fornecidos.", 404);
+            $examination = Examination::getById($id);
+            if ($examination === null) {
+                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
+                return $this->serviceResponse;
             }
 
             $this->serviceResponse->setAttributes(200, $examination);
@@ -70,36 +63,26 @@ class ExaminationService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
         }
     }
 
     public function getByTitle(string $title, string $order): ServiceResponse
     {
         try {
-            $query = Examination::query();
-            $query->orderBy('id', $order)
-                ->where('title', 'like', "%{$title}%");
+            $examinations = Examination::getByTitle($title, $order);
 
-            $examinations = $query->paginate();
 
-            $this->checkToThrowNotFound($examinations);
+            $decoded = $examinations->toArray();
+            if (empty($decoded['data'])) {
+                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
+                return $this->serviceResponse;
+            };
+            $collection = ExaminationResource::collection($examinations);
 
-            $this->serviceResponse->setAttributes(200, $examinations);
+            $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -109,14 +92,17 @@ class ExaminationService
     public function getByInstitution(string $institution, string $order): ServiceResponse
     {
         try {
-            $query = Examination::query();
-            $query->orderBy('id', $order)
-            ->where('institution', 'like', "%{$institution}%");
-            $examinations = $query->paginate();
+            $examinations = Examination::getByInstitution($institution, $order);
 
-            $this->checkToThrowNotFound($examinations);
+            $decoded = $examinations->toArray();
+            if (empty($decoded['data'])) {
+                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
+                return $this->serviceResponse;
+            };
 
-            $this->serviceResponse->setAttributes(200, $examinations);
+            $collection = ExaminationResource::collection($examinations);
+            $this->serviceResponse->setAttributes(200, $collection);
+
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
@@ -124,31 +110,21 @@ class ExaminationService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
         }
     }
 
-    public function getByRegistrationDate(string $registrationDate, string $order, string $position): ServiceResponse
+    public function getByRegistrationDate(DateTime $registrationDate, string $order, string $position): ServiceResponse
     {
         try {
-            $parsedDate = DateTime::createFromFormat('Y-m-d', $registrationDate);
-            if (!$parsedDate) {
-                throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD. Service', 400);
-            }
-            $query = Examination::query();
-            $query->orderBy('id', $order)
-                ->where("registration_{$position}_date", $parsedDate->format('Y-m-d'));
-    
-            $examinations = $query->paginate();
+            $examinations = Examination::getByRegistrationDate($registrationDate, $order, $position);
+            $decoded = $examinations->toArray();
+            if (empty($decoded['data'])) {
+                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
+                return $this->serviceResponse;
+            };
+            $collection = ExaminationResource::collection($examinations);
 
-            $this->checkToThrowNotFound($examinations);
-
-            $this->serviceResponse->setAttributes(200, $examinations);
+            $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch (InvalidDateFormatException $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
@@ -162,36 +138,24 @@ class ExaminationService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
         }
     }
 
     public function getByEducationalLevel(int $educationalLevelId, string $order): ServiceResponse
     {
         try {
-            $query = Examination::query();
-            $query->orderBy('id', $order)
-                ->where('educational_level_id', $educationalLevelId);
-
-            $examinations = $query->paginate();
-
-            $this->checkToThrowNotFound($examinations);
-
-            $this->serviceResponse->setAttributes(200, $examinations);
+            $examinations = Examination::getByEducationalLevel($educationalLevelId, $order);
+            $decoded = $examinations->toArray();
+            if (empty($decoded['data'])) {
+                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
+                return $this->serviceResponse;
+            };
+            
+            $collection = ExaminationResource::collection($examinations);
+            $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -202,24 +166,18 @@ class ExaminationService
     public function getByActivityStatus(bool $active, string $order): ServiceResponse
     {
         try {
-            $query = Examination::query();
-            $query->orderBy('id', $order)
-                ->where('active', $active);
+            $examinations = Examination::getByActivityStatus($active, $order);
+            $decoded = $examinations->toArray();
+            if (empty($decoded['data'])) {
+                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
+                return $this->serviceResponse;
+            };
 
-            $list = $query->paginate();
-
-            $this->checkToThrowNotFound($list);
-
-            $this->serviceResponse->setAttributes(200, $list);
+            $collection = ExaminationResource::collection($examinations);
+            $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch (NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -240,6 +198,7 @@ class ExaminationService
                 'message' => 'Concurso adicionado com sucesso.',
                 'id' => $examination->id,
                 'title' => $examination->title,
+                'institution' => $examination->institution,
             ];
             
             $this->serviceResponse->setAttributes(201, $responseData);
@@ -256,19 +215,15 @@ class ExaminationService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch (Exception $exception) {
-            Log::error($exception->getMessage());
-            $this->serviceResponse->setAttributes(500, (object)[
-                'message' => 'Erro interno no servidor.',
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
         }
     }
-
-    private function checkToThrowNotFound($item) {
-        if ($item->isEmpty()) {
-            throw new NotFound('Não foram encontrados registros com os dados fornecidos.', 404);
+    private function validateDateFormat($date)
+    {
+        $parsedDate = DateTime::createFromFormat('Y-m-d', $date);
+        if (!$parsedDate) {
+            throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD. Service', 400);
         }
+
+        return $parsedDate;
     }
 }

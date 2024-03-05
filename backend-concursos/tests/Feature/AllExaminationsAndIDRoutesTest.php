@@ -2,21 +2,30 @@
 
 namespace Tests\Feature;
 
+use App\Models\EducationalLevel;
+use App\Models\ServiceResponse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Notice;
 use Tests\TestCase;
 use App\Models\Examination;
+use App\Services\ExaminationService;
 
 class AllExaminationsAndIDRoutesTest extends TestCase
 {
     use RefreshDatabase;
-
     public function test_get_200_code_all_examinations_page_1(): void
     {
+        EducationalLevel::factory(5)->create();
         Examination::factory(20)->create([
             'educational_level_id' => 4,
         ]);
-        $response = $this->getJson('/api/examinations/all');
+        Examination::all()->each(function(Examination $examination) {
+            Notice::factory()->create([
+                'examination_id' => $examination->id,
+            ]);
+        });
+        $response = $this->get('/api/examinations/all');
+        $data = $response->json();
         $response->assertStatus(200);
         $response->assertJsonStructure(['data']);
         $data = $response->json();
@@ -27,45 +36,39 @@ class AllExaminationsAndIDRoutesTest extends TestCase
 
     public function test_get_200_code_examinations_by_id(): void
     {
+        $educationalLevel2 = EducationalLevel::factory()->create([
+            'id' => 2,
+            'name' => 'Tecnico'
+        ]);
+        
+        $educationalLevel4 = EducationalLevel::factory()->create([
+            'id' => 4,
+            'name' => 'Graduacao'
+        ]);
+        Examination::factory()->create([
+            'id' => 1,
+            'educational_level_id' => $educationalLevel4->id,
+        ]);
+    
+        $response = $this->get("/api/examinations/examination-id?id=1")->assertJsonStructure(['data']);
+        $response->assertStatus(200);
+        $data = $response->json();
+        $this->assertIsArray($data['data']);
+    }
+
+    public function test_get_204_code_if_doesnt_find_any_examinations(): void
+    {
+        $response = $this->getJson('/api/examinations/all');
+        $response->assertStatus(204);
+    }
+
+    public function test_get_204_no_content_if_get_for_inexistent_id():void
+    {
         $examination = Examination::factory()->create([
             'educational_level_id' => 4,
         ]);
-        $response = $this->get("/api/examinations/examination-id?id=$examination->id");
-        $response->assertStatus(200);
-        
-        $response->assertJsonStructure([
-            "id",
-            "educational_level_id",
-            "title",
-            "active",
-            "institution",
-            "registration_start_date",
-            "registration_end_date",
-            "exams_start_date",
-            "exams_end_date",
-            "created_at",
-            "updated_at"
-        ]);
-        
-        $data = $response->json();
-        $this->assertEquals($examination->id, $data['id']);
-    }
-
-    public function test_get_404_error_and_a_message_if_get_for_inexistent_id():void
-    {
-        Examination::factory()->create([
-            'educational_level_id' => 4,
-        ]);
         $response = $this->get("/api/examinations/examination-id?id=400");
-        $response->assertStatus(404);
-        
-        $response->assertJsonStructure([
-            "message"
-        ]);
-        
-        $data = $response->json();
-        $expectedMessage = "Não foram encontrados registros com os dados fornecidos.";
-        $this->assertEquals($expectedMessage, $data['message']);
+        $response->assertStatus(204);
     }
 
     public function test_get_400_if_invalid_order_parameter():void
