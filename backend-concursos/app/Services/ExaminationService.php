@@ -8,6 +8,7 @@ use App\Models\Examination;
 use App\Models\ServiceResponse;
 use Exception;
 use DateTime;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
 use PDOException;
@@ -265,7 +266,7 @@ class ExaminationService
     public function delete(int $id): ServiceResponse
     {
         try {
-            $examination = Examination::find($id);
+            $examination = Examination::findOrFail($id);
 
             if (!$examination) {
                 $this->serviceResponse->setAttributes(404, (object)[
@@ -279,21 +280,28 @@ class ExaminationService
 
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Erro ao tentar deletar o concurso.',
+                    'message' => 'Erro ao tentar deletar o registro.',
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
 
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Projecto excluido com sucesso.',
+                'mensagem' => 'Concurso excluido com sucesso.',
                 'deleted' => true,
+            ]);
+            return $this->serviceResponse;
+        } catch (ModelNotFoundException $exception) {
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => 'Nao foi encontrar um registro com os dados fornecidos.',
+                'deleted' => false,
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
                 'message' => 'Ocorreu um erro ao tentar alterar o registro.',
-                'code' => $exception->getCode()
+                'deleted' => false,
+                'info' => $exception->getMessage(),
             ]);
             return $this->serviceResponse;
         }
