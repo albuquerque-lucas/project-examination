@@ -20,7 +20,7 @@ class AllExaminationsAndIDRoutesTest extends TestCase
             'educational_level_id' => 4,
         ]);
         Examination::all()->each(function(Examination $examination) {
-            Notice::factory()->count(1)->create([
+            Notice::factory()->create([
                 'examination_id' => $examination->id,
             ]);
         });
@@ -71,7 +71,7 @@ class AllExaminationsAndIDRoutesTest extends TestCase
 
     public function test_get_204_no_content_if_get_for_inexistent_id():void
     {
-        Examination::factory()->create([
+        $examination = Examination::factory()->create([
             'educational_level_id' => 4,
         ]);
         $response = $this->get("/api/examinations/examination-id?id=400");

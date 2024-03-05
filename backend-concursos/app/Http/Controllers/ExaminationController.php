@@ -54,7 +54,6 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getById($id);
             $data = $response->data();
             $dataArray = (array)$data;
-            dd($data);
             if (array_key_exists('code', $dataArray)) {
                 if ($dataArray['code'] === 204) {
                     return response()->noContent();
@@ -74,8 +73,14 @@ class ExaminationController extends Controller
             $title = $request->header('title');
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByTitle($title, $order);
-
-            return response()->json($response->data(), $response->status());
+            $data = $response->data();
+            $dataArray = (array)$data;
+            if (array_key_exists('code', $dataArray)) {
+                if ($dataArray['code'] === 204) {
+                    return response()->noContent();
+                }
+            }
+            return response()->json($dataArray['resource'], $response->status());
         } catch (NotFound $notFound) {
             return response()->json(['message' => $notFound->getMessage(), 'code' => $notFound->getCode()], $notFound->getCode());
         } catch (Exception $exception) {
@@ -89,7 +94,14 @@ class ExaminationController extends Controller
             $institution = $request->header('institution');
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByInstitution($institution, $order);
-            return response()->json($response->data(), $response->status());
+            $data = $response->data();
+            $dataArray = (array)$data;
+            if (array_key_exists('code', $dataArray)) {
+                if ($dataArray['code'] === 204) {
+                    return response()->noContent();
+                }
+            }
+            return response()->json($dataArray['resource'], $response->status());
         } catch (NotFound $notFound) {
             return response()->json(['message' => $notFound->getMessage(), 'code' => $notFound->getCode()], 404);
         } catch (Exception $exception) {
@@ -106,7 +118,14 @@ class ExaminationController extends Controller
             $parsedDate = $this->validateDateFormat($registrationDate);
             $response = $this->examinationService->getByRegistrationDate($parsedDate, $order, $position);
 
-            return response()->json($response->data(), $response->status());
+            $data = $response->data();
+            $dataArray = (array)$data;
+            if (array_key_exists('code', $dataArray)) {
+                if ($dataArray['code'] === 204) {
+                    return response()->noContent();
+                }
+            }
+            return response()->json($dataArray['resource'], $response->status());
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
         }
@@ -119,10 +138,16 @@ class ExaminationController extends Controller
             $filteredId = filter_var($educationalLevelId, FILTER_VALIDATE_INT);
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByEducationalLevel($filteredId, $order);
-
-            return response()->json($response->data(), $response->status());
+            $data = $response->data();
+            $dataArray = (array)$data;
+            if (array_key_exists('code', $dataArray)) {
+                if ($dataArray['code'] === 204) {
+                    return response()->noContent();
+                }
+            }
+            return response()->json($dataArray['resource'], 200);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }
     }
 
@@ -132,10 +157,19 @@ class ExaminationController extends Controller
             $isActive = filter_var($request->header('active', true), FILTER_VALIDATE_BOOLEAN);
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByActivityStatus($isActive, $order);
-            
-            return response()->json($response->data(), $response->status());
+            $data = $response->data();
+            $dataArray = (array)$data;
+            if (array_key_exists('code', $dataArray)) {
+                if ($dataArray['code'] === 204) {
+                    return response()->noContent();
+                }
+            }
+
+            return response()->json($dataArray['resource'], 200);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode());
+            dd($exception->getMessage());
+            dd("Pegou excessao desconhecida");
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }
     }
 
