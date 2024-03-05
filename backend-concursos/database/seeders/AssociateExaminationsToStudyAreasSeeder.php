@@ -7,7 +7,7 @@ use App\Models\StudyArea;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AssociateStudyAreasToExaminationsSeeder extends Seeder
+class AssociateExaminationsToStudyAreasSeeder extends Seeder
 {
     /**
      * Run the database seeds.

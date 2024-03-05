@@ -30,8 +30,10 @@ class DatabaseSeeder extends Seeder
             ExamQuestionsSeeder::class,
             ExamQuestionsAlternativesSeeder::class,
             TopicsSeeder::class,
-            AssociateStudyAreasToExaminationsSeeder::class,
-            AssociateSubjectsToExamsSeeder::class,
+            AssociateExaminationsToStudyAreasSeeder::class,
+            AssociateExamsToSubjectsSeeder::class,
+            AssociateExaminationToUserSeeder::class,
+            AssociateExaminationToSubjectSeeder::class,
         ]);
     }
 }

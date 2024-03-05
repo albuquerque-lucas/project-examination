@@ -7,7 +7,7 @@ use App\Models\Subject;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AssociateSubjectsToExamsSeeder extends Seeder
+class AssociateExamsToSubjectsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
