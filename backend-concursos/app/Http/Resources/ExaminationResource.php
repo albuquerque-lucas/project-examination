@@ -16,7 +16,6 @@ class ExaminationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'study_areas' => $this->studyAreas,
             'title' => $this->title,
             'institution' => $this->institution,
             'educational_level' => $this->educationalLevel->name,
@@ -27,6 +26,7 @@ class ExaminationResource extends JsonResource
             'exams_end_date' => $this->exams_end_date,
             'exams_count' => count($this->exams),
             'exam_list' => $this->exams,
+            'study_areas' => $this->studyAreas,
         ];
     }
 }
