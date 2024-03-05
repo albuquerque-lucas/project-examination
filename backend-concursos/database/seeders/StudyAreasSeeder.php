@@ -18,6 +18,15 @@ class StudyAreasSeeder extends Seeder
             'Medicina',
             'Engenharia',
             'Economia',
+            'Sociologia',
+            'Psicologia',
+            'Educação',
+            'Tecnologia',
+            'Finanças',
+            'Filosofia',
+            'Educação Física',
+            'Segurança Pública',
+            'Saúde Pública'
         ];
 
         foreach ($studyAreas as $area) {

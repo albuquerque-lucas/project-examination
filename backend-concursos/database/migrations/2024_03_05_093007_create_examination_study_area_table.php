@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Exam;
-use App\Models\Subject;
+use App\Models\Examination;
+use App\Models\StudyArea;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exams_subjects', function (Blueprint $table) {
+        Schema::create('examination_study_area', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Exam::class);
-            $table->foreignIdFor(Subject::class);
+            $table->foreignIdFor(Examination::class);
+            $table->foreignIdFor(StudyArea::class);
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exams_subjects');
+        Schema::dropIfExists('examinations_study_areas');
     }
 };
