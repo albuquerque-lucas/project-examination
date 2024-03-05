@@ -30,6 +30,8 @@ Route::get("/examinations/all", [ExaminationController::class, 'getAll'])
 
 Route::post("/create/examination", [ExaminationController::class, "create"]);
 
+Route::patch("/examinations/update/{id}", [ExaminationController::class, "update"]);
+
 Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"])
   ->middleware(ValidateOrderParam::class, ValidateExamDateGetter::class);
 

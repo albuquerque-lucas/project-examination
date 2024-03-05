@@ -186,12 +186,14 @@ class ExaminationController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, int $id)
     {
         $data = $request->all();
-        $id = $data['id'];
-        $registrationDate = $data['registrationDate'];
         $hasFile = false;
+
+        if (array_key_exists('registrationDate', $data)) {
+            $registrationDate = $data['registrationDate'];
+        }
 
         if ($request->hasFile('notice_file')) {
             $noticePath = '';

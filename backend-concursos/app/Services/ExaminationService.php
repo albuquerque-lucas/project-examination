@@ -223,7 +223,6 @@ class ExaminationService
     {
         try {
             $examination = Examination::find($id);
-
             if (!$examination) {
                 $this->serviceResponse->setAttributes(404, (object)[
                     'message' => "Nao foi encontrado concurso com este id: $id"
@@ -238,9 +237,14 @@ class ExaminationService
 
             $examination->fill($data);
 
+            $responseModel = (object)[
+                'message' => 'Alteracao feita com sucesso.',
+                'id' => $examination->id,
+            ];
+
             if ($examination->isDirty()) {
                 $examination->save();
-                $this->serviceResponse->setAttributes(200, $examination);
+                $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
                     'message' => 'No changes to apply',
