@@ -36,31 +36,24 @@ class AllExaminationsAndIDRoutesTest extends TestCase
 
     public function test_get_200_code_examinations_by_id(): void
     {
-        
-        EducationalLevel::factory(5)->create();
-        Examination::factory(20)->create([
-            'educational_level_id' => 4,
+        $educationalLevel2 = EducationalLevel::factory()->create([
+            'id' => 2,
+            'name' => 'Tecnico'
         ]);
-        Examination::all()->each(function(Examination $examination) {
-            Notice::factory()->count(1)->create([
-                'examination_id' => $examination->id,
-            ]);
-        });
+        
+        $educationalLevel4 = EducationalLevel::factory()->create([
+            'id' => 4,
+            'name' => 'Graduacao'
+        ]);
+        Examination::factory()->create([
+            'id' => 1,
+            'educational_level_id' => $educationalLevel4->id,
+        ]);
     
-        $response = $this->get("/api/examinations/examination-id?id=1");
-        // $serviceResponse = new ServiceResponse();
-        // $examinationService = new ExaminationService($serviceResponse);
-        // $response = $examinationService->getById(31);
-
-        // $response = $this->getJson("/api/examinations/examination-id?id=1");
-        // $response->assertStatus(200);
-        
-        // $response->assertJsonStructure([
-        //     "data",
-        // ]);
-        
-        // $data = $response->json();
-        // $this->assertEquals($examination->id, $data['id']);
+        $response = $this->get("/api/examinations/examination-id?id=1")->assertJsonStructure(['data']);
+        $response->assertStatus(200);
+        $data = $response->json();
+        $this->assertIsArray($data['data']);
     }
 
     public function test_get_204_code_if_doesnt_find_any_examinations(): void
