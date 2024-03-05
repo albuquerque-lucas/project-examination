@@ -31,4 +31,9 @@ class Notice extends Model
     {
         return self::orderBy($orderBy, $order)->paginate();
     }
+
+    public static function getById(int $id): self | null
+    {
+        return self::where('id', $id)->first();
+    }
 }

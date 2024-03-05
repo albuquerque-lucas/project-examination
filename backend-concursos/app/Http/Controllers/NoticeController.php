@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\NoticeResource;
 use App\Services\NoticeService;
 use Illuminate\Http\Request;
 use Exception;
@@ -37,6 +38,24 @@ class NoticeController extends Controller
                 'message' => $error->getMessage(),
                 'code' => $error->getCode()
         ], 500);
+        }
+    }
+
+    public function getById(int $id)
+    {
+        try {
+            $response = $this->noticeService->getById($id);
+            $data = $response->data();
+            $dataArray = (array)$data;
+            if (array_key_exists('code', $dataArray)) {
+                if ($dataArray['code'] === 204) {
+                    return response()->noContent();
+                }
+            }
+            $resource = new NoticeResource($response->data());
+            return $resource;
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }
     }
 }

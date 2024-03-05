@@ -58,3 +58,5 @@ Route::get('/examinations/examination-id', [ExaminationController::class, "getBy
   // ROTAS DE NOTICES
 
   Route::get('/notices/all', [NoticeController::class, 'getAll']);
+
+  Route::get('/notices/{id}', [NoticeController::class, 'getById']);

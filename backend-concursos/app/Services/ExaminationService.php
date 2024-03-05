@@ -29,7 +29,7 @@ class ExaminationService
     {
         try {
             $examinations = Examination::getAllOrdered($order, $orderBy);
-            // dd($examinations);
+
             $decoded = $examinations->toArray();
             if (empty($decoded['data'])) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
@@ -40,6 +40,14 @@ class ExaminationService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
+                'info' => 'Nao foram encontrados registros.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Nao foi possivel concluir a solicitacao.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -61,6 +69,14 @@ class ExaminationService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
+                'info' => 'Nao foram encontrados registros.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Nao foi possivel concluir a solicitacao.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);

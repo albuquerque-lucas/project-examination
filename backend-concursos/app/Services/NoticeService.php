@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\NoticeResource;
 use App\Models\ServiceResponse;
+use Exception;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use App\Models\Notice;
 
@@ -20,7 +21,7 @@ class NoticeService
     {
         try {
             $notices = Notice::getAllOrdered($order, $orderBy);
-            // dd($notices);
+
             $decoded = $notices->toArray();
             if (empty($decoded['data'])) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
@@ -31,6 +32,43 @@ class NoticeService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
+                'info' => 'Nao foram encontrados registros.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Nao foi possivel concluir a solicitacao.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        }
+    }
+
+    public function getById(int $id): ServiceResponse
+    {
+        try {
+            $notice = Notice::getById($id);
+            if ($notice === null) {
+                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
+                return $this->serviceResponse;
+            }
+
+            $this->serviceResponse->setAttributes(200, $notice);
+
+            return $this->serviceResponse;
+        } catch(NotFound $exception) {
+            $this->serviceResponse->setAttributes(404, (object)[
+                'info' => 'Nao foram encontrados registros.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Nao foi possivel concluir a solicitacao.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
