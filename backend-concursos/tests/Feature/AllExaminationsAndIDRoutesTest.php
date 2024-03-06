@@ -50,10 +50,13 @@ class AllExaminationsAndIDRoutesTest extends TestCase
             'educational_level_id' => $educationalLevel4->id,
         ]);
     
-        $response = $this->get("/api/examinations/examination-id?id=1")->assertJsonStructure(['data']);
+        $response = $this->get("/api/examinations/examination-id?id=1")->assertJsonStructure([
+            'id',
+            'title',
+        ]);
         $response->assertStatus(200);
         $data = $response->json();
-        $this->assertIsArray($data['data']);
+        $this->assertIsArray($data);
     }
 
     public function test_get_204_code_if_doesnt_find_any_examinations(): void

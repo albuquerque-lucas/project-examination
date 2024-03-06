@@ -29,7 +29,7 @@ class ExaminationService
     {
         try {
             $examinations = Examination::getAllOrdered($order, $orderBy);
-            // dd($examinations);
+
             $decoded = $examinations->toArray();
             if (empty($decoded['data'])) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
@@ -40,6 +40,14 @@ class ExaminationService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
+                'info' => 'Nao foram encontrados registros.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Nao foi possivel concluir a solicitacao.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -61,6 +69,14 @@ class ExaminationService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
+                'info' => 'Nao foram encontrados registros.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Nao foi possivel concluir a solicitacao.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -207,13 +223,22 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'message' => 'Validação falhou. Verifique os erros.',
+                'info' => 'Validação falhou. Verifique os erros.',
+                'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'message' => 'Não foi possível criar o registro. Verifique os dados informados.',
+                'info' => 'Não foi possível criar o registro. Verifique os dados informados.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Ocorreu um erro inesperado.',
+                'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -226,20 +251,20 @@ class ExaminationService
             $examination = Examination::find($id);
             if (!$examination) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Nao foi encontrado concurso com este id: $id"
+                    'message' => "Não foi encontrado nenhum concurso com este id: $id"
                 ]);
                 return $this->serviceResponse;
             }
 
             if ($hasFile && Storage::disk('public')->exists($examination->notice()->file_name)) {
-                dd("Parando aplicacao antes de deletar do Storage");
+                dd("Parando aplicação antes de deletar do Storage");
                 Storage::disk('public')->delete($examination->notice()->file_name);
             }
 
             $examination->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteracao feita com sucesso.',
+                'message' => 'Alteração feita com sucesso.',
                 'id' => $examination->id,
             ];
 
@@ -293,7 +318,7 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => 'Nao foi encontrar um registro com os dados fornecidos.',
+                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
                 'deleted' => false,
             ]);
             return $this->serviceResponse;
