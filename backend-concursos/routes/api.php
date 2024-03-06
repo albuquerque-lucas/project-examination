@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\ValidateEducationalLevelGetter;
 use App\Http\Middleware\ValidateExamIdGetter;
@@ -56,7 +57,9 @@ Route::get('/examinations/examination-id', [ExaminationController::class, "getBy
 
   // ROTAS DE NOTICES
 
-  Route::get('/notices/all', [NoticeController::class, 'getAll']);
+  Route::get('/notices/all', [NoticeController::class, 'getAll'])
+  ->middleware(ValidateOrderParam::class);;
+  
   Route::post('/notices/create', [NoticeController::class, 'create']);
 
   Route::get('/notices/{id}', [NoticeController::class, 'getById']);
@@ -67,3 +70,9 @@ Route::get('/examinations/examination-id', [ExaminationController::class, "getBy
   Route::delete('/notices/delete/{id}', [NoticeController::class, 'delete']);
 
   Route::delete('/notices/delete/examination/{id}', [NoticeController::class, 'deleteByExamination']);
+
+
+  // ROTAS DE SUBJECTS
+
+  Route::get('/subjects/all', [SubjectController::class, 'getAll'])
+  ->middleware(ValidateOrderParam::class);;

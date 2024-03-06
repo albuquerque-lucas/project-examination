@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Subject extends Model
 {
@@ -50,5 +51,10 @@ class Subject extends Model
     public function educationalLevel(): BelongsTo
     {
         return $this->belongsTo(EducationalLevel::class);
+    }
+
+    public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
+    {
+        return self::orderBy($orderBy, $order)->paginate();
     }
 }
