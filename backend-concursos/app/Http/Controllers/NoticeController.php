@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NoticeFormRequest;
 use App\Http\Resources\NoticeResource;
 use App\Services\NoticeService;
 use Illuminate\Http\Request;
 use Exception;
 use Error;
+use App\Exceptions\InvalidDateFormatException;
 
 class NoticeController extends Controller
 {
@@ -56,6 +58,21 @@ class NoticeController extends Controller
             return $resource;
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
+        }
+    }
+
+    public function create(NoticeFormRequest $request)
+    {
+        try {
+            $requestData = $request->all();
+            $this->validateAndFormatDates($requestData);
+            $response = $this->noticeService->create($requestData);
+
+            return response()->json($response->data(), $response->status());
+        } catch(InvalidDateFormatException $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }
     }
 }

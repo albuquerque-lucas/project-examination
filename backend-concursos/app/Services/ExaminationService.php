@@ -223,13 +223,22 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'message' => 'Validação falhou. Verifique os erros.',
+                'info' => 'Validação falhou. Verifique os erros.',
+                'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'message' => 'Não foi possível criar o registro. Verifique os dados informados.',
+                'info' => 'Não foi possível criar o registro. Verifique os dados informados.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Ocorreu um erro inesperado.',
+                'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
