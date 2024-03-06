@@ -25,7 +25,7 @@ class NoticeController extends Controller
 
     public function getAll(Request $request)
     {
-        $this->dataRetrievalService->getAll($this->noticeService, $request);
+        return $this->dataRetrievalService->getAll($this->noticeService, $request);
     }
 
     public function getById(int $id)

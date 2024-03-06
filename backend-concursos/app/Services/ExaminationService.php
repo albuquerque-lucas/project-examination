@@ -6,6 +6,7 @@ use App\Exceptions\InvalidDateFormatException;
 use App\Http\Resources\ExaminationResource;
 use App\Models\Examination;
 use App\Models\ServiceResponse;
+use App\Repositories\EntityRepository;
 use Exception;
 use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
