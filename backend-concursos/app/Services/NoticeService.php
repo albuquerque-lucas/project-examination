@@ -60,8 +60,8 @@ class NoticeService implements IService
                 return $this->serviceResponse;
             }
 
-            $this->serviceResponse->setAttributes(200, $notice);
-
+            $resource = new NoticeResource($notice);
+            $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[

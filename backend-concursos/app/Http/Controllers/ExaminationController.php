@@ -45,8 +45,7 @@ class ExaminationController extends Controller
                     return response()->noContent();
                 }
             }
-            $resource = new ExaminationResource($response->data());
-            return $resource;
+            return response()->json($data, $response->status());
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }

@@ -64,8 +64,8 @@ class ExaminationService implements IService
                 return $this->serviceResponse;
             }
 
-            $this->serviceResponse->setAttributes(200, $examination);
-
+            $resource = new ExaminationResource($examination);
+            $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
