@@ -75,3 +75,5 @@ Route::get('/examinations/title', [ExaminationController::class, "getByTitle"])
 
   Route::get('/subjects/all', [SubjectController::class, 'getAll'])
   ->middleware(ValidateOrderParam::class);;
+
+  Route::get('/subjects/{id}', [SubjectController::class, 'getById']);

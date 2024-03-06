@@ -23,4 +23,9 @@ class SubjectController extends Controller
     {
         return $this->dataRetrievalService->getAll($this->subjectService, $request);
     }
+
+    public function getById(int $id)
+    {
+        return $this->dataRetrievalService->getById($this->subjectService, $id);
+    }
 }
