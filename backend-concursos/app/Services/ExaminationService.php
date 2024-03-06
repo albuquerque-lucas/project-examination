@@ -21,9 +21,12 @@ class ExaminationService implements IService
 {
     private $serviceResponse;
 
-    public function __construct(ServiceResponse $serviceResponse)
+    private Examination $model;
+
+    public function __construct(ServiceResponse $serviceResponse, Examination $model)
     {
         $this->serviceResponse = $serviceResponse;
+        $this->model = $model;
     }
 
     public function getAll(string $order, string $orderBy = 'id'): ServiceResponse

@@ -51,22 +51,7 @@ class NoticeController extends Controller
 
     public function update(Request $request, int $id)
     {
-        try {
-            $data = $request->all();
-            $hasFile = false;
-
-            if ($request->hasFile('notice_file')) {
-                $noticePath = '';
-                $data['notice_file'] = $noticePath;
-                $hasFile = true;
-            }
-
-            $response = $this->noticeService->update($id, $data, $hasFile);
-    
-            return response()->json($response->data(), $response->status());
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
-        }
+        return $this->dataRetrievalService->update($this->noticeService, $id, $request, 'notice_file');
     }
 
     public function delete(int $id)

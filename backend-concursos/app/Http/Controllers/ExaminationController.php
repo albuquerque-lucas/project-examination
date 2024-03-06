@@ -162,26 +162,7 @@ class ExaminationController extends Controller
 
     public function update(Request $request, int $id)
     {
-        try {
-            $data = $request->all();
-            $hasFile = false;
-    
-            if (array_key_exists('registrationDate', $data)) {
-                $registrationDate = $data['registrationDate'];
-            }
-    
-            if ($request->hasFile('notice_file')) {
-                $noticePath = '';
-                $data['notice_file'] = $noticePath;
-                $hasFile = true;
-            }
-    
-            $response = $this->examinationService->update($id, $data, $hasFile);
-    
-            return response()->json($response->data(), $response->status());
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
-        }
+        return $this->dataRetrievalService->update($this->examinationService, $id, $request, 'notice_file');
     }
 
     public function delete(int $id)

@@ -50,4 +50,24 @@ class DataRetrievalService
             ], 500);
         }
     }
+
+    public function update(IService $service, int $id, Request $request, string $fileInput = null)
+    {
+        try {
+            $data = $request->all();
+            $hasFile = false;
+
+            if ($request->hasFile($fileInput)) {
+                $noticePath = '';
+                $data[$fileInput] = $noticePath;
+                $hasFile = true;
+            }
+
+            $response = $service->update($id, $data, $hasFile);
+    
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
 }
