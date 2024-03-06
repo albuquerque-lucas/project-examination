@@ -30,6 +30,8 @@ Route::get('/users/all', [UserController::class, "getAll"]);
 Route::get("/examinations/all", [ExaminationController::class, 'getAll'])
 ->middleware(ValidateOrderParam::class);
 
+Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
+
 Route::post("/create/examination", [ExaminationController::class, "create"]);
 
 Route::patch("/examinations/update/{id}", [ExaminationController::class, "update"]);
@@ -44,9 +46,6 @@ Route::get('/examinations/institution', [ExaminationController::class, "getByIns
 
 Route::get('/examinations/title', [ExaminationController::class, "getByTitle"])
   ->middleware(ValidateOrderParam::class, ValidateExamTitleGetter::class);
-
-Route::get('/examinations/examination-id', [ExaminationController::class, "getById"])
-  ->middleware(ValidateExamIdGetter::class);
 
   Route::get('/examinations/educational-level', [ExaminationController::class, 'getByEducationalLevel'])
   ->middleware(ValidateOrderParam::class, ValidateEducationalLevelGetter::class);

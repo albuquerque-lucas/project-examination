@@ -30,19 +30,7 @@ class NoticeController extends Controller
 
     public function getById(int $id)
     {
-        try {
-            $response = $this->noticeService->getById($id);
-            $data = $response->data();
-            $dataArray = (array)$data;
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
-            return response()->json($data, $response->status());
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
-        }
+        return $this->dataRetrievalService->getById($this->noticeService, $id);
     }
 
     public function create(NoticeFormRequest $request)

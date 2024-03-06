@@ -33,22 +33,9 @@ class ExaminationController extends Controller
         return $this->dataRetrievalService->getAll($this->examinationService, $request);
     }
 
-    public function getById(Request $request)
+    public function getById($id)
     {
-        try {
-            $id = $request->query('id');
-            $response = $this->examinationService->getById($id);
-            $data = $response->data();
-            $dataArray = (array)$data;
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
-            return response()->json($data, $response->status());
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
-        }
+        return $this->dataRetrievalService->getById($this->examinationService, $id);
     }
 
     public function getByTitle(Request $request)

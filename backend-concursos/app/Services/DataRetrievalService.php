@@ -31,4 +31,23 @@ class DataRetrievalService
             ], 500);
         }
     }
+
+    public function getById(IService $service, int $id = null): JsonResponse
+    {
+        try {
+            $response = $service->getById($id);
+            $data = (array) $response->data();
+            if (array_key_exists('code', $data) && $data['code'] === 204) {
+                return response()->noContent();
+            }
+    
+            return response()->json($data['resource'], $response->status());
+        } catch (Exception | Error $exception) {
+            return response()->json([
+                'error' => 'Ocorreu um erro inesperado.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ], 500);
+        }
+    }
 }
