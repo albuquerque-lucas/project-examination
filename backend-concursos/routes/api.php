@@ -65,3 +65,5 @@ Route::get('/examinations/examination-id', [ExaminationController::class, "getBy
   Route::patch('/notices/update/{id}', [NoticeController::class, 'update']);
 
   Route::delete('/notices/delete/{id}', [NoticeController::class, 'delete']);
+
+  Route::delete('/notices/delete/examination/{id}', [NoticeController::class, 'deleteByExamination']);

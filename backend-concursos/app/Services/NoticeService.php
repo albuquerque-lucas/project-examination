@@ -212,4 +212,49 @@ class NoticeService
         }
 
     }
+
+    public function deleteByExamination(int $id): ServiceResponse
+    {
+        try {
+            $notice = Notice::query()->where('examination_id', $id)->first();
+            if (!$notice) {
+                $this->serviceResponse->setAttributes(404, (object)[
+                    'message' => 'Edital nao encontrado.',
+                    'deleted' => false,
+                ]);
+                return $this->serviceResponse;
+            }
+    
+            $isDeleted = $notice->delete();
+    
+            if (!$isDeleted) {
+                $this->serviceResponse->setAttributes(400, (object)[
+                    'message' => 'Erro ao tentar deletar o registro.',
+                    'deleted' => false,
+                ]);
+                return $this->serviceResponse;
+            }
+    
+            $this->serviceResponse->setAttributes(200, (object)[
+                'mensagem' => 'Edital excluido com sucesso.',
+                'deleted' => true,
+            ]);
+
+            return $this->serviceResponse;
+
+        } catch (ModelNotFoundException $exception) {
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
+                'deleted' => false,
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'deleted' => false,
+                'info' => $exception->getMessage(),
+            ]);
+            return $this->serviceResponse;
+        }
+    }
 }

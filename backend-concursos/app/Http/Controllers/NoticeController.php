@@ -108,4 +108,15 @@ class NoticeController extends Controller
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }
     }
+
+    public function deleteByExamination(int $id)
+    {
+        try {
+            $response = $this->noticeService->deleteByExamination($id);
+            return response()->json($response->data(), $response->status());
+
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
 }
