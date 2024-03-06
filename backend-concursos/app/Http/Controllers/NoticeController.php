@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NoticeFormRequest;
 use App\Http\Resources\NoticeResource;
+use App\Services\DateValidationService;
 use App\Services\NoticeService;
 use Illuminate\Http\Request;
 use Exception;
@@ -65,12 +66,44 @@ class NoticeController extends Controller
     {
         try {
             $requestData = $request->all();
-            $this->validateAndFormatDates($requestData);
+            DateValidationService::validateAndFormatDates($requestData);
+            // $this->validateAndFormatDates($requestData);
             $response = $this->noticeService->create($requestData);
 
             return response()->json($response->data(), $response->status());
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
+
+    public function update(Request $request, int $id)
+    {
+        try {
+            $data = $request->all();
+            $hasFile = false;
+
+            if ($request->hasFile('notice_file')) {
+                $noticePath = '';
+                $data['notice_file'] = $noticePath;
+                $hasFile = true;
+            }
+
+            $response = $this->noticeService->update($id, $data, $hasFile);
+    
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
+
+    public function delete(int $id)
+    {
+        try {
+            $response = $this->noticeService->delete($id);
+            return response()->json($response->data(), $response->status());
+
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }

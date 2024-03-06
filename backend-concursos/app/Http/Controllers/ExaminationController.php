@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidDateFormatException;
 use App\Http\Requests\ExaminationFormRequest;
+use App\Http\Requests\GetAllRequest;
 use App\Http\Resources\ExaminationResource;
 use App\Http\Resources\UserResource;
 use Error;
@@ -13,6 +14,7 @@ use Exception;
 use Illuminate\Support\Carbon;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use DateTime;
+use App\Services\DateValidationService;
 
 class ExaminationController extends Controller
 {
@@ -115,7 +117,8 @@ class ExaminationController extends Controller
             $registrationDate = $request->header('registrationDate');
             $position = $request->query('position', 'start');
             $order = $request->input('order', 'desc');
-            $parsedDate = $this->validateDateFormat($registrationDate);
+            $parsedDate = DateValidationService::validateDateFormat($registrationDate);
+            // $parsedDate = $this->validateDateFormat($registrationDate);
             $response = $this->examinationService->getByRegistrationDate($parsedDate, $order, $position);
 
             $data = $response->data();
@@ -175,7 +178,8 @@ class ExaminationController extends Controller
     {
         try {
             $requestData = $request->all();
-            $this->validateAndFormatDates($requestData);
+            DateValidationService::validateAndFormatDates($requestData);
+            // $this->validateAndFormatDates($requestData);
             $response = $this->examinationService->create($requestData);
 
             return response()->json($response->data(), $response->status());
@@ -188,22 +192,26 @@ class ExaminationController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $data = $request->all();
-        $hasFile = false;
-
-        if (array_key_exists('registrationDate', $data)) {
-            $registrationDate = $data['registrationDate'];
+        try {
+            $data = $request->all();
+            $hasFile = false;
+    
+            if (array_key_exists('registrationDate', $data)) {
+                $registrationDate = $data['registrationDate'];
+            }
+    
+            if ($request->hasFile('notice_file')) {
+                $noticePath = '';
+                $data['notice_file'] = $noticePath;
+                $hasFile = true;
+            }
+    
+            $response = $this->examinationService->update($id, $data, $hasFile);
+    
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }
-
-        if ($request->hasFile('notice_file')) {
-            $noticePath = '';
-            $data['notice_file'] = $noticePath;
-            $hasFile = true;
-        }
-
-        $response = $this->examinationService->update($id, $data, $hasFile);
-
-        return response()->json($response->data(), $response->status());
     }
 
     public function delete(int $id)
@@ -236,7 +244,7 @@ class ExaminationController extends Controller
     {
         $parsedDate = DateTime::createFromFormat('Y-m-d', $date);
         if (!$parsedDate) {
-            throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD. Service', 400);
+            throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD.', 400);
         }
 
         return $parsedDate;

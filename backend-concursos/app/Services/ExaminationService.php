@@ -251,20 +251,20 @@ class ExaminationService
             $examination = Examination::find($id);
             if (!$examination) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Nao foi encontrado concurso com este id: $id"
+                    'message' => "Não foi encontrado nenhum concurso com este id: $id"
                 ]);
                 return $this->serviceResponse;
             }
 
             if ($hasFile && Storage::disk('public')->exists($examination->notice()->file_name)) {
-                dd("Parando aplicacao antes de deletar do Storage");
+                dd("Parando aplicação antes de deletar do Storage");
                 Storage::disk('public')->delete($examination->notice()->file_name);
             }
 
             $examination->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteracao feita com sucesso.',
+                'message' => 'Alteração feita com sucesso.',
                 'id' => $examination->id,
             ];
 
@@ -318,7 +318,7 @@ class ExaminationService
             return $this->serviceResponse;
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => 'Nao foi encontrar um registro com os dados fornecidos.',
+                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
                 'deleted' => false,
             ]);
             return $this->serviceResponse;

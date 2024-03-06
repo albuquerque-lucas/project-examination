@@ -26,7 +26,6 @@ use App\Http\Middleware\ValidateActivityStatusGetter;
 Route::get('/users/all', [UserController::class, "getAll"]);
 
 // ROTAS DE EXAMINATIONS
-
 Route::get("/examinations/all", [ExaminationController::class, 'getAll'])
 ->middleware(ValidateOrderParam::class);
 
@@ -58,5 +57,11 @@ Route::get('/examinations/examination-id', [ExaminationController::class, "getBy
   // ROTAS DE NOTICES
 
   Route::get('/notices/all', [NoticeController::class, 'getAll']);
+  Route::post('/notices/create', [NoticeController::class, 'create']);
 
   Route::get('/notices/{id}', [NoticeController::class, 'getById']);
+
+
+  Route::patch('/notices/update/{id}', [NoticeController::class, 'update']);
+
+  Route::delete('/notices/delete/{id}', [NoticeController::class, 'delete']);

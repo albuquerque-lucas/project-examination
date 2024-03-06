@@ -9,6 +9,8 @@ use PDOException;
 use Nette\Schema\ValidationException;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use App\Models\Notice;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Storage;
 
 class NoticeService
 {
@@ -121,5 +123,93 @@ class NoticeService
             ]);
             return $this->serviceResponse;
         }
+    }
+
+    public function update(int $id, array $data, bool $hasFile): ServiceResponse
+    {
+        try {
+                $notice = Notice::find($id);
+                if (!$notice) {
+                    $this->serviceResponse->setAttributes(404, (object)[
+                        'message' => "Não foi encontrado nenhum edital com este id: $id"
+                    ]);
+                    return $this->serviceResponse;
+                }
+
+                if ($hasFile && Storage::disk('public')->exists($notice->notice()->file_name)) {
+                    dd("Parando aplicação antes de deletar do Storage");
+                    Storage::disk('public')->delete($notice->notice()->file_name);
+                }
+
+                $notice->fill($data);
+
+                $responseModel = (object)[
+                    'message' => 'Alteração feita com sucesso.',
+                    'id' => $notice->id,
+                ];
+
+                if ($notice->isDirty()) {
+                    $notice->save();
+                    $this->serviceResponse->setAttributes(200, $responseModel);
+                } else {
+                    $this->serviceResponse->setAttributes(200, (object)[
+                        'message' => 'No changes to apply',
+                        'notice' => $notice
+                    ]);
+                }
+                return $this->serviceResponse;
+            } catch (Exception $exception) {
+                $this->serviceResponse->setAttributes(400, (object)[
+                    'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                    'code' => $exception->getCode()
+                ]);
+                return $this->serviceResponse;
+            }
+    }
+
+    public function delete(int $id): ServiceResponse
+    {
+        try {
+            $notice = Notice::findOrFail($id);
+
+            if (!$notice) {
+                $this->serviceResponse->setAttributes(404, (object)[
+                    'message' => 'Edital nao encontrado.',
+                    'deleted' => false,
+                ]);
+                return $this->serviceResponse;
+            }
+    
+            $isDeleted = $notice->delete();
+    
+            if (!$isDeleted) {
+                $this->serviceResponse->setAttributes(400, (object)[
+                    'message' => 'Erro ao tentar deletar o registro.',
+                    'deleted' => false,
+                ]);
+                return $this->serviceResponse;
+            }
+    
+            $this->serviceResponse->setAttributes(200, (object)[
+                'mensagem' => 'Edital excluido com sucesso.',
+                'deleted' => true,
+            ]);
+
+            return $this->serviceResponse;
+        } catch (ModelNotFoundException $exception) {
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
+                'deleted' => false,
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'deleted' => false,
+                'info' => $exception->getMessage(),
+            ]);
+            return $this->serviceResponse;
+        }
+
     }
 }
