@@ -16,7 +16,7 @@ use Log;
 use Error;
 use Storage;
 
-class ExaminationService
+class ExaminationService implements IService
 {
     private $serviceResponse;
 

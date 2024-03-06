@@ -9,7 +9,7 @@ use Exception;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 
 
-class SubjectService
+class SubjectService implements IService
 {
     private $serviceResponse;
 
@@ -46,5 +46,18 @@ class SubjectService
             ]);
             return $this->serviceResponse;
         }
+    }
+
+    public function getById(int $id): ServiceResponse {
+
+    }
+    public function create(array $data): ServiceResponse {
+
+    }
+    public function update(int $id, array $data, bool $hasFile): ServiceResponse {
+
+    }
+    public function delete(int $id): ServiceResponse {
+
     }
 }

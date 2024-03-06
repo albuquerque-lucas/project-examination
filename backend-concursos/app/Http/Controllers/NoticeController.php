@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NoticeFormRequest;
 use App\Http\Resources\NoticeResource;
+use App\Services\DataRetrievalService;
 use App\Services\DateValidationService;
 use App\Services\NoticeService;
 use Illuminate\Http\Request;
@@ -13,11 +14,13 @@ use App\Exceptions\InvalidDateFormatException;
 
 class NoticeController extends Controller
 {
-    protected $noticeService;
+    protected NoticeService $noticeService;
+    private DataRetrievalService $dataRetrievalService;
 
-    public function __construct(NoticeService $noticeService)
+    public function __construct(NoticeService $noticeService, DataRetrievalService $dataRetrievalService)
     {
         $this->noticeService = $noticeService;
+        $this->dataRetrievalService = $dataRetrievalService;
     }
 
     public function getAll(Request $request)

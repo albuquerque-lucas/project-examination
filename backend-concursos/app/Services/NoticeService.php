@@ -12,7 +12,7 @@ use App\Models\Notice;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Storage;
 
-class NoticeService
+class NoticeService implements IService
 {
     private $serviceResponse;
 
