@@ -30,7 +30,6 @@ Route::get('/users/all', [UserController::class, "getAll"]);
 Route::get("/examinations/all", [ExaminationController::class, 'getAll'])
 ->middleware(ValidateOrderParam::class);
 
-Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
 
 Route::post("/create/examination", [ExaminationController::class, "create"]);
 
@@ -39,20 +38,21 @@ Route::patch("/examinations/update/{id}", [ExaminationController::class, "update
 Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delete"]);
 
 Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"])
-  ->middleware(ValidateOrderParam::class, ValidateExamDateGetter::class);
+->middleware(ValidateOrderParam::class, ValidateExamDateGetter::class);
 
 Route::get('/examinations/institution', [ExaminationController::class, "getByInstitution"])
-  ->middleware(ValidateOrderParam::class, ValidateExamInstitutionGetter::class);
+->middleware(ValidateOrderParam::class, ValidateExamInstitutionGetter::class);
 
 Route::get('/examinations/title', [ExaminationController::class, "getByTitle"])
-  ->middleware(ValidateOrderParam::class, ValidateExamTitleGetter::class);
+->middleware(ValidateOrderParam::class, ValidateExamTitleGetter::class);
 
-  Route::get('/examinations/educational-level', [ExaminationController::class, 'getByEducationalLevel'])
-  ->middleware(ValidateOrderParam::class, ValidateEducationalLevelGetter::class);
+Route::get('/examinations/educational-level', [ExaminationController::class, 'getByEducationalLevel'])
+->middleware(ValidateOrderParam::class, ValidateEducationalLevelGetter::class);
 
-  Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus'])
-  ->middleware(ValidateOrderParam::class);
+Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus'])
+->middleware(ValidateOrderParam::class);
 
+Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
 
   // ROTAS DE NOTICES
 

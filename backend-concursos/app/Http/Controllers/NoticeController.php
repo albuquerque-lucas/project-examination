@@ -7,10 +7,12 @@ use App\Http\Resources\NoticeResource;
 use App\Services\DataRetrievalService;
 use App\Services\DateValidationService;
 use App\Services\NoticeService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
 use Error;
 use App\Exceptions\InvalidDateFormatException;
+use Illuminate\Http\Response;
 
 class NoticeController extends Controller
 {
@@ -28,7 +30,7 @@ class NoticeController extends Controller
         return $this->dataRetrievalService->getAll($this->noticeService, $request);
     }
 
-    public function getById(int $id)
+    public function getById(int $id): JsonResponse | Response
     {
         return $this->dataRetrievalService->getById($this->noticeService, $id);
     }
@@ -56,13 +58,7 @@ class NoticeController extends Controller
 
     public function delete(int $id)
     {
-        try {
-            $response = $this->noticeService->delete($id);
-            return response()->json($response->data(), $response->status());
-
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
-        }
+        return $this->dataRetrievalService->delete($this->noticeService, $id);
     }
 
     public function deleteByExamination(int $id)

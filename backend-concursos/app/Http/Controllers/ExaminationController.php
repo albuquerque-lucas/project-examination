@@ -167,13 +167,7 @@ class ExaminationController extends Controller
 
     public function delete(int $id)
     {
-        try {
-            $response = $this->examinationService->delete($id);
-            return response()->json($response->data(), $response->status());
-
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
-        }
+        return $this->dataRetrievalService->delete($this->examinationService, $id);
     }
 
     private function validateAndFormatDates(array &$requestData)

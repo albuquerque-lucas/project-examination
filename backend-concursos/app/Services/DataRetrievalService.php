@@ -3,12 +3,13 @@
 namespace App\Services;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Exception;
 use Error;
 
 class DataRetrievalService
 {
-    public function getAll(IService $service, Request $request): JsonResponse
+    public function getAll(IService $service, Request $request): JsonResponse | Response
     {
         try {
             $order = $request->input('order', 'desc');
@@ -32,9 +33,10 @@ class DataRetrievalService
         }
     }
 
-    public function getById(IService $service, int $id = null): JsonResponse
+    public function getById(IService $service, int $id = null): JsonResponse | Response
     {
         try {
+            
             $response = $service->getById($id);
             $data = (array) $response->data();
             if (array_key_exists('code', $data) && $data['code'] === 204) {
@@ -51,7 +53,7 @@ class DataRetrievalService
         }
     }
 
-    public function update(IService $service, int $id, Request $request, string $fileInput = null)
+    public function update(IService $service, int $id, Request $request, string $fileInput = null): JsonResponse | Response
     {
         try {
             $data = $request->all();
@@ -66,6 +68,17 @@ class DataRetrievalService
             $response = $service->update($id, $data, $hasFile);
     
             return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
+
+    public function delete(IService $service, int $id): JsonResponse | Response
+    {
+        try {
+            $response = $service->delete($id);
+            return response()->json($response->data(), $response->status());
+
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }
