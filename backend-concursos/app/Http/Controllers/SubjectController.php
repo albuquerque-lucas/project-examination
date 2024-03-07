@@ -36,4 +36,9 @@ class SubjectController extends Controller
     {
         return $this->dataRetrievalService->delete($this->subjectService, $id);
     }
+
+    public function create(Request $request)
+    {
+        
+    }
 }
