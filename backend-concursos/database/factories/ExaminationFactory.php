@@ -27,7 +27,7 @@ class ExaminationFactory extends Factory
         $examsStartDate = $this->faker->date;
 
         return [
-            'title' => $this->faker->words(3, true),
+            'title' => $this->faker->unique()->words(3, true),
             'active' => $this->faker->boolean,
             'institution' => $this->faker->company,
             'registration_start_date' => $registrationStartDate,
