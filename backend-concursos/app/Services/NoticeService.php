@@ -158,9 +158,17 @@ class NoticeService implements IService
                     ]);
                 }
                 return $this->serviceResponse;
+            } catch (PDOException $exception) {
+                $this->serviceResponse->setAttributes(409, (object)[
+                    'info' => 'Não foi possível criar o registro. Verifique os dados informados.',
+                    'message' => $exception->getMessage(),
+                    'code' => $exception->getCode()
+                ]);
+                return $this->serviceResponse;
             } catch (Exception $exception) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                    'info' => 'Ocorreu um erro inesperado.',
+                    'message' => $exception->getMessage(),
                     'code' => $exception->getCode()
                 ]);
                 return $this->serviceResponse;

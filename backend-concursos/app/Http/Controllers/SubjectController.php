@@ -57,7 +57,6 @@ class SubjectController extends Controller
 
     public function create(SubjectFormRequest $request)
     {
-
         return $this->dataRetrievalService->create($this->subjectService, $request);
     }
 }
