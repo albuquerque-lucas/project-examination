@@ -54,10 +54,10 @@ class ExaminationFormRequest extends FormRequest
             'educational_level_id.required' => 'O :attribute do concurso é obrigatório. Nenhum foi informado.',
             'educational_level_id.integer' => 'O :attribute do concurso deve ser um número inteiro.',
             'title.required' => 'É necessário informar um :attribute.',
-            'title.string' => 'O :attribute deve ser uma string.',
+            'title.string' => 'O :attribute deve estar em texto.',
             'active.boolean' => 'O :attribute deve ser verdadeiro ou falso.',
             'institution.required' => 'É necessário informar uma :attribute.',
-            'institution.string' => 'A :attribute deve ser uma string.',
+            'institution.string' => 'A :attribute deve estar em texto.',
         ];
     }
 }

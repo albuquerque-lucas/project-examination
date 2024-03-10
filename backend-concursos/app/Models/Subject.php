@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Subject extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'examination_id',
+        'educational_level_id',
         'study_area_id',
         'title',
     ];
@@ -50,5 +51,15 @@ class Subject extends Model
     public function educationalLevel(): BelongsTo
     {
         return $this->belongsTo(EducationalLevel::class);
+    }
+
+    public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
+    {
+        return self::orderBy($orderBy, $order)->paginate();
+    }
+
+    public static function getById(int $id): self | null
+    {
+        return self::where('id', $id)->first();
     }
 }

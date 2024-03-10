@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Http\Resources\NoticeResource;
+use App\Http\Resources\SubjectResource;
 use App\Models\ServiceResponse;
+use App\Models\Subject;
 use Exception;
-use PDOException;
-use Nette\Schema\ValidationException;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
-use App\Models\Notice;
+use Nette\Schema\ValidationException;
+use PDOException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Storage;
 
-class NoticeService implements IService
+
+class SubjectService implements IService
 {
     private $serviceResponse;
 
@@ -24,14 +24,14 @@ class NoticeService implements IService
     public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
     {
         try {
-            $notices = Notice::getAllOrdered($order, $orderBy);
+            $subjects = Subject::getAllOrdered($order, $orderBy);
 
-            $decoded = $notices->toArray();
+            $decoded = $subjects->toArray();
             if (empty($decoded['data'])) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
             };
-            $collection = NoticeResource::collection($notices);
+            $collection = SubjectResource::collection($subjects);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
@@ -51,16 +51,14 @@ class NoticeService implements IService
         }
     }
 
-    public function getById(int $id): ServiceResponse
-    {
+    public function getById(int $id): ServiceResponse {
         try {
-            $notice = Notice::getById($id);
-            if ($notice === null) {
+            $subject = Subject::getById($id);
+            if ($subject === null) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
             }
-
-            $resource = new NoticeResource($notice);
+            $resource = new SubjectResource($subject);
             $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
@@ -80,12 +78,38 @@ class NoticeService implements IService
         }
     }
 
-    public function create(array $data): ServiceResponse
-    {
+    public function getByTitle(string $title) {
         try {
-            $notice = Notice::create($data);
+            $subject = Subject::query()->where('title', 'like', "%$title%")->first();
+            if ($subject === null) {
+                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
+                return $this->serviceResponse;
+            }
+            $resource = new SubjectResource($subject);
+            $this->serviceResponse->setAttributes(200, $resource);
+            return $this->serviceResponse;
+        } catch(NotFound $exception) {
+            $this->serviceResponse->setAttributes(404, (object)[
+                'info' => 'Nao foram encontrados registros.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Nao foi possivel concluir a solicitacao.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        }
+    }
 
-            if (!$notice) {
+    public function create(array $data): ServiceResponse {
+        try {
+            $subject = Subject::create($data);
+
+            if (!$subject) {
                 $this->serviceResponse->setAttributes(422, (object)[
                     'message' => 'Nao foi possivel processar a requisicao.'
                 ]);
@@ -93,10 +117,10 @@ class NoticeService implements IService
             }
 
             $responseData = (object)[
-                'message' => 'Concurso adicionado com sucesso.',
-                'id' => $notice->id,
-                'file_name' => $notice->file_name,
-                'file_path' => $notice->file,
+                'message' => 'Matéria adicionada com sucesso.',
+                'id' => $subject->id,
+                'file_name' => $subject->file_name,
+                'file_path' => $subject->file,
             ];
 
             $this->serviceResponse->setAttributes(201, $responseData);
@@ -124,116 +148,64 @@ class NoticeService implements IService
             return $this->serviceResponse;
         }
     }
-
-    public function update(int $id, array $data, bool $hasFile): ServiceResponse
+    public function update(int $id, array $data, bool $hasFile = false): ServiceResponse 
     {
         try {
-                $notice = Notice::find($id);
-                if (!$notice) {
-                    $this->serviceResponse->setAttributes(404, (object)[
-                        'message' => "Não foi encontrado nenhum edital com este id: $id"
-                    ]);
-                    return $this->serviceResponse;
-                }
-
-                if ($hasFile && Storage::disk('public')->exists($notice->notice()->file_name)) {
-                    dd("Parando aplicação antes de deletar do Storage");
-                    Storage::disk('public')->delete($notice->notice()->file_name);
-                }
-
-                $notice->fill($data);
-
-                $responseModel = (object)[
-                    'message' => 'Alteração feita com sucesso.',
-                    'id' => $notice->id,
-                ];
-
-                if ($notice->isDirty()) {
-                    $notice->save();
-                    $this->serviceResponse->setAttributes(200, $responseModel);
-                } else {
-                    $this->serviceResponse->setAttributes(200, (object)[
-                        'message' => 'Nenhuma alteração a ser feita.',
-                        'notice' => $notice
-                    ]);
-                }
-                return $this->serviceResponse;
-            } catch (PDOException $exception) {
-                $this->serviceResponse->setAttributes(409, (object)[
-                    'info' => 'Não foi possível criar o registro. Verifique os dados informados.',
-                    'message' => $exception->getMessage(),
-                    'code' => $exception->getCode()
-                ]);
-                return $this->serviceResponse;
-            } catch (Exception $exception) {
-                $this->serviceResponse->setAttributes(400, (object)[
-                    'info' => 'Ocorreu um erro inesperado.',
-                    'message' => $exception->getMessage(),
-                    'code' => $exception->getCode()
+            $subject = Subject::find($id);
+            if (!$subject) {
+                $subject->serviceResponse->setAttributes(404, (object)[
+                    'message' => "Não foi encontrado nenhum edital com este id: $id"
                 ]);
                 return $this->serviceResponse;
             }
-    }
 
-    public function delete(int $id): ServiceResponse
-    {
-        try {
-            $notice = Notice::findOrFail($id);
+            $subject->fill($data);
 
-            if (!$notice) {
-                $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Edital nao encontrado.',
-                    'deleted' => false,
+            $responseModel = (object)[
+                'message' => 'Alteração feita com sucesso.',
+                'id' => $subject->id,
+            ];
+
+            if ($subject->isDirty()) {
+                $subject->save();
+                $this->serviceResponse->setAttributes(200, $responseModel);
+            } else {
+                $this->serviceResponse->setAttributes(200, (object)[
+                    'message' => 'Nenhuma alteração a ser feita.',
+                    'notice' => $subject
                 ]);
-                return $this->serviceResponse;
             }
-    
-            $isDeleted = $notice->delete();
-    
-            if (!$isDeleted) {
-                $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Erro ao tentar deletar o registro.',
-                    'deleted' => false,
-                ]);
-                return $this->serviceResponse;
-            }
-    
-            $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Edital excluido com sucesso.',
-                'deleted' => true,
-            ]);
-
             return $this->serviceResponse;
-        } catch (ModelNotFoundException $exception) {
-            $this->serviceResponse->setAttributes(404, (object)[
-                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
-                'deleted' => false,
+        } catch (PDOException $exception) {
+            $this->serviceResponse->setAttributes(409, (object)[
+                'info' => 'Não foi possível criar o registro. Verifique os dados informados.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
+        } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
-                'deleted' => false,
-                'info' => $exception->getMessage(),
+                'info' => 'Ocorreu um erro inesperado.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         }
-
     }
-
-    public function deleteByExamination(int $id): ServiceResponse
+    public function delete(int $id): ServiceResponse
     {
         try {
-            $notice = Notice::query()->where('examination_id', $id)->first();
-            if (!$notice) {
+            $subject = Subject::findOrFail($id);
+
+            if (!$subject) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Edital nao encontrado.',
+                    'message' => 'Matéria não encontrada.',
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
     
-            $isDeleted = $notice->delete();
+            $isDeleted = $subject->delete();
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
@@ -244,12 +216,11 @@ class NoticeService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Edital excluido com sucesso.',
+                'mensagem' => 'Matéria excluída com sucesso.',
                 'deleted' => true,
             ]);
 
             return $this->serviceResponse;
-
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
                 'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',

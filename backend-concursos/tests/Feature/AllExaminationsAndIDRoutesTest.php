@@ -50,7 +50,7 @@ class AllExaminationsAndIDRoutesTest extends TestCase
             'educational_level_id' => $educationalLevel4->id,
         ]);
     
-        $response = $this->get("/api/examinations/examination-id?id=1")->assertJsonStructure([
+        $response = $this->get("/api/examinations/1")->assertJsonStructure([
             'id',
             'title',
         ]);
@@ -70,29 +70,19 @@ class AllExaminationsAndIDRoutesTest extends TestCase
         $examination = Examination::factory()->create([
             'educational_level_id' => 4,
         ]);
-        $response = $this->get("/api/examinations/examination-id?id=400");
+        $response = $this->get("/api/examinations/400");
         $response->assertStatus(204);
     }
 
     public function test_get_400_if_invalid_order_parameter():void
     {
         Examination::factory(5)->create([
-            'title' => 'teste',
             'educational_level_id' => 4,
         ]);
 
         $response = $this->getJson("/api/examinations/title?order=qwerty", ['title' => 'wer']);
         $response->assertStatus(400)->assertJson(        [
             "message"=> "Parâmetro de ordenação inválido. Use \"asc\" ou \"desc\".",
-            "code"=> 400
-        ]);
-    }
-
-    public function testes_get_400_if_invalid_or_missing_id_parameter(): void
-    {
-        $response = $this->getJson("/api/examinations/examination-id?id=");
-        $response->assertStatus(400)->assertJson([
-            "message"=> "O parâmetro Id é obrigatório.",
             "code"=> 400
         ]);
     }

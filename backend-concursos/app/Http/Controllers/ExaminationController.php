@@ -7,6 +7,7 @@ use App\Http\Requests\ExaminationFormRequest;
 use App\Http\Requests\GetAllRequest;
 use App\Http\Resources\ExaminationResource;
 use App\Http\Resources\UserResource;
+use App\Services\DataRetrievalService;
 use Error;
 use Illuminate\Http\Request;
 use App\Services\ExaminationService;
@@ -18,54 +19,23 @@ use App\Services\DateValidationService;
 
 class ExaminationController extends Controller
 {
-    protected $examinationService;
+    protected ExaminationService $examinationService;
+    private DataRetrievalService $dataRetrievalService;
 
-    public function __construct(ExaminationService $examinationService)
+    public function __construct(ExaminationService $examinationService, DataRetrievalService $dataRetrievalService)
     {
         $this->examinationService = $examinationService;
+        $this->dataRetrievalService = $dataRetrievalService;
     }
 
     public function getAll(Request $request)
     {
-        try {
-            $order = $request->input('order', 'desc');
-            $response = $this->examinationService->getAll($order);
-            $data = $response->data();
-            $dataArray = (array)$data;
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
-            return response()->json($dataArray['resource'], $response->status());
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
-        } catch (Error $error) {
-            return response()->json([
-                'error' => 'Ocorreu um erro inesperado.',
-                'message' => $error->getMessage(),
-                'code' => $error->getCode()
-        ], 500);
-        }
+        return $this->dataRetrievalService->getAll($this->examinationService, $request);
     }
 
-    public function getById(Request $request)
+    public function getById($id)
     {
-        try {
-            $id = $request->query('id');
-            $response = $this->examinationService->getById($id);
-            $data = $response->data();
-            $dataArray = (array)$data;
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
-            $resource = new ExaminationResource($response->data());
-            return $resource;
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
-        }
+        return $this->dataRetrievalService->getById($this->examinationService, $id);
     }
 
     public function getByTitle(Request $request)
@@ -192,37 +162,12 @@ class ExaminationController extends Controller
 
     public function update(Request $request, int $id)
     {
-        try {
-            $data = $request->all();
-            $hasFile = false;
-    
-            if (array_key_exists('registrationDate', $data)) {
-                $registrationDate = $data['registrationDate'];
-            }
-    
-            if ($request->hasFile('notice_file')) {
-                $noticePath = '';
-                $data['notice_file'] = $noticePath;
-                $hasFile = true;
-            }
-    
-            $response = $this->examinationService->update($id, $data, $hasFile);
-    
-            return response()->json($response->data(), $response->status());
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
-        }
+        return $this->dataRetrievalService->update($this->examinationService, $id, $request, 'notice_file');
     }
 
     public function delete(int $id)
     {
-        try {
-            $response = $this->examinationService->delete($id);
-            return response()->json($response->data(), $response->status());
-
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
-        }
+        return $this->dataRetrievalService->delete($this->examinationService, $id);
     }
 
     private function validateAndFormatDates(array &$requestData)

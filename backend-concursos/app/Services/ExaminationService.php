@@ -6,6 +6,7 @@ use App\Exceptions\InvalidDateFormatException;
 use App\Http\Resources\ExaminationResource;
 use App\Models\Examination;
 use App\Models\ServiceResponse;
+use App\Repositories\EntityRepository;
 use Exception;
 use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -16,13 +17,16 @@ use Log;
 use Error;
 use Storage;
 
-class ExaminationService
+class ExaminationService implements IService
 {
     private $serviceResponse;
 
-    public function __construct(ServiceResponse $serviceResponse)
+    private Examination $model;
+
+    public function __construct(ServiceResponse $serviceResponse, Examination $model)
     {
         $this->serviceResponse = $serviceResponse;
+        $this->model = $model;
     }
 
     public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
@@ -64,8 +68,8 @@ class ExaminationService
                 return $this->serviceResponse;
             }
 
-            $this->serviceResponse->setAttributes(200, $examination);
-
+            $resource = new ExaminationResource($examination);
+            $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
@@ -279,9 +283,17 @@ class ExaminationService
             }
 
             return $this->serviceResponse;
+        } catch (PDOException $exception) {
+            $this->serviceResponse->setAttributes(409, (object)[
+                'info' => 'Não foi possível criar o registro. Verifique os dados informados.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'info' => 'Ocorreu um erro inesperado.',
+                'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
