@@ -77,7 +77,6 @@ class AllExaminationsAndIDRoutesTest extends TestCase
     public function test_get_400_if_invalid_order_parameter():void
     {
         Examination::factory(5)->create([
-            'title' => 'teste',
             'educational_level_id' => 4,
         ]);
 

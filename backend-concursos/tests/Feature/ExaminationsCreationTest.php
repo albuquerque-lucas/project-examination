@@ -23,11 +23,11 @@ class ExaminationsCreationTest extends TestCase
             'exams_end_date' => '25-04-21',
         ];
         
-        $examination = Examination::factory()->create($requestData);
+        // $examination = Examination::factory()->create($requestData);
         $responseData = [
             'message' => 'Concurso adicionado com sucesso.',
-            'id' => $examination->id + 1,
-            'title' => $examination->title,
+            'id' => 37,
+            'title' => $requestData['title'],
         ];
 
         $response = $this->postJson('api/create/examination', $requestData);

@@ -44,7 +44,6 @@ class ExaminationsTitleRoutesTest extends TestCase
     public function test_get_404_error_and_a_message_if_gets_for_inexistent_title(): void
     {
         $defaultExaminations = Examination::factory(4)->create([
-            'title' => 'Titulos de teste',
             'educational_level_id' => 4,
         ]);
 
@@ -55,7 +54,6 @@ class ExaminationsTitleRoutesTest extends TestCase
     public function test_get_400_error_if_missing_title_parameter(): void
     {
         $defaultExaminations = Examination::factory(4)->create([
-            'title' => 'Title de teste',
             'educational_level_id' => 4,
         ]);
 
