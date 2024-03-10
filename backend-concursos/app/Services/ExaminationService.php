@@ -6,16 +6,14 @@ use App\Exceptions\InvalidDateFormatException;
 use App\Http\Resources\ExaminationResource;
 use App\Models\Examination;
 use App\Models\ServiceResponse;
-use App\Repositories\EntityRepository;
 use Exception;
 use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
 use PDOException;
-use Log;
-use Error;
 use Storage;
+use App\Interfaces\IService;
 
 class ExaminationService implements IService
 {
@@ -109,6 +107,13 @@ class ExaminationService implements IService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Ocorreu um erro inesperado.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
         }
     }
     public function getByInstitution(string $institution, string $order): ServiceResponse
@@ -128,6 +133,13 @@ class ExaminationService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Ocorreu um erro inesperado.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -160,6 +172,13 @@ class ExaminationService implements IService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Ocorreu um erro inesperado.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
         }
     }
 
@@ -182,6 +201,13 @@ class ExaminationService implements IService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Ocorreu um erro inesperado.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
         }
     }
 
@@ -200,6 +226,13 @@ class ExaminationService implements IService
             return $this->serviceResponse;
         } catch (NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => 'Ocorreu um erro inesperado.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);

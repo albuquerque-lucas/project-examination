@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\StudyAreaController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\ValidateEducationalLevelGetter;
@@ -86,3 +87,6 @@ Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
 
 
   // ROTAS DE STUDY AREAS
+
+  ROUTE::get('/study-areas/all', [StudyAreaController::class, 'getAll']);
+  ROUTE::get('/study-areas/area', [StudyAreaController::class, 'getByArea']);

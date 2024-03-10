@@ -11,6 +11,7 @@ use Spatie\FlareClient\Http\Exceptions\NotFound;
 use App\Models\Notice;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Storage;
+use App\Interfaces\IService;
 
 class NoticeService implements IService
 {

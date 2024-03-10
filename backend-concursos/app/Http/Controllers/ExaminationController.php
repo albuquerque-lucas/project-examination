@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidDateFormatException;
 use App\Http\Requests\ExaminationFormRequest;
-use App\Http\Requests\GetAllRequest;
-use App\Http\Resources\ExaminationResource;
-use App\Http\Resources\UserResource;
 use App\Services\DataRetrievalService;
 use Error;
 use Illuminate\Http\Request;

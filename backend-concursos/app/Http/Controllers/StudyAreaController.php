@@ -32,11 +32,15 @@ class StudyAreaController extends Controller
         return $this->dataRetrievalService->getById($this->studyAreaService, $id);
     }
 
-    public function getByName(Request $request)
+    public function getByArea(Request $request)
     {
         try {
-            $name = $request->input('name');
-            $response = $this->studyAreaService->getByName($name);
+            $validatedData = $request->validate([
+                'area' => 'required|string'
+            ]);
+            $area = $validatedData['area'];
+            $order = $request->input('order', 'desc');
+            $response = $this->studyAreaService->getByArea($area, $order);
             return response()->json($response->data(), $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([

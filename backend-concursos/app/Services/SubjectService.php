@@ -10,6 +10,7 @@ use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
 use PDOException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Interfaces\IService;
 
 
 class SubjectService implements IService
