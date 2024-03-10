@@ -83,3 +83,6 @@ Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
   Route::patch('/subjects/update/{id}', [SubjectController::class, 'update']);
 
   Route::delete('/subjects/delete/{id}', [SubjectController::class, 'delete']);
+
+
+  // ROTAS DE STUDY AREAS
