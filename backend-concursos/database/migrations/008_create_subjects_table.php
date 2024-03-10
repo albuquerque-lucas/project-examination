@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(StudyArea::class);
             $table->foreignIdFor(EducationalLevel::class);
-            $table->string('title');
+            $table->string('title')->unique();
             $table->timestamps();
         });
     }

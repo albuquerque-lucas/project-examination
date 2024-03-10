@@ -153,7 +153,7 @@ class NoticeService implements IService
                     $this->serviceResponse->setAttributes(200, $responseModel);
                 } else {
                     $this->serviceResponse->setAttributes(200, (object)[
-                        'message' => 'No changes to apply',
+                        'message' => 'Nenhuma alteração a ser feita.',
                         'notice' => $notice
                     ]);
                 }

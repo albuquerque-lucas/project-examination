@@ -55,7 +55,6 @@ Route::get('/examinations/activity-status', [ExaminationController::class, 'getB
 Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
 
   // ROTAS DE NOTICES
-
   Route::get('/notices/all', [NoticeController::class, 'getAll'])
   ->middleware(ValidateOrderParam::class);;
   
@@ -72,8 +71,15 @@ Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
 
 
   // ROTAS DE SUBJECTS
-
   Route::get('/subjects/all', [SubjectController::class, 'getAll'])
   ->middleware(ValidateOrderParam::class);;
 
+  Route::get('/subjects/title', [SubjectController::class, 'getByTitle']);
+  
   Route::get('/subjects/{id}', [SubjectController::class, 'getById']);
+
+  Route::post('/subjects/create', [SubjectController::class, 'create']);
+
+  Route::patch('/subjects/update/{id}', [SubjectController::class, 'update']);
+
+  Route::delete('/subjects/delete/{id}', [SubjectController::class, 'delete']);

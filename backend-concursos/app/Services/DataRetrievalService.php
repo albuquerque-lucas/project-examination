@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Services;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Exception;
 use Error;
+use App\Exceptions\InvalidDateFormatException;
 
 class DataRetrievalService
 {
@@ -79,6 +81,21 @@ class DataRetrievalService
             $response = $service->delete($id);
             return response()->json($response->data(), $response->status());
 
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
+
+    public function create(IService $service, FormRequest $request): JsonResponse | Response
+    {
+        try {
+            $requestData = $request->all();
+            DateValidationService::validateAndFormatDates($requestData);
+            $response = $service->create($requestData);
+
+            return response()->json($response->data(), $response->status());
+        } catch(InvalidDateFormatException $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }
