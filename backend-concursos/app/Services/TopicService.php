@@ -2,37 +2,36 @@
 
 namespace App\Services;
 
-use App\Http\Resources\SubjectResource;
+use App\Http\Resources\TopicResource;
+use App\Interfaces\IService;
 use App\Models\ServiceResponse;
-use App\Models\Subject;
 use Exception;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
 use PDOException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Interfaces\IService;
+use App\Models\Topic;
 
-
-class SubjectService implements IService
+class TopicService implements IService
 {
-    private $serviceResponse;
+    private ServiceResponse $serviceResponse;
 
     public function __construct(ServiceResponse $serviceResponse)
     {
         $this->serviceResponse = $serviceResponse;
     }
 
-    public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
+    function getAll(string $order, string $orderBy = 'id'): ServiceResponse
     {
         try {
-            $subjects = Subject::getAllOrdered($order, $orderBy);
+            $topics = Topic::getAllOrdered($order, $orderBy);
 
-            $decoded = $subjects->toArray();
+            $decoded = $topics->toArray();
             if (empty($decoded['data'])) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
             };
-            $collection = SubjectResource::collection($subjects);
+            $collection = TopicResource::collection($topics);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
@@ -52,15 +51,15 @@ class SubjectService implements IService
         }
     }
 
-    public function getById(int $id): ServiceResponse
+    function getById(int $id)
     {
         try {
-            $subject = Subject::getById($id);
-            if ($subject === null) {
+            $topic = Topic::getById($id);
+            if ($topic === null) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
             }
-            $resource = new SubjectResource($subject);
+            $resource = new TopicResource($topic);
             $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
@@ -80,39 +79,12 @@ class SubjectService implements IService
         }
     }
 
-    public function getByTitle(string $title) {
-        try {
-            $subject = Subject::query()->where('title', 'like', "%$title%")->first();
-            if ($subject === null) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            }
-            $resource = new SubjectResource($subject);
-            $this->serviceResponse->setAttributes(200, $resource);
-            return $this->serviceResponse;
-        } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)[
-                'info' => 'Nao foram encontrados registros.',
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch(Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Nao foi possivel concluir a solicitacao.',
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        }
-    }
-
-    public function create(array $data): ServiceResponse
+    function create(array $data): ServiceResponse
     {
         try {
-            $subject = Subject::create($data);
+            $topic = Topic::create($data);
 
-            if (!$subject) {
+            if (!$topic) {
                 $this->serviceResponse->setAttributes(422, (object)[
                     'message' => 'Nao foi possivel processar a requisicao.'
                 ]);
@@ -120,10 +92,9 @@ class SubjectService implements IService
             }
 
             $responseData = (object)[
-                'message' => 'Matéria adicionada com sucesso.',
-                'id' => $subject->id,
-                'file_name' => $subject->file_name,
-                'file_path' => $subject->file,
+                'message' => 'Tópico adicionado com sucesso.',
+                'id' => $topic->id,
+                'title' => $topic->title
             ];
 
             $this->serviceResponse->setAttributes(201, $responseData);
@@ -151,31 +122,33 @@ class SubjectService implements IService
             return $this->serviceResponse;
         }
     }
-    public function update(int $id, array $data, bool $hasFile = false): ServiceResponse 
+
+    
+    function update(int $id, array $data, bool $hasFile): ServiceResponse
     {
         try {
-            $subject = Subject::find($id);
-            if (!$subject) {
-                $subject->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrada nenhuma matéria com este id: $id"
+            $topic = Topic::find($id);
+            if (!$topic) {
+                $topic->serviceResponse->setAttributes(404, (object)[
+                    'message' => "Não foi encontrado nenhum tópico com este id: $id"
                 ]);
                 return $this->serviceResponse;
             }
 
-            $subject->fill($data);
+            $topic->fill($data);
 
             $responseModel = (object)[
                 'message' => 'Alteração feita com sucesso.',
-                'id' => $subject->id,
+                'id' => $topic->id,
             ];
 
-            if ($subject->isDirty()) {
-                $subject->save();
+            if ($topic->isDirty()) {
+                $topic->save();
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
                     'message' => 'Nenhuma alteração a ser feita.',
-                    'subject' => $subject
+                    'topic' => $topic
                 ]);
             }
             return $this->serviceResponse;
@@ -195,20 +168,21 @@ class SubjectService implements IService
             return $this->serviceResponse;
         }
     }
-    public function delete(int $id): ServiceResponse
+
+    function delete(int $id): ServiceResponse
     {
         try {
-            $subject = Subject::findOrFail($id);
+            $topic = Topic::findOrFail($id);
 
-            if (!$subject) {
+            if (!$topic) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Matéria não encontrada.',
+                    'message' => 'Tópico nao encontrado.',
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
     
-            $isDeleted = $subject->delete();
+            $isDeleted = $topic->delete();
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
@@ -219,7 +193,7 @@ class SubjectService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Matéria excluída com sucesso.',
+                'mensagem' => 'Tópico excluído com sucesso.',
                 'deleted' => true,
             ]);
 

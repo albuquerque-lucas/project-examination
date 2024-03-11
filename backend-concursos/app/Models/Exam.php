@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Exam extends Model
 {
@@ -41,5 +41,14 @@ class Exam extends Model
         return $this->belongsToMany(Subject::class);
     }
 
+    public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
+    {
+        return self::orderBy($orderBy, $order)->paginate();
+    }
+
+    public static function getById(int $id): self | null
+    {
+        return self::where('id', $id)->first();
+    }
 
 }
