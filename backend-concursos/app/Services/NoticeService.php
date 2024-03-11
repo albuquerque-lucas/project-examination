@@ -73,7 +73,7 @@ class NoticeService implements IService
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Nao foi possivel concluir a solicitacao.',
+                'info' => 'Não foi possível concluir a solicitação.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);

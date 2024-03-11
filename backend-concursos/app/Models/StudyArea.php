@@ -46,4 +46,9 @@ class StudyArea extends Model
     {
         return self::where('area', 'like', "%{$area}%")->orderBy('id', $order)->paginate();
     }
+
+    public static function getById(int $id): self | null
+    {
+        return self::where('id', $id)->first();
+    }
 }

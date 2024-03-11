@@ -40,7 +40,6 @@ class NoticeController extends Controller
         try {
             $requestData = $request->all();
             DateValidationService::validateAndFormatDates($requestData);
-            // $this->validateAndFormatDates($requestData);
             $response = $this->noticeService->create($requestData);
 
             return response()->json($response->data(), $response->status());

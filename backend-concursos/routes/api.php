@@ -89,4 +89,8 @@ Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
   // ROTAS DE STUDY AREAS
 
   ROUTE::get('/study-areas/all', [StudyAreaController::class, 'getAll']);
+  ROUTE::get('/study-areas/{id}', [StudyAreaController::class, 'getById']);
   ROUTE::get('/study-areas/area', [StudyAreaController::class, 'getByArea']);
+  ROUTE::post('/study-areas/create', [StudyAreaController::class, 'create']);
+  ROUTE::patch('/study-areas/update/{id}', [StudyAreaController::class, 'update']);
+  ROUTE::delete('/study-areas/delete/{id}', [StudyAreaController::class, 'delete']);
