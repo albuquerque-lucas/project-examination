@@ -25,7 +25,7 @@ class StudyAreasFactory extends Factory
             'Psicologia'
         ];
         return [
-            'name' => $this->faker->randomElement($studyAreasList),
+            'area' => $this->faker->unique()->randomElement($studyAreasList),
         ];
     }
 }

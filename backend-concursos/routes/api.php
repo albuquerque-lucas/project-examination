@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\StudyAreaController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\ValidateEducationalLevelGetter;
@@ -38,16 +39,16 @@ Route::patch("/examinations/update/{id}", [ExaminationController::class, "update
 Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delete"]);
 
 Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"])
-->middleware(ValidateOrderParam::class, ValidateExamDateGetter::class);
+->middleware(ValidateOrderParam::class);
 
 Route::get('/examinations/institution', [ExaminationController::class, "getByInstitution"])
-->middleware(ValidateOrderParam::class, ValidateExamInstitutionGetter::class);
+->middleware(ValidateOrderParam::class);
 
 Route::get('/examinations/title', [ExaminationController::class, "getByTitle"])
-->middleware(ValidateOrderParam::class, ValidateExamTitleGetter::class);
+->middleware(ValidateOrderParam::class);
 
-Route::get('/examinations/educational-level', [ExaminationController::class, 'getByEducationalLevel'])
-->middleware(ValidateOrderParam::class, ValidateEducationalLevelGetter::class);
+Route::get('/examinations/educational-level/{id}', [ExaminationController::class, 'getByEducationalLevel'])
+->middleware(ValidateOrderParam::class);
 
 Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus'])
 ->middleware(ValidateOrderParam::class);
@@ -83,3 +84,13 @@ Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
   Route::patch('/subjects/update/{id}', [SubjectController::class, 'update']);
 
   Route::delete('/subjects/delete/{id}', [SubjectController::class, 'delete']);
+
+
+  // ROTAS DE STUDY AREAS
+
+  ROUTE::get('/study-areas/all', [StudyAreaController::class, 'getAll']);
+  ROUTE::get('/study-areas/{id}', [StudyAreaController::class, 'getById']);
+  ROUTE::get('/study-areas/area', [StudyAreaController::class, 'getByArea']);
+  ROUTE::post('/study-areas/create', [StudyAreaController::class, 'create']);
+  ROUTE::patch('/study-areas/update/{id}', [StudyAreaController::class, 'update']);
+  ROUTE::delete('/study-areas/delete/{id}', [StudyAreaController::class, 'delete']);

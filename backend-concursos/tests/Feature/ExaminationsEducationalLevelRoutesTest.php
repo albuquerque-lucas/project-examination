@@ -31,14 +31,8 @@ class ExaminationsEducationalLevelRoutesTest extends TestCase
         ]);
 
 
-        $response = $this->getJson('/api/examinations/educational-level', ['educational-level' => 4]);
+        $response = $this->getJson('/api/examinations/educational-level/4');
         $response->assertStatus(200);
-    }
-
-    public function test_get_400_if_missing_educational_level_id_parameter(): void
-    {
-        $response = $this->get('/api/examinations/educational-level');
-        $response->assertStatus(400);
     }
 
     public function test_get_404_if_cant_find_examinations_with_given_educational_level_id(): void
@@ -47,7 +41,7 @@ class ExaminationsEducationalLevelRoutesTest extends TestCase
             'educational_level_id' => 4
         ]);
 
-        $response = $this->getJson('/api/examinations/educational-level', ['educational-level' => '123123']);
+        $response = $this->getJson('/api/examinations/educational-level/1231231');
         $response->assertStatus(204);
     }
 }

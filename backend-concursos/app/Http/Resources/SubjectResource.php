@@ -19,10 +19,10 @@ class SubjectResource extends JsonResource
             "study_area_id" => $this->study_area_id,
             "educational_level_id" => $this->educational_level_id,
             "title" => $this->title,
-            "study_area" => $this->studyArea->name,
+            "study_area" => $this->studyArea->area,
             "educational_level" => $this->educationalLevel->name,
-            "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at,
+            // "created_at" => $this->created_at,
+            // "updated_at" => $this->updated_at,
         ];
     }
 }

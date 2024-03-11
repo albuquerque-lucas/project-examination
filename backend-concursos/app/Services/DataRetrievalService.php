@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Exception;
 use Error;
 use App\Exceptions\InvalidDateFormatException;
+use App\Interfaces\IService;
 
 class DataRetrievalService
 {

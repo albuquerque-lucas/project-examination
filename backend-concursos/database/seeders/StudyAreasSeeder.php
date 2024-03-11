@@ -30,7 +30,7 @@ class StudyAreasSeeder extends Seeder
         ];
 
         foreach ($studyAreas as $area) {
-            StudyArea::create(['name' => $area]);
+            StudyArea::create(['area' => $area]);
         }
     }
 }
