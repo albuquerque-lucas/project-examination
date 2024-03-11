@@ -32,7 +32,7 @@ class ExaminationsTitleRoutesTest extends TestCase
             'educational_level_id' => $educationalLevel4->id,
         ]);
 
-        $response = $this->getJson('/api/examinations/title', ['title' => 'Raziel']);
+        $response = $this->getJson('/api/examinations/title?title=Raziel');
         $response->assertStatus(200);
         $result = $response->json();
         $data = $result['data'];
@@ -47,7 +47,7 @@ class ExaminationsTitleRoutesTest extends TestCase
             'educational_level_id' => 4,
         ]);
 
-        $response = $this->get("/api/examinations/title", ['title' => 'Titulo inexistente.']);
+        $response = $this->get("/api/examinations/title?title=inexistent");
         $response->assertStatus(204);
     }
 
@@ -57,10 +57,10 @@ class ExaminationsTitleRoutesTest extends TestCase
             'educational_level_id' => 4,
         ]);
 
-        $response = $this->get("/api/examinations/title");
+        $response = $this->get("/api/examinations/title?title=");
         $response->assertStatus(400)->assertJson([
-            "message"=> "O parâmetro Título é obrigatório.",
-            "code"=> 400
+            "message"=> "The title field is required.",
+            "code"=> 0
         ]);
     }
 

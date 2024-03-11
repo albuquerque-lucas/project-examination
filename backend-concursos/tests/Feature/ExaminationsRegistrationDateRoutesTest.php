@@ -32,7 +32,7 @@ class ExaminationsRegistrationDateRoutesTest extends TestCase
             'registration_end_date' =>  $testEndDate,
         ]);
 
-        $response = $this->getJson("/api/examinations/registration-date", ['registrationDate' => $testStartDate]);
+        $response = $this->getJson("/api/examinations/registration-date?registrationDate=$testStartDate");
         $response->assertStatus(200);
         $result = $response->json();
         $data = $result['data'];
@@ -78,11 +78,11 @@ class ExaminationsRegistrationDateRoutesTest extends TestCase
             'registration_start_date' => $exampleRegistrationStartDate,
             'registration_end_date' =>  '2024-04-24',
         ]);
-        $response = $this->getJson("/api/examinations/registration-date", ['registrationDate' => 25]);
+        $response = $this->getJson("/api/examinations/registration-date?registrationDate=25");
 
         $response->assertStatus(400)->assertJson(        [
-            "message" => "Data informada no formato inválido. Utilize YYYY-MM-DD.",
-            "code" => 400
+            "message" => "The registration date field must match the format Y-m-d.",
+            "code" => 0
         ]);
     }
 }

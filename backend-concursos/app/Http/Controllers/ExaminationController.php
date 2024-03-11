@@ -30,7 +30,7 @@ class ExaminationController extends Controller
         return $this->dataRetrievalService->getAll($this->examinationService, $request);
     }
 
-    public function getById($id)
+    public function getById(int $id)
     {
         return $this->dataRetrievalService->getById($this->examinationService, $id);
     }

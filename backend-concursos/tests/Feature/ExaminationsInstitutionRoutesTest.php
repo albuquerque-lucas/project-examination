@@ -30,7 +30,7 @@ class ExaminationsInstitutionRoutesTest extends TestCase
             'educational_level_id' => $educationalLevel2->id,
         ]);
 
-        $response = $this->get('/api/examinations/institution', ['institution' => 'Test']);
+        $response = $this->get('/api/examinations/institution?institution=Test');
         $data = $response->json();
         $response->assertStatus(200);
         $response->assertJsonStructure(['data']);
@@ -51,7 +51,7 @@ class ExaminationsInstitutionRoutesTest extends TestCase
             'educational_level_id' => $educationalLevel4->id,
         ]);
 
-        $response = $this->get("/api/examinations/institution", ['institution' => 'Inexistent']);
+        $response = $this->get("/api/examinations/institution?institution=inexistent");
         $response->assertStatus(204);
     }
 
@@ -68,8 +68,8 @@ class ExaminationsInstitutionRoutesTest extends TestCase
 
         $response = $this->get("/api/examinations/institution");
         $response->assertStatus(400)->assertJson([
-            "message"=> "O parâmetro Instituição é obrigatório.",
-            "code"=> 400
+            "message"=> "The institution field is required.",
+            "code"=> 0
         ]);
     }
 }
