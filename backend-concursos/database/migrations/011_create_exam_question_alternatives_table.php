@@ -17,7 +17,7 @@ return new class extends Migration
             $table
                 ->foreignIdFor(ExamQuestion::class)
                 ->cascadeOnDelete();
-            $table->string('letter')->nullable()->default(null);
+            $table->char('letter')->nullable()->default(null);
             $table->text('text');
             $table->boolean('is_answer')->default(false);
             $table->timestamps();

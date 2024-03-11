@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table
                 ->foreignIdFor(Examination::class)->nullable();
-            $table->string('title')->nullable();
+            $table->string('title');
             $table->text('description')->nullable();
             $table->date('date')->nullable();
             $table->time('start_time')->nullable();
