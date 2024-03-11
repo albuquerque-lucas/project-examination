@@ -14,6 +14,9 @@ class StudyAreaResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'area' => $this->area,
+            'subjects' => SubjectResource::collection($this->subjects),
+        ];
     }
 }
