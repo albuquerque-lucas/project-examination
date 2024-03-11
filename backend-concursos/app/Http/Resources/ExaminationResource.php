@@ -26,7 +26,7 @@ class ExaminationResource extends JsonResource
             'exams_end_date' => $this->exams_end_date,
             'exams_count' => count($this->exams),
             'exam_list' => $this->exams,
-            'study_areas' => $this->studyAreas,
+            'study_areas' => StudyAreaMinResource::collection($this->studyAreas),
         ];
     }
 }
