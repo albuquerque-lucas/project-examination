@@ -39,16 +39,16 @@ Route::patch("/examinations/update/{id}", [ExaminationController::class, "update
 Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delete"]);
 
 Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"])
-->middleware(ValidateOrderParam::class, ValidateExamDateGetter::class);
+->middleware(ValidateOrderParam::class);
 
 Route::get('/examinations/institution', [ExaminationController::class, "getByInstitution"])
-->middleware(ValidateOrderParam::class, ValidateExamInstitutionGetter::class);
+->middleware(ValidateOrderParam::class);
 
 Route::get('/examinations/title', [ExaminationController::class, "getByTitle"])
-->middleware(ValidateOrderParam::class, ValidateExamTitleGetter::class);
+->middleware(ValidateOrderParam::class);
 
-Route::get('/examinations/educational-level', [ExaminationController::class, 'getByEducationalLevel'])
-->middleware(ValidateOrderParam::class, ValidateEducationalLevelGetter::class);
+Route::get('/examinations/educational-level/{id}', [ExaminationController::class, 'getByEducationalLevel'])
+->middleware(ValidateOrderParam::class);
 
 Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus'])
 ->middleware(ValidateOrderParam::class);
