@@ -23,8 +23,8 @@ class Exam extends Model
 
     protected $casts = [
         'date' => 'date',
-        'start_time' => 'time',
-        'end_time' => 'time',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     public function examination(): BelongsTo

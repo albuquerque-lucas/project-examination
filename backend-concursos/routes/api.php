@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExamController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\StudyAreaController;
 use App\Http\Controllers\SubjectController;
@@ -102,3 +103,10 @@ Route::get('/topics/{id}', [TopicController::class,'getById']);
 Route::post('/topics/create', [TopicController::class,'create']);
 Route::patch('/topics/update/{id}', [TopicController::class,'update']);
 Route::delete('/topics/delete/{id}', [TopicController::class,'delete']);
+
+// ROTAS DE EXAMS
+Route::get('/exams/all', [ExamController::class,'getAll']);
+Route::get('/exams/{id}', [ExamController::class,'getById']);
+Route::post('/exams/create', [ExamController::class,'create']);
+Route::patch('/exams/update/{id}', [ExamController::class,'update']);
+Route::delete('/exams/delete/{id}', [ExamController::class,'delete']);

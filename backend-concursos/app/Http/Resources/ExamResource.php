@@ -14,6 +14,16 @@ class ExamResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'examination' => $this->examination->title,
+            'description'=> $this->description,
+            'date' => $this->date,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
+            'subjects' => SubjectMinResource::collection($this->subjects),
+            'questions_count' => count($this->examQuestions),
+        ];
     }
 }
