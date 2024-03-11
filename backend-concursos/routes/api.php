@@ -3,6 +3,7 @@
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\StudyAreaController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\ValidateEducationalLevelGetter;
 use App\Http\Middleware\ValidateExamIdGetter;
@@ -87,10 +88,17 @@ Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
 
 
   // ROTAS DE STUDY AREAS
+  Route::get('/study-areas/all', [StudyAreaController::class, 'getAll']);
+  Route::get('/study-areas/{id}', [StudyAreaController::class, 'getById']);
+  Route::get('/study-areas/area', [StudyAreaController::class, 'getByArea']);
+  Route::post('/study-areas/create', [StudyAreaController::class, 'create']);
+  Route::patch('/study-areas/update/{id}', [StudyAreaController::class, 'update']);
+  Route::delete('/study-areas/delete/{id}', [StudyAreaController::class, 'delete']);
 
-  ROUTE::get('/study-areas/all', [StudyAreaController::class, 'getAll']);
-  ROUTE::get('/study-areas/{id}', [StudyAreaController::class, 'getById']);
-  ROUTE::get('/study-areas/area', [StudyAreaController::class, 'getByArea']);
-  ROUTE::post('/study-areas/create', [StudyAreaController::class, 'create']);
-  ROUTE::patch('/study-areas/update/{id}', [StudyAreaController::class, 'update']);
-  ROUTE::delete('/study-areas/delete/{id}', [StudyAreaController::class, 'delete']);
+
+// ROTAS DE TOPIC
+Route::get('/topics/all', [TopicController::class,'getAll']);
+Route::get('/topics/{id}', [TopicController::class,'getById']);
+Route::post('/topics/create', [TopicController::class,'create']);
+Route::patch('/topics/update/{id}', [TopicController::class,'update']);
+Route::delete('/topics/delete/{id}', [TopicController::class,'delete']);

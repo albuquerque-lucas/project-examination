@@ -25,21 +25,21 @@ class TopicController extends Controller
 
     public function getById(int $id)
     {
-        return $this->dataRetrievalService->getById($this->subjectService, $id);
+        return $this->dataRetrievalService->getById($this->topicService, $id);
     }
 
     public function update(Request $request, int $id)
     {
-        return $this->dataRetrievalService->update($this->subjectService, $id, $request);
+        return $this->dataRetrievalService->update($this->topicService, $id, $request);
     }
 
     public function delete(int $id)
     {
-        return $this->dataRetrievalService->delete($this->subjectService, $id);
+        return $this->dataRetrievalService->delete($this->topicService, $id);
     }
 
     public function create(TopicFormRequest $request)
     {
-        return $this->dataRetrievalService->create($this->subjectService, $request);
+        return $this->dataRetrievalService->create($this->topicService, $request);
     }
 }

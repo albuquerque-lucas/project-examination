@@ -11,7 +11,7 @@ class TopicFormRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class TopicFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "subject_id" => 'required|integer',
+            "title" => 'required|string',
+            "description" => "nullable|string"
         ];
     }
 }

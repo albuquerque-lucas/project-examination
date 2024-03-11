@@ -52,7 +52,8 @@ class SubjectService implements IService
         }
     }
 
-    public function getById(int $id): ServiceResponse {
+    public function getById(int $id): ServiceResponse
+    {
         try {
             $subject = Subject::getById($id);
             if ($subject === null) {
@@ -106,7 +107,8 @@ class SubjectService implements IService
         }
     }
 
-    public function create(array $data): ServiceResponse {
+    public function create(array $data): ServiceResponse
+    {
         try {
             $subject = Subject::create($data);
 
@@ -155,7 +157,7 @@ class SubjectService implements IService
             $subject = Subject::find($id);
             if (!$subject) {
                 $subject->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrado nenhum edital com este id: $id"
+                    'message' => "Não foi encontrada nenhuma matéria com este id: $id"
                 ]);
                 return $this->serviceResponse;
             }
@@ -173,7 +175,7 @@ class SubjectService implements IService
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
                     'message' => 'Nenhuma alteração a ser feita.',
-                    'notice' => $subject
+                    'subject' => $subject
                 ]);
             }
             return $this->serviceResponse;
