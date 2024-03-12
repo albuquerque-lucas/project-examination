@@ -34,6 +34,11 @@ class ExamQuestion extends Model
         return $this->hasMany(ExamQuestionAlternative::class);
     }
 
+    public function images(): HasMany
+    {
+        return $this->hasMany(ExamQuestionImage::class);
+    }
+
     public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
