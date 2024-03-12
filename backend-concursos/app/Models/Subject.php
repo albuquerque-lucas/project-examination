@@ -62,4 +62,9 @@ class Subject extends Model
     {
         return self::where('id', $id)->first();
     }
+
+    public static function getByTitle(string $title, string $order): LengthAwarePaginator
+    {
+        return self::where('title', 'like', "%$title%")->orderBy('id', $order)->paginate();
+    }
 }

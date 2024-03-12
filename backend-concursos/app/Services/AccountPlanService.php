@@ -79,15 +79,16 @@ class AccountPlanService implements IService
         }
     }
 
-    public function getByName(string $name) {
+    public function getByName(string $name, string $order = 'desc'): ServiceResponse{
         try {
-            $accountPlan = AccountPlan::query()->where('name', 'like', "%$name%")->first();
-            if ($accountPlan === null) {
+            $accountPlans = AccountPlan::getByName($name, $order);
+            $decoded = $accountPlans->toArray();
+            if (empty($decoded['data'])) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
-            }
-            $resource = new AccountPlanResource($accountPlan);
-            $this->serviceResponse->setAttributes(200, $resource);
+            };
+            $collection = AccountPlanResource::collection($accountPlans);
+            $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[

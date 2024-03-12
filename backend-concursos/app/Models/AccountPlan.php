@@ -37,4 +37,9 @@ class AccountPlan extends Model
     {
         return self::where('id', $id)->first();
     }
+
+    public static function getByName(string $name, string $order): LengthAwarePaginator
+    {
+        return self::where('name', 'like', "%$name%")->orderBy('id', $order)->paginate();
+    }
 }

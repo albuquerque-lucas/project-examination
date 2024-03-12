@@ -33,9 +33,23 @@ class SubjectController extends Controller
     public function getByTitle(Request $request)
     {
         try {
+            $request->validate([
+                'title' => 'required|string',
+                'order' => 'nullable|string|in:asc,desc'
+            ]);
             $title = $request->input('title');
-            $response = $this->subjectService->getByTitle($title);
-            return response()->json($response->data(), $response->status());
+            $order = $request->input('order', 'desc');
+            $response = $this->subjectService->getByTitle($title, $order);
+            $data = $response->data();
+            $dataArray = (array)$data;
+
+            if (array_key_exists('code', $dataArray)) {
+                if ($dataArray['code'] === 204) {
+                    return response()->noContent();
+                }
+            }
+
+            return response()->json($dataArray['resource'], $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([
                 'error' => 'Ocorreu um erro inesperado.',
