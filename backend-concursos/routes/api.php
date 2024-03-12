@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\ExamQuestionAlternativeController;
 use App\Http\Controllers\ExamQuestionController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\StudyAreaController;
@@ -92,11 +93,11 @@ Route::delete('/exam-questions/delete/{id}', [ExamQuestionController::class,'del
 
 
 // ROTAS DE EXAM QUESTIONS ALTERNATIVES
-// Route::get('/questions-alternatives/all', [ExamQuestionController::class,'getAll']);
-// Route::get('/questions-alternatives/{id}', [ExamQuestionController::class,'getById']);
-// Route::post('/questions-alternatives/create', [ExamQuestionController::class,'create']);
-// Route::patch('/questions-alternatives/update/{id}', [ExamQuestionController::class,'update']);
-// Route::delete('/questions-alternatives/delete/{id}', [ExamQuestionController::class,'delete']);
+Route::get('/questions-alternatives/all', [ExamQuestionAlternativeController::class,'getAll']);
+Route::get('/questions-alternatives/id/{id}', [ExamQuestionAlternativeController::class,'getById']);
+Route::post('/questions-alternatives/create', [ExamQuestionAlternativeController::class,'create']);
+Route::patch('/questions-alternatives/update/{id}', [ExamQuestionAlternativeController::class,'update']);
+Route::delete('/questions-alternatives/delete/{id}', [ExamQuestionAlternativeController::class,'delete']);
 
 
 // ROTAS DE EDUCATIONAL LEVELS
