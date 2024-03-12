@@ -23,12 +23,6 @@ class DataRetrievalService
             $data = $response->data();
             $dataArray = (array)$data;
 
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
-
             return response()->json($dataArray['resource'], $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([
@@ -42,12 +36,7 @@ class DataRetrievalService
     public function getById(IService $service, int $id = null): JsonResponse | Response
     {
         try {
-            
             $response = $service->getById($id);
-            $data = (array) $response->data();
-            if (array_key_exists('code', $data) && $data['code'] === 204) {
-                return response()->noContent();
-            }
     
             return response()->json($response->data(), $response->status());
         } catch (Exception | Error $exception) {

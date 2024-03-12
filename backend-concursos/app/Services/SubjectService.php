@@ -27,11 +27,6 @@ class SubjectService implements IService
         try {
             $subjects = Subject::getAllOrdered($order, $orderBy);
 
-            $decoded = $subjects->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
             $collection = SubjectResource::collection($subjects);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
@@ -84,11 +79,7 @@ class SubjectService implements IService
     {
         try {
             $subjects = Subject::getByTitle($title, $order);
-            $decoded = $subjects->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
+
             $collection = SubjectResource::collection($subjects);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;

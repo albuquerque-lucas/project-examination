@@ -41,26 +41,26 @@ class ExaminationsTitleRoutesTest extends TestCase
         $this->assertEquals($exampleExamination1->id, $data[1]['id']);
         $this->assertEquals($exampleExamination3->title, $data[0]['title']);
     }
-    public function test_get_404_error_and_a_message_if_gets_for_inexistent_title(): void
+    public function test_get_200_even_if_it_gets_for_inexistent_title(): void
     {
-        $defaultExaminations = Examination::factory(4)->create([
+        Examination::factory(4)->create([
             'educational_level_id' => 4,
         ]);
 
         $response = $this->get("/api/examinations/title?title=inexistent");
-        $response->assertStatus(204);
+        $response->assertStatus(200);
     }
 
     public function test_get_400_error_if_missing_title_parameter(): void
     {
-        $defaultExaminations = Examination::factory(4)->create([
+        Examination::factory(4)->create([
             'educational_level_id' => 4,
         ]);
 
         $response = $this->get("/api/examinations/title?title=");
         $response->assertStatus(400)->assertJson([
             "message"=> "The title field is required.",
-            "code"=> 0
+            "code"=> 400
         ]);
     }
 

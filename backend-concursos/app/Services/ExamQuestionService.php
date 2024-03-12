@@ -25,11 +25,6 @@ class ExamQuestionService implements IService
         try {
             $examQuestions = ExamQuestion::getAllOrdered($order, $orderBy);
 
-            $decoded = $examQuestions->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
             $collection = ExamQuestionResource::collection($examQuestions);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
@@ -81,10 +76,7 @@ class ExamQuestionService implements IService
     public function getByTitle(string $title) {
         try {
             $examQuestion = ExamQuestion::query()->where('title', 'like', "%$title%")->first();
-            if ($examQuestion === null) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            }
+
             $resource = new ExamQuestionResource($examQuestion);
             $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
@@ -109,11 +101,8 @@ class ExamQuestionService implements IService
     {
         try {
             $examQuestion = ExamQuestion::getByStatement($statement, $order);
-            if ($examQuestion === null) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            }
-            $resource = new ExamQuestionResource($examQuestion);
+
+            $resource = ExamQuestionResource::collection($examQuestion);
             $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
         } catch(NotFound $exception) {

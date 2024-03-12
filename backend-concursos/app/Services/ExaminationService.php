@@ -32,11 +32,6 @@ class ExaminationService implements IService
         try {
             $examinations = Examination::getAllOrdered($order, $orderBy);
 
-            $decoded = $examinations->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
             $collection = ExaminationResource::collection($examinations);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
@@ -91,12 +86,6 @@ class ExaminationService implements IService
         try {
             $examinations = Examination::getByTitle($title, $order);
 
-
-            $decoded = $examinations->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
             $collection = ExaminationResource::collection($examinations);
 
             $this->serviceResponse->setAttributes(200, $collection);
@@ -120,12 +109,6 @@ class ExaminationService implements IService
     {
         try {
             $examinations = Examination::getByInstitution($institution, $order);
-
-            $decoded = $examinations->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
 
             $collection = ExaminationResource::collection($examinations);
             $this->serviceResponse->setAttributes(200, $collection);
@@ -151,11 +134,7 @@ class ExaminationService implements IService
     {
         try {
             $examinations = Examination::getByRegistrationDate($registrationDate, $order, $position);
-            $decoded = $examinations->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
+
             $collection = ExaminationResource::collection($examinations);
 
             $this->serviceResponse->setAttributes(200, $collection);
@@ -186,12 +165,6 @@ class ExaminationService implements IService
     {
         try {
             $examinations = Examination::getByEducationalLevel($educationalLevelId, $order);
-            $decoded = $examinations->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
-            
             $collection = ExaminationResource::collection($examinations);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
@@ -215,11 +188,7 @@ class ExaminationService implements IService
     {
         try {
             $examinations = Examination::getByActivityStatus($active, $order);
-            $decoded = $examinations->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
+
 
             $collection = ExaminationResource::collection($examinations);
             $this->serviceResponse->setAttributes(200, $collection);

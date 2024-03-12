@@ -35,13 +35,13 @@ class ExaminationsEducationalLevelRoutesTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_get_404_if_cant_find_examinations_with_given_educational_level_id(): void
+    public function test_get_200_even_if_cant_find_examinations_with_given_educational_level_id(): void
     {
-        $exampleExaminatiosList1 = Examination::factory(10)->create([
+        Examination::factory(10)->create([
             'educational_level_id' => 4
         ]);
 
-        $response = $this->getJson('/api/examinations/educational-level/1231231');
-        $response->assertStatus(204);
+        $response = $this->getJson('/api/examinations/educational-level/123');
+        $response->assertStatus(200);
     }
 }

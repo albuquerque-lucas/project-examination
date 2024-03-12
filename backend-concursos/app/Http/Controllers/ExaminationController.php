@@ -40,7 +40,7 @@ class ExaminationController extends Controller
 
         try {
             $validated = $request->validate([
-                'title' => 'required',
+                'title' => 'required|string',
                 'order' => 'nullable|string|in:asc,desc',
             ]);
             $title = $validated['title'];
@@ -48,16 +48,12 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getByTitle($title, $order);
             $data = $response->data();
             $dataArray = (array)$data;
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
+
             return response()->json($dataArray['resource'], $response->status());
         } catch (NotFound $notFound) {
             return response()->json(['message' => $notFound->getMessage(), 'code' => $notFound->getCode()], 404);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+            return response()->json(['message' => $exception->getMessage(), 'code' => 400], 400);
         } 
     }
 
@@ -73,11 +69,7 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getByInstitution($institution, $order);
             $data = $response->data();
             $dataArray = (array)$data;
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
+
             return response()->json($dataArray['resource'], $response->status());
         } catch (NotFound $notFound) {
             return response()->json(['message' => $notFound->getMessage(), 'code' => $notFound->getCode()], 404);
@@ -92,7 +84,7 @@ class ExaminationController extends Controller
             $validated = $request->validate([
                 'registrationDate' => 'required|date_format:Y-m-d',
                 'order' => 'nullable|string|in:asc,desc',
-                'position' => 'required|in:start,end'
+                'position' => 'nullable|in:start,end'
             ]);
             $registrationDate = $validated['registrationDate'];
             $position = $request->query('position', 'start');
@@ -102,11 +94,7 @@ class ExaminationController extends Controller
 
             $data = $response->data();
             $dataArray = (array)$data;
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
+
             return response()->json($dataArray['resource'], $response->status());
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
@@ -121,14 +109,8 @@ class ExaminationController extends Controller
             ]);
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByEducationalLevel($id, $order);
-            $data = $response->data();
-            $dataArray = (array)$data;
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
-            return response()->json($dataArray['resource'], 200);
+            $data = (array)$response->data();
+            return response()->json($data['resource'], 200);
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 500);
         }
@@ -146,11 +128,7 @@ class ExaminationController extends Controller
             $response = $this->examinationService->getByActivityStatus($isActive, $order);
             $data = $response->data();
             $dataArray = (array)$data;
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
+
 
             return response()->json($dataArray['resource'], 200);
         } catch (Exception $exception) {

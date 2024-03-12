@@ -26,11 +26,6 @@ class ExamQuestionAlternativeService implements IService
         try {
             $alternatives = ExamQuestionAlternative::getAllOrdered($order, $orderBy);
 
-            $decoded = $alternatives->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
             $collection = ExamQuestionAlternativeResource::collection($alternatives);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;

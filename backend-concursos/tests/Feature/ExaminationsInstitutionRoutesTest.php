@@ -40,7 +40,7 @@ class ExaminationsInstitutionRoutesTest extends TestCase
         $this->assertEquals($exampleExamination->institution, $result[0]['institution']);
     }
 
-    public function test_get_204_no_content_if_gets_for_inexistent_institution(): void
+    public function test_get_200_even_if_no_content_when_it_gets_for_inexistent_institution(): void
     {
         $educationalLevel4 = EducationalLevel::factory()->create([
             'id' => 4,
@@ -52,7 +52,7 @@ class ExaminationsInstitutionRoutesTest extends TestCase
         ]);
 
         $response = $this->get("/api/examinations/institution?institution=inexistent");
-        $response->assertStatus(204);
+        $response->assertStatus(200);
     }
 
     public function test_get_400_error_if_missing_institution_parameter(): void

@@ -50,7 +50,7 @@ class AllExaminationsAndIDRoutesTest extends TestCase
             'educational_level_id' => $educationalLevel4->id,
         ]);
     
-        $response = $this->get("/api/examinations/1")->assertJsonStructure([
+        $response = $this->get("/api/examinations/id/1")->assertJsonStructure([
             'id',
             'title',
         ]);
@@ -59,10 +59,10 @@ class AllExaminationsAndIDRoutesTest extends TestCase
         $this->assertIsArray($data);
     }
 
-    public function test_get_204_code_if_doesnt_find_any_examinations(): void
+    public function test_get_200_code_even_if_doesnt_find_any_examinations(): void
     {
         $response = $this->getJson('/api/examinations/all');
-        $response->assertStatus(204);
+        $response->assertStatus(200);
     }
 
     public function test_get_204_no_content_if_get_for_inexistent_id():void
@@ -70,7 +70,7 @@ class AllExaminationsAndIDRoutesTest extends TestCase
         $examination = Examination::factory()->create([
             'educational_level_id' => 4,
         ]);
-        $response = $this->get("/api/examinations/400");
+        $response = $this->get("/api/examinations/id/400");
         $response->assertStatus(204);
     }
 
@@ -80,9 +80,9 @@ class AllExaminationsAndIDRoutesTest extends TestCase
             'educational_level_id' => 4,
         ]);
 
-        $response = $this->getJson("/api/examinations/title?order=qwerty", ['title' => 'wer']);
+        $response = $this->getJson("/api/examinations/title?order=qwerty&title=Test");
         $response->assertStatus(400)->assertJson(        [
-            "message"=> "Parâmetro de ordenação inválido. Use \"asc\" ou \"desc\".",
+            "message"=> "The selected order is invalid.",
             "code"=> 400
         ]);
     }
