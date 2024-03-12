@@ -6,15 +6,10 @@ use App\Http\Controllers\StudyAreaController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\ValidateEducationalLevelGetter;
-use App\Http\Middleware\ValidateExamIdGetter;
-use App\Http\Middleware\ValidateExamInstitutionGetter;
 use App\Http\Middleware\ValidateOrderParam;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExaminationController;
-use App\Http\Middleware\ValidateExamDateGetter;
-use App\Http\Middleware\ValidateExamTitleGetter;
-use App\Http\Middleware\ValidateActivityStatusGetter;
+use App\Http\Controllers\EducationalLevelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,3 +105,10 @@ Route::get('/exams/{id}', [ExamController::class,'getById']);
 Route::post('/exams/create', [ExamController::class,'create']);
 Route::patch('/exams/update/{id}', [ExamController::class,'update']);
 Route::delete('/exams/delete/{id}', [ExamController::class,'delete']);
+
+// ROTAS DE EDUCATIONAL LEVELS
+Route::get('/educational-levels/all', [EducationalLevelController::class, 'getAll']);
+Route::get('/educational-levels/{id}', [EducationalLevelController::class, 'getById']);
+Route::post('/educational-levels/create', [EducationalLevelController::class, 'create']);
+Route::patch('/educational-levels/update/{id}', [EducationalLevelController::class, 'update']);
+Route::delete('/educational-levels/delete/{id}', [EducationalLevelController::class, 'delete']);
