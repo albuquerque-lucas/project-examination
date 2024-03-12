@@ -26,11 +26,6 @@ class TopicService implements IService
         try {
             $topics = Topic::getAllOrdered($order, $orderBy);
 
-            $decoded = $topics->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
             $collection = TopicResource::collection($topics);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;

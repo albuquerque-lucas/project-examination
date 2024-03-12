@@ -41,7 +41,10 @@ class ExamQuestionController extends Controller
             $statement = $request->input('statement');
             $order = $request->input('order', 'desc');
             $response = $this->examQuestionService->getByStatement($statement, $order);
-            return response()->json($response->data(), $response->status());
+            $data = $response->data();
+            $dataArray = (array)$data;
+
+            return response()->json($dataArray['resource'], $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([
                 'error' => 'Ocorreu um erro inesperado.',

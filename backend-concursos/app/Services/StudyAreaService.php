@@ -26,12 +26,6 @@ class StudyAreaService implements IService
         try {
             $studyAreas = StudyArea::getAllOrdered($order, $orderBy);
 
-            $decoded = $studyAreas->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
-
             $collection = StudyAreaResource::collection($studyAreas);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
@@ -84,12 +78,6 @@ class StudyAreaService implements IService
     {
         try {
             $studyAreas = StudyArea::getByArea($area, $order);
-            $decoded = $studyAreas->toArray();
-
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
 
             $this->serviceResponse->setAttributes(200, $studyAreas);
             return $this->serviceResponse;

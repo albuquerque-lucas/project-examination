@@ -27,11 +27,6 @@ class NoticeService implements IService
         try {
             $notices = Notice::getAllOrdered($order, $orderBy);
 
-            $decoded = $notices->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
             $collection = NoticeResource::collection($notices);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;

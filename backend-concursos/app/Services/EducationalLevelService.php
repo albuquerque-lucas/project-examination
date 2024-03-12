@@ -26,11 +26,6 @@ class EducationalLevelService implements IService
         try {
             $educationalLevels = EducationalLevel::getAllOrdered($order, $orderBy);
 
-            $decoded = $educationalLevels->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
             $collection = EducationalLevelResource::collection($educationalLevels);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
@@ -82,13 +77,6 @@ class EducationalLevelService implements IService
     public function getByName(string $name, string $order = 'desc') {
         try {
             $educationalLevels = EducationalLevel::getByName($name, $order);
-
-            $decoded = $educationalLevels->toArray();
-
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
 
             $resource = EducationalLevelResource::collection($educationalLevels);
 

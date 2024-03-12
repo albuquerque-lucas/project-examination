@@ -43,12 +43,6 @@ class SubjectController extends Controller
             $data = $response->data();
             $dataArray = (array)$data;
 
-            if (array_key_exists('code', $dataArray)) {
-                if ($dataArray['code'] === 204) {
-                    return response()->noContent();
-                }
-            }
-
             return response()->json($dataArray['resource'], $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([

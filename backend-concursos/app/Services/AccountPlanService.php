@@ -26,11 +26,6 @@ class AccountPlanService implements IService
         try {
             $accountPlans = AccountPlan::getAllOrdered($order, $orderBy);
 
-            $decoded = $accountPlans->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
             $collection = AccountPlanResource::collection($accountPlans);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
@@ -82,11 +77,7 @@ class AccountPlanService implements IService
     public function getByName(string $name, string $order = 'desc'): ServiceResponse{
         try {
             $accountPlans = AccountPlan::getByName($name, $order);
-            $decoded = $accountPlans->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
+
             $collection = AccountPlanResource::collection($accountPlans);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;

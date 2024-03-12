@@ -26,11 +26,6 @@ class ExamService implements IService
         try {
             $exams = Exam::getAllOrdered($order, $orderBy);
 
-            $decoded = $exams->toArray();
-            if (empty($decoded['data'])) {
-                $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
-                return $this->serviceResponse;
-            };
             $collection = ExamResource::collection($exams);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
