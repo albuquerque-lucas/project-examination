@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ExamQuestionAlternative extends Model
 {
@@ -26,5 +27,15 @@ class ExamQuestionAlternative extends Model
     public function examQuestion(): BelongsTo
     {
         return $this->belongsTo(ExamQuestion::class);
+    }
+
+    public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
+    {
+        return self::orderBy($orderBy, $order)->paginate();
+    }
+
+    public static function getById(int $id): self | null
+    {
+        return self::where('id', $id)->first();
     }
 }
