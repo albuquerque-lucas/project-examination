@@ -36,7 +36,8 @@ class StudyAreaController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'area' => 'required|string'
+                'area' => 'required|string',
+                'order' => 'string|in:asc,desc',
             ]);
             $area = $validatedData['area'];
             $order = $request->input('order', 'desc');

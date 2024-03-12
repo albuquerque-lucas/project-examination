@@ -27,20 +27,20 @@ use App\Http\Controllers\AccountPlanController;
 Route::get('/users/all', [UserController::class, "getAll"]);
 
 // ROTAS DE EXAMINATIONS
-Route::get("/examinations/all", [ExaminationController::class, 'getAll'])->middleware(ValidateOrderParam::class);
+Route::get("/examinations/all", [ExaminationController::class, 'getAll']);
 Route::get('/examinations/id/{id}', [ExaminationController::class, "getById"]);
 Route::post("/create/examination", [ExaminationController::class, "create"]);
 Route::patch("/examinations/update/{id}", [ExaminationController::class, "update"]);
 Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delete"]);
-Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"])->middleware(ValidateOrderParam::class);
-Route::get('/examinations/institution', [ExaminationController::class, "getByInstitution"])->middleware(ValidateOrderParam::class);
-Route::get('/examinations/title', [ExaminationController::class, "getByTitle"])->middleware(ValidateOrderParam::class);
-Route::get('/examinations/educational-level/{id}', [ExaminationController::class, 'getByEducationalLevel'])->middleware(ValidateOrderParam::class);
-Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus'])->middleware(ValidateOrderParam::class);
+Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"]);
+Route::get('/examinations/institution', [ExaminationController::class, "getByInstitution"]);
+Route::get('/examinations/title', [ExaminationController::class, "getByTitle"]);
+Route::get('/examinations/educational-level/{id}', [ExaminationController::class, 'getByEducationalLevel']);
+Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus']);
 
 
   // ROTAS DE NOTICES
-  Route::get('/notices/all', [NoticeController::class, 'getAll'])->middleware(ValidateOrderParam::class);
+  Route::get('/notices/all', [NoticeController::class, 'getAll']);
   Route::post('/notices/create', [NoticeController::class, 'create']);
   Route::get('/notices/id/{id}', [NoticeController::class, 'getById']);
   Route::patch('/notices/update/{id}', [NoticeController::class, 'update']);
@@ -49,8 +49,7 @@ Route::get('/examinations/activity-status', [ExaminationController::class, 'getB
 
 
   // ROTAS DE SUBJECTS
-  Route::get('/subjects/all', [SubjectController::class, 'getAll'])
-  ->middleware(ValidateOrderParam::class);;
+  Route::get('/subjects/all', [SubjectController::class, 'getAll']);;
   Route::get('/subjects/title', [SubjectController::class, 'getByTitle']);
   Route::get('/subjects/id/{id}', [SubjectController::class, 'getById']);
   Route::post('/subjects/create', [SubjectController::class, 'create']);

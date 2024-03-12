@@ -35,6 +35,7 @@ class AccountPlanController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|string',
+                'order' => 'nullable|string|in:asc,desc',
             ]);
             $name = $validated['name'];
             $response = $this->accountPlanService->getByName($name);

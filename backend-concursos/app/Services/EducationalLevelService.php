@@ -79,14 +79,19 @@ class EducationalLevelService implements IService
         }
     }
 
-    public function getByName(string $name) {
+    public function getByName(string $name, string $order = 'desc') {
         try {
-            $educationalLevel = EducationalLevel::query()->where('name', 'like', "%$name%")->first();
-            if ($educationalLevel === null) {
+            $educationalLevels = EducationalLevel::getByName($name, $order);
+
+            $decoded = $educationalLevels->toArray();
+
+            if (empty($decoded['data'])) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
-            }
-            $resource = new EducationalLevelResource($educationalLevel);
+            };
+
+            $resource = EducationalLevelResource::collection($educationalLevels);
+
             $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
         } catch(NotFound $exception) {

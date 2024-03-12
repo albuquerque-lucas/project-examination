@@ -34,8 +34,13 @@ class ExamQuestionController extends Controller
     public function getByStatement(QuestionsSearchFormRequest $request)
     {
         try {
-            $statement = $request->input('statement', '');
-            $response = $this->examQuestionService->getByStatement($statement);
+            $request->validate([
+                'statement' => 'required|string',
+                'order' => 'string|in:asc,desc',
+            ]);
+            $statement = $request->input('statement');
+            $order = $request->input('order', 'desc');
+            $response = $this->examQuestionService->getByStatement($statement, $order);
             return response()->json($response->data(), $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([

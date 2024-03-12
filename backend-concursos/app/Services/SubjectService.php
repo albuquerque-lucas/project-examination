@@ -80,15 +80,17 @@ class SubjectService implements IService
         }
     }
 
-    public function getByTitle(string $title) {
+    public function getByTitle(string $title, string $order = 'desc'): ServiceResponse
+    {
         try {
-            $subject = Subject::query()->where('title', 'like', "%$title%")->first();
-            if ($subject === null) {
+            $subjects = Subject::getByTitle($title, $order);
+            $decoded = $subjects->toArray();
+            if (empty($decoded['data'])) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
-            }
-            $resource = new SubjectResource($subject);
-            $this->serviceResponse->setAttributes(200, $resource);
+            };
+            $collection = SubjectResource::collection($subjects);
+            $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[

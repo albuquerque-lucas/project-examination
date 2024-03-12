@@ -40,7 +40,8 @@ class ExaminationController extends Controller
 
         try {
             $validated = $request->validate([
-                'title' => 'required'
+                'title' => 'required',
+                'order' => 'nullable|string|in:asc,desc',
             ]);
             $title = $validated['title'];
             $order = $request->input('order', 'desc');
@@ -64,7 +65,8 @@ class ExaminationController extends Controller
     {
         try {
             $validated = $request->validate([
-                'institution' => 'required'
+                'institution' => 'required',
+                'order' => 'nullable|string|in:asc,desc',
             ]);
             $institution = $validated['institution'];
             $order = $request->input('order', 'desc');
@@ -88,7 +90,9 @@ class ExaminationController extends Controller
     {
         try {
             $validated = $request->validate([
-                'registrationDate' => 'required|date_format:Y-m-d'
+                'registrationDate' => 'required|date_format:Y-m-d',
+                'order' => 'nullable|string|in:asc,desc',
+                'position' => 'required|in:start,end'
             ]);
             $registrationDate = $validated['registrationDate'];
             $position = $request->query('position', 'start');
@@ -112,6 +116,9 @@ class ExaminationController extends Controller
     public function getByEducationalLevel(Request $request, int $id)
     {
         try {
+            $request->validate([
+                'order' => 'nullable|string|in:asc,desc',
+            ]);
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByEducationalLevel($id, $order);
             $data = $response->data();
@@ -130,6 +137,10 @@ class ExaminationController extends Controller
     public function getByActivityStatus(Request $request)
     {
         try {
+            $request->validate([
+                'active' => 'boolean',
+                'order' => 'nullable|string|in:asc,desc',
+            ]);
             $isActive = filter_var($request->header('active', true), FILTER_VALIDATE_BOOLEAN);
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByActivityStatus($isActive, $order);
@@ -152,7 +163,6 @@ class ExaminationController extends Controller
         try {
             $requestData = $request->all();
             DateValidationService::validateAndFormatDates($requestData);
-            // $this->validateAndFormatDates($requestData);
             $response = $this->examinationService->create($requestData);
 
             return response()->json($response->data(), $response->status());
