@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
+use App\Models\AccountPlan;
+use App\Http\Resources\AccountPlanResource;
 use App\Interfaces\IService;
 use App\Models\ServiceResponse;
-use App\Models\EducationalLevel;
-use App\Http\Resources\EducationalLevelResource;
 use Exception;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
 use PDOException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class EducationalLevelService implements IService
+class AccountPlanService implements IService
 {
     private ServiceResponse $serviceResponse;
 
@@ -24,14 +24,14 @@ class EducationalLevelService implements IService
     function getAll(string $order, string $orderBy = 'id'): ServiceResponse
     {
         try {
-            $educationalLevels = EducationalLevel::getAllOrdered($order, $orderBy);
+            $accountPlans = AccountPlan::getAllOrdered($order, $orderBy);
 
-            $decoded = $educationalLevels->toArray();
+            $decoded = $accountPlans->toArray();
             if (empty($decoded['data'])) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
             };
-            $collection = EducationalLevelResource::collection($educationalLevels);
+            $collection = AccountPlanResource::collection($accountPlans);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
@@ -54,12 +54,12 @@ class EducationalLevelService implements IService
     function getById(int $id)
     {
         try {
-            $educationalLevel = EducationalLevel::getById($id);
-            if ($educationalLevel === null) {
+            $accountPlan = AccountPlan::getById($id);
+            if ($accountPlan === null) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
             }
-            $resource = new EducationalLevelResource($educationalLevel);
+            $resource = new AccountPlanResource($accountPlan);
             $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
@@ -81,12 +81,12 @@ class EducationalLevelService implements IService
 
     public function getByName(string $name) {
         try {
-            $educationalLevel = EducationalLevel::query()->where('name', 'like', "%$name%")->first();
-            if ($educationalLevel === null) {
+            $accountPlan = AccountPlan::query()->where('name', 'like', "%$name%")->first();
+            if ($accountPlan === null) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
             }
-            $resource = new EducationalLevelResource($educationalLevel);
+            $resource = new AccountPlanResource($accountPlan);
             $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
@@ -109,9 +109,9 @@ class EducationalLevelService implements IService
     function create(array $data): ServiceResponse
     {
         try {
-            $educationalLevel = EducationalLevel::create($data);
+            $accountPlan = AccountPlan::create($data);
 
-            if (!$educationalLevel) {
+            if (!$accountPlan) {
                 $this->serviceResponse->setAttributes(422, (object)[
                     'message' => 'Nao foi possivel processar a requisicao.'
                 ]);
@@ -119,9 +119,9 @@ class EducationalLevelService implements IService
             }
 
             $responseData = (object)[
-                'message' => 'Tópico adicionado com sucesso.',
-                'id' => $educationalLevel->id,
-                'title' => $educationalLevel->title
+                'message' => 'Plano de conta adicionado com sucesso.',
+                'id' => $accountPlan->id,
+                'title' => $accountPlan->title
             ];
 
             $this->serviceResponse->setAttributes(201, $responseData);
@@ -154,28 +154,28 @@ class EducationalLevelService implements IService
     function update(int $id, array $data, bool $hasFile): ServiceResponse
     {
         try {
-            $educationalLevel = EducationalLevel::find($id);
-            if (!$educationalLevel) {
-                $educationalLevel->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrado nenhum tópico com este id: $id"
+            $accountPlan = AccountPlan::find($id);
+            if (!$accountPlan) {
+                $accountPlan->serviceResponse->setAttributes(404, (object)[
+                    'message' => "Não foi encontrado nenhum Plano de conta com este id: $id"
                 ]);
                 return $this->serviceResponse;
             }
 
-            $educationalLevel->fill($data);
+            $accountPlan->fill($data);
 
             $responseModel = (object)[
                 'message' => 'Alteração feita com sucesso.',
-                'id' => $educationalLevel->id,
+                'id' => $accountPlan->id,
             ];
 
-            if ($educationalLevel->isDirty()) {
-                $educationalLevel->save();
+            if ($accountPlan->isDirty()) {
+                $accountPlan->save();
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
                     'message' => 'Nenhuma alteração a ser feita.',
-                    'topic' => $educationalLevel
+                    'topic' => $accountPlan
                 ]);
             }
             return $this->serviceResponse;
@@ -199,17 +199,17 @@ class EducationalLevelService implements IService
     function delete(int $id): ServiceResponse
     {
         try {
-            $educationalLevel = EducationalLevel::findOrFail($id);
+            $accountPlan = AccountPlan::findOrFail($id);
 
-            if (!$educationalLevel) {
+            if (!$accountPlan) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Tópico nao encontrado.',
+                    'message' => 'Plano de conta nao encontrado.',
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
     
-            $isDeleted = $educationalLevel->delete();
+            $isDeleted = $accountPlan->delete();
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
@@ -220,7 +220,7 @@ class EducationalLevelService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Tópico excluído com sucesso.',
+                'mensagem' => 'Plano de conta excluído com sucesso.',
                 'deleted' => true,
             ]);
 

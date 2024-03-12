@@ -10,6 +10,7 @@ use App\Http\Middleware\ValidateOrderParam;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExaminationController;
 use App\Http\Controllers\EducationalLevelController;
+use App\Http\Controllers\AccountPlanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,32 +55,21 @@ Route::get('/examinations/{id}', [ExaminationController::class, "getById"]);
 
   // ROTAS DE NOTICES
   Route::get('/notices/all', [NoticeController::class, 'getAll'])
-  ->middleware(ValidateOrderParam::class);;
-  
+  ->middleware(ValidateOrderParam::class);
   Route::post('/notices/create', [NoticeController::class, 'create']);
-
   Route::get('/notices/{id}', [NoticeController::class, 'getById']);
-
-
   Route::patch('/notices/update/{id}', [NoticeController::class, 'update']);
-
   Route::delete('/notices/delete/{id}', [NoticeController::class, 'delete']);
-
   Route::delete('/notices/delete/examination/{id}', [NoticeController::class, 'deleteByExamination']);
 
 
   // ROTAS DE SUBJECTS
   Route::get('/subjects/all', [SubjectController::class, 'getAll'])
   ->middleware(ValidateOrderParam::class);;
-
   Route::get('/subjects/title', [SubjectController::class, 'getByTitle']);
-  
   Route::get('/subjects/{id}', [SubjectController::class, 'getById']);
-
   Route::post('/subjects/create', [SubjectController::class, 'create']);
-
   Route::patch('/subjects/update/{id}', [SubjectController::class, 'update']);
-
   Route::delete('/subjects/delete/{id}', [SubjectController::class, 'delete']);
 
 
@@ -109,6 +99,15 @@ Route::delete('/exams/delete/{id}', [ExamController::class,'delete']);
 // ROTAS DE EDUCATIONAL LEVELS
 Route::get('/educational-levels/all', [EducationalLevelController::class, 'getAll']);
 Route::get('/educational-levels/{id}', [EducationalLevelController::class, 'getById']);
+Route::get('/educational-levels/name', [EducationalLevelController::class, 'getByName']);
 Route::post('/educational-levels/create', [EducationalLevelController::class, 'create']);
 Route::patch('/educational-levels/update/{id}', [EducationalLevelController::class, 'update']);
 Route::delete('/educational-levels/delete/{id}', [EducationalLevelController::class, 'delete']);
+
+// ROTAS DE ACCOUNT PLANS
+Route::get('/account-plans/all', [AccountPlanController::class, 'getAll']);
+Route::get('/account-plans/{id}', [AccountPlanController::class,'getById']);
+Route::get('/account-plans/name', [AccountPlanController::class,'getByName']);
+Route::post('/account-plans/create', [AccountPlanController::class,'create']);
+Route::patch('/account-plans/update/{id}', [AccountPlanController::class, 'update']);
+Route::delete('/account-plans/delete/{id}', [AccountPlanController::class, 'delete']);

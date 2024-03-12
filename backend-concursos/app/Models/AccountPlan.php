@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class AccountPlan extends Model
 {
@@ -25,5 +26,15 @@ class AccountPlan extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
+    {
+        return self::orderBy($orderBy, $order)->paginate();
+    }
+
+    public static function getById(int $id): self | null
+    {
+        return self::where('id', $id)->first();
     }
 }
