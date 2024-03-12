@@ -39,6 +39,7 @@ class AccountPlanController extends Controller
             $name = $validated['name'];
             $response = $this->accountPlanService->getByName($name);
             $data = $response->data();
+            dd($data);
             $dataArray = (array)$data;
             if (array_key_exists('code', $dataArray)) {
                 if ($dataArray['code'] === 204) {
@@ -46,24 +47,6 @@ class AccountPlanController extends Controller
                 }
             }
             return response()->json($dataArray['resource'], $response->status());
-        } catch (Exception | Error $exception) {
-            return response()->json([
-                'error' => 'Ocorreu um erro inesperado.',
-                'message' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ], 500);
-        }
-    }
-
-    public function getByPrice(Request $request)
-    {
-        try {
-            $validated = $request->validate([
-                'price' => 'required|string',
-            ]);
-            $price = $validated['price'];
-            $response = $this->accountPlanService->getByPrice($price);
-            return response()->json($response->data(), $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([
                 'error' => 'Ocorreu um erro inesperado.',

@@ -107,11 +107,6 @@ class AccountPlanService implements IService
         }
     }
 
-    public function getByPrice(float $price): ServiceResponse
-    {
-
-    }
-
     function create(array $data): ServiceResponse
     {
         try {
