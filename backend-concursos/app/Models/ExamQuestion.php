@@ -16,13 +16,11 @@ class ExamQuestion extends Model
         'exam_id',
         'subject_id',
         'topic_id',
-        'title',
-        'description',
+        'statement',
     ];
 
     protected $casts = [
-        'title' => 'string',
-        'description' => 'string',
+        'statement' => 'string',
     ];
 
     public function exam(): BelongsTo
@@ -58,5 +56,10 @@ class ExamQuestion extends Model
     public static function getById(int $id): self | null
     {
         return self::where('id', $id)->first();
+    }
+
+    public static function getByStatement(string $statement, string $order = 'desc'): LengthAwarePaginator
+    {
+        return self::where('statement', 'like', "%$statement%")->orderBy('id', $order)->paginate();
     }
 }

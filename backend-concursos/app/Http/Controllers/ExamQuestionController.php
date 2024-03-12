@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ExamQuestionFormRequest;
+use App\Http\Requests\QuestionsSearchFormRequest;
 use App\Services\DataRetrievalService;
 use App\Services\ExamQuestionService;
 use Illuminate\Http\Request;
@@ -30,14 +31,11 @@ class ExamQuestionController extends Controller
         return $this->dataRetrievalService->getById($this->examQuestionService, $id);
     }
 
-    public function getByTitle(Request $request)
+    public function getByStatement(QuestionsSearchFormRequest $request)
     {
         try {
-            $validated = $request->validate([
-                'title' => 'required|string',
-            ]);
-            $title = $validated['title'];
-            $response = $this->examQuestionService->getByTitle($title);
+            $statement = $request->input('statement', '');
+            $response = $this->examQuestionService->getByStatement($statement);
             return response()->json($response->data(), $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([

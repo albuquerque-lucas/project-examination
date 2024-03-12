@@ -99,6 +99,7 @@ Route::delete('/exams/delete/{id}', [ExamController::class,'delete']);
 
 // ROTAS DE EXAM QUESTIONS
 Route::get('/exam-questions/all', [ExamQuestionController::class,'getAll']);
+Route::post('/exam-questions/statement', [ExamQuestionController::class,'getByStatement']);
 Route::get('/exam-questions/{id}', [ExamQuestionController::class,'getById']);
 Route::post('/exam-questions/create', [ExamQuestionController::class,'create']);
 Route::patch('/exam-questions/update/{id}', [ExamQuestionController::class,'update']);
