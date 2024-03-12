@@ -99,6 +99,7 @@ Route::delete('/exams/delete/{id}', [ExamController::class,'delete']);
 // ROTAS DE EDUCATIONAL LEVELS
 Route::get('/educational-levels/all', [EducationalLevelController::class, 'getAll']);
 Route::get('/educational-levels/{id}', [EducationalLevelController::class, 'getById']);
+Route::get('/educational-levels/name', [EducationalLevelController::class, 'getByName']);
 Route::post('/educational-levels/create', [EducationalLevelController::class, 'create']);
 Route::patch('/educational-levels/update/{id}', [EducationalLevelController::class, 'update']);
 Route::delete('/educational-levels/delete/{id}', [EducationalLevelController::class, 'delete']);
@@ -106,6 +107,7 @@ Route::delete('/educational-levels/delete/{id}', [EducationalLevelController::cl
 // ROTAS DE ACCOUNT PLANS
 Route::get('/account-plans/all', [AccountPlanController::class, 'getAll']);
 Route::get('/account-plans/{id}', [AccountPlanController::class,'getById']);
+Route::get('/account-plans/name', [AccountPlanController::class,'getByName']);
 Route::post('/account-plans/create', [AccountPlanController::class,'create']);
 Route::patch('/account-plans/update/{id}', [AccountPlanController::class, 'update']);
 Route::delete('/account-plans/delete/{id}', [AccountPlanController::class, 'delete']);
