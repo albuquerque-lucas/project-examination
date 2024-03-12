@@ -165,8 +165,6 @@ class ExaminationService implements IService
     {
         try {
             $examinations = Examination::getByEducationalLevel($educationalLevelId, $order);
-
-            
             $collection = ExaminationResource::collection($examinations);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
