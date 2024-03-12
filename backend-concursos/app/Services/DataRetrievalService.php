@@ -26,7 +26,7 @@ class DataRetrievalService
                 }
             }
 
-            return response()->json($dataArray['resource'], $response->status());
+            return response()->json($data, $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([
                 'error' => 'Ocorreu um erro inesperado.',
