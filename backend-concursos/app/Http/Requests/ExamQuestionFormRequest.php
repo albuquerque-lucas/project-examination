@@ -11,7 +11,7 @@ class ExamQuestionFormRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class ExamQuestionFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "exam_id" => "required|integer",
+            "subject_id" => "required|integer",
+            "topic_id" => "required|integer",
+            "title" => "required|string",
+            "description" => "required|string",
         ];
     }
 }
