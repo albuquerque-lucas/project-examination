@@ -201,7 +201,7 @@ class StudyAreaService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Area excluida com sucesso.',
+                'message' => 'Area excluida com sucesso.',
                 'deleted' => true,
             ]);
 

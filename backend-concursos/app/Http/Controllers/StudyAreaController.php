@@ -45,10 +45,9 @@ class StudyAreaController extends Controller
             return response()->json($response->data(), $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([
-                'error' => 'Ocorreu um erro inesperado.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
-            ], 500);
+            ], 400);
         }
     }
 

@@ -14,9 +14,7 @@ use Tests\TestCase;
 class NoticeRoutesGeneralTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_get_200_code_when_requests_for_all_notices(): void
     {
         EducationalLevel::factory()->create();
@@ -54,13 +52,13 @@ class NoticeRoutesGeneralTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_get_204_no_content_if_get_for_inexistent_id():void
+    public function test_get_204_no_content_if_get_for_inexistent_notice_id():void
     {
         Notice::factory()->create([
             'examination_id' => 1,
         ]);
 
-        $response = $this->get("/api/examinations/id/400");
+        $response = $this->get("/api/notices/id/400");
         $response->assertStatus(204);
     }
 
