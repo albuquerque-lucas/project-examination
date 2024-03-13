@@ -76,4 +76,54 @@ class NoticeRoutesGeneralTest extends TestCase
             "code"=> 0
         ]);
     }
+
+    public function test_post_201_user_can_create_a_notice_register(): void
+    {
+        $requestData = [
+            'examination_id' => 1,
+            'file' => 'file_path/no-file.pdf',
+            'file_name' => 'no_file_at_all.pdf',
+            'publication_date' => '2024-03-06',
+        ];
+
+        $responseData = [
+            'message' => 'Edital adicionado com sucesso.',
+            'id' => 30,
+            'file_name' => $requestData['file_name'],
+            'file_path' => $requestData['file'],
+        ];
+
+        $response = $this->postJson('api/notices/create', $requestData);
+        $response->assertStatus(201)->assertJson($responseData);
+    }
+
+    public function test_gets_422_for_missing_file_info_on_notice_creation(): void
+    {
+        $requestData = [
+            'examination_id' => 1,
+            'publication_date' => '2024-03-06',
+        ];
+
+        $responseData = [
+            'message' => 'É necessário informar o path de um arquivo.',
+        ];
+
+        $response = $this->postJson('api/notices/create', $requestData);
+        $response->assertStatus(422)->assertJson($responseData);
+    }
+
+    public function test_gets_422_for_missing_examination_id_info_on_notice_creation(): void
+    {
+        $requestData = [
+            "file" => "file_path/no-file.pdf",
+            'publication_date' => '2024-03-06',
+        ];
+
+        $responseData = [
+            'message' => 'É necessário informar o identificador do concurso.',
+        ];
+
+        $response = $this->postJson('api/notices/create', $requestData);
+        $response->assertStatus(422)->assertJson($responseData);
+    }
 }

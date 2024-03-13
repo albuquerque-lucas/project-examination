@@ -90,7 +90,7 @@ class NoticeService implements IService
             }
 
             $responseData = (object)[
-                'message' => 'Concurso adicionado com sucesso.',
+                'message' => 'Edital adicionado com sucesso.',
                 'id' => $notice->id,
                 'file_name' => $notice->file_name,
                 'file_path' => $notice->file,
