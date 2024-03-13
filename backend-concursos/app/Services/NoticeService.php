@@ -51,6 +51,7 @@ class NoticeService implements IService
     {
         try {
             $notice = Notice::getById($id);
+
             if ($notice === null) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
