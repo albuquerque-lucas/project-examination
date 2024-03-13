@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\NoticeController;
 use App\Models\EducationalLevel;
 use App\Models\Examination;
 use App\Models\Notice;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class NoticeRoutesGeneralTest extends TestCase
@@ -42,7 +44,7 @@ class NoticeRoutesGeneralTest extends TestCase
         Notice::factory()->create([
             'examination_id' => 2,
         ]);
-        $response = $this->get('/api/notices/id/21');
+        $response = $this->get('/api/notices/id/26');
         $response->assertStatus(200);
     }
 
@@ -50,5 +52,28 @@ class NoticeRoutesGeneralTest extends TestCase
     {
         $response = $this->getJson('/api/notices/all');
         $response->assertStatus(200);
+    }
+
+    public function test_get_204_no_content_if_get_for_inexistent_id():void
+    {
+        Notice::factory()->create([
+            'examination_id' => 1,
+        ]);
+
+        $response = $this->get("/api/examinations/id/400");
+        $response->assertStatus(204);
+    }
+
+    public function test_get_400_if_invalid_order_parameter():void
+    {
+        Notice::factory()->create([
+            'examination_id' => 1,
+        ]);
+
+        $response = $this->getJson("/api/notices/all?order=qwerty");
+        $response->assertStatus(400)->assertJson(        [
+            "message"=> "The selected order is invalid.",
+            "code"=> 0
+        ]);
     }
 }

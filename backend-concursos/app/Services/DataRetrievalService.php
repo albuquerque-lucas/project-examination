@@ -22,14 +22,13 @@ class DataRetrievalService
             $response = $service->getAll($order);
             $data = $response->data();
             $dataArray = (array)$data;
-
             return response()->json($dataArray['resource'], $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([
                 'error' => 'Ocorreu um erro inesperado.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
-            ], 500);
+            ], 400);
         }
     }
 
