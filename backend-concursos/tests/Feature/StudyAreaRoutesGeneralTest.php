@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use Database\Seeders\StudyAreasSeeder;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class StudyAreaRoutesGeneralTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function test_get_200_code_when_requests_for_all_study_areas(): void
     {

@@ -24,13 +24,13 @@ class ExaminationsGeneralRoutesTest extends TestCase
     public function test_get_200_code_examinations_by_id(): void
     {
         $this->seed(EducationalLevelsSeeder::class);
-        $this->seed(ExaminationSeeder::class);;
+        $this->seed(ExaminationSeeder::class);
     
-        $this->get("/api/examinations/id/98")
+        $this->get("/api/examinations/id/42")
             ->assertStatus(200)
             ->assertJson([
-                "id" => 98,
-                "title" => "Concurso para Auditor Fiscal do Estado do Rio de Janeiro",
+                "id" => 42,
+                "title" => "Concurso para Procurador da República",
                 "institution" => "Governo Federal",
                 "active" => true,
             ]);
@@ -61,6 +61,39 @@ class ExaminationsGeneralRoutesTest extends TestCase
             ]);
     }
 
+    public function test_get_200_when_successfuly_requests_for_active_or_innactive_examinations(): void
+    {
+        $this->seed(EducationalLevelsSeeder::class);
+        $this->seed(ExaminationSeeder::class);
+
+        $this->getJson('/api/examinations/activity-status?active=false')
+            ->assertStatus(200)
+            ->assertJsonCount(0, 'data');
+
+        $this->getJson('/api/examinations/activity-status?active=true')
+            ->assertStatus(200)
+            ->assertJsonCount(15, 'data');
+    }
+
+    public function test_get_200_code_examinations_by_educational_level(): void
+    {
+        $this->seed(EducationalLevelsSeeder::class);
+        $this->seed(ExaminationSeeder::class);
+
+        $this->getJson('/api/examinations/educational-level/8')
+            ->assertStatus(200)
+            ->assertJsonStructure(['data']);
+
+    }
+
+    public function test_get_200_even_if_cant_find_examinations_with_given_educational_level_id(): void
+    {
+        $this->seed(EducationalLevelsSeeder::class);
+        $this->seed(ExaminationSeeder::class);
+
+        $this->getJson('/api/examinations/educational-level/12')->assertStatus(200);
+    }
+
 
     public function test_post_201_user_can_create_an_examination_register(): void
     {
@@ -77,7 +110,7 @@ class ExaminationsGeneralRoutesTest extends TestCase
 
         $responseData = [
             'message' => 'Concurso adicionado com sucesso.',
-            'id' => 160,
+            'id' => 190,
             'title' => $requestData['title'],
         ];
 

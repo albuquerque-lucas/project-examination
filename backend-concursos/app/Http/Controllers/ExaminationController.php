@@ -120,10 +120,10 @@ class ExaminationController extends Controller
     {
         try {
             $request->validate([
-                'active' => 'boolean',
+                'active' => 'string|in:true,false',
                 'order' => 'nullable|string|in:asc,desc',
             ]);
-            $isActive = filter_var($request->header('active', true), FILTER_VALIDATE_BOOLEAN);
+            $isActive = filter_var($request->input('active', true), FILTER_VALIDATE_BOOLEAN);
             $order = $request->input('order', 'desc');
             $response = $this->examinationService->getByActivityStatus($isActive, $order);
             $data = $response->data();
