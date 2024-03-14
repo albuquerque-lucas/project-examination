@@ -109,7 +109,7 @@ class ExaminationsGeneralRoutesTest extends TestCase
         ];
 
         $responseData = [
-            'message' => 'Concurso adicionado com sucesso.',
+            'message' => 'Examination created successfully.',
             'id' => 190,
             'title' => $requestData['title'],
         ];
