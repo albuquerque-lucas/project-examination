@@ -83,7 +83,7 @@ class StudyAreaService implements IService
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Ocorreu um erro inesperado.',
+                'info' => 'An unexpected error occurred.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -97,13 +97,13 @@ class StudyAreaService implements IService
 
             if (!$studyArea) {
                 $this->serviceResponse->setAttributes(422, (object)[
-                    'message' => 'Nao foi possivel processar a requisicao.'
+                    'message' => 'Request could not be processed.'
                 ]);
                 return $this->serviceResponse;
             }
 
             $responseData = (object)[
-                'message' => 'Área de estudo adicionada com sucesso.',
+                'message' => 'Study area successfully added.',
                 'id' => $studyArea->id,
                 'area' => $studyArea->area,
             ];
@@ -112,22 +112,22 @@ class StudyAreaService implements IService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'info' => 'Validação falhou. Verifique os erros.',
-                'message' => $exception->getMessage(),
+                'message' => 'Error validation failed. Please check errors.',
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => 'Não foi possível criar o registro. Verifique os dados informados.',
-                'message' => $exception->getMessage(),
+                'message' => 'Failed to create record. Please check the submitted data.',
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Ocorreu um erro inesperado.',
-                'message' => $exception->getMessage(),
+                'message' => 'An unexpected error occurred.',
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -139,7 +139,7 @@ class StudyAreaService implements IService
             $studyArea = StudyArea::find($id);
             if (!$studyArea) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrada nenhuma área com este id: $id"
+                    'message' => "No record found with this id: $id"
                 ]);
                 return $this->serviceResponse;
             }
@@ -147,7 +147,7 @@ class StudyAreaService implements IService
             $studyArea->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteração feita com sucesso.',
+                'message' => 'Changes saved.',
                 'id' => $studyArea->id,
             ];
 
@@ -163,14 +163,14 @@ class StudyAreaService implements IService
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => 'Não foi possível criar o registro. Verifique os dados informados.',
-                'message' => $exception->getMessage(),
+                'message' => 'Failed to change record. Please check the submitted data.',
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Ocorreu um erro inesperado.',
+                'info' => 'An unexpected error occurred.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -184,7 +184,7 @@ class StudyAreaService implements IService
 
             if (!$studyArea) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Area nao encontrada.',
+                    'message' => 'Study area not found.',
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -194,27 +194,27 @@ class StudyAreaService implements IService
 
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Erro ao tentar deletar o registro.',
+                    'message' => 'Error trying to delete record.',
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'message' => 'Area excluida com sucesso.',
+                'message' => 'Area deleted successfully.',
                 'deleted' => true,
             ]);
 
             return $this->serviceResponse;
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
+                'message' => 'No record found with the provided data.',
                 'deleted' => false,
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'message' => 'An error ocurred while trying to change record.',
                 'deleted' => false,
                 'info' => $exception->getMessage(),
             ]);

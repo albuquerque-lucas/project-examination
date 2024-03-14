@@ -82,7 +82,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         ];
 
         $responseData = [
-            'message' => 'Área de estudo adicionada com sucesso.',
+            'message' => 'Study area successfully added.',
             'id' => 71,
             'area' => $requestData['area'],
         ];
@@ -112,7 +112,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         $this->postJson('api/study-areas/create', $requestData)
             ->assertStatus(409)
             ->assertJson([
-                "info" => "Não foi possível criar o registro. Verifique os dados informados.",
+                "message" => "Failed to create record. Please check the submitted data.",
             ]);
     }
 
@@ -127,7 +127,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         $this->delete('api/study-areas/delete/100')
             ->assertStatus(200)
             ->assertJson([
-                'message' => "Area excluida com sucesso."
+                'message' => "Area deleted successfully."
             ]);
 
         $this->get('api/study-areas/all')
@@ -146,7 +146,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         $this->delete('api/study-areas/delete/9999')
             ->assertStatus(404)
             ->assertJson([
-                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.'
+                'message' => 'No record found with the provided data.'
             ]);
     }
 
@@ -161,7 +161,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         $this->patchJson('api/study-areas/update/124', $requestData)
             ->assertStatus(200)
             ->assertJson([
-                'message' => 'Alteração feita com sucesso.',
+                'message' => 'Changes saved.',
                 'id' => 124,
             ]);
 
@@ -185,7 +185,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         $this->patchJson('api/study-areas/update/136', $requestData)
             ->assertStatus(409)
             ->assertJson([
-                "info" => "Não foi possível criar o registro. Verifique os dados informados.",
+                "message" => "Failed to change record. Please check the submitted data.",
             ]);
     }
 
@@ -200,7 +200,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         $this->patchJson('api/study-areas/update/9999', $requestData)
             ->assertStatus(404)
             ->assertJson([
-                'message' => 'Não foi encontrada nenhuma área com este id: 9999'
+                'message' => 'No record found with this id: 9999'
             ]);
     }
 
