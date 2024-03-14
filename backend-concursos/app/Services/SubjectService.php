@@ -113,7 +113,7 @@ class SubjectService implements IService
             }
 
             $responseData = (object)[
-                'message' => 'Matéria adicionada com sucesso.',
+                'message' => $this->serviceResponse->createdSuccessfully('Subject'),
                 'id' => $subject->id,
                 'file_name' => $subject->file_name,
                 'file_path' => $subject->file,
@@ -150,7 +150,7 @@ class SubjectService implements IService
             $subject = Subject::find($id);
             if (!$subject) {
                 $subject->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Subject not found."
+                    'message' => $this->serviceResponse->recordsNotFound('Subject'),
                 ]);
                 return $this->serviceResponse;
             }
@@ -195,7 +195,7 @@ class SubjectService implements IService
 
             if (!$subject) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Matéria não encontrada.',
+                    'message' => $this->serviceResponse->recordsNotFound('Subject'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -212,7 +212,7 @@ class SubjectService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Matéria excluída com sucesso.',
+                'mensagem' => $this->serviceResponse->deletedSuccessfully('Subject'),
                 'deleted' => true,
             ]);
 

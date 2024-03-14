@@ -87,7 +87,7 @@ class TopicService implements IService
             }
 
             $responseData = (object)[
-                'message' => 'Tópico adicionado com sucesso.',
+                'message' => $this->serviceResponse->createdSuccessfully('Topic'),
                 'id' => $topic->id,
                 'title' => $topic->title
             ];
@@ -125,7 +125,7 @@ class TopicService implements IService
             $topic = Topic::find($id);
             if (!$topic) {
                 $topic->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Topic not found"
+                    'message' => $this->serviceResponse->recordsNotFound('Topic')
                 ]);
                 return $this->serviceResponse;
             }
@@ -171,7 +171,7 @@ class TopicService implements IService
 
             if (!$topic) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Tópico nao encontrado.',
+                    'message' => $this->serviceResponse->recordsNotFound('Topic'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -188,7 +188,7 @@ class TopicService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Tópico excluído com sucesso.',
+                'mensagem' => $this->serviceResponse->deletedSuccessfully('Topic'),
                 'deleted' => true,
             ]);
 

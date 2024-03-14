@@ -90,7 +90,7 @@ class NoticeService implements IService
             }
 
             $responseData = (object)[
-                'message' => 'Notice created successfully.',
+                'message' => $this->serviceResponse->createdSuccessfully('Notice'),
                 'id' => $notice->id,
                 'file_name' => $notice->file_name,
                 'file_path' => $notice->file,
@@ -128,7 +128,7 @@ class NoticeService implements IService
                 $notice = Notice::find($id);
                 if (!$notice) {
                     $this->serviceResponse->setAttributes(404, (object)[
-                        'message' => "Notice not found."
+                        'message' => $this->serviceResponse->recordsNotFound('Notice'),
                     ]);
                     return $this->serviceResponse;
                 }
@@ -179,7 +179,7 @@ class NoticeService implements IService
 
             if (!$notice) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Notice not found.',
+                    'message' => $this->serviceResponse->recordsNotFound('Notice'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -189,14 +189,14 @@ class NoticeService implements IService
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Record could not be deleted.',
+                    'message' => $this->serviceResponse->errorTryingToDelete(),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Notice deleted successfully.',
+                'mensagem' => $this->serviceResponse->deletedSuccessfully('Notice'),
                 'deleted' => true,
             ]);
 
@@ -209,7 +209,7 @@ class NoticeService implements IService
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'An error occurred while trying to update the record.',
+                'message' => $this->serviceResponse->badRequest(),
                 'deleted' => false,
                 'info' => $exception->getMessage(),
             ]);
@@ -224,7 +224,7 @@ class NoticeService implements IService
             $notice = Notice::query()->where('examination_id', $id)->first();
             if (!$notice) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Edital nao encontrado.',
+                    'message' => $this->serviceResponse->recordsNotFound('Notice'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -234,14 +234,14 @@ class NoticeService implements IService
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Record could not be deleted.',
+                    'message' => $this->serviceResponse->errorTryingToDelete(),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Notice deleted successfully.',
+                'mensagem' => $this->serviceResponse->deletedSuccessfully('Notice'),
                 'deleted' => true,
             ]);
 
@@ -255,7 +255,7 @@ class NoticeService implements IService
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'An error occurred while trying to update the record.',
+                'message' => $this->serviceResponse->badRequest(),
                 'deleted' => false,
                 'info' => $exception->getMessage(),
             ]);
