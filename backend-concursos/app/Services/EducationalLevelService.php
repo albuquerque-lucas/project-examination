@@ -31,14 +31,14 @@ class EducationalLevelService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => 'Nao foram encontrados registros.',
+                'info' => $this->serviceResponse->recordsNotFound(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Nao foi possivel concluir a solicitacao.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -59,14 +59,14 @@ class EducationalLevelService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => 'Nao foram encontrados registros.',
+                'info' => $this->serviceResponse->recordsNotFound(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Nao foi possivel concluir a solicitacao.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -84,14 +84,14 @@ class EducationalLevelService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => 'Nao foram encontrados registros.',
+                'info' => $this->serviceResponse->recordsNotFound(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Nao foi possivel concluir a solicitacao.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -106,13 +106,13 @@ class EducationalLevelService implements IService
 
             if (!$educationalLevel) {
                 $this->serviceResponse->setAttributes(422, (object)[
-                    'message' => 'Nao foi possivel processar a requisicao.'
+                    'message' => $this->serviceResponse->failedToCreateRecord()
                 ]);
                 return $this->serviceResponse;
             }
 
             $responseData = (object)[
-                'message' => 'Tópico adicionado com sucesso.',
+                'message' => $this->serviceResponse->createdSuccessfully('Educational level'),
                 'id' => $educationalLevel->id,
                 'title' => $educationalLevel->title
             ];
@@ -121,21 +121,21 @@ class EducationalLevelService implements IService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'info' => 'Error validation failed. Please check errors.',
+                'info' => $this->serviceResponse->validationFailed(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => 'Failed to create record. Please check the submitted data.',
+                'info' => $this->serviceResponse->failedToCreateRecord(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'An unexpected error occurred.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -150,7 +150,7 @@ class EducationalLevelService implements IService
             $educationalLevel = EducationalLevel::find($id);
             if (!$educationalLevel) {
                 $educationalLevel->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrado nenhum tópico com este id: $id"
+                    'message' => $this->serviceResponse->recordsNotFound('Educational level'),
                 ]);
                 return $this->serviceResponse;
             }
@@ -158,7 +158,7 @@ class EducationalLevelService implements IService
             $educationalLevel->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteração feita com sucesso.',
+                'message' => $this->serviceResponse->changesSaved(),
                 'id' => $educationalLevel->id,
             ];
 
@@ -167,21 +167,21 @@ class EducationalLevelService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'Nenhuma alteração a ser feita.',
+                    'message' => $this->serviceResponse->noChangesToBeMade(),
                     'topic' => $educationalLevel
                 ]);
             }
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => 'Failed to create record. Please check the submitted data.',
+                'info' => $this->serviceResponse->failedToCreateRecord(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'An unexpected error occurred.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -196,7 +196,7 @@ class EducationalLevelService implements IService
 
             if (!$educationalLevel) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Tópico nao encontrado.',
+                    'message' => $this->serviceResponse->recordsNotFound('Educational level'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -206,27 +206,27 @@ class EducationalLevelService implements IService
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Erro ao tentar deletar o registro.',
+                    'message' => $this->serviceResponse->errorTryingToDelete(),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Tópico excluído com sucesso.',
+                'mensagem' => $this->serviceResponse->deletedSuccessfully('Educational level'),
                 'deleted' => true,
             ]);
 
             return $this->serviceResponse;
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
+                'message' => $this->serviceResponse->recordsNotFound('Educational level'),
                 'deleted' => false,
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'message' => $this->serviceResponse->errorTryingToDelete(),
                 'deleted' => false,
                 'info' => $exception->getMessage(),
             ]);

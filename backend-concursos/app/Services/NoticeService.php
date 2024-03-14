@@ -32,14 +32,14 @@ class NoticeService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => 'Nao foram encontrados registros.',
+                'info' => $this->serviceResponse->recordsNotFound(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Nao foi possivel concluir a solicitacao.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -62,14 +62,14 @@ class NoticeService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => 'Nao foram encontrados registros.',
+                'info' => $this->serviceResponse->recordsNotFound(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Não foi possível concluir a solicitação.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -84,13 +84,13 @@ class NoticeService implements IService
 
             if (!$notice) {
                 $this->serviceResponse->setAttributes(422, (object)[
-                    'message' => 'Nao foi possivel processar a requisicao.'
+                    'message' => $this->serviceResponse->failedToCreateRecord()
                 ]);
                 return $this->serviceResponse;
             }
 
             $responseData = (object)[
-                'message' => 'Edital adicionado com sucesso.',
+                'message' => $this->serviceResponse->createdSuccessfully('Notice'),
                 'id' => $notice->id,
                 'file_name' => $notice->file_name,
                 'file_path' => $notice->file,
@@ -100,21 +100,21 @@ class NoticeService implements IService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'info' => 'Error validation failed. Please check errors.',
+                'info' => $this->serviceResponse->validationFailed(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => 'Failed to create record. Please check the submitted data.',
+                'info' => $this->serviceResponse->failedToCreateRecord(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'An unexpected error occurred.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -128,7 +128,7 @@ class NoticeService implements IService
                 $notice = Notice::find($id);
                 if (!$notice) {
                     $this->serviceResponse->setAttributes(404, (object)[
-                        'message' => "Não foi encontrado nenhum edital com este id: $id"
+                        'message' => $this->serviceResponse->recordsNotFound('Notice'),
                     ]);
                     return $this->serviceResponse;
                 }
@@ -141,7 +141,7 @@ class NoticeService implements IService
                 $notice->fill($data);
 
                 $responseModel = (object)[
-                    'message' => 'Alteração feita com sucesso.',
+                    'message' => $this->serviceResponse->changesSaved(),
                     'id' => $notice->id,
                 ];
 
@@ -150,21 +150,21 @@ class NoticeService implements IService
                     $this->serviceResponse->setAttributes(200, $responseModel);
                 } else {
                     $this->serviceResponse->setAttributes(200, (object)[
-                        'message' => 'Nenhuma alteração a ser feita.',
+                        'message' => $this->serviceResponse->noChangesToBeMade(),
                         'notice' => $notice
                     ]);
                 }
                 return $this->serviceResponse;
             } catch (PDOException $exception) {
                 $this->serviceResponse->setAttributes(409, (object)[
-                    'info' => 'Failed to create record. Please check the submitted data.',
+                    'info' => $this->serviceResponse->failedToCreateRecord(),
                     'message' => $exception->getMessage(),
                     'code' => $exception->getCode()
                 ]);
                 return $this->serviceResponse;
             } catch (Exception $exception) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'info' => 'An unexpected error occurred.',
+                    'info' => $this->serviceResponse->badRequest(),
                     'message' => $exception->getMessage(),
                     'code' => $exception->getCode()
                 ]);
@@ -179,7 +179,7 @@ class NoticeService implements IService
 
             if (!$notice) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Edital nao encontrado.',
+                    'message' => $this->serviceResponse->recordsNotFound('Notice'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -189,27 +189,27 @@ class NoticeService implements IService
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Erro ao tentar deletar o registro.',
+                    'message' => $this->serviceResponse->errorTryingToDelete(),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Edital excluido com sucesso.',
+                'mensagem' => $this->serviceResponse->deletedSuccessfully('Notice'),
                 'deleted' => true,
             ]);
 
             return $this->serviceResponse;
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
+                'message' => $this->serviceResponse->recordsNotFound(),
                 'deleted' => false,
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'message' => $this->serviceResponse->badRequest(),
                 'deleted' => false,
                 'info' => $exception->getMessage(),
             ]);
@@ -224,7 +224,7 @@ class NoticeService implements IService
             $notice = Notice::query()->where('examination_id', $id)->first();
             if (!$notice) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Edital nao encontrado.',
+                    'message' => $this->serviceResponse->recordsNotFound('Notice'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -234,14 +234,14 @@ class NoticeService implements IService
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Erro ao tentar deletar o registro.',
+                    'message' => $this->serviceResponse->errorTryingToDelete(),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Edital excluido com sucesso.',
+                'mensagem' => $this->serviceResponse->deletedSuccessfully('Notice'),
                 'deleted' => true,
             ]);
 
@@ -249,13 +249,13 @@ class NoticeService implements IService
 
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
+                'message' => $this->serviceResponse->recordsNotFound(),
                 'deleted' => false,
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'message' => $this->serviceResponse->badRequest(),
                 'deleted' => false,
                 'info' => $exception->getMessage(),
             ]);

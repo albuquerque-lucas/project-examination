@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('notices', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Examination::class);
-            $table->string('file')->nullable();
+            $table->string('file');
             $table->string('file_name')->nullable();
             $table->string('extension')->nullable();
             $table->dateTime('publication_date');

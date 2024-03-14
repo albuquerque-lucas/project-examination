@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use Database\Seeders\StudyAreasSeeder;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class StudyAreaRoutesGeneralTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function test_get_200_code_when_requests_for_all_study_areas(): void
     {
@@ -82,7 +82,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         ];
 
         $responseData = [
-            'message' => 'Study area successfully added.',
+            'message' => 'Study area created successfully.',
             'id' => 71,
             'area' => $requestData['area'],
         ];
@@ -146,7 +146,8 @@ class StudyAreaRoutesGeneralTest extends TestCase
         $this->delete('api/study-areas/delete/9999')
             ->assertStatus(404)
             ->assertJson([
-                'message' => 'No record found with the provided data.'
+                'message' => "We couldn't find any records matching your request.",
+                'deleted' => false,
             ]);
     }
 
@@ -161,7 +162,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         $this->patchJson('api/study-areas/update/124', $requestData)
             ->assertStatus(200)
             ->assertJson([
-                'message' => 'Changes saved.',
+                'message' => 'Changes saved successfully.',
                 'id' => 124,
             ]);
 
@@ -200,7 +201,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         $this->patchJson('api/study-areas/update/9999', $requestData)
             ->assertStatus(404)
             ->assertJson([
-                'message' => 'No record found with this id: 9999'
+                'message' => 'We couldn\'t find any records matching your request.'
             ]);
     }
 
