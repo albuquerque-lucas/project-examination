@@ -42,9 +42,9 @@ class NoticeFormRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'examination_id.required' => 'É necessário informar o :attribute',
+            'examination_id.required' => 'É necessário informar o :attribute.',
             'examination_id.integer' => 'O :attribute deve ser um inteiro.',
-            'file.required' => 'É necessário informar o caminhao de um :attribute.',
+            'file.required' => 'É necessário informar o path de um :attribute.',
             'file.string' => 'O valor do caminho do :attribute deve ser uma string.',
             'file_name.string' => 'O :attribute deve ser uma string.',
             'publication_date' => 'A :attribute deve ser uma string.',

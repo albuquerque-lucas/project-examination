@@ -30,7 +30,6 @@ class ExaminationsEducationalLevelRoutesTest extends TestCase
             'educational_level_id' => 3
         ]);
 
-
         $response = $this->getJson('/api/examinations/educational-level/4');
         $response->assertStatus(200);
     }

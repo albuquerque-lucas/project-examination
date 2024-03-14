@@ -51,6 +51,7 @@ class NoticeService implements IService
     {
         try {
             $notice = Notice::getById($id);
+
             if ($notice === null) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
@@ -89,7 +90,7 @@ class NoticeService implements IService
             }
 
             $responseData = (object)[
-                'message' => 'Concurso adicionado com sucesso.',
+                'message' => 'Edital adicionado com sucesso.',
                 'id' => $notice->id,
                 'file_name' => $notice->file_name,
                 'file_path' => $notice->file,

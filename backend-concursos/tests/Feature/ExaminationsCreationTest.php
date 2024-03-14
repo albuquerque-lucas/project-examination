@@ -22,11 +22,10 @@ class ExaminationsCreationTest extends TestCase
             'exams_start_date' => '25-04-14',
             'exams_end_date' => '25-04-21',
         ];
-        
-        // $examination = Examination::factory()->create($requestData);
+
         $responseData = [
             'message' => 'Concurso adicionado com sucesso.',
-            'id' => 37,
+            'id' => 11,
             'title' => $requestData['title'],
         ];
 

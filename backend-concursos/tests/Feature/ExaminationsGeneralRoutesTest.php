@@ -10,7 +10,7 @@ use Tests\TestCase;
 use App\Models\Examination;
 use App\Services\ExaminationService;
 
-class AllExaminationsAndIDRoutesTest extends TestCase
+class ExaminationsGeneralRoutesTest extends TestCase
 {
     use RefreshDatabase;
     public function test_get_200_code_all_examinations_page_1(): void

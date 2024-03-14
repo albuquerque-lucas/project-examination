@@ -8,7 +8,6 @@ use App\Http\Controllers\StudyAreaController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\ValidateOrderParam;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExaminationController;
 use App\Http\Controllers\EducationalLevelController;

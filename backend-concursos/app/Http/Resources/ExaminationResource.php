@@ -18,7 +18,7 @@ class ExaminationResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'institution' => $this->institution,
-            'educational_level' => $this->educationalLevel->name,
+            'educational_level' => $this->educationalLevel->name ?? null,
             'active' => $this->active,
             'registration_start_date' => $this->registration_start_date,
             'registration_end_date' => $this->registration_end_date,
