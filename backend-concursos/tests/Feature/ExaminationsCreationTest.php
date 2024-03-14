@@ -29,11 +29,12 @@ class ExaminationsCreationTest extends TestCase
             'title' => $requestData['title'],
         ];
 
-        $response = $this->postJson('api/create/examination', $requestData);
-        $response->assertStatus(201)->assertJson($responseData);
+        $this->postJson('api/create/examination', $requestData)
+            ->assertStatus(201)
+            ->assertJson($responseData);
     }
 
-    public function test_get_422_error_if_tries_to_register_examination_with_invalid_date_format():void
+    public function test_get_422_error_if_tries_to_register_examination_with_invalid_date_format(): void
     {
         $requestData = [
             'educational_level_id' => 4,
@@ -46,8 +47,9 @@ class ExaminationsCreationTest extends TestCase
             'exams_end_date' => '25-04-21',
         ];
 
-        $response = $this->postJson('api/create/examination', $requestData);
-        $response->assertStatus(422)->assertJson([
+        $this->postJson('api/create/examination', $requestData)
+            ->assertStatus(422)
+            ->assertJson([
             "message" => "Data inválida. Use o formato YYYY-MM-DD.",
         ]);
     }
@@ -59,11 +61,11 @@ class ExaminationsCreationTest extends TestCase
             'title' => 'Concurso de Teste 01',
         ];
 
-        $response = $this->postJson('api/create/examination', $requestData);
-        $response->assertStatus(422);
-        $data = $response->json();
-        $expectedMessage = "É necessário informar uma instituição.";
-        $this->assertEquals($expectedMessage, $data['message']);
+        $this->postJson('api/create/examination', $requestData)
+            ->assertStatus(422)
+            ->assertJson([
+                "message" => "É necessário informar uma instituição.",
+            ]);
 
     }
 
@@ -74,11 +76,11 @@ class ExaminationsCreationTest extends TestCase
             'institution' => 'Institution de teste 01',
         ];
 
-        $response = $this->postJson('api/create/examination', $requestData);
-        $response->assertStatus(422);
-        $data = $response->json();
-        $expectedMessage = "É necessário informar um título.";
-        $this->assertEquals($expectedMessage, $data['message']);
+        $this->postJson('api/create/examination', $requestData)
+            ->assertStatus(422)
+            ->assertJson([
+                "message" => "É necessário informar um título.",
+            ]);
 
     }
 
@@ -89,11 +91,10 @@ class ExaminationsCreationTest extends TestCase
             'institution' => 'Institution de teste 01',
         ];
 
-        $response = $this->postJson('api/create/examination', $requestData);
-        $response->assertStatus(422);
-
-        $data = $response->json();
-        $expectedMessage = "O nivel de escolaridade do concurso é obrigatório. Nenhum foi informado.";
-        $this->assertEquals($expectedMessage, $data['message']);
+        $this->postJson('api/create/examination', $requestData)
+            ->assertStatus(422)
+            ->assertJson([
+                "message" => "O nivel de escolaridade do concurso é obrigatório. Nenhum foi informado.",
+            ]);
     }
 }
