@@ -2,11 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\EducationalLevel;
 use Database\Seeders\ExaminationSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Examination;
 use Database\Seeders\EducationalLevelsSeeder;
 
 class ExaminationsGeneralRoutesTest extends TestCase
@@ -149,7 +147,7 @@ class ExaminationsGeneralRoutesTest extends TestCase
         $this->postJson('api/create/examination', $requestData)
             ->assertStatus(422)
             ->assertJson([
-                "message" => "É necessário informar uma instituição.",
+                "message" => "The institution field is required.",
             ]);
 
     }
@@ -164,7 +162,7 @@ class ExaminationsGeneralRoutesTest extends TestCase
         $this->postJson('api/create/examination', $requestData)
             ->assertStatus(422)
             ->assertJson([
-                "message" => "É necessário informar um título.",
+                "message" => "The title field is required.",
             ]);
 
     }
@@ -179,7 +177,28 @@ class ExaminationsGeneralRoutesTest extends TestCase
         $this->postJson('api/create/examination', $requestData)
             ->assertStatus(422)
             ->assertJson([
-                "message" => "O nivel de escolaridade do concurso é obrigatório. Nenhum foi informado.",
+                "message" => "The educational level id field is required.",
+            ]);
+    }
+
+    public function test_post_409_error_when_tries_to_create_an_examination_with_pre_existent_data(): void
+    {
+        $requestData = [
+            'educational_level_id' => 4,
+            'title' => 'Concurso de Teste 01',
+            'active' => true,
+            'institution' => 'Instituicao do teste 01',
+            'registration_start_date' => '25-02-15',
+            'registration_end_date' => '25-03-16',
+            'exams_start_date' => '25-04-14',
+            'exams_end_date' => '25-04-21',
+        ];
+
+        $this->postJson('api/create/examination', $requestData);
+        $this->postJson('api/create/examination', $requestData)
+            ->assertStatus(409)
+            ->assertJson([
+                "message" => "Failed to create record. Please check the submitted data.",
             ]);
     }
 }

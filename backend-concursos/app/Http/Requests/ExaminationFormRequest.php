@@ -33,31 +33,4 @@ class ExaminationFormRequest extends FormRequest
             'exams_end_date' => 'string',
         ];
     }
-
-    public function attributes(): array
-    {
-        return [
-            'educational_level_id' => 'nivel de escolaridade',
-            'title' => 'título',
-            'active' => 'ativo',
-            'institution' => 'instituição',
-            'registration_start_date' => 'data de início de inscrição',
-            'registration_end_date' => 'data de término de inscrição',
-            'exams_start_date' => 'data de início da prova',
-            'exams_end_date' => 'data de término da prova',
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'educational_level_id.required' => 'O :attribute do concurso é obrigatório. Nenhum foi informado.',
-            'educational_level_id.integer' => 'O :attribute do concurso deve ser um número inteiro.',
-            'title.required' => 'É necessário informar um :attribute.',
-            'title.string' => 'O :attribute deve estar em texto.',
-            'active.boolean' => 'O :attribute deve ser verdadeiro ou falso.',
-            'institution.required' => 'É necessário informar uma :attribute.',
-            'institution.string' => 'A :attribute deve estar em texto.',
-        ];
-    }
 }

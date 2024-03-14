@@ -139,11 +139,9 @@ class ExaminationController extends Controller
     public function create(ExaminationFormRequest $request)
     {
         try {
-            $requestData = $request->all();
-            DateValidationService::validateAndFormatDates($requestData);
-            $response = $this->examinationService->create($requestData);
 
-            return response()->json($response->data(), $response->status());
+            return $this->dataRetrievalService->create($this->examinationService, $request);
+
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
         } catch (Exception $exception) {
