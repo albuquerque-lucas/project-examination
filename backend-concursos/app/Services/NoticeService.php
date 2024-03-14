@@ -84,7 +84,7 @@ class NoticeService implements IService
 
             if (!$notice) {
                 $this->serviceResponse->setAttributes(422, (object)[
-                    'message' => 'Nao foi possivel processar a requisicao.'
+                    'message' => $this->serviceResponse->failedToCreateRecord()
                 ]);
                 return $this->serviceResponse;
             }

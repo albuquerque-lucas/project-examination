@@ -80,13 +80,13 @@ class ExamService implements IService
 
             if (!$exam) {
                 $this->serviceResponse->setAttributes(422, (object)[
-                    'message' => 'Nao foi possivel processar a requisicao.'
+                    'message' => $this->serviceResponse->failedToCreateRecord()
                 ]);
                 return $this->serviceResponse;
             }
 
             $responseData = (object)[
-                'message' => 'Concurso adicionado com sucesso.',
+                'message' => $this->serviceResponse->createdSuccessfully('Exam'),
                 'id' => $exam->id,
                 'file_name' => $exam->file_name,
                 'file_path' => $exam->file,
@@ -124,7 +124,7 @@ class ExamService implements IService
             $exam = Exam::find($id);
             if (!$exam) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Exam not found."
+                    'message' => $this->serviceResponse->recordsNotFound('Exam'),
                 ]);
                 return $this->serviceResponse;
             }
@@ -175,7 +175,7 @@ class ExamService implements IService
 
             if (!$exam) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Edital nao encontrado.',
+                    'message' => $this->serviceResponse->recordsNotFound('Exam'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -192,7 +192,7 @@ class ExamService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Exame excluido com sucesso.',
+                'mensagem' => $this->serviceResponse->deletedSuccessfully('Exam'),
                 'deleted' => true,
             ]);
 
