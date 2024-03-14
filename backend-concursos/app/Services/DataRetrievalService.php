@@ -25,7 +25,7 @@ class DataRetrievalService
             return response()->json($dataArray['resource'], $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([
-                'error' => 'An unexpected error occurred.',
+                'error' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ], 400);
@@ -40,7 +40,7 @@ class DataRetrievalService
             return response()->json($response->data(), $response->status());
         } catch (Exception | Error $exception) {
             return response()->json([
-                'error' => 'An unexpected error occurred.',
+                'error' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ], 500);

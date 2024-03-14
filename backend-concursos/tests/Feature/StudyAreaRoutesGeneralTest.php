@@ -146,7 +146,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
         $this->delete('api/study-areas/delete/9999')
             ->assertStatus(404)
             ->assertJson([
-                'message' => 'No record found with the provided data.'
+                'message' => $this->serviceResponse->recordsNotFound()
             ]);
     }
 

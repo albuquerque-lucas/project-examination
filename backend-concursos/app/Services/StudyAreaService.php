@@ -31,14 +31,14 @@ class StudyAreaService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => 'Nao foram encontrados registros.',
+                'info' => $this->serviceResponse->recordsNotFound(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Nao foi possivel concluir a solicitacao.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -59,14 +59,14 @@ class StudyAreaService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => 'Nao foram encontrados registros.',
+                'info' => $this->serviceResponse->recordsNotFound(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Não foi possível concluir a solicitação.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -83,7 +83,7 @@ class StudyAreaService implements IService
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'An unexpected error occurred.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -97,13 +97,13 @@ class StudyAreaService implements IService
 
             if (!$studyArea) {
                 $this->serviceResponse->setAttributes(422, (object)[
-                    'message' => 'Request could not be processed.'
+                    'message' => $this->serviceResponse->failedToCreateRecord(),
                 ]);
                 return $this->serviceResponse;
             }
 
             $responseData = (object)[
-                'message' => 'Study area successfully added.',
+                'message' => $this->serviceResponse->createdSuccessfully('Study area'),
                 'id' => $studyArea->id,
                 'area' => $studyArea->area,
             ];
@@ -112,21 +112,21 @@ class StudyAreaService implements IService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'message' => 'Error validation failed. Please check errors.',
+                'message' => $this->serviceResponse->validationFailed(),
                 'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'message' => 'Failed to create record. Please check the submitted data.',
+                'message' => $this->serviceResponse->failedToCreateRecord(),
                 'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'An unexpected error occurred.',
+                'message' => $this->serviceResponse->badRequest(),
                 'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -139,7 +139,7 @@ class StudyAreaService implements IService
             $studyArea = StudyArea::find($id);
             if (!$studyArea) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => "No record found with this id: $id"
+                    'message' => $this->serviceResponse->recordsNotFound(),
                 ]);
                 return $this->serviceResponse;
             }
@@ -147,7 +147,7 @@ class StudyAreaService implements IService
             $studyArea->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Changes saved.',
+                'message' => $this->serviceResponse->changesSaved(),
                 'id' => $studyArea->id,
             ];
 
@@ -156,21 +156,21 @@ class StudyAreaService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'No changes to be made.',
+                    'message' => $this->serviceResponse->noChangesToBeMade(),
                     'study_area' => $studyArea
                 ]);
             }
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'message' => 'Failed to change record. Please check the submitted data.',
+                'message' => $this->serviceResponse->failedToUpdateRecord(),
                 'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'An unexpected error occurred.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -184,7 +184,7 @@ class StudyAreaService implements IService
 
             if (!$studyArea) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Study area not found.',
+                    'message' => $this->serviceResponse->recordsNotFound(),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -194,27 +194,27 @@ class StudyAreaService implements IService
 
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Error trying to delete record.',
+                    'message' => $this->serviceResponse->errorTryingToDelete(),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'message' => 'Area deleted successfully.',
+                'message' => $this->serviceResponse->deletedSuccessfully('Area'),
                 'deleted' => true,
             ]);
 
             return $this->serviceResponse;
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => 'No record found with the provided data.',
+                'message' => $this->serviceResponse->recordsNotFound(),
                 'deleted' => false,
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'An error ocurred while trying to change record.',
+                'message' => $this->serviceResponse->badRequest(),
                 'deleted' => false,
                 'info' => $exception->getMessage(),
             ]);

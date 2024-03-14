@@ -31,14 +31,14 @@ class TopicService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => 'Nao foram encontrados registros.',
+                'info' => $this->serviceResponse->recordsNotFound(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Nao foi possivel concluir a solicitacao.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -59,14 +59,14 @@ class TopicService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => 'Nao foram encontrados registros.',
+                'info' => $this->serviceResponse->recordsNotFound(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Nao foi possivel concluir a solicitacao.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -103,14 +103,14 @@ class TopicService implements IService
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => 'Failed to create record. Please check the submitted data.',
+                'info' => $this->serviceResponse->failedToCreateRecord(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'An unexpected error occurred.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -142,21 +142,21 @@ class TopicService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'No changes to be made.',
+                    'message' => $this->serviceResponse->noChangesToBeMade(),
                     'topic' => $topic
                 ]);
             }
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => 'Failed to create record. Please check the submitted data.',
+                'info' => $this->serviceResponse->failedToCreateRecord(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'An unexpected error occurred.',
+                'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
