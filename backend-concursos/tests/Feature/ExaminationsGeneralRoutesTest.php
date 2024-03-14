@@ -262,4 +262,45 @@ class ExaminationsGeneralRoutesTest extends TestCase
                 "message" => "Failed to change record. Please check the submitted data.",
             ]);
     }
+
+    public function test_patch_404_when_trying_to_update_inexistent_examination(): void
+    {
+        $updateData = [
+            'title' => 'Concurso de Teste 02',
+        ];
+
+        $this->patchJson('api/examinations/update/9999', $updateData)
+            ->assertStatus(404)
+            ->assertJson([
+                "message" => "We couldn't find any records matching your request for Examination.",
+            ]);
+    }
+
+    public function test_delete_200_when_deleting_existent_examination(): void
+    {
+        $postData = [
+            'educational_level_id' => 4,
+            'title' => 'Concurso de Teste 01',
+            'active' => true,
+            'institution' => 'Instituicao do teste 01',
+            'registration_start_date' => '25-02-15',
+            'registration_end_date' => '25-03-16',
+            'exams_start_date' => '25-04-14',
+            'exams_end_date' => '25-04-21',
+        ];
+        $this->postJson('api/examinations/create', $postData);
+        $this->deleteJson('api/examinations/delete/196')
+            ->assertJson([
+                "message" => "Examination deleted successfully.",
+            ]);
+    }
+
+    public function test_delete_404_when_tries_to_delete_inexistent_examination(): void
+    {
+        $this->deleteJson('api/examinations/delete/9999')
+            ->assertStatus(404)
+            ->assertJson([
+                "message" => "We couldn't find any records matching your request.",
+            ]);
+    }
 }

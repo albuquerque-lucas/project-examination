@@ -188,7 +188,7 @@ class TopicService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => $this->serviceResponse->deletedSuccessfully('Topic'),
+                'message' => $this->serviceResponse->deletedSuccessfully('Topic'),
                 'deleted' => true,
             ]);
 

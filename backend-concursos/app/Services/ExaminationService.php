@@ -335,7 +335,7 @@ class ExaminationService implements IService
             }
 
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => $this->serviceResponse->deletedSuccessfully('Examination'),
+                'message' => $this->serviceResponse->deletedSuccessfully('Examination'),
                 'deleted' => true,
             ]);
             return $this->serviceResponse;

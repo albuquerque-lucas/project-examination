@@ -196,7 +196,7 @@ class NoticeService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => $this->serviceResponse->deletedSuccessfully('Notice'),
+                'message' => $this->serviceResponse->deletedSuccessfully('Notice'),
                 'deleted' => true,
             ]);
 
@@ -241,7 +241,7 @@ class NoticeService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => $this->serviceResponse->deletedSuccessfully('Notice'),
+                'message' => $this->serviceResponse->deletedSuccessfully('Notice'),
                 'deleted' => true,
             ]);
 

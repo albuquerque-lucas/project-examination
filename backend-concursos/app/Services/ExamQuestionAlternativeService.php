@@ -188,7 +188,7 @@ class ExamQuestionAlternativeService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Tópico excluído com sucesso.',
+                'message' => 'Tópico excluído com sucesso.',
                 'deleted' => true,
             ]);
 

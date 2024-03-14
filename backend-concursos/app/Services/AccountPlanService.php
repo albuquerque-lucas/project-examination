@@ -212,7 +212,7 @@ class AccountPlanService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => $this->serviceResponse->deletedSuccessfully('Account plan'),
+                'message' => $this->serviceResponse->deletedSuccessfully('Account plan'),
                 'deleted' => true,
             ]);
 

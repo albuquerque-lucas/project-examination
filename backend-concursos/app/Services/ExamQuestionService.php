@@ -234,7 +234,7 @@ class ExamQuestionService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Questão excluída com sucesso.',
+                'message' => 'Questão excluída com sucesso.',
                 'deleted' => true,
             ]);
 
