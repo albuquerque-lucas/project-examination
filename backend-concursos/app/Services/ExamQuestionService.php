@@ -172,7 +172,7 @@ class ExamQuestionService implements IService
             $examQuestion = ExamQuestion::find($id);
             if (!$examQuestion) {
                 $examQuestion->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrada nenhuma questão com este id: $id"
+                    'message' => "Question not found."
                 ]);
                 return $this->serviceResponse;
             }
@@ -180,7 +180,7 @@ class ExamQuestionService implements IService
             $examQuestion->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteração feita com sucesso.',
+                'message' => 'Your changes have been applied.',
                 'id' => $examQuestion->id,
             ];
 
@@ -189,7 +189,7 @@ class ExamQuestionService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'Nenhuma alteração a ser feita.',
+                    'message' => 'No changes to be made.',
                     'subject' => $examQuestion
                 ]);
             }

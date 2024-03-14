@@ -150,7 +150,7 @@ class SubjectService implements IService
             $subject = Subject::find($id);
             if (!$subject) {
                 $subject->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrada nenhuma matéria com este id: $id"
+                    'message' => "Subject not found."
                 ]);
                 return $this->serviceResponse;
             }
@@ -158,7 +158,7 @@ class SubjectService implements IService
             $subject->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteração feita com sucesso.',
+                'message' => 'Your changes have been applied.',
                 'id' => $subject->id,
             ];
 
@@ -167,7 +167,7 @@ class SubjectService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'Nenhuma alteração a ser feita.',
+                    'message' => 'No changes to be made.',
                     'subject' => $subject
                 ]);
             }

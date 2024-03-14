@@ -156,7 +156,7 @@ class StudyAreaService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'Nenhuma alteração a ser feita.',
+                    'message' => 'No changes to be made.',
                     'study_area' => $studyArea
                 ]);
             }

@@ -125,7 +125,7 @@ class TopicService implements IService
             $topic = Topic::find($id);
             if (!$topic) {
                 $topic->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrado nenhum tópico com este id: $id"
+                    'message' => "Topic not found"
                 ]);
                 return $this->serviceResponse;
             }
@@ -133,7 +133,7 @@ class TopicService implements IService
             $topic->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteração feita com sucesso.',
+                'message' => 'Your changes have been applied.',
                 'id' => $topic->id,
             ];
 
@@ -142,7 +142,7 @@ class TopicService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'Nenhuma alteração a ser feita.',
+                    'message' => 'No changes to be made.',
                     'topic' => $topic
                 ]);
             }

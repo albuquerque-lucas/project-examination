@@ -150,7 +150,7 @@ class EducationalLevelService implements IService
             $educationalLevel = EducationalLevel::find($id);
             if (!$educationalLevel) {
                 $educationalLevel->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrado nenhum tópico com este id: $id"
+                    'message' => "Educational level not found."
                 ]);
                 return $this->serviceResponse;
             }
@@ -158,7 +158,7 @@ class EducationalLevelService implements IService
             $educationalLevel->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteração feita com sucesso.',
+                'message' => 'Your changes have been applied.',
                 'id' => $educationalLevel->id,
             ];
 
@@ -167,7 +167,7 @@ class EducationalLevelService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'Nenhuma alteração a ser feita.',
+                    'message' => 'No changes to be made.',
                     'topic' => $educationalLevel
                 ]);
             }

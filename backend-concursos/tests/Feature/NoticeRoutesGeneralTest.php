@@ -79,7 +79,7 @@ class NoticeRoutesGeneralTest extends TestCase
         ];
 
         $responseData = [
-            'message' => 'Edital adicionado com sucesso.',
+            'message' => 'Notice created successfully.',
             'id' => 82,
             'file_name' => $requestData['file_name'],
             'file_path' => $requestData['file'],
@@ -98,7 +98,7 @@ class NoticeRoutesGeneralTest extends TestCase
         ];
 
         $responseData = [
-            'message' => 'É necessário informar o path de um arquivo.',
+            'message' => 'Missing file information. Please provide a file path.',
         ];
 
         $this->postJson('api/notices/create', $requestData)
@@ -114,7 +114,7 @@ class NoticeRoutesGeneralTest extends TestCase
         ];
 
         $responseData = [
-            'message' => 'É necessário informar o identificador do concurso.',
+            'message' => 'Missing examination ID. Please provide an ID for the associated notice.',
         ];
 
         $this->postJson('api/notices/create', $requestData)

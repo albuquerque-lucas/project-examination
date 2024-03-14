@@ -257,7 +257,7 @@ class ExaminationService implements IService
             $examination = Examination::find($id);
             if (!$examination) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrado nenhum concurso com este id: $id"
+                    'message' => "Examination not found.",
                 ]);
                 return $this->serviceResponse;
             }
@@ -270,7 +270,7 @@ class ExaminationService implements IService
             $examination->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteração feita com sucesso.',
+                'message' => 'Your changes have been applied.',
                 'id' => $examination->id,
             ];
 

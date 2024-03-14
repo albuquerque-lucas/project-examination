@@ -149,7 +149,7 @@ class AccountPlanService implements IService
             $accountPlan = AccountPlan::find($id);
             if (!$accountPlan) {
                 $accountPlan->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrado nenhum Plano de conta com este id: $id"
+                    'message' => "Account plan not found"
                 ]);
                 return $this->serviceResponse;
             }
@@ -157,7 +157,7 @@ class AccountPlanService implements IService
             $accountPlan->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteração feita com sucesso.',
+                'message' => 'Your changes have been applied.',
                 'id' => $accountPlan->id,
             ];
 
@@ -166,7 +166,7 @@ class AccountPlanService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'Nenhuma alteração a ser feita.',
+                    'message' => 'No changes to be made.',
                     'topic' => $accountPlan
                 ]);
             }

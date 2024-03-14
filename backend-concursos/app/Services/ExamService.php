@@ -124,7 +124,7 @@ class ExamService implements IService
             $exam = Exam::find($id);
             if (!$exam) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Não foi encontrado nenhum exame com este id: $id"
+                    'message' => "Exam not found."
                 ]);
                 return $this->serviceResponse;
             }
@@ -137,7 +137,7 @@ class ExamService implements IService
             $exam->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Alteração feita com sucesso.',
+                'message' => 'Your changes have been applied.',
                 'id' => $exam->id,
             ];
 
@@ -146,7 +146,7 @@ class ExamService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'Nenhuma alteração a ser feita.',
+                    'message' => 'No changes to be made.',
                     'exam' => $exam
                 ]);
             }

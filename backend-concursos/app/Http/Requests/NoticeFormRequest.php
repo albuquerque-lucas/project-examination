@@ -29,25 +29,15 @@ class NoticeFormRequest extends FormRequest
         ];
     }
 
-    public function attributes(): array
-    {
-        return [
-            'examination_id' => 'identificador do concurso',
-            'file' => 'arquivo',
-            'file_name' => 'nome do arquivo',
-            'publication_date' => 'data de publicação'
-        ];
-    }
-
     public function messages(): array
     {
         return [
-            'examination_id.required' => 'É necessário informar o :attribute.',
-            'examination_id.integer' => 'O :attribute deve ser um inteiro.',
-            'file.required' => 'É necessário informar o path de um :attribute.',
-            'file.string' => 'O valor do caminho do :attribute deve ser uma string.',
-            'file_name.string' => 'O :attribute deve ser uma string.',
-            'publication_date' => 'A :attribute deve ser uma string.',
+            'examination_id.required' => 'Missing examination ID. Please provide an ID for the associated notice.',
+            'examination_id.integer' => 'The examination ID must be an integer.',
+            'file.required' => 'Missing file information. Please provide a file path.',
+            'file.string' => 'The file path must be a string.',
+            'file_name.string' => 'The file name must be a string.',
+            'publication_date' => 'The publication date must be a valid date.',
         ];
     }
 }
