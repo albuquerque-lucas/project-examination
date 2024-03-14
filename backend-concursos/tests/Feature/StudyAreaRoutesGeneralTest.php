@@ -21,9 +21,9 @@ class StudyAreaRoutesGeneralTest extends TestCase
             ->assertJsonCount(14, 'data');
     }
 
-    public function test_get_200_code_even_if_doesnt_find_any_notices(): void
+    public function test_get_200_code_even_if_doesnt_find_any_study_areas(): void
     {
-        $this->getJson('/api/notices/all')
+        $this->getJson('/api/study-areas/all')
             ->assertStatus(200)
             ->assertJsonCount(0, 'data');
     }
@@ -150,6 +150,60 @@ class StudyAreaRoutesGeneralTest extends TestCase
             ->assertStatus(404)
             ->assertJson([
                 'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.'
+            ]);
+    }
+
+    public function test_200_updates_existent_study_area(): void
+    {
+        $this->seed(StudyAreasSeeder::class);
+
+        $requestData = [
+            'area' => 'Financas Publicas',
+        ];
+
+        $this->patchJson('api/study-areas/update/124', $requestData)
+            ->assertStatus(200)
+            ->assertJson([
+                'message' => 'Alteração feita com sucesso.',
+                'id' => 124,
+            ]);
+
+        $this->get('api/study-areas/id/124')
+            ->assertStatus(200)
+            ->assertJson([
+                'id' => 124,
+                'area' => $requestData['area'],
+                'subjects' => []
+            ]);
+    }
+
+    public function test_gets_409_error_updates_study_area_with_existent_name(): void
+    {
+        $this->seed(StudyAreasSeeder::class);
+
+        $requestData = [
+            'area' => 'Sociologia',
+        ];
+
+        $this->patchJson('api/study-areas/update/136', $requestData)
+            ->assertStatus(409)
+            ->assertJson([
+                "info" => "Não foi possível criar o registro. Verifique os dados informados.",
+            ]);
+    }
+
+    public function test_gets_404_when_trying_to_update_inexistent_study_area():void
+    {
+        $this->seed(StudyAreasSeeder::class);
+
+        $requestData = [
+            'area' => 'Sociologia',
+        ];
+
+        $this->patchJson('api/study-areas/update/9999', $requestData)
+            ->assertStatus(404)
+            ->assertJson([
+                'message' => 'Não foi encontrada nenhuma área com este id: 9999'
             ]);
     }
 
