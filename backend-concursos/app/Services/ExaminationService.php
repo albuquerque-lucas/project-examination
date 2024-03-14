@@ -296,7 +296,7 @@ class ExaminationService implements IService
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'message' => $this->serviceResponse->failedToCreateRecord(),
+                'message' => $this->serviceResponse->failedToUpdateRecord(),
                 'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
