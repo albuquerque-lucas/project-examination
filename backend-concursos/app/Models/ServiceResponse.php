@@ -24,25 +24,17 @@ class ServiceResponse extends Model
         $this->data = $data;
     }
 
-    public function recordsNotFound(): string
-    {
-        return "We couldn't find any records matching your request.";
-    }
+    // Record Creation
 
-    public function badRequest(): string
-    {
-        return "We apologize, but we were unable to complete your request at this time.";
+public function createdSuccessfully(string $field = null): string
+{
+    if ($field) {
+        return "$field created successfully.";
     }
+    return "Record created successfully.";
+}
 
-    public function failedToCreateRecord(): string
-    {
-        return "Failed to create record. Please check the submitted data.";
-    }
-
-    public function failedToUpdateRecord(): string
-    {
-        return "Failed to change record. Please check the submitted data.";
-    }
+    // Record Updates
 
     public function changesSaved(): string
     {
@@ -54,12 +46,14 @@ class ServiceResponse extends Model
         return "No changes to be made.";
     }
 
-    public function errorTryingToDelete(): string
+    public function failedToUpdateRecord(): string
     {
-        return "Failed to delete record. Please check the submitted data.";
+        return "Failed to change record. Please check the submitted data.";
     }
 
-    public function deletedSuccessfully(string $field = null)
+    // Record Deletion
+
+    public function deletedSuccessfully(string $field = null): string
     {
         if ($field) {
             return "$field deleted successfully.";
@@ -67,16 +61,32 @@ class ServiceResponse extends Model
         return "Record deleted successfully.";
     }
 
+    public function errorTryingToDelete(): string
+    {
+        return "Failed to delete record. Please check the submitted data.";
+    }
+
+    // Errors
+
+    public function badRequest(): string
+    {
+        return "We apologize, but we were unable to complete your request at this time.";
+    }
+
     public function validationFailed(): string
     {
         return "Validation failed. Please check the submitted data.";
     }
 
-    public function createdSuccessfully(string $field = null): string
+    public function failedToCreateRecord(): string
     {
-        if ($field) {
-            return "$field created successfully.";
-        }
-        return "Record created successfully.";
+        return "Failed to create record. Please check the submitted data.";
+    }
+
+    // Record Not Found
+
+    public function recordsNotFound(): string
+    {
+        return "We couldn't find any records matching your request.";
     }
 }
