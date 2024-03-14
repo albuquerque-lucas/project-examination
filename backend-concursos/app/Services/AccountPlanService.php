@@ -219,13 +219,13 @@ class AccountPlanService implements IService
             return $this->serviceResponse;
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
+                'message' => $this->serviceResponse->recordsNotFound(),
                 'deleted' => false,
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'message' => $this->serviceResponse->badRequest(),
                 'deleted' => false,
                 'info' => $exception->getMessage(),
             ]);

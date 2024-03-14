@@ -215,11 +215,14 @@ class ExaminationService implements IService
             $examination = Examination::create($data);
 
             if(!$examination) {
-                throw new Exception('Não foi possível criar um novo registro de Examination.');
+                $this->serviceResponse->setAttributes(422, (object)[
+                    'message' => $this->serviceResponse->failedToCreateRecord(),
+                ]);
+                return $this->serviceResponse;
             }
 
             $responseData = (object)[
-                'message' => 'Concurso adicionado com sucesso.',
+                'message' => $this->serviceResponse->createdSuccessfully('Examination'),
                 'id' => $examination->id,
                 'title' => $examination->title,
                 'institution' => $examination->institution,
@@ -257,7 +260,7 @@ class ExaminationService implements IService
             $examination = Examination::find($id);
             if (!$examination) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Examination not found.",
+                    'message' => $this->serviceResponse->recordsNotFound('Examination'),
                 ]);
                 return $this->serviceResponse;
             }
@@ -279,7 +282,7 @@ class ExaminationService implements IService
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => 'No changes to apply',
+                    'message' => $this->serviceResponse->noChangesToBeMade(),
                     'examination' => $examination
                 ]);
             }
@@ -309,7 +312,7 @@ class ExaminationService implements IService
 
             if (!$examination) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Concurso nao encontrado.',
+                    'message' => $this->serviceResponse->recordsNotFound('Examination'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -326,33 +329,23 @@ class ExaminationService implements IService
             }
 
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Concurso excluido com sucesso.',
+                'mensagem' => $this->serviceResponse->deletedSuccessfully('Examination'),
                 'deleted' => true,
             ]);
             return $this->serviceResponse;
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'message' => 'Nao foi encontrado nenhum registro com os dados fornecidos.',
+                'message' => $this->serviceResponse->recordsNotFound(),
                 'deleted' => false,
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'message' => 'Ocorreu um erro ao tentar alterar o registro.',
+                'message' => $this->serviceResponse->badRequest(),
                 'deleted' => false,
                 'info' => $exception->getMessage(),
             ]);
             return $this->serviceResponse;
         }
-    }
-
-    private function validateDateFormat($date)
-    {
-        $parsedDate = DateTime::createFromFormat('Y-m-d', $date);
-        if (!$parsedDate) {
-            throw new InvalidDateFormatException('Data inválida. Use o formato YYYY-MM-DD. Service', 400);
-        }
-
-        return $parsedDate;
     }
 }
