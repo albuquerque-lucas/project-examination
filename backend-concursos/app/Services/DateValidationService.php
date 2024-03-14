@@ -11,7 +11,7 @@ class DateValidationService
 {
     public static function validateAndFormatDates(array &$requestData)
     {
-        $dateFields = ['registration_start_date', 'registration_end_date', 'exams_start_date', 'exams_end_date'];
+        $dateFields = ['registration_start_date', 'registration_end_date', 'exams_start_date', 'exams_end_date', 'date'];
         foreach ($dateFields as $field) {
             if (isset($requestData[$field]) && !empty($requestData[$field])) {
                 try {

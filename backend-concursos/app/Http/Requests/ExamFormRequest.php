@@ -24,9 +24,9 @@ class ExamFormRequest extends FormRequest
         return [
             'examination_id' => 'required|integer',
             'title' => 'required|string',
-            'date' => 'required|date',
-            'start_time' => 'nullable|time',
-            'end_time' => 'nullable|time',
+            'date' => 'nullable|date',
+            'start_time' => 'nullable|string',
+            'end_time' => 'nullable|string',
         ];
     }
 }
