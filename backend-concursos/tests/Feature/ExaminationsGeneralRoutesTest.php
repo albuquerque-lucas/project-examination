@@ -2,11 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\EducationalLevel;
 use Database\Seeders\ExaminationSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Examination;
 use Database\Seeders\EducationalLevelsSeeder;
 
 class ExaminationsGeneralRoutesTest extends TestCase
@@ -114,7 +112,7 @@ class ExaminationsGeneralRoutesTest extends TestCase
             'title' => $requestData['title'],
         ];
 
-        $this->postJson('api/create/examination', $requestData)
+        $this->postJson('api/examinations/create', $requestData)
             ->assertStatus(201)
             ->assertJson($responseData);
     }
@@ -132,7 +130,7 @@ class ExaminationsGeneralRoutesTest extends TestCase
             'exams_end_date' => '25-04-21',
         ];
 
-        $this->postJson('api/create/examination', $requestData)
+        $this->postJson('api/examinations/create', $requestData)
             ->assertStatus(422)
             ->assertJson([
             "message" => "Data inválida. Use o formato YYYY-MM-DD.",
@@ -146,10 +144,10 @@ class ExaminationsGeneralRoutesTest extends TestCase
             'title' => 'Concurso de Teste 01',
         ];
 
-        $this->postJson('api/create/examination', $requestData)
+        $this->postJson('api/examinations/create', $requestData)
             ->assertStatus(422)
             ->assertJson([
-                "message" => "É necessário informar uma instituição.",
+                "message" => "The institution field is required.",
             ]);
 
     }
@@ -161,10 +159,10 @@ class ExaminationsGeneralRoutesTest extends TestCase
             'institution' => 'Institution de teste 01',
         ];
 
-        $this->postJson('api/create/examination', $requestData)
+        $this->postJson('api/examinations/create', $requestData)
             ->assertStatus(422)
             ->assertJson([
-                "message" => "É necessário informar um título.",
+                "message" => "The title field is required.",
             ]);
 
     }
@@ -176,10 +174,133 @@ class ExaminationsGeneralRoutesTest extends TestCase
             'institution' => 'Institution de teste 01',
         ];
 
-        $this->postJson('api/create/examination', $requestData)
+        $this->postJson('api/examinations/create', $requestData)
             ->assertStatus(422)
             ->assertJson([
-                "message" => "O nivel de escolaridade do concurso é obrigatório. Nenhum foi informado.",
+                "message" => "The educational level id field is required.",
+            ]);
+    }
+
+    public function test_post_409_error_when_tries_to_create_an_examination_with_pre_existent_data(): void
+    {
+        $requestData = [
+            'educational_level_id' => 4,
+            'title' => 'Concurso de Teste 01',
+            'active' => true,
+            'institution' => 'Instituicao do teste 01',
+            'registration_start_date' => '25-02-15',
+            'registration_end_date' => '25-03-16',
+            'exams_start_date' => '25-04-14',
+            'exams_end_date' => '25-04-21',
+        ];
+
+        $this->postJson('api/examinations/create', $requestData);
+        $this->postJson('api/examinations/create', $requestData)
+            ->assertStatus(409)
+            ->assertJson([
+                "message" => "Failed to create record. Please check the submitted data.",
+            ]);
+    }
+
+    public function test_patch_200_error_when_updates_examination_successfully(): void
+    {
+        $postData = [
+            'educational_level_id' => 4,
+            'title' => 'Concurso de Teste 01',
+            'active' => true,
+            'institution' => 'Instituicao do teste 01',
+            'registration_start_date' => '25-02-15',
+            'registration_end_date' => '25-03-16',
+            'exams_start_date' => '25-04-14',
+            'exams_end_date' => '25-04-21',
+        ];
+
+        $updateData = [
+            'title' => 'Concurso de Teste 02',
+        ];
+
+        $this->postJson('api/examinations/create', $postData);
+        $this->patchJson('api/examinations/update/193', $updateData)
+            ->assertJson([
+                "message" => "Changes saved successfully.",
+                "id" => 193,
+            ]);
+    }
+
+    public function test_patch_409_error_when_tries_to_update_examination_with_pre_existent_data(): void
+    {
+        $postData1 = [
+            'educational_level_id' => 4,
+            'title' => 'Concurso de Teste 01',
+            'active' => true,
+            'institution' => 'Instituicao do teste 01',
+            'registration_start_date' => '25-02-15',
+            'registration_end_date' => '25-03-16',
+            'exams_start_date' => '25-04-14',
+            'exams_end_date' => '25-04-21',
+        ];
+
+        $postData2 = [
+            'educational_level_id' => 4,
+            'title' => 'Concurso de Teste 02',
+            'active' => true,
+            'institution' => 'Instituicao do teste 02',
+            'registration_start_date' => '25-02-15',
+            'registration_end_date' => '25-03-16',
+            'exams_start_date' => '25-04-14',
+            'exams_end_date' => '25-04-21',
+        ];
+
+        $updateData = [
+            'title' => 'Concurso de Teste 02',
+        ];
+
+        $this->postJson('api/examinations/create', $postData1);
+        $this->postJson('api/examinations/create', $postData2);
+        $this->patchJson('api/examinations/update/194', $updateData)
+            ->assertJson([
+                "message" => "Failed to change record. Please check the submitted data.",
+            ]);
+    }
+
+    public function test_patch_404_when_trying_to_update_inexistent_examination(): void
+    {
+        $updateData = [
+            'title' => 'Concurso de Teste 02',
+        ];
+
+        $this->patchJson('api/examinations/update/9999', $updateData)
+            ->assertStatus(404)
+            ->assertJson([
+                "message" => "We couldn't find any records matching your request for Examination.",
+            ]);
+    }
+
+    public function test_delete_200_when_deleting_existent_examination(): void
+    {
+        $postData = [
+            'educational_level_id' => 4,
+            'title' => 'Concurso de Teste 01',
+            'active' => true,
+            'institution' => 'Instituicao do teste 01',
+            'registration_start_date' => '25-02-15',
+            'registration_end_date' => '25-03-16',
+            'exams_start_date' => '25-04-14',
+            'exams_end_date' => '25-04-21',
+        ];
+        $this->postJson('api/examinations/create', $postData);
+        $this->deleteJson('api/examinations/delete/196')
+            ->assertJson([
+                "message" => "Examination deleted successfully.",
+            ]);
+    }
+
+    public function test_delete_404_when_tries_to_delete_inexistent_examination(): void
+    {
+        $this->deleteJson('api/examinations/delete/9999')
+            ->assertStatus(404)
+            ->assertJson([
+                "message" => "We couldn't find any records matching your request.",
             ]);
     }
 }

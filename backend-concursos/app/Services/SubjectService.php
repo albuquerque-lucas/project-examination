@@ -212,7 +212,7 @@ class SubjectService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => $this->serviceResponse->deletedSuccessfully('Subject'),
+                'message' => $this->serviceResponse->deletedSuccessfully('Subject'),
                 'deleted' => true,
             ]);
 

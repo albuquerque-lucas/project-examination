@@ -30,15 +30,15 @@ class ExamQuestionService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => $this->serviceResponse->recordsNotFound(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->recordsNotFound(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -58,15 +58,15 @@ class ExamQuestionService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => $this->serviceResponse->recordsNotFound(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->recordsNotFound(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -82,15 +82,15 @@ class ExamQuestionService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => $this->serviceResponse->recordsNotFound(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->recordsNotFound(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -107,15 +107,15 @@ class ExamQuestionService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => $this->serviceResponse->recordsNotFound(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->recordsNotFound(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -135,7 +135,7 @@ class ExamQuestionService implements IService
             }
 
             $responseData = (object)[
-            'message' => 'Questão adicionada com sucesso.',
+                'message' => $this->serviceResponse->createdSuccessfully('Question'),
                 'id' => $examQuestion->id,
                 'file_name' => $examQuestion->file_name,
                 'file_path' => $examQuestion->file,
@@ -172,7 +172,7 @@ class ExamQuestionService implements IService
             $examQuestion = ExamQuestion::find($id);
             if (!$examQuestion) {
                 $examQuestion->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Question not found."
+                    'message' => $this->serviceResponse->recordsNotFound('Question')
                 ]);
                 return $this->serviceResponse;
             }
@@ -196,15 +196,15 @@ class ExamQuestionService implements IService
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => $this->serviceResponse->failedToCreateRecord(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->failedToCreateRecord(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -217,7 +217,7 @@ class ExamQuestionService implements IService
 
             if (!$examQuestion) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Questão não encontrada.',
+                    'message' => $this->serviceResponse->recordsNotFound('Question'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -234,7 +234,7 @@ class ExamQuestionService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Questão excluída com sucesso.',
+                'message' => $this->serviceResponse->deletedSuccessfully('Question'),
                 'deleted' => true,
             ]);
 
@@ -242,14 +242,15 @@ class ExamQuestionService implements IService
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
                 'message' => $this->serviceResponse->recordsNotFound(),
+                'info' => $exception->getMessage(),
                 'deleted' => false,
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
                 'message' => $this->serviceResponse->badRequest(),
-                'deleted' => false,
                 'info' => $exception->getMessage(),
+                'deleted' => false,
             ]);
             return $this->serviceResponse;
         }

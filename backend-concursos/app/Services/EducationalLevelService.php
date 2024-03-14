@@ -213,7 +213,7 @@ class EducationalLevelService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => $this->serviceResponse->deletedSuccessfully('Educational level'),
+                'message' => $this->serviceResponse->deletedSuccessfully('Educational level'),
                 'deleted' => true,
             ]);
 

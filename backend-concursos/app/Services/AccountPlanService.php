@@ -31,15 +31,15 @@ class AccountPlanService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => $this->serviceResponse->recordsNotFound(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->recordsNotFound(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -59,15 +59,15 @@ class AccountPlanService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => $this->serviceResponse->recordsNotFound(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->recordsNotFound(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -83,15 +83,15 @@ class AccountPlanService implements IService
             return $this->serviceResponse;
         } catch(NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
-                'info' => $this->serviceResponse->recordsNotFound(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->recordsNotFound(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -120,22 +120,22 @@ class AccountPlanService implements IService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'info' => $this->serviceResponse->validationFailed(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->validationFailed(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => $this->serviceResponse->failedToCreateRecord(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->failedToCreateRecord(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -149,7 +149,7 @@ class AccountPlanService implements IService
             $accountPlan = AccountPlan::find($id);
             if (!$accountPlan) {
                 $accountPlan->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Account plan not found"
+                    'message' => $this->serviceResponse->recordsNotFound('Account plan'),
                 ]);
                 return $this->serviceResponse;
             }
@@ -173,15 +173,15 @@ class AccountPlanService implements IService
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => $this->serviceResponse->failedToCreateRecord(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->failedToCreateRecord(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -195,7 +195,7 @@ class AccountPlanService implements IService
 
             if (!$accountPlan) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Plano de conta nao encontrado.',
+                    'message' => $this->serviceResponse->recordsNotFound('Account plan'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -212,7 +212,7 @@ class AccountPlanService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Plano de conta excluído com sucesso.',
+                'message' => $this->serviceResponse->deletedSuccessfully('Account plan'),
                 'deleted' => true,
             ]);
 
@@ -220,14 +220,15 @@ class AccountPlanService implements IService
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
                 'message' => $this->serviceResponse->recordsNotFound(),
+                'info' => $exception->getMessage(),
                 'deleted' => false,
             ]);
             return $this->serviceResponse;
         } catch(Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
                 'message' => $this->serviceResponse->badRequest(),
-                'deleted' => false,
                 'info' => $exception->getMessage(),
+                'deleted' => false,
             ]);
             return $this->serviceResponse;
         }

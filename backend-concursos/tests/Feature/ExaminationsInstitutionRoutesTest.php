@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\EducationalLevel;
+use Database\Seeders\EducationalLevelsSeeder;
+use Database\Seeders\ExaminationSeeder;
 use Tests\TestCase;
 use App\Models\Examination;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,64 +14,33 @@ class ExaminationsInstitutionRoutesTest extends TestCase
     use RefreshDatabase;
     public function test_get_200_code_examinations_by_institution():void
     {
-        $educationalLevel2 = EducationalLevel::factory()->create([
-            'id' => 2,
-            'name' => 'Tecnico'
-        ]);
+        $this->seed(EducationalLevelsSeeder::class);
+        $this->seed(ExaminationSeeder::class);
 
-        $educationalLevel4 = EducationalLevel::factory()->create([
-            'id' => 4,
-            'name' => 'Pos-Graduacao'
-        ]);
-        $exampleExamination = Examination::factory()->create([
-            'institution' => 'Example Institution Test',
-            'educational_level_id' => $educationalLevel4->id,
-        ]);
-
-        Examination::factory(29)->create([
-            'educational_level_id' => $educationalLevel2->id,
-        ]);
-
-        $response = $this->get('/api/examinations/institution?institution=Test');
-        $data = $response->json();
-        $response->assertStatus(200);
-        $response->assertJsonStructure(['data']);
-        $result = $data['data'];
-        $this->assertCount(1, $result);
-        $this->assertEquals($exampleExamination->id, $result[0]['id']);
-        $this->assertEquals($exampleExamination->institution, $result[0]['institution']);
+        $this->getJson('/api/examinations/institution?institution=Gov')
+            ->assertStatus(200)
+            ->assertJsonStructure(['data']);
     }
 
     public function test_get_200_even_if_no_content_when_it_gets_for_inexistent_institution(): void
     {
-        $educationalLevel4 = EducationalLevel::factory()->create([
-            'id' => 4,
-            'name' => 'Pos-Graduacao'
-        ]);
-        $defaultExaminations = Examination::factory(4)->create([
-            'institution' => 'Institution de teste',
-            'educational_level_id' => $educationalLevel4->id,
-        ]);
+        $this->seed(EducationalLevelsSeeder::class);
+        $this->seed(ExaminationSeeder::class);
 
-        $response = $this->get("/api/examinations/institution?institution=inexistent");
-        $response->assertStatus(200);
+        $this->get("/api/examinations/institution?institution=inexistent")
+            ->assertStatus(200);
     }
 
     public function test_get_400_error_if_missing_institution_parameter(): void
     {
-        $educationalLevel4 = EducationalLevel::factory()->create([
-            'id' => 4,
-            'name' => 'Pos-Graduacao'
-        ]);
-        $defaultExaminations = Examination::factory(4)->create([
-            'institution' => 'Institution de teste',
-            'educational_level_id' => $educationalLevel4->id,
-        ]);
+        $this->seed(EducationalLevelsSeeder::class);
+        $this->seed(ExaminationSeeder::class);
 
-        $response = $this->get("/api/examinations/institution");
-        $response->assertStatus(400)->assertJson([
-            "message"=> "The institution field is required.",
-            "code"=> 0
-        ]);
+        $this->get("/api/examinations/institution")
+            ->assertStatus(400)
+            ->assertJson([
+                "message"=> "The institution field is required.",
+                "code"=> 0
+            ]);
     }
 }

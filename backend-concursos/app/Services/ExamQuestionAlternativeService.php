@@ -87,7 +87,7 @@ class ExamQuestionAlternativeService implements IService
             }
 
             $responseData = (object)[
-                'message' => 'Tópico adicionado com sucesso.',
+                'message' => $this->serviceResponse->createdSuccessfully('Alternative'),
                 'id' => $topic->id,
                 'title' => $topic->title
             ];
@@ -96,22 +96,22 @@ class ExamQuestionAlternativeService implements IService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'info' => 'Error validation failed. Please check errors.',
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->validationFailed(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => $this->serviceResponse->failedToCreateRecord(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->failedToCreateRecord(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
@@ -125,7 +125,7 @@ class ExamQuestionAlternativeService implements IService
             $topic = ExamQuestionAlternative::find($id);
             if (!$topic) {
                 $topic->serviceResponse->setAttributes(404, (object)[
-                    'message' => "Alternative not found."
+                    'message' => $this->serviceResponse->recordsNotFound('Alternative'),
                 ]);
                 return $this->serviceResponse;
             }
@@ -171,7 +171,7 @@ class ExamQuestionAlternativeService implements IService
 
             if (!$topic) {
                 $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => 'Tópico nao encontrado.',
+                    'message' => $this->serviceResponse->recordsNotFound('Alternative'),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;
@@ -188,7 +188,7 @@ class ExamQuestionAlternativeService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'mensagem' => 'Tópico excluído com sucesso.',
+                'message' => $this->serviceResponse->deletedSuccessfully('Alternative'),
                 'deleted' => true,
             ]);
 
