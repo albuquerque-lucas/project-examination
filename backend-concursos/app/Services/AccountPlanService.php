@@ -120,21 +120,21 @@ class AccountPlanService implements IService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'info' => 'Validação falhou. Verifique os erros.',
+                'info' => 'Error validation failed. Please check errors.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => 'Não foi possível criar o registro. Verifique os dados informados.',
+                'info' => 'Failed to create record. Please check the submitted data.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Ocorreu um erro inesperado.',
+                'info' => 'An unexpected error occurred.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -173,14 +173,14 @@ class AccountPlanService implements IService
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => 'Não foi possível criar o registro. Verifique os dados informados.',
+                'info' => 'Failed to create record. Please check the submitted data.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => 'Ocorreu um erro inesperado.',
+                'info' => 'An unexpected error occurred.',
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
