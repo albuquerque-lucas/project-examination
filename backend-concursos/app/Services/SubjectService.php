@@ -123,7 +123,7 @@ class SubjectService implements IService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'info' => 'Error validation failed. Please check errors.',
+                'info' => $this->serviceResponse->validationFailed(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -158,7 +158,7 @@ class SubjectService implements IService
             $subject->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Your changes have been applied.',
+                'message' => $this->serviceResponse->changesSaved(),
                 'id' => $subject->id,
             ];
 
@@ -205,7 +205,7 @@ class SubjectService implements IService
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Erro ao tentar deletar o registro.',
+                    'message' => $this->serviceResponse->errorTryingToDelete(),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;

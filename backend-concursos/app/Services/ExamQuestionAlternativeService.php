@@ -133,7 +133,7 @@ class ExamQuestionAlternativeService implements IService
             $topic->fill($data);
 
             $responseModel = (object)[
-                'message' => 'Your changes have been applied.',
+                'message' => $this->serviceResponse->changesSaved(),
                 'id' => $topic->id,
             ];
 
@@ -181,7 +181,7 @@ class ExamQuestionAlternativeService implements IService
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => 'Erro ao tentar deletar o registro.',
+                    'message' => $this->serviceResponse->errorTryingToDelete(),
                     'deleted' => false,
                 ]);
                 return $this->serviceResponse;

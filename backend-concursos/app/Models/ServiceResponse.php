@@ -85,8 +85,11 @@ public function createdSuccessfully(string $field = null): string
 
     // Record Not Found
 
-    public function recordsNotFound(): string
+    public function recordsNotFound(string $field = null): string
     {
+        if ($field) {
+            return "We couldn't find any records matching your request for $field.";
+        }
         return "We couldn't find any records matching your request.";
     }
 }

@@ -100,7 +100,7 @@ class NoticeService implements IService
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'info' => 'Error validation failed. Please check errors.',
+                'info' => $this->serviceResponse->validationFailed(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
@@ -141,7 +141,7 @@ class NoticeService implements IService
                 $notice->fill($data);
 
                 $responseModel = (object)[
-                    'message' => 'Your changes have been applied.',
+                    'message' => $this->serviceResponse->changesSaved(),
                     'id' => $notice->id,
                 ];
 
