@@ -53,7 +53,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
             ->assertJsonCount(1, 'data');
     }
 
-    public function test_get_error_code_when_requests_for_area_without_parameter(): void
+    public function test_get_400_error_code_when_requests_for_area_without_parameter(): void
     {
         $this->seed(StudyAreasSeeder::class);
 
@@ -92,7 +92,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
             ->assertJson($responseData);
     }
 
-    public function test_gets_422_code_if_missing_area_field(): void
+    public function test_post_422_code_if_missing_area_field(): void
     {
         $this->postJson('api/study-areas/create', [])
             ->assertStatus(422)
@@ -101,7 +101,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
             ]);
     }
 
-    public function test_gets_409_error_when_trying_to_add_with_an_existent_study_area(): void
+    public function test_post_409_error_when_trying_to_add_with_an_existent_study_area(): void
     {
         $this->seed(StudyAreasSeeder::class);
 
@@ -116,7 +116,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
             ]);
     }
 
-    public function test_gets_200_when_delete_existent_study_area(): void
+    public function test_delete_200_when_delete_existent_study_area(): void
     {
         $this->seed(StudyAreasSeeder::class);
 
@@ -135,7 +135,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
             ->assertJsonCount(13, 'data');
     }
 
-    public function test_gets_404_error_when_trying_to_delete_inexistent_study_area(): void
+    public function test_delete_404_error_when_trying_to_delete_inexistent_study_area(): void
     {
         $this->seed(StudyAreasSeeder::class);
 
@@ -150,7 +150,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
             ]);
     }
 
-    public function test_200_updates_existent_study_area(): void
+    public function test_patch_200_updates_existent_study_area(): void
     {
         $this->seed(StudyAreasSeeder::class);
 
@@ -174,7 +174,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
             ]);
     }
 
-    public function test_gets_409_error_updates_study_area_with_existent_name(): void
+    public function test_patch_409_error_updates_study_area_with_existent_name(): void
     {
         $this->seed(StudyAreasSeeder::class);
 
@@ -189,7 +189,7 @@ class StudyAreaRoutesGeneralTest extends TestCase
             ]);
     }
 
-    public function test_gets_404_when_trying_to_update_inexistent_study_area():void
+    public function test_patch_404_when_trying_to_update_inexistent_study_area():void
     {
         $this->seed(StudyAreasSeeder::class);
 
