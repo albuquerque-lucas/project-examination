@@ -32,7 +32,7 @@ class UserFactory extends Factory
             'account_plan_id' => $this->faker->randomElement($this->getAccountPlanIds()),
             'first_name' => $firstName,
             'last_name' => $lastName,
-            'name' => $fullName,
+            'full_name' => $fullName,
             'username' => $this->faker->unique()->userName,
             'email' => $this->faker->unique()->safeEmail,
             'phone_number' => $this->faker->phoneNumber,

@@ -2,26 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserFormRequest;
+use App\Services\DataRetrievalService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Exception;
+use Error;
 
 class UserController extends Controller
 {
-    private $userService;
+    protected UserService $userService;
 
-    public function __construct(UserService $userService)
+    private DataRetrievalService $dataRetrievalService;
+
+    public function __construct(UserService $userService, DataRetrievalService $dataRetrievalService)
     {
         $this->userService = $userService;
+        $this->dataRetrievalService = $dataRetrievalService;
     }
 
-    public function getAll()
+    public function getAll(Request $request)
+    {
+        return $this->dataRetrievalService->getAll($this->userService, $request);
+    }
+
+    public function getById(int $id)
+    {
+        return $this->dataRetrievalService->getById($this->userService, $id);
+    }
+
+    public function getByName(Request $request)
     {
         try {
-            $response = $this->userService->getAll();
+            $validatedData = $request->validate([
+                'name' => 'required|string',
+                'order' => 'string|in:asc,desc',
+            ]);
+            $name = $validatedData['name'];
+            $order = $request->input('order', 'desc');
+            $response = $this->userService->getByName($name, $order);
             return response()->json($response->data(), $response->status());
-        } catch (Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], $exception->getCode());
+        } catch (Exception | Error $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ], 400);
         }
+    }
+
+    public function update(Request $request, int $id)
+    {
+        return $this->dataRetrievalService->update($this->userService, $id, $request);
+    }
+
+    public function delete(int $id)
+    {
+        return $this->dataRetrievalService->delete($this->userService, $id);
+    }
+
+    public function create(UserFormRequest $request)
+    {
+        return $this->dataRetrievalService->create($this->userService, $request);
     }
 }
