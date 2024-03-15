@@ -20,6 +20,8 @@ class StudyAreaController extends Controller
     {
         $this->studyAreaService = $studyAreaService;
         $this->dataRetrievalService = $dataRetrievalService;
+
+        $this->middleware('auth:sanctum');
     }
 
     public function getAll(Request $request)

@@ -16,6 +16,8 @@ class ExamController extends Controller
     {
         $this->examService = $examService;
         $this->dataRetrievalService = $dataRetrievalService;
+
+        $this->middleware('auth:sanctum');
     }
 
     public function getAll(Request $request)

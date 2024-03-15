@@ -19,6 +19,8 @@ class UserController extends Controller
     {
         $this->userService = $userService;
         $this->dataRetrievalService = $dataRetrievalService;
+
+        $this->middleware('auth:sanctum', ['except' => ['create']]);
     }
 
     public function getAll(Request $request)

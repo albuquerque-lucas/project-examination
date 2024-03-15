@@ -25,9 +25,8 @@ use App\Http\Controllers\AccountPlanController;
 |
 */
 
-
 // ROTAS DE USERS
-Route::get('/users/all', [UserController::class, "getAll"])->middleware('auth:sanctum');
+Route::get('/users/all', [UserController::class, "getAll"]);
 Route::get('/users/id/{id}', [UserController::class, "getById"]);
 Route::get('/users/name/{name}', [UserController::class, "getByName"]);
 Route::post('/users/create', [UserController::class, "create"]);

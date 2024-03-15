@@ -18,6 +18,8 @@ class SubjectController extends Controller
     {
         $this->subjectService = $subjectService;
         $this->dataRetrievalService = $dataRetrievalService;
+
+        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById', 'getByTitle']]);
     }
 
     public function getAll(Request $request)
