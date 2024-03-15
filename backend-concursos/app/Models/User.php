@@ -25,7 +25,6 @@ class User extends Authenticatable
         'account_plan_id',
         'first_name',
         'last_name',
-        'full_name',
         'username',
         'email',
         'phone_number',

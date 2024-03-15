@@ -201,7 +201,7 @@ class UserService implements IService
             }
     
             $this->serviceResponse->setAttributes(200, (object)[
-                'message' => $this->serviceResponse->deletedSuccessfully('Area'),
+                'message' => $this->serviceResponse->deletedSuccessfully('User'),
                 'deleted' => true,
             ]);
 

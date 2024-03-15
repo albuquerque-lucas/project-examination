@@ -22,7 +22,13 @@ class UserFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'account_plan_id' => 'required|integer|exists:account_plans,id',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'username' => 'required|string',
+            'email' => 'required|email',
+            'phone_number' => 'required|string',
+            'password' => 'required|string',
         ];
     }
 }

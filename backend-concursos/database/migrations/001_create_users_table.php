@@ -17,10 +17,9 @@ return new class extends Migration
             $table->foreignIdFor(AccountPlan::class);
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('full_name');
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->string('phone_number')->nullable();
+            $table->string('phone_number')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('username_verified_at')->nullable();
             $table->string('password');

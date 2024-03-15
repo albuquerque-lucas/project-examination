@@ -24,21 +24,16 @@ class UserFactory extends Factory
 
     public function definition(): array
     {
-        $firstName = $this->faker->firstName;
-        $lastName = $this->faker->lastName;
-        $fullName = "$firstName $lastName";
-
         return [
             'account_plan_id' => $this->faker->randomElement($this->getAccountPlanIds()),
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'full_name' => $fullName,
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
             'username' => $this->faker->unique()->userName,
             'email' => $this->faker->unique()->safeEmail,
-            'phone_number' => $this->faker->phoneNumber,
+            'phone_number' => $this->faker->unique()->phoneNumber,
             'email_verified_at' => now(),
             'username_verified_at' => now(),
-            'password' => Hash::make('senha'), // Altere 'senha' conforme necessário
+            'password' => Hash::make('senha'),
             'remember_token' => Str::random(10),
         ];
     }
