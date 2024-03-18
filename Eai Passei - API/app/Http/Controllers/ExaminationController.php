@@ -23,6 +23,8 @@ class ExaminationController extends Controller
     {
         $this->examinationService = $examinationService;
         $this->dataRetrievalService = $dataRetrievalService;
+
+        $this->middleware('auth:sanctum', ['only' => ['create', 'update', 'delete']]);
     }
 
     public function getAll(Request $request)

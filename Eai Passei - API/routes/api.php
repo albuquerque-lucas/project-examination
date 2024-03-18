@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamQuestionAlternativeController;
 use App\Http\Controllers\ExamQuestionController;
@@ -24,7 +25,16 @@ use App\Http\Controllers\AccountPlanController;
 |
 */
 
+// ROTAS DE USERS
 Route::get('/users/all', [UserController::class, "getAll"]);
+Route::get('/users/id/{id}', [UserController::class, "getById"]);
+Route::get('/users/name/{name}', [UserController::class, "getByName"]);
+Route::post('/users/create', [UserController::class, "create"]);
+Route::patch('/users/update/{id}', [UserController::class, "update"]);
+Route::delete('/users/delete/{id}', [UserController::class, "delete"]);
+
+// ROTAS LOGIN
+Route::post('/admin/login', [AuthController::class, "login"]);
 
 // ROTAS DE EXAMINATIONS
 Route::get("/examinations/all", [ExaminationController::class, 'getAll']);

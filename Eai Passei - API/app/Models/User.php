@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class User extends Authenticatable
 {
@@ -24,9 +25,9 @@ class User extends Authenticatable
         'account_plan_id',
         'first_name',
         'last_name',
-        'name',
         'username',
         'email',
+        'phone_number',
         'password',
     ];
 
@@ -59,5 +60,20 @@ class User extends Authenticatable
     public function accountPlan(): HasOne
     {
         return $this->hasOne(AccountPlan::class);
+    }
+
+    public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
+    {
+        return self::orderBy($orderBy, $order)->paginate();
+    }
+
+    public static function getByName(string $name, string $order = 'desc'): LengthAwarePaginator
+    {
+        return self::where('full_name', 'like', "%{$name}%")->orderBy('id', $order)->paginate();
+    }
+
+    public static function getById(int $id): self | null
+    {
+        return self::where('id', $id)->first();
     }
 }

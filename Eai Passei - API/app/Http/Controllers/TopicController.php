@@ -16,6 +16,8 @@ class TopicController extends Controller
     {
         $this->topicService = $topicService;
         $this->dataRetrievalService = $dataRetrievalService;
+
+        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById']]);
     }
 
     public function getAll(Request $request)
