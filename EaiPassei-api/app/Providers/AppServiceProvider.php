@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Http\Controllers\NoticeController;
+use App\Models\Examination;
+use App\Policies\ExaminationPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,5 +25,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         JsonResource::withoutWrapping();
+        Gate::policy(Examination::class, ExaminationPolicy::class);
     }
 }
