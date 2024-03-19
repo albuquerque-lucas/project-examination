@@ -26,7 +26,9 @@ class ExaminationController extends Controller
         $this->examinationService = $examinationService;
         $this->dataRetrievalService = $dataRetrievalService;
 
-        $this->middleware('auth:sanctum', ['only' => ['create', 'update', 'delete']]);
+        $this->middleware('auth:sanctum',
+            ['only' => ['create', 'update', 'delete']]
+        );
     }
 
     public function getAll(Request $request)
@@ -143,7 +145,7 @@ class ExaminationController extends Controller
     public function create(ExaminationFormRequest $request)
     {
         try {
-
+            $this->authorize('create', $request->user());
             return $this->dataRetrievalService->create($this->examinationService, $request);
 
         } catch(InvalidDateFormatException $exception) {

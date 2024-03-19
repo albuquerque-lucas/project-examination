@@ -14,6 +14,17 @@ class AccountPlanResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'access_level_id' => $this->access_level_id,
+            'access_level' => $this->accessLevel->level,
+            'name' => $this->name,
+            'description' => $this->description,
+            'price' => $this->price,
+            'duration_days' => $this->duration_days,
+            'is_public' => $this->is_public,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }

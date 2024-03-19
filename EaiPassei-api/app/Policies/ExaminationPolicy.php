@@ -16,6 +16,9 @@ class ExaminationPolicy
 
     public function create(User $user)
     {
-        return true;
+        $allowedAccessLevel = 4;
+        $accessLevel = $user->accountPlan->accessLevel->level;
+
+        return $accessLevel >= $allowedAccessLevel;
     }
 }
