@@ -19,6 +19,7 @@ class AccountPlanFactory extends Factory
             'description' => $this->faker->text, // Descrição do plano (pode ser nulo)
             'price' => $this->faker->randomFloat(2, 0, 100), // Preço do plano
             'duration_days' => $this->faker->numberBetween(1, 365), // Duração do plano em dias (pode ser nulo)
+            'is_public' => true // Indica se o plano é público ou privado
         ];
     }
 }
