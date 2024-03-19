@@ -145,7 +145,7 @@ class ExaminationController extends Controller
     public function create(ExaminationFormRequest $request)
     {
         try {
-            $this->authorize('create', $request->user());
+            $this->authorize('manage', $request->user());
             return $this->dataRetrievalService->create($this->examinationService, $request);
 
         } catch(InvalidDateFormatException $exception) {
@@ -157,11 +157,13 @@ class ExaminationController extends Controller
 
     public function update(Request $request, int $id)
     {
+        $this->authorize('manage', $request->user());
         return $this->dataRetrievalService->update($this->examinationService, $id, $request, 'notice_file');
     }
 
-    public function delete(int $id)
+    public function delete(Request $request, int $id)
     {
+        $this->authorize('manage', $request->user());
         return $this->dataRetrievalService->delete($this->examinationService, $id);
     }
     

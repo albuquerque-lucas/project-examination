@@ -27,6 +27,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('create', [ExaminationPolicy::class, 'create']);
+        Gate::define('manage', [ExaminationPolicy::class, 'manage']);
     }
 }
