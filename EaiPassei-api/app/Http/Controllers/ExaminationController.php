@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\InvalidDateFormatException;
 use App\Http\Requests\ExaminationFormRequest;
 use App\Services\DataRetrievalService;
+use Auth;
 use Error;
 use Illuminate\Http\Request;
 use App\Services\ExaminationService;
@@ -13,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use DateTime;
 use App\Services\DateValidationService;
+use App\Models\Examination;
 
 class ExaminationController extends Controller
 {

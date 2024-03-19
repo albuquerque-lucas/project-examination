@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Examination;
+use App\Policies\ExaminationPolicy;
+use Gate;
+
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -13,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Examination::class => ExaminationPolicy::class,
     ];
 
     /**
@@ -21,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+
+        Gate::define('create', [ExaminationPolicy::class, 'create']);
     }
 }

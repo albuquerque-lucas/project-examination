@@ -14,8 +14,8 @@ class ExaminationPolicy
         //
     }
 
-    public function getAll(User $user)
+    public function create(User $user)
     {
-        return $user->isTeacher();
+        return true;
     }
 }
