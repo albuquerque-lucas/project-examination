@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./       # Define o contexto para o Docker build
+      dockerfile: Dockerfile  # Caminho para o Dockerfile dentro de ./ (padrão)
+    volumes:
+      - ".:/app"       # Monta o diretório atual para /app no contêiner
+    ports:
+      - "3000:3000"   # Mapeia a porta 3000 do host para a porta 3000 do contêiner
