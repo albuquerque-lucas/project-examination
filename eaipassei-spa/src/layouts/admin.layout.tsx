@@ -9,12 +9,14 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
     <div className="admin-layout">
-    <div className="admin-layout__content">{children}</div>
-    <ScrollToTop
-        smooth
-        color='#fff'
-        className='scroll-to-top'
-      />
+      <div className="admin-layout__content">
+        {children}
+      </div>
+      <ScrollToTop
+          smooth
+          color='#fff'
+          className='scroll-to-top'
+        />
     </div>
   );
 }
