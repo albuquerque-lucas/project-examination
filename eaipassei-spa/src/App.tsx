@@ -7,10 +7,16 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/"/>
         <Route path="/admin/login"/>
-        <Route path="/admin/examinations"/>
-        <Route path="dashboard"/>
+        <Route path="/admin/home"/>
+        <Route path="/admin/manage/api/examinations"/>
+        <Route path="/admin/manage/api/notices"/>
+        <Route path="/admin/manage/api/exams"/>
+        <Route path="/admin/manage/api/exam-questions"/>
+        <Route path="/admin/manage/api/study-areas"/>
+        <Route path="/admin/manage/api/subjects"/>
+        <Route path="/admin/manage/api/users"/>
+        <Route path="/admin/manage/api/account-plans"/>
       </Routes>
     </>
   );
