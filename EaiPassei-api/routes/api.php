@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccessLevelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamQuestionAlternativeController;
@@ -35,6 +36,9 @@ Route::delete('/users/delete/{id}', [UserController::class, "delete"]);
 
 // ROTAS LOGIN
 Route::post('/admin/login', [AuthController::class, "login"]);
+
+// ROPTAS DE ACCESS LEVELS
+Route::get('/access-levels/all', [AccessLevelController::class, "getAll"]);
 
 // ROTAS DE EXAMINATIONS
 Route::get("/examinations/all", [ExaminationController::class, 'getAll']);

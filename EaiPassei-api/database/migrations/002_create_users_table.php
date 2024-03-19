@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\AccessLevel;
 use App\Models\AccountPlan;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

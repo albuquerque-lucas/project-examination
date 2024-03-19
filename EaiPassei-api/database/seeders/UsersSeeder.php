@@ -13,6 +13,9 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(30)->create();
+        User::factory(20)->create();
+        User::factory(10)->create([
+            'account_plan_id' => 2,
+        ]);
     }
 }

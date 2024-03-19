@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\InvalidDateFormatException;
 use App\Http\Requests\ExaminationFormRequest;
 use App\Services\DataRetrievalService;
+use Auth;
 use Error;
 use Illuminate\Http\Request;
 use App\Services\ExaminationService;
@@ -13,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use DateTime;
 use App\Services\DateValidationService;
+use App\Models\Examination;
 
 class ExaminationController extends Controller
 {
@@ -24,7 +26,9 @@ class ExaminationController extends Controller
         $this->examinationService = $examinationService;
         $this->dataRetrievalService = $dataRetrievalService;
 
-        $this->middleware('auth:sanctum', ['only' => ['create', 'update', 'delete']]);
+        $this->middleware('auth:sanctum',
+            ['only' => ['create', 'update', 'delete']]
+        );
     }
 
     public function getAll(Request $request)
@@ -141,7 +145,7 @@ class ExaminationController extends Controller
     public function create(ExaminationFormRequest $request)
     {
         try {
-
+            $this->authorize('manage', $request->user());
             return $this->dataRetrievalService->create($this->examinationService, $request);
 
         } catch(InvalidDateFormatException $exception) {
@@ -153,11 +157,13 @@ class ExaminationController extends Controller
 
     public function update(Request $request, int $id)
     {
+        $this->authorize('manage', $request->user());
         return $this->dataRetrievalService->update($this->examinationService, $id, $request, 'notice_file');
     }
 
-    public function delete(int $id)
+    public function delete(Request $request, int $id)
     {
+        $this->authorize('manage', $request->user());
         return $this->dataRetrievalService->delete($this->examinationService, $id);
     }
     
