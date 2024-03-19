@@ -2,22 +2,28 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
+import Examinations from './pages/admin/Examinations';
+import Login from './pages/admin/Login';
+import Notices from './pages/admin/Notices';
+import AdminLayout from './layouts/admin.layout';
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/admin/login"/>
-        <Route path="/admin/home"/>
-        <Route path="/admin/manage/api/examinations"/>
-        <Route path="/admin/manage/api/notices"/>
-        <Route path="/admin/manage/api/exams"/>
-        <Route path="/admin/manage/api/exam-questions"/>
-        <Route path="/admin/manage/api/study-areas"/>
-        <Route path="/admin/manage/api/subjects"/>
-        <Route path="/admin/manage/api/users"/>
-        <Route path="/admin/manage/api/account-plans"/>
-      </Routes>
+      <AdminLayout>
+        <Routes>
+          <Route path="/admin/login" element={ <Login /> } />
+          <Route path="/admin/manage/api/examinations" element={ <Examinations /> } />
+          <Route path="/admin/manage/api/notices" element={ <Notices /> } />
+          <Route path="/admin/home"/>
+          <Route path="/admin/manage/api/exams"/>
+          <Route path="/admin/manage/api/exam-questions"/>
+          <Route path="/admin/manage/api/study-areas"/>
+          <Route path="/admin/manage/api/subjects"/>
+          <Route path="/admin/manage/api/users"/>
+          <Route path="/admin/manage/api/account-plans"/>
+        </Routes>
+      </ AdminLayout>
     </>
   );
 }
