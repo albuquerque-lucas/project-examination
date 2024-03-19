@@ -13,4 +13,9 @@ class ExaminationPolicy
     {
         //
     }
+
+    public function getAll(User $user)
+    {
+        return $user->isTeacher();
+    }
 }

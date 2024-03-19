@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -57,9 +58,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Examination::class);
     }
 
-    public function accountPlan(): HasOne
+    public function accountPlan(): BelongsTo
     {
-        return $this->hasOne(AccountPlan::class);
+        return $this->belongsTo(AccountPlan::class);
     }
 
     public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
