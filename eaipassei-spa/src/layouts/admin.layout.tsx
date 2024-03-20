@@ -1,6 +1,7 @@
 import ScrollToTop from "react-scroll-to-top";
 import { ReactNode } from "react";
 import AdminNavbar from "../components/admin/Navbar";
+import './styles/style.css';
 
 interface AdminLayoutProps {
   children: ReactNode;

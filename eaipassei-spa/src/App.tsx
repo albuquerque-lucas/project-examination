@@ -7,6 +7,7 @@ import Notices from './pages/admin/Notices';
 import AdminLayout from './layouts/admin.layout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AdminHome from './pages/admin/Home';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <AdminLayout>
         <Routes>
           <Route path="/admin/login" element={ <Login /> } />
+          <Route path="/admin/home" element={ <AdminHome /> } />
           <Route path="/admin/manage/api/examinations" element={ <Examinations /> } />
           <Route path="/admin/manage/api/notices" element={ <Notices /> } />
           <Route path="/admin/home"/>

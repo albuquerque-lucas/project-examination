@@ -11,6 +11,7 @@
   height: var(--navbar-mobile-height);
   position: fixed;
   width: 100%;
+  box-shadow: 0 0 0.1rem 0.1rem var(--primary-navbar-color);
 }
 
 .navbar-brand {
@@ -39,6 +40,7 @@
 
 .admin_navbar__menu {
   background-color: var(--primary-navbar-color);
+  box-shadow: 0 0 0.1rem 0.1rem var(--primary-navbar-color);
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -50,6 +52,7 @@
   border: none;
   outline: none;
   transition: 0.5s ease-out;
+  z-index: 10;
 }
 
 .admin_navbar__menu.open {
@@ -71,7 +74,4 @@
   padding: 0.5rem;
   margin: 0.5rem 0;
   font-size: 1.2rem;
-}
-
-.nav-link {
 }
