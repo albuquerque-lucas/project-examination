@@ -26,7 +26,7 @@ export default function AdminNavbar() {
       </button>
         <Link to="/admin/home" className="navbar-brand">
           <h3 className='navbar_brand'>
-              EaiPassei
+              EaiPassei Admin
           </h3>
         </Link>
         <div className={`admin_navbar__menu ${active ? 'open' : ''}`}>

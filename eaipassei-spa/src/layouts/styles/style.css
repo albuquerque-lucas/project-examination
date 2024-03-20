@@ -1,4 +1,28 @@
+:root {
+  --default-border-radius: 5px;
+  --primary-dark-color: #212529;
+  --light-font-color: #ffffff;
+}
+
 .admin-layout__content {
   position: relative;
   top: 5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.admin_content__title {
+    font-size: 1.5rem;
+    margin: 2rem 0;
+}
+
+
+.admin-layout__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+  text-align: center;
+  z-index: 1;
 }
