@@ -1,0 +1,77 @@
+:root {
+  --primary-navbar-color: #212529;
+  --navbar-mobile-height: 5rem;
+}
+
+.admin_navbar {
+  background-color: var(--primary-navbar-color);
+  color:  white;
+  display: flex;
+  align-items: center;
+  height: var(--navbar-mobile-height);
+  position: fixed;
+  width: 100%;
+}
+
+.navbar-brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.admin_navbar__container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+.admin_navbar__toggler {
+  background-color: transparent;
+  color: white;
+  outline: none;
+  border: none;
+  font-size: 1.5rem;
+  height: 3rem;
+  padding: 0rem 1.5rem;
+  margin: 0rem 0.5rem 0.5rem 0;
+  width: 20%;
+  max-width: 4rem;
+}
+
+.admin_navbar__menu {
+  background-color: var(--primary-navbar-color);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  position: absolute;
+  top: var(--navbar-mobile-height);
+  left: -100%;
+  width: 65%;
+  height: 100vh;
+  border: none;
+  outline: none;
+  transition: 0.5s ease-out;
+}
+
+.admin_navbar__menu.open {
+  left: 0;
+}
+
+.admin_navbar__menu button {
+  position: relative;
+  top: 1rem;
+}
+
+.admin_navbar__menu ul {
+  padding: 0;
+  list-style: none;
+  margin: 4rem 0;
+}
+
+.admin_navbar__menu ul li {
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+.nav-link {
+}

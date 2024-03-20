@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 export default function Examinations() {
   return (
     <div className="examinations_content">
-      <h1>Concursos</h1>
+      <h1>...</h1>
     </div>
   );
 }

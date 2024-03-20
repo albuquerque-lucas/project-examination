@@ -1,22 +1,34 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import './styles/style.css';
+
 export default function AdminNavbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container">
-        <a className="navbar-brand" href="/">EaiPassei</a>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon" />
+    <nav className="admin_navbar">
+      <div className="container admin_navbar__container">
+        <button class="admin_navbar__toggler" type="button">
+          <FontAwesomeIcon icon={ faBars } className='navbar-bars'/>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ml-auto">
+        <Link to="/" className="navbar-brand">
+          EaiPassei
+        </Link>
+        <div className="admin_navbar__menu">
+          <ul>
             <li className="nav-item">
-              <a className="nav-link" href="/admin">Home</a>
+              <Link to="/" className="nav-link active">
+                Home
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/admin/subjects">API</a>
+              <Link to="/api" className="nav-link">
+                API
+              </Link>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-  )
+  );
 }

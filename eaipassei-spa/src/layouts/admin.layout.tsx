@@ -1,6 +1,6 @@
 import ScrollToTop from "react-scroll-to-top";
 import { ReactNode } from "react";
-// import './styles/admin.layout.css';
+import AdminNavbar from "../components/admin/Navbar";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -9,6 +9,7 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
     <div className="admin-layout">
+      <AdminNavbar/>
       <div className="admin-layout__content">
         {children}
       </div>
