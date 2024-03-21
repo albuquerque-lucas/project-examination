@@ -28,6 +28,7 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => new UserResource($user),
+            'token' => $token,
         ])->withCookie($cookie);
         // if (Auth::attempt($request->only('username', 'password'))) {
         //     $user = Auth::user();
