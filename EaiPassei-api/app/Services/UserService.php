@@ -99,7 +99,6 @@ class UserService implements IService
     {
         try {
             $user = User::create($data);
-
             if (!$user) {
                 $this->serviceResponse->setAttributes(422, (object)[
                     'message' => $this->serviceResponse->failedToCreateRecord(),

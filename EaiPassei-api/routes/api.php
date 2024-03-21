@@ -36,6 +36,8 @@ Route::delete('/users/delete/{id}', [UserController::class, "delete"]);
 
 // ROTAS LOGIN
 Route::post('/admin/login', [AuthController::class, "login"]);
+Route::post('/admin/logout', [AuthController::class, "logout"]);
+Route::get('/admin/user', [AuthController::class, "user"]);
 
 // ROPTAS DE ACCESS LEVELS
 Route::get('/access-levels/all', [AccessLevelController::class, "getAll"]);

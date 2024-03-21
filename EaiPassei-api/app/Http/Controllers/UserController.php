@@ -68,8 +68,17 @@ class UserController extends Controller
         try {
             $requestData = $request->all();
             $user = $this->userService->register($requestData);
+
+            if (get_class($user) === 'App\Models\ServiceResponse') {
+                return response()->json([
+                    'message' => 'Usuario ja registrado.'
+                ], 409);
+            }
+
             if (get_class($user) === 'stdClass') {
-                throw new Exception('Usuario ja registrado', 422);
+                return response()->json([
+                    'message' => 'Usuario ja registrado.'
+                ], 409);
             }
             $token = $user->createToken('eaipassei-app')->plainTextToken;
             $cookie = cookie('token', $token, 60 * 24);
@@ -79,7 +88,7 @@ class UserController extends Controller
                 'token' => $token,
             ], 201)->withCookie($cookie);
         } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode() | 400);
         }
     }
 }
