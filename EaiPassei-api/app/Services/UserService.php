@@ -90,7 +90,12 @@ class UserService implements IService
             return $this->serviceResponse;
         }
     }
+
     public function create(array $data): ServiceResponse
+    {
+        return new ServiceResponse();
+    }
+    public function register(array $data): User | ServiceResponse
     {
         try {
             $user = User::create($data);
@@ -101,15 +106,7 @@ class UserService implements IService
                 ]);
                 return $this->serviceResponse;
             }
-
-            $responseData = (object)[
-                'message' => $this->serviceResponse->createdSuccessfully('User'),
-                'id' => $user->id,
-                'area' => $user->area,
-            ];
-
-            $this->serviceResponse->setAttributes(201, $responseData);
-            return $this->serviceResponse;
+            return $user;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
                 'message' => $this->serviceResponse->validationFailed(),
