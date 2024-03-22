@@ -9,10 +9,12 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AdminHome from './pages/admin/Home';
 import LayoutProvider from './context/Layout/LayoutProvider';
+import AuthProvider from './context/Authentication/AuthContext';
 
 function App() {
   return (
     <>
+    <AuthProvider>
       <LayoutProvider>
         <AdminLayout>
           <Routes>
@@ -20,7 +22,6 @@ function App() {
             <Route path="/admin/home" element={ <AdminHome /> } />
             <Route path="/admin/manage/api/examinations" element={ <Examinations /> } />
             <Route path="/admin/manage/api/notices" element={ <Notices /> } />
-            <Route path="/admin/home"/>
             <Route path="/admin/manage/api/exams"/>
             <Route path="/admin/manage/api/exam-questions"/>
             <Route path="/admin/manage/api/study-areas"/>
@@ -31,6 +32,7 @@ function App() {
         </ AdminLayout>
         <ToastContainer />
       </LayoutProvider>
+    </AuthProvider>
     </>
   );
 }

@@ -1,18 +1,21 @@
-import React, { useRef } from 'react';
+import { useRef, useContext, useEffect } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import axios from '../../../axios';
-import { useAuth } from '../../../context/Authentication/AuthContext';
+import { AuthContext } from '../../../context/Authentication/AuthContext.js';
 import './styles/style.css';
 
 export default function LoginForm() {
-  const { setUser, csrfToken } = useAuth();
-	const [error, setError] = React.useState(null);
+  const { user, setUser } = useContext(AuthContext);
 
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const stayConnectedRef = useRef(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('USUARIO', user);
+}, [user]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,12 +30,14 @@ export default function LoginForm() {
     try {
 			const resp = await axios.post('/admin/login', body);
 			if (resp.status === 200) {
+        console.log('Sucesso!!!');
+        let user1 = resp.data.user;
+        console.log('PRIMEIRO USER', user1);
 				setUser(resp.data.user);
         console.log('Sucesso!!!');
-        navigate('/admin/home');
+        // navigate('/admin/home');
 			}
 		} catch (error) {
-				setError(error.response.data.message);
         console.error('Error: ', error.response.data.message);
     }
     console.log('Username: ', usernameRef.current?.value);
