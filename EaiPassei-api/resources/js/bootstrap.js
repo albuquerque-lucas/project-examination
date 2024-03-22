@@ -5,12 +5,21 @@
  */
 
 import axios from 'axios';
+
+// Fazendo o axios disponível globalmente
 window.axios = axios;
 
+// Configurando o cabeçalho 'X-Requested-With' para 'XMLHttpRequest'
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+// Habilitando o envio de cookies com as solicitações
 axios.defaults.withCredentials = true;
-axios.defaults.withXSRFToken = true;
+
+// Definindo o nome do cookie a ser usado como um valor xsrf
+axios.defaults.xsrfCookieName = 'XSRF-TOKEN';
+
+// Definindo o nome do cabeçalho http a ser usado para xsrf
+axios.defaults.xsrfHeaderName = 'X-XSRF-TOKEN';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

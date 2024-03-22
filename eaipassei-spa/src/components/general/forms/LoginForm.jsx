@@ -20,28 +20,24 @@ export default function LoginForm() {
     const body = {
       username: usernameRef.current?.value,
       password: passwordRef.current?.value,
-      stayConnected: stayConnectedRef.current?.checked,
     };
 
-    await csrfToken();
+    await axios.get('http://localhost/sanctum/csrf-cookie');
 
     try {
 			const resp = await axios.post('/admin/login', body);
 			if (resp.status === 200) {
 				setUser(resp.data.user);
+        console.log('Sucesso!!!');
         navigate('/admin/home');
 			}
 		} catch (error) {
-			if (error.response.status === 401 || error.response.status === 500) {
 				setError(error.response.data.message);
         console.error('Error: ', error.response.data.message);
-      }
-    } finally {
-      console.log('Username: ', usernameRef.current?.value);
-      console.log('Password: ', passwordRef.current?.value);
-      console.log('Stay connected: ', stayConnectedRef.current?.checked);
-
     }
+    console.log('Username: ', usernameRef.current?.value);
+    console.log('Password: ', passwordRef.current?.value);
+    console.log('Stay connected: ', stayConnectedRef.current?.checked);
   };
 
   return (
