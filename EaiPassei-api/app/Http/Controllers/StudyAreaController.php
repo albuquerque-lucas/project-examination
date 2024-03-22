@@ -21,7 +21,7 @@ class StudyAreaController extends Controller
         $this->studyAreaService = $studyAreaService;
         $this->dataRetrievalService = $dataRetrievalService;
 
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById', 'getByArea']]);
     }
 
     public function getAll(Request $request)

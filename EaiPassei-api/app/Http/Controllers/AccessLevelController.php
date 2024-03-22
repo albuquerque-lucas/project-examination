@@ -16,6 +16,8 @@ class AccessLevelController extends Controller
     {
         $this->accessLevelService = $accessLevelService;
         $this->dataRetrievalService = $dataRetrievalService;
+
+        $this->middleware('auth:sanctum');
     }
 
     public function getAll(Request $request)

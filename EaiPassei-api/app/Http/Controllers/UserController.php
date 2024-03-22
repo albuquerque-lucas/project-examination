@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InvalidDateFormatException;
 use App\Http\Requests\UserFormRequest;
 use App\Services\DataRetrievalService;
 use App\Services\UserService;
@@ -64,6 +65,30 @@ class UserController extends Controller
 
     public function create(UserFormRequest $request)
     {
-        return $this->dataRetrievalService->create($this->userService, $request);
+        try {
+            $requestData = $request->all();
+            $user = $this->userService->register($requestData);
+
+            if (get_class($user) === 'App\Models\ServiceResponse') {
+                return response()->json([
+                    'message' => 'Usuario ja registrado.'
+                ], 409);
+            }
+
+            if (get_class($user) === 'stdClass') {
+                return response()->json([
+                    'message' => 'Usuario ja registrado.'
+                ], 409);
+            }
+            $token = $user->createToken('eaipassei-app')->plainTextToken;
+            $cookie = cookie('token', $token, 60 * 24);
+
+            return response()->json([
+                'user' => $user,
+                'token' => $token,
+            ], 201)->withCookie($cookie);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], $exception->getCode() | 400);
+        }
     }
 }

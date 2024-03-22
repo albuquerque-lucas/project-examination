@@ -18,6 +18,8 @@ class EducationalLevelController extends Controller
     {
         $this->educationalLevelService = $educationalLevelService;
         $this->dataRetrievalService = $dataRetrievalService;
+
+        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById', 'getByName']]);
     }
 
     public function getAll(Request $request)

@@ -18,6 +18,8 @@ class AccountPlanController extends Controller
     {
         $this->accountPlanService = $accountPlanService;
         $this->dataRetrievalService = $dataRetrievalService;
+
+        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById', 'getByName']]);
     }
 
     public function getAll(Request $request)
