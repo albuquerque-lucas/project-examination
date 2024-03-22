@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import './styles/style.css';
+import LayoutContext from '../../../context/Layout/LayoutContext.js';
 
 export default function AdminNavbar() {
-  const [active, setActive] = useState(false);
-
-  const handleMenuToggler = () => {
-    console.log('click');
-    console.log(active);
-    setActive(!active);
-  }
+  const { active, handleMenuToggler } = useContext(LayoutContext);
 
   return (
     <nav className="admin_navbar">
