@@ -20,7 +20,7 @@ class ExamQuestionController extends Controller
         $this->examQuestionService = $examQuestionService;
         $this->dataRetrievalService = $dataRetrievalService;
 
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById', 'getByStatement']]);
     }
 
     public function getAll(Request $request)

@@ -24,7 +24,7 @@ class NoticeController extends Controller
         $this->noticeService = $noticeService;
         $this->dataRetrievalService = $dataRetrievalService;
 
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById']]);
     }
 
     public function getAll(Request $request)

@@ -13,6 +13,10 @@ use Illuminate\Auth\AuthenticationException;
 // 3|uXEG17Fi9NF05K1bXkd96tMC4RDdQsJSENyyf5Vba2eb3548
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum', ['except' => ['login']]);
+    }
     public function login(Request $request)
     {
         try {
