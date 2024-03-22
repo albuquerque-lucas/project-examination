@@ -4,6 +4,7 @@ import AdminNavbar from "../components/admin/Navbar";
 import { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import LayoutContext from "../context/Layout/LayoutContext";
+import { AuthContext } from "../context/Authentication/AuthContext";
 import './styles/style.css';
 
 interface AdminLayoutProps {

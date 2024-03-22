@@ -60,11 +60,6 @@
   left: 0;
 }
 
-.admin_navbar__menu button {
-  position: relative;
-  top: 1rem;
-}
-
 .admin_navbar__menu ul {
   padding: 0 0 0 2rem;
   list-style: none;
@@ -81,6 +76,16 @@
 
 .admin_navbar__menu ul li > :first-child {
   margin-right: 1rem;
+}
+
+.logout-btn {
+  background-color: transparent;
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+
 }
 
 @media (min-width: 577px) {

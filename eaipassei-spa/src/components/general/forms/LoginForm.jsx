@@ -35,7 +35,7 @@ export default function LoginForm() {
         console.log('PRIMEIRO USER', user1);
 				setUser(resp.data.user);
         console.log('Sucesso!!!');
-        // navigate('/admin/home');
+        navigate('/admin/home');
 			}
 		} catch (error) {
         console.error('Error: ', error.response.data.message);
