@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faUser, faBook } from '@fortawesome/free-solid-svg-icons';
-import './styles/style.css';
+import  { useContext } from 'react';
 import LayoutContext from '../../../context/Layout/LayoutContext.js';
+import { Link } from 'react-router-dom';
+import { FaBook } from 'react-icons/fa';
+import { IoIosSchool } from "react-icons/io";
+import { PiExamFill } from "react-icons/pi";
+import { FaUsers, FaBars } from "react-icons/fa6";
+import './styles/style.css';
 
 export default function AdminNavbar() {
   const { active, setActive } = useContext(LayoutContext);
@@ -18,8 +20,8 @@ export default function AdminNavbar() {
           >
           
 
-          <FontAwesomeIcon icon={ faBars } className='navbar-bars'/>
-      </button>
+          <FaBars />
+        </button>
         <Link to="/admin/home" className="navbar-brand">
           <h3 className='navbar_brand'>
               EaiPassei Admin
@@ -31,25 +33,25 @@ export default function AdminNavbar() {
               <h3>CPanel - API</h3>
             </li>
             <li className="nav-item">
-              <FontAwesomeIcon icon={ faUser } className='navbar-bars'/>
+              <FaUsers />
               <Link to="/" className="nav-link active">
                 Usuários
               </Link>
             </li>
             <li className="nav-item">
-              <FontAwesomeIcon icon={ faBars } className='navbar-bars'/>
+              <PiExamFill />
               <Link to="/admin/manage/api/examinations" className="nav-link">
                 Concursos
               </Link>
             </li>
             <li className="nav-item">
-              <FontAwesomeIcon icon={ faBook } className='navbar-bars'/>
+              <FaBook/>
               <Link to="/api" className="nav-link">
                 Editais
               </Link>
             </li>
             <li className="nav-item">
-              <FontAwesomeIcon icon={ faBars } className='navbar-bars'/>
+              <IoIosSchool/>
               <Link to="/api" className="nav-link">
                 Matérias
               </Link>

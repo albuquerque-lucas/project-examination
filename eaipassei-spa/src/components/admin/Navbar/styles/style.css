@@ -49,6 +49,7 @@
   top: var(--navbar-mobile-height);
   left: -100%;
   width: 65%;
+  max-width: 30rem;
   height: 100vh;
   border: none;
   outline: none;
@@ -76,4 +77,14 @@
   padding: 0.5rem;
   margin: 0.5rem 0;
   font-size: 1.2rem;
+}
+
+.admin_navbar__menu ul li > :first-child {
+  margin-right: 1rem;
+}
+
+@media (min-width: 577px) {
+  .admin_navbar__container {
+    margin: 0 5rem!important;
+  }
 }
