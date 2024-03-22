@@ -11,11 +11,12 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  const { handleMenuToggler } = useContext(LayoutContext);
+  const { setActive } = useContext(LayoutContext);
   const location = useLocation();
 
   useEffect(() => {
-    handleMenuToggler(false);
+    setActive(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
   return (
     <div className="admin-layout">

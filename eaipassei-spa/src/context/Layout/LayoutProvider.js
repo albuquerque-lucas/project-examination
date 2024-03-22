@@ -6,15 +6,19 @@ export default function LayoutProvider({ children }) {
   const [active, setActive] = useState(false);
 
   const value = useMemo(() => {
-    const handleMenuToggler = (isActive) => {
-      setActive(isActive !== undefined ? isActive : !active);
-    };
+    // const handleMenuToggler = (isActive) => {
+    //   console.log(isActive);
+    //   setActive(isActive !== undefined ? isActive : !active);
+    // };
 
     return {
       active,
-      handleMenuToggler,
+      setActive,
     };
-  }, [active]);
+  }, [
+    active,
+    setActive,
+]);
 
   return (
     <LayoutContext.Provider value={value}>

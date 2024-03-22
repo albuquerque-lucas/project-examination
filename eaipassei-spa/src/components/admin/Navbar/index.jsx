@@ -6,7 +6,7 @@ import './styles/style.css';
 import LayoutContext from '../../../context/Layout/LayoutContext.js';
 
 export default function AdminNavbar() {
-  const { active, handleMenuToggler } = useContext(LayoutContext);
+  const { active, setActive } = useContext(LayoutContext);
 
   return (
     <nav className="admin_navbar">
@@ -14,8 +14,9 @@ export default function AdminNavbar() {
         <button
           className="admin_navbar__toggler"
           type="button"
-          onClick={ handleMenuToggler }
+          onClick={() => setActive(!active) }
           >
+          
 
           <FontAwesomeIcon icon={ faBars } className='navbar-bars'/>
       </button>
