@@ -18,20 +18,6 @@ function App() {
     <AuthProvider>
       <LayoutProvider>
           <Router />
-        {/* <AdminLayout>
-          <Routes>
-            <Route path="/admin/login" element={ <Login /> } />
-            <Route path="/admin/home" element={ <AdminHome /> } />
-            <Route path="/admin/manage/api/examinations" element={ <Examinations /> } />
-            <Route path="/admin/manage/api/notices" element={ <Notices /> } />
-            <Route path="/admin/manage/api/exams"/>
-            <Route path="/admin/manage/api/exam-questions"/>
-            <Route path="/admin/manage/api/study-areas"/>
-            <Route path="/admin/manage/api/subjects"/>
-            <Route path="/admin/manage/api/users"/>
-            <Route path="/admin/manage/api/account-plans"/>
-          </Routes>
-        </ AdminLayout> */}
         <ToastContainer />
       </LayoutProvider>
     </AuthProvider>
