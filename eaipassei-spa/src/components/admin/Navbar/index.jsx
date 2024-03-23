@@ -61,7 +61,7 @@ export default function AdminNavbar() {
             </li>
             <li className="nav-item">
               <FaBook />
-              <Link to="/api" className="nav-link">
+              <Link to="/admin/manage/api/notices" className="nav-link">
                 Editais
               </Link>
             </li>

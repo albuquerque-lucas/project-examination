@@ -10,13 +10,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import AdminHome from './pages/admin/Home';
 import LayoutProvider from './context/Layout/LayoutProvider';
 import AuthProvider from './context/Authentication/AuthContext';
+import Router from './Router';
 
 function App() {
   return (
     <>
     <AuthProvider>
       <LayoutProvider>
-        <AdminLayout>
+          <Router />
+        {/* <AdminLayout>
           <Routes>
             <Route path="/admin/login" element={ <Login /> } />
             <Route path="/admin/home" element={ <AdminHome /> } />
@@ -29,7 +31,7 @@ function App() {
             <Route path="/admin/manage/api/users"/>
             <Route path="/admin/manage/api/account-plans"/>
           </Routes>
-        </ AdminLayout>
+        </ AdminLayout> */}
         <ToastContainer />
       </LayoutProvider>
     </AuthProvider>

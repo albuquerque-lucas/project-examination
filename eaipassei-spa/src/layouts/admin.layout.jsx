@@ -2,20 +2,18 @@ import ScrollToTop from "react-scroll-to-top";
 import { ReactNode } from "react";
 import AdminNavbar from "../components/admin/Navbar";
 import { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import LayoutContext from "../context/Layout/LayoutContext";
 import { AuthContext } from "../context/Authentication/AuthContext";
 import './styles/style.css';
 
-interface AdminLayoutProps {
-  children: ReactNode;
-}
 
-export default function AdminLayout({ children }: AdminLayoutProps) {
+export default function AdminLayout({ children }) {
   const { setActive } = useContext(LayoutContext);
   const location = useLocation();
 
   useEffect(() => {
+    console.log('AdminLayout', location.pathname);
     setActive(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
@@ -23,7 +21,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     <div className="admin-layout">
       <AdminNavbar/>
       <div className="admin-layout__content">
-        {children}
+        <Outlet />
       </div>
       <ScrollToTop
           smooth
