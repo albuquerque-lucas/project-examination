@@ -49,7 +49,7 @@ export default function AdminNavbar() {
             </li>
             <li className="nav-item">
               <FaUsers />
-              <Link to="/" className="nav-link active">
+              <Link to="/admin/manage/api/users" className="nav-link active">
                 Usuários
               </Link>
             </li>
@@ -67,7 +67,7 @@ export default function AdminNavbar() {
             </li>
             <li className="nav-item">
               <IoIosSchool />
-              <Link to="/api" className="nav-link">
+              <Link to="/admin/manage/api/subjects" className="nav-link">
                 Matérias
               </Link>
             </li>

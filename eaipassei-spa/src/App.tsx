@@ -15,11 +15,11 @@ import Router from './Router';
 function App() {
   return (
     <>
-    <AuthProvider>
-      <LayoutProvider>
-          <Router />
-        <ToastContainer />
-      </LayoutProvider>
+      <AuthProvider>
+        <LayoutProvider>
+            <Router />
+          <ToastContainer />
+        </LayoutProvider>
     </AuthProvider>
     </>
   );
