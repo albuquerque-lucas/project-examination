@@ -4,6 +4,7 @@ import axios from '../../axios';
 export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
+	const [authenticated, setAuthenticated] = useState(false);
 	const [user, _setUser] = useState(
 		JSON.parse(localStorage.getItem('user')) || null
 	);
@@ -34,8 +35,14 @@ export default function AuthProvider({ children }) {
 		return {
 			user,
 			setUser,
+			authenticated,
+			setAuthenticated,
 		};
-	}, [user]);
+	}, [
+		user,
+		authenticated,
+		setAuthenticated,
+	]);
 
 	return (
 		<AuthContext.Provider value={value}>

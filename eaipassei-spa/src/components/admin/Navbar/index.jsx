@@ -1,6 +1,6 @@
-import  { useContext } from 'react';
+import  { useContext, useEffect } from 'react';
 import LayoutContext from '../../../context/Layout/LayoutContext.js';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaBook } from 'react-icons/fa';
 import { IoIosSchool } from "react-icons/io";
 import { PiExamFill } from "react-icons/pi";
@@ -12,15 +12,23 @@ import './styles/style.css';
 export default function AdminNavbar() {
   const { active, setActive } = useContext(LayoutContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    setActive(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
   const handleLogout = async () => {
 		try {
 			const resp = await axios.post('/admin/logout');
 			if (resp.status === 200) {
 				localStorage.removeItem('user');
+        console.log('Logout efetuado com suceddo.')
 				navigate('/admin/login');
 			}
 		} catch (error) {
+      console.log('Nao foi possivel fazer logout.');
 			console.log(error);
 		}
   };
