@@ -1,13 +1,41 @@
-import React, { useRef } from 'react';
+import { useRef, useContext, useEffect } from 'react';
+import { Link, Navigate, useNavigate, useLocation, redirect } from 'react-router-dom';
+import axios from '../../../axios';
+import { AuthContext } from '../../../context/Authentication/AuthContext.js';
 import './styles/style.css';
 
 export default function LoginForm() {
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const stayConnectedRef = useRef<HTMLInputElement>(null);
+  const { user, setUser } = useContext(AuthContext);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const stayConnectedRef = useRef(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('USUARIO', user);
+}, [user]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const body = {
+      username: usernameRef.current?.value,
+      password: passwordRef.current?.value,
+    };
+
+    await axios.get('http://localhost/sanctum/csrf-cookie');
+
+    try {
+			const resp = await axios.post('/admin/login', body);
+			if (resp.status === 200) {
+				setUser(resp.data.user);
+        navigate('/admin/home');
+			}
+		} catch (error) {
+        console.error('Error: ', error.response.data.message);
+    }
     console.log('Username: ', usernameRef.current?.value);
     console.log('Password: ', passwordRef.current?.value);
     console.log('Stay connected: ', stayConnectedRef.current?.checked);

@@ -37,7 +37,8 @@ class AuthController extends Controller
             ])->withCookie($cookie);
         } catch (AuthenticationException $e) {
             return response([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'info' => 'Excessao de Autenticacao.'
             ], 401);
         } catch (Exception $e) {
             // Log the exception for debugging
