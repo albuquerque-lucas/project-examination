@@ -1,15 +1,19 @@
 import  { useContext, useEffect } from 'react';
 import LayoutContext from '../../../context/Layout/LayoutContext.js';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { FaBook } from 'react-icons/fa';
 import { IoIosSchool } from "react-icons/io";
 import { PiExamFill } from "react-icons/pi";
 import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
 import { FaUsers, FaBars } from "react-icons/fa6";
 import axios from '../../../axios.js';
+import { AuthContext } from '../../../context/Authentication/AuthContext.js';
 import './styles/style.css';
 
 export default function AdminNavbar() {
+  const {
+    setUser,
+  } = useContext(AuthContext);
   const { active, setActive } = useContext(LayoutContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,15 +21,16 @@ export default function AdminNavbar() {
   useEffect(() => {
     setActive(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, []);
 
   const handleLogout = async () => {
 		try {
 			const resp = await axios.post('/admin/logout');
 			if (resp.status === 200) {
 				localStorage.removeItem('user');
-        console.log('Logout efetuado com suceddo.')
-				navigate('/admin/login');
+        setUser(null);
+        console.log('Logout efetuado com suceddo.');
+				return navigate('/admin/login');
 			}
 		} catch (error) {
       console.log('Nao foi possivel fazer logout.');

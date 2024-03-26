@@ -1,5 +1,5 @@
 import { useRef, useContext, useEffect } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useLocation, redirect } from 'react-router-dom';
 import axios from '../../../axios';
 import { AuthContext } from '../../../context/Authentication/AuthContext.js';
 import './styles/style.css';
@@ -35,7 +35,7 @@ export default function LoginForm() {
         console.log('PRIMEIRO USER', user1);
 				setUser(resp.data.user);
         console.log('Sucesso!!!');
-        navigate('/admin/home');
+        return redirect('/admin/home');
 			}
 		} catch (error) {
         console.error('Error: ', error.response.data.message);
