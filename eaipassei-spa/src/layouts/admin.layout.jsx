@@ -29,8 +29,6 @@ export default function AdminLayout({ children }) {
     setActive(false);
     let loggedIn = fetchUser();
     setIsLoggedIn(loggedIn);
-    if (loggedIn) {
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
@@ -45,7 +43,6 @@ export default function AdminLayout({ children }) {
         setAuthenticated(true);
         console.log('Authenticated2222', authenticated);
         loggedIn = true;
-        navigate('/admin/home');
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {

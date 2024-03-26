@@ -30,12 +30,8 @@ export default function LoginForm() {
     try {
 			const resp = await axios.post('/admin/login', body);
 			if (resp.status === 200) {
-        console.log('Sucesso!!!');
-        let user1 = resp.data.user;
-        console.log('PRIMEIRO USER', user1);
 				setUser(resp.data.user);
-        console.log('Sucesso!!!');
-        return redirect('/admin/home');
+        navigate('/admin/home');
 			}
 		} catch (error) {
         console.error('Error: ', error.response.data.message);
