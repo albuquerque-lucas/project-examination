@@ -43,7 +43,7 @@ export default function AdminLayout({ children }) {
       }
     }
   }
-
+  console.log(user);
   return (
     <div className="admin-layout">
       <AdminNavbar/>
