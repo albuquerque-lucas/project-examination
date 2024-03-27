@@ -12,7 +12,7 @@ export default function Navbar() {
     <nav className={`${colors.primary_bg__dark} ${navbar.admin_navbar}`}>
       <div className={ navbar.admin_navbar__container }>
         <button
-          className={ navbar.admin_navbar__toggler }
+          className={`container ${navbar.admin_navbar__toggler}`}
           type="button"
           // onClick={() => setActive(!active) }
           >

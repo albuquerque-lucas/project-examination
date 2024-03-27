@@ -1,14 +1,16 @@
+import style from '@/app/ui/admin/login/login.module.css';
+
 export default function Page() {
   return (
-    <div className='login_page__container'>
-      <div className="login_form__container">
+    <div className={ style.login_page__container }>
+      <div className={ style.login_form__container }>
         <form
-          className="login_form"
+          className={ style.login_form }
           // onSubmit={ handleSubmit }
           >
-        <h3>SIGN IN TO YOUR ACCOUNT</h3>
+        <h3 className={ style.login_form__title }>SIGN IN TO YOUR ACCOUNT</h3>
 
-          <div className="login_form__input">
+          <div className={ style.login_form__input }>
             <input
               type="text"
               id="username"
@@ -18,7 +20,7 @@ export default function Page() {
               />
           </div>
 
-          <div className="login_form__input">
+          <div className={ style.login_form__input }>
             <input
               type="password"
               id="password"
@@ -28,17 +30,24 @@ export default function Page() {
               />
           </div>
 
-          <div className="login_form__input input_checkbox">
+          <div 
+            className={`${ style.input_checkbox }`}
+            >
             <input
               type="checkbox"
               id="stayConnected"
               name="stayConnected"
+              className={ style.input_stay__connected }
               // ref={stayConnectedRef}
               />
             <label htmlFor="stayConnected">Keep me signed in</label>
           </div>
-          <div className="login_form__input">
-            <button type="submit">Entrar</button>
+          <div className={ style.login_form__input }>
+            <button
+              type="submit"
+              className={ style.submit_button }
+              >Entrar
+            </button>
           </div>
         </form>
       </div>

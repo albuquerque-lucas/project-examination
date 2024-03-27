@@ -22,7 +22,7 @@
   font-size: 1.5rem;
   height: 3rem;
   padding: 0rem 1.5rem;
-  margin: 0rem 0.5rem 0.5rem 0;
+  margin: 0rem 0.5rem 0 0.5rem;
   width: 20%;
   max-width: 4rem;
 }
@@ -31,6 +31,8 @@
 .navbar_brand {
   position: absolute;
   left: 50%;
+  padding: 0.5rem;
+  bottom: 1.3rem;
   transform: translateX(-50%);
 }
 
