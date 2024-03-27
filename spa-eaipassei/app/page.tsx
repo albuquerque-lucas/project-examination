@@ -1,13 +1,16 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { lusitana } from "./ui/fonts";
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>
+        <p
+        className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
+        >
           Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
+          <code className={styles.code}>app/page.tsx</code>
         </p>
         <div>
           <a
