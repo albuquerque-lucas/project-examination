@@ -1,5 +1,3 @@
-'use client';
-
 import { useContext, useEffect } from 'react';
 import { AdminLayoutContext } from '@/app/lib/context/AdminLayoutContext';
 import colors from '@/app/ui/admin/colors.module.css';
@@ -71,7 +69,7 @@ export default function Navbar() {
             <li className="nav-item">
             <BiLogOutCircle />
               <button
-                className='logout-btn'
+                className={ navbar.logout_btn }
                 // onClick={ handleLogout }
                 >
                 Logout
