@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { inter } from "./ui/fonts";
+import AdminLayoutProvider from "./lib/context/AdminLayoutContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <AdminLayoutProvider>
+          {children}
+        </AdminLayoutProvider>
+      </body>
     </html>
   );
 }

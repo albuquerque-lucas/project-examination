@@ -30,6 +30,7 @@
 
 .navbar_brand {
   position: absolute;
+  font-size: 1.3rem;
   left: 50%;
   padding: 0.5rem;
   bottom: 1.3rem;
@@ -51,6 +52,11 @@
   border: none;
   outline: none;
   transition: 0.5s ease-out;
+}
+
+.admin_navbar__menu.menu_open {
+  left: 0;
+
 }
 
 .admin_navbar__menu ul {

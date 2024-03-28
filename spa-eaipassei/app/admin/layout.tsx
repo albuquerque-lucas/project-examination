@@ -1,3 +1,5 @@
+'use client';
+
 import Navbar from "./Navbar";
 import style from '@/app/ui/admin/layout.module.css';
 

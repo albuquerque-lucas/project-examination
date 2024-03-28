@@ -1,23 +1,25 @@
 .login_page__container {
   margin-top: 5rem;
+  padding: 1rem;
+  width: 100%;
 }
 .login_form__container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 23rem;
-  width: 95%;
+  height: 26rem;
 }
 
 .login_form {
-  border: 1px solid #212529;
+  border: 3px solid #212529;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 5px;
   height: 100%;
-  max-width:30rem;
+  width: 80%;
+  max-width: 25rem;
 }
 
 .login_form__title {
@@ -34,7 +36,8 @@
 
 .login_form__input input {
   border-radius: 5px;
-  width: 20rem;
+  width: 95%;
+  max-width: 20rem;
   padding: 0.5rem;
   font-size: 1.05rem;
 
@@ -59,5 +62,6 @@
   border: none;
   outline: none;
   border-radius: 5px;
-  width: 15rem;
+  width: 14rem;
+  margin: 0 1rem;
 }

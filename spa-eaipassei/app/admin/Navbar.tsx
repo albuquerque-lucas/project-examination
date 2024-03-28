@@ -1,3 +1,7 @@
+'use client';
+
+import { useContext, useEffect } from 'react';
+import { AdminLayoutContext } from '@/app/lib/context/AdminLayoutContext';
 import colors from '@/app/ui/admin/colors.module.css';
 import navbar from '@/app/ui/admin/navbar.module.css';
 import { FaBook } from 'react-icons/fa';
@@ -8,13 +12,17 @@ import { FaUsers, FaBars } from "react-icons/fa6";
 import Link from 'next/link';
 
 export default function Navbar() {
+  const { sidebarOpen, setSidebarOpen } = useContext(AdminLayoutContext);
+  const handleToggler = () => {
+    setSidebarOpen(!sidebarOpen);
+  }
   return (
     <nav className={`${colors.primary_bg__dark} ${navbar.admin_navbar}`}>
       <div className={ navbar.admin_navbar__container }>
         <button
           className={`container ${navbar.admin_navbar__toggler}`}
           type="button"
-          // onClick={() => setActive(!active) }
+          onClick={() => handleToggler() }
           >
           
 
@@ -25,7 +33,7 @@ export default function Navbar() {
               EaiPassei Admin
           </h3>
         </Link>
-        <div className={ navbar.admin_navbar__menu }>
+        <div className={` ${navbar.admin_navbar__menu} ${sidebarOpen ? navbar.menu_open : ''}`}>
           <ul>
             <li className='nav-item'>
               <h3>CPanel - API</h3>
