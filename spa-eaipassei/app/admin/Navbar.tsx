@@ -38,25 +38,25 @@ export default function Navbar() {
             </li>
             <li className="nav-item">
               <FaUsers />
-              <Link href="/admin/manage/api/users">
+              <Link href="/admin/manage/users">
                 Usuários
               </Link>
             </li>
             <li className="nav-item">
               <PiExamFill />
-              <Link href="/admin/manage/api/examinations" className="nav-link">
+              <Link href="/admin/manage/examinations" className="nav-link">
                 Concursos
               </Link>
             </li>
             <li className="nav-item">
               <FaBook />
-              <Link href="/admin/manage/api/notices" className="nav-link">
+              <Link href="/admin/manage/notices" className="nav-link">
                 Editais
               </Link>
             </li>
             <li className="nav-item">
               <IoIosSchool />
-              <Link href="/admin/manage/api/subjects" className="nav-link">
+              <Link href="/admin/manage/subjects" className="nav-link">
                 Matérias
               </Link>
             </li>
