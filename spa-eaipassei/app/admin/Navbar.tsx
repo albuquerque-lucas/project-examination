@@ -36,36 +36,36 @@ export default function Navbar() {
             <li className='nav-item'>
               <h3>CPanel - API</h3>
             </li>
-            <li className="nav-item">
-              <FaUsers />
-              <Link href="/admin/manage/users">
-                Usuários
-              </Link>
-            </li>
-            <li className="nav-item">
-              <PiExamFill />
-              <Link href="/admin/manage/examinations" className="nav-link">
-                Concursos
-              </Link>
-            </li>
-            <li className="nav-item">
-              <FaBook />
-              <Link href="/admin/manage/notices" className="nav-link">
-                Editais
-              </Link>
-            </li>
-            <li className="nav-item">
-              <IoIosSchool />
-              <Link href="/admin/manage/subjects" className="nav-link">
-                Matérias
-              </Link>
-            </li>
-            <li className="nav-item">
-              <BiLogInCircle />
-              <Link href="/admin/login" className="nav-link">
-                Login
-              </Link>
-            </li>
+            <Link href="/admin/manage/users">
+              <li className="nav-item">
+                <FaUsers />
+                  Usuários
+              </li>
+            </Link>
+            <Link href="/admin/manage/examinations" className="nav-link">
+              <li className="nav-item">
+                <PiExamFill />
+                  Concursos
+              </li>
+            </Link>
+            <Link href="/admin/manage/notices" className="nav-link">
+              <li className="nav-item">
+                <FaBook />
+                  Editais
+              </li>
+            </Link>
+            <Link href="/admin/manage/subjects" className="nav-link">
+              <li className="nav-item">
+                <IoIosSchool />
+                  Matérias
+              </li>
+            </Link>
+            <Link href="/admin/login" className="nav-link">
+              <li className="nav-item">
+                <BiLogInCircle />
+                  Login
+              </li>
+            </Link>
             <li className="nav-item">
             <BiLogOutCircle />
               <button

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { lusitana } from "./ui/fonts";
-import 'bootstrap/dist/css/bootstrap.css'
 
 export default function Home() {
   return (
@@ -23,9 +22,9 @@ export default function Home() {
             <Image
               src="/vercel.svg"
               alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
+              className={ styles.vercelLogo }
+              width={ 100 }
+              height={ 24 }
               priority
             />
           </a>
