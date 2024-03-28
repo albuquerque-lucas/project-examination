@@ -7,7 +7,6 @@ export type AdminLayoutContextType = {
   setSidebarOpen: (sidebarOpen: boolean) => void;
 };
 
-// Crie um valor padrão
 const defaultValue: AdminLayoutContextType = {
   sidebarOpen: false,
   setSidebarOpen: () => {},
