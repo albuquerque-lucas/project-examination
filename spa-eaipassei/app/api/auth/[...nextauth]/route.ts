@@ -25,12 +25,12 @@ export const authOptions: AuthOptions = {
         console.log('CREDENTIALS', credentials);
         const { username, password } = credentials;
         try {
-          await axios.get(`${process.env.NEXT_PUBLIC_SANCTUM_CSRF_COOKIE_URL}`);
           const response = await axios.post(`${process.env.NEXT_PUBLIC_API_LOGIN_ENDPOINT}`, { username, password });
           if (response.status === 200) {
             console.log('RESPONSE', response.data);
-            return response.data;
+            return Promise.resolve(response.data);
           } else {
+            console.log('RESPONSE', 'ERROR');
             return null;
           }
         } catch (error) {

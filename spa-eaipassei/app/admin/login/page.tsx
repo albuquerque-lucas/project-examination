@@ -1,57 +1,56 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import style from '@/app/ui/admin/login/login.module.css';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import GoogleButton from 'react-google-button';
-import axios from '@/app/lib/axios/axios';
+import { makeLogin } from '@/app/lib/axios/axios';
+import MessageBox from './messageBox';
 
-export default function Page() {
+export default function LoginAdmin() {
+  const router = useRouter();
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const stayConnectedRef = useRef<HTMLInputElement>(null);
-
+  const { data: session, status } = useSession();
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [messageType, setMessageType] = useState('');
+  
   const handleLogin = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(JSON.stringify(process.env.NEXT_PUBLIC_BASE_API_URL));
-    // const username = usernameRef.current?.value;
-    // const password = passwordRef.current?.value;
     // const stayConnected = stayConnectedRef.current ? stayConnectedRef.current.checked : false;
-
     const body = {
       username: usernameRef.current?.value,
       password: passwordRef.current?.value,
-      callbackUrl: 'http://localhost/api/admin/login',
+      callbackUrl: process.env.NEXT_PUBLIC_API_LOGIN_ROUTE,
+      redirect: false,
     };
 
-    
-    // try {
-    //   await axios.get(`${process.env.NEXT_PUBLIC_SANCTUM_CSRF_COOKIE_URL}`);
-		// 	const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_LOGIN_ENDPOINT}`, body);
-		// 	if (resp.status === 200) {
-		// 		console.log(resp.data);
-		// 	}
-		// } catch (error) {
-    //     console.error('Error: ', error);
-    // }
-
-    const result = await signIn('credentials', body);
-
-    if (result && result.error) {
-      console.error(result.error);
-    } else if (result && result.ok) {
-      console.log('Sucesso!!!');
+    try {
+        const loggedIn = await makeLogin(body);
+        console.log('Sucesso!!!', loggedIn);
+        router.push('/admin/home');
+		} catch (error: any) {
+        setErrorMessage(error.response.data.message);
+        setMessageType('error');
+        console.error('Error: ', error.response.data);
     }
-
-    console.log(result);
-
   }
   return (
     <div className={ style.login_page__container }>
       <div className={ style.login_form__container }>
+        <div className={ style.message_box__container}>
+          {
+            errorMessage &&
+              <MessageBox
+                message={ errorMessage }
+                type={ messageType }
+              /> 
+            }
+        </div>
         <form
           className={ style.login_form }
-          // onSubmit={ handleSubmit }
           >
         <h3 className={ style.login_form__title }>SIGN IN TO YOUR ACCOUNT</h3>
 
