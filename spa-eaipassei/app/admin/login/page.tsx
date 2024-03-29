@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import style from '@/app/ui/admin/login/login.module.css';
 import { signIn } from 'next-auth/react';
 import GoogleButton from 'react-google-button';
+import axios from '@/app/lib/axios/axios';
 
 export default function Page() {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -12,24 +13,38 @@ export default function Page() {
 
   const handleLogin = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (usernameRef.current && passwordRef.current) {
-      const username = usernameRef.current.value;
-      const password = passwordRef.current.value;
-      const stayConnected = stayConnectedRef.current ? stayConnectedRef.current.checked : false;
+    console.log(JSON.stringify(process.env.NEXT_PUBLIC_BASE_API_URL));
+    // const username = usernameRef.current?.value;
+    // const password = passwordRef.current?.value;
+    // const stayConnected = stayConnectedRef.current ? stayConnectedRef.current.checked : false;
 
-      const result = await signIn('credentials', {
-        username: username, 
-        password: password 
-      });
+    const body = {
+      username: usernameRef.current?.value,
+      password: passwordRef.current?.value,
+      callbackUrl: 'http://localhost/api/admin/login',
+    };
 
-      if (result && result.error) {
-        console.error(result.error);
-      } else if (result && result.ok) {
-        console.log('Sucesso!!!');
-      }
+    
+    // try {
+    //   await axios.get(`${process.env.NEXT_PUBLIC_SANCTUM_CSRF_COOKIE_URL}`);
+		// 	const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_LOGIN_ENDPOINT}`, body);
+		// 	if (resp.status === 200) {
+		// 		console.log(resp.data);
+		// 	}
+		// } catch (error) {
+    //     console.error('Error: ', error);
+    // }
 
-      console.log(result);
+    const result = await signIn('credentials', body);
+
+    if (result && result.error) {
+      console.error(result.error);
+    } else if (result && result.ok) {
+      console.log('Sucesso!!!');
     }
+
+    console.log(result);
+
   }
   return (
     <div className={ style.login_page__container }>
