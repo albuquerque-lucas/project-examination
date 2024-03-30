@@ -7,6 +7,7 @@ import { SessionProvider, useSession } from "next-auth/react";
 import AuthProvider from "../lib/context/AuthContext";
 
 export default function Layout({children}: { children: React.ReactNode }) {
+  const { data: session, status } = useSession();
   return (
     <SessionProvider>
       <AuthProvider>
