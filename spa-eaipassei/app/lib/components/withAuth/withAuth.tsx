@@ -1,6 +1,6 @@
 'use-client';
 
-import { useLayoutEffect, useState, useContext, useEffect } from "react";
+import { useLayoutEffect, useState, useContext } from "react";
 import { useRouter } from 'next/navigation';
 import { fetchUser } from "../../axios/axios";
 import { AuthContext } from "../../context/AuthContext";
@@ -11,7 +11,7 @@ export default function withAuth(Component: any) {
     const router = useRouter();
     const { user, setUser } = useContext(AuthContext);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       async function fetchData() {
         if (!user) {
           try {

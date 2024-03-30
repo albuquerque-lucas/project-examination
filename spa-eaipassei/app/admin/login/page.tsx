@@ -18,7 +18,7 @@ export default function LoginAdmin() {
   const [messageType, setMessageType] = useState('');
   const router = useRouter();
   const { user, setUser } = useContext(AuthContext);
-  console.log(user);
+  console.log('USUARIO FETCHED', user);
   
   const handleLogin = async (e: React.SyntheticEvent) => {
     e.preventDefault();
