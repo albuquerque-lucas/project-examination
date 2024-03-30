@@ -1,0 +1,15 @@
+.login_message__span {
+  border-radius: 5px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  width: 25rem;
+  height: 4rem;
+  font-weight: 600;
+}
+
+.error {
+  background-color: #dc3545;
+  color: white;
+}
