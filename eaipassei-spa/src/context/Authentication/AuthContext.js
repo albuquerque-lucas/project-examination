@@ -1,5 +1,4 @@
-import { createContext, useContext, useState, useMemo } from 'react';
-import axios from '../../axios';
+import { createContext, useState, useMemo } from 'react';
 
 export const AuthContext = createContext();
 
@@ -9,29 +8,16 @@ export default function AuthProvider({ children }) {
 		JSON.parse(localStorage.getItem('user')) || null
 	);
 
-	
-	// set user to local storage
-	// const setUser = (user) => {
-		// 	if (user) {
-			// 		localStorage.setItem('user', JSON.stringify(user));
-			// 	} else {
-				// 		localStorage.removeItem('user');
-				// 	}
-				// 	console.log('DE DENTRO DE SETUSER', user);
-				// 	_setUser(user);
-				// };
 				
-				// csrf token generation for guest methods
-				
-				const value = useMemo(() => {
-					const setUser = (user) => {
-						if (user) {
-							localStorage.setItem('user', JSON.stringify(user));
-						} else {
-							localStorage.removeItem('user');
-						}
-						_setUser(user);
-					};
+	const value = useMemo(() => {
+		const setUser = (user) => {
+			if (user) {
+				localStorage.setItem('user', JSON.stringify(user));
+			} else {
+				localStorage.removeItem('user');
+			}
+			_setUser(user);
+		};
 		return {
 			user,
 			setUser,

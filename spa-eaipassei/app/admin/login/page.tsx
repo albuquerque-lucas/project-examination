@@ -1,21 +1,24 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import style from '@/app/ui/admin/login/login.module.css';
 import { signIn, useSession } from 'next-auth/react';
 import GoogleButton from 'react-google-button';
 import { makeLogin } from '@/app/lib/axios/axios';
 import MessageBox from './messageBox';
+import { AuthContext } from '../../lib/context/AuthContext';
 
 export default function LoginAdmin() {
-  const router = useRouter();
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const stayConnectedRef = useRef<HTMLInputElement>(null);
   const { data: session, status } = useSession();
   const [errorMessage, setErrorMessage] = useState(null);
   const [messageType, setMessageType] = useState('');
+  const router = useRouter();
+  const { user, setUser } = useContext(AuthContext);
+  console.log(user);
   
   const handleLogin = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -29,10 +32,11 @@ export default function LoginAdmin() {
 
     try {
         const loggedIn = await makeLogin(body);
+        setUser(loggedIn.user);
         console.log('Sucesso!!!', loggedIn);
         router.push('/admin/home');
 		} catch (error: any) {
-        setErrorMessage(error.response.data.message);
+        setErrorMessage(error.message);
         setMessageType('error');
         console.error('Error: ', error.response.data);
     }
@@ -94,10 +98,10 @@ export default function LoginAdmin() {
               >Entrar
             </button>
           </div>
-            <GoogleButton
+            {/* <GoogleButton
               type='dark'
               onClick={ () => signIn('google') }
-            />
+            /> */}
 
         </form>
       </div>

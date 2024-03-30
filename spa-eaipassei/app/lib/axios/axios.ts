@@ -34,4 +34,18 @@ export const makeLogin = async (body: loginBodyRequest) => {
 	}
 }
 
+export const fetchUser = async () => {
+	try {
+		const resp = await axios.get('/admin/user');
+		if (resp.status >= 200 && resp.status < 300) {
+			return resp.data;
+		}
+	} catch (error: any) {
+		if (error.response && error.response.status === 401) {
+			console.log('AuthError', error);
+			localStorage.removeItem('user');
+		}
+	}
+};
+
 export default axios;
