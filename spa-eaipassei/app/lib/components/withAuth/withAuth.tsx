@@ -18,6 +18,7 @@ export default function withAuth(Component: any) {
             const currentUser = await fetchUser();
             console.log('USER', currentUser);
             if (!currentUser || currentUser === undefined || currentUser === null) {
+              setUser(null);
               router.push('/admin/login');
             } else {
               setIsAuthChecked(true);
@@ -29,12 +30,13 @@ export default function withAuth(Component: any) {
             router.push('/admin/login');
           }
         } else {
+          console.log('User already logged in', user);
           setIsAuthChecked(true);
-        
+          
         }
       }
       fetchData();
-    }, []);
+    }, [user]);
 
     if (!isAuthChecked) {
       return null; // ou um componente de carregamento

@@ -13,7 +13,6 @@ export default function LoginAdmin() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const stayConnectedRef = useRef<HTMLInputElement>(null);
-  const { data: session, status } = useSession();
   const [errorMessage, setErrorMessage] = useState(null);
   const [messageType, setMessageType] = useState('');
   const router = useRouter();

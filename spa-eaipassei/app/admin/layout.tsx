@@ -1,24 +1,17 @@
 'use client';
 
-import { useEffect } from "react";
-import Navbar from "./Navbar";
-import style from '@/app/ui/admin/layout.module.css';
-import { SessionProvider, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import AuthProvider from "../lib/context/AuthContext";
+import AdminLayout from "./AdminLayout";
 
-export default function Layout({children}: { children: React.ReactNode }) {
-  const { data: session, status } = useSession();
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
       <AuthProvider>
-        <div className="admin-layout">
-          <Navbar />
-          <div className={ style.admin_layout__content }>
-            { children }
-          </div>
-        </div>
+        <AdminLayout>
+          { children }
+        </AdminLayout>
       </AuthProvider>
-    </ SessionProvider>
-      
+    </SessionProvider>
   );
 }
