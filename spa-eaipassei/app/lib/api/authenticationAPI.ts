@@ -1,14 +1,4 @@
-import Axios from "axios";
-
-const axios = Axios.create({
-	baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
-	withCredentials: true,
-	headers: {
-		"Content-Type": "application/json",
-		"Accept": "application/json",
-	},
-});
-
+import axios from "../axios/axios";
 
 type loginBodyRequest = {
 	username: string | undefined;
@@ -61,5 +51,3 @@ export const fetchUser = async () => {
 		}
 	}
 };
-
-export default axios;

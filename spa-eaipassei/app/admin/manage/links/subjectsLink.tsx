@@ -1,14 +1,15 @@
 'use client';
 
+import withAuth from '@/app/lib/components/withAuth/withAuth';
 import Link from 'next/link';
-import { FaUsers } from "react-icons/fa6";
+import { IoIosSchool } from "react-icons/io";
 
 const SubjectsLink = () => {
   return (
-    <Link href="/admin/manage/users">
+    <Link href="/admin/manage/subjects" className="nav-link">
       <li className="nav-item">
-        <FaUsers />
-        Usuários
+        <IoIosSchool />
+          Matérias
       </li>
     </Link>
   )

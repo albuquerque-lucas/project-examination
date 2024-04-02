@@ -1,0 +1,30 @@
+.examinations_headtitle {
+  margin-bottom: 7rem;
+}
+
+.examinations_filterbox {
+  background-color: var(--primary-background-color);
+  margin-bottom: 3rem;
+  border-radius: var(--default-border-radius);
+  content: '';
+  width: 90vw;
+  height: 15rem;
+}
+
+.examinations_navbuttons {
+  border: 4px solid var(--primary-background-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content: '';
+  height: 8rem;
+  margin-bottom: 3rem;
+  width: 90vw;
+}
+
+.examinations_table__container {
+  content: '';
+  width: 90vw;
+  min-height: 20rem;
+  background-color: var(--primary-background-color);
+}
