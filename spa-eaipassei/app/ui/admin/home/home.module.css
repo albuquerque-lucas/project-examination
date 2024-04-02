@@ -5,3 +5,16 @@
   padding: 0 1rem;
   text-align: center;
 }
+
+.admin_home__title {
+  width: 100vw;
+  text-align: start;
+  padding: 0 0 0 5rem;
+  font-size: 1.2rem!important;
+}
+
+.profile_content__image {
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.1rem rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
+}

@@ -1,0 +1,10 @@
+.logout_btn {
+  background-color: transparent;
+  font-size: 1.1rem;
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+
+}

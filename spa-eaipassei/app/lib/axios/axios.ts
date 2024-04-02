@@ -34,6 +34,20 @@ export const makeLogin = async (body: loginBodyRequest) => {
 	}
 }
 
+export const makeLogout = async () => {
+	try {
+		const resp = await axios.post('/admin/logout');
+		if (resp.status === 200) {
+			localStorage.removeItem('user');
+			console.log('Logout efetuado com suceddo.');
+			console.log(resp);
+		}
+	} catch (error) {
+		console.log('Nao foi possivel fazer logout.');
+		console.log(error);
+	}
+}
+
 export const fetchUser = async () => {
 	try {
 		const resp = await axios.get('/admin/user');
