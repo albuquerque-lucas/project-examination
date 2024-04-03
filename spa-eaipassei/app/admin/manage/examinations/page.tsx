@@ -26,9 +26,25 @@ function ExaminationsDashboard() {
         if (Object.keys(examinations).length === 0) {
           const examinationList = await getAllExaminations();
           setExaminations(examinationList);
-          setNavigationLinks(examinationList.links);
+          const updatedLinks = examinationList.links.map((link: any, index: number, array: any[]) => {
+            if (index === array.length - 1) {
+              return {
+                ...link,
+                label: link.label.replace('&raquo;', '\u00BB'),
+              };
+            }
+            if (index === 0) {
+              return {
+                ...link,
+                label: link.label.replace('&laquo;', '\u00AB'),
+              };
+            }
+            return link;
+          });
+
+          setNavigationLinks(updatedLinks);
           console.log('EXAMINATIONS LIST', examinationList);
-          console.log('NAVIGATION LINKS: ', examinationList.links);
+          console.log('NAVIGATION LINKS: ', updatedLinks);
         }
       } catch (error: any) {
         console.log('Erro ao buscar os concursos', error);
