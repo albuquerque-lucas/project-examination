@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useContext } from 'react';
+import React from 'react';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 import { getExaminationsByPage } from '../../../lib/api/examinationsAPI';
-import { ExaminationsContext } from '../../context/ExaminationsContext';
 
 interface NavigationButtonsProps {
   navigationLinks: {
@@ -11,13 +10,12 @@ interface NavigationButtonsProps {
     url: string | undefined;
     active: boolean | undefined;
   }[] | undefined;
+  setData: React.Dispatch<React.SetStateAction<any>>;
+  setLinks: React.Dispatch<React.SetStateAction<any>>;
+  getDataByPage: (url: string) => Promise<any>;
 }
 
-const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks }) => {
-  const {
-    setExaminations,
-    setNavigationLinks,
-  } = useContext(ExaminationsContext);
+const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, setData, setLinks, getDataByPage }) => {
   
   const getPage = async (url: any, e: React.MouseEvent) => {
     e.preventDefault();
@@ -25,8 +23,8 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks }
     try {
       const response = await getExaminationsByPage(url);
       console.log('Response:', response);
-      setExaminations(response);
-      setNavigationLinks(response.links);
+      setData(response);
+      setLinks(response.links);
     } catch (error) {
       console.error('Error:', error);
     }

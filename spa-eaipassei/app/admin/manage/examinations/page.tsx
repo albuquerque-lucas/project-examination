@@ -6,6 +6,7 @@ import withAuth from "@/app/lib/components/withAuth/withAuth";
 import style from '@/app/ui/admin/examinations/examinations.module.css';
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
 import ExaminationsProvider, { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
+import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 
 function ExaminationsDashboard() {
   // const [examinations, setExaminations] = useState({});
@@ -47,6 +48,9 @@ function ExaminationsDashboard() {
         </div>
         <NavigationButtons
           navigationLinks={ navigationLinks }
+          setData={ setExaminations }
+          setLinks={ setNavigationLinks }
+          getDataByPage={ getExaminationsByPage }
         />
         <div className={ style.examinations_table__container }>
 
