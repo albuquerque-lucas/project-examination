@@ -1,6 +1,11 @@
+'use client';
+
+import { useState, useContext } from "react";
 import { MdDelete } from "react-icons/md";
 import { TiDelete } from "react-icons/ti";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
+import ConfirmationPopUp from "../ConfirmationPopUp/confirmationPopUp";
+import { ExaminationsContext } from "../../context/ExaminationsContext";
 
 interface Exam {
   id: number;
@@ -16,6 +21,8 @@ interface DashboardExaminationsProps {
 }
 
 export default function DashboardExaminations({ data }: DashboardExaminationsProps) {
+
+  const { dashboardDeletionMode, setDashboardDeletionMode } = useContext(ExaminationsContext);
 
   return (
     <div className={ style.data_table__container }>
@@ -39,11 +46,11 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
               <td>{item.educational_level}</td>
               <td>{item.active ? 'Ativo' : 'Inativo'}</td>
               <td className={ style.dashboard_delete__buttons }>
-                <button className={ style.dashboard_table__delete }>
+                <button
+                  className={ style.dashboard_table__delete }
+                  onClick={() => setDashboardDeletionMode(true)}
+                  >
                   <MdDelete />
-                </button>
-                <button className={style.dashboard_table__confirmDelete}>
-                  <TiDelete />
                 </button>
 
               </td>

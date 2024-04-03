@@ -7,6 +7,8 @@ export type ExaminationsContextType = {
   setExaminations: (examinations: any) => void;
   navigationLinks: any[];
   setNavigationLinks: (navigationLinks: any) => void;
+  dashboardDeletionMode: boolean;
+  setDashboardDeletionMode: (dashboardDeletionMode: boolean) => void;
 };
 
 const defaultValue: ExaminationsContextType = {
@@ -14,6 +16,8 @@ const defaultValue: ExaminationsContextType = {
   setExaminations: () => {},
   navigationLinks: [],
   setNavigationLinks: () => {},
+  dashboardDeletionMode: false,
+  setDashboardDeletionMode: () => {},
 };
 
 export const ExaminationsContext = createContext<ExaminationsContextType>(defaultValue);
@@ -25,14 +29,18 @@ interface ExaminationsProviderProps {
 export default function ExaminationsProvider({ children }: ExaminationsProviderProps) {
   const [examinations, setExaminations] = useState([]);
   const [navigationLinks, setNavigationLinks] = useState([]);
+  const [dashboardDeletionMode, setDashboardDeletionMode] = useState(false);
   const value = useMemo(() => ({ 
     examinations,
     setExaminations,
     navigationLinks,
-    setNavigationLinks
+    setNavigationLinks,
+    dashboardDeletionMode,
+    setDashboardDeletionMode,
   }), [
     examinations,
     navigationLinks,
+    dashboardDeletionMode,
   ]);
 
   return (
