@@ -1,20 +1,25 @@
 .examinations_navbuttons {
-  border: 4px solid var(--primary-background-color);
   display: flex;
   align-items: center;
   justify-content: center;
   content: '';
   height: 8rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   width: 90vw;
 }
 
 .examinations_navbutton__buttons {
-  border: none;
+  border: 2px solid transparent;
   margin: 0 0.5rem;
   padding: 0.8rem 1rem;
   background-color: var(--primary-background-color);
   color: white;
   border-radius: var(--default-border-radius);
   font-weight: 600;
+}
+
+.examinations_navbutton__buttons:disabled {
+  background-color: white;
+  border: 2px solid var(--primary-background-color);
+  color: black;
 }

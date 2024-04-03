@@ -3,14 +3,14 @@
 import { createContext, useState, useMemo } from "react";
 
 export type ExaminationsContextType = {
-  examinations: object;
+  examinations: any[];
   setExaminations: (examinations: any) => void;
   navigationLinks: any[];
   setNavigationLinks: (navigationLinks: any) => void;
 };
 
 const defaultValue: ExaminationsContextType = {
-  examinations: {},
+  examinations: [],
   setExaminations: () => {},
   navigationLinks: [],
   setNavigationLinks: () => {},
@@ -23,7 +23,7 @@ interface ExaminationsProviderProps {
 }
 
 export default function ExaminationsProvider({ children }: ExaminationsProviderProps) {
-  const [examinations, setExaminations] = useState({});
+  const [examinations, setExaminations] = useState([]);
   const [navigationLinks, setNavigationLinks] = useState([]);
   const value = useMemo(() => ({ 
     examinations,

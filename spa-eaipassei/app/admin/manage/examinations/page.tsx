@@ -5,12 +5,11 @@ import { getAllExaminations } from "@/app/lib/api/examinationsAPI";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import style from '@/app/ui/admin/examinations/examinations.module.css';
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
+import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboardExaminations";
 import ExaminationsProvider, { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 
 function ExaminationsDashboard() {
-  // const [examinations, setExaminations] = useState({});
-  // const [navigationLinks, setNavigationLinks] = useState([]);
   const {
     examinations,
     setExaminations,
@@ -18,6 +17,27 @@ function ExaminationsDashboard() {
     setNavigationLinks
   } = useContext(ExaminationsContext);
 
+  const [examinationList, setExaminationList] = useState({} as any);
+
+  const updateNavigationLinks = (links: any[]) => {
+    const updatedLinks = links.map((link: any, index: number, array: any[]) => {
+      if (index === array.length - 1) {
+          return {
+            ...link,
+            label: link.label.replace('&raquo;', '\u00BB'),
+          };
+      }
+      if (index === 0) {
+        return {
+          ...link,
+          label: link.label.replace('&laquo;', '\u00AB'),
+        };
+      }
+      return link;
+    });
+
+    setNavigationLinks(updatedLinks);
+  };
 
   useEffect(() => {
     console.log('Examinations:', examinations);
@@ -25,26 +45,10 @@ function ExaminationsDashboard() {
       try {
         if (Object.keys(examinations).length === 0) {
           const examinationList = await getAllExaminations();
-          setExaminations(examinationList);
-          const updatedLinks = examinationList.links.map((link: any, index: number, array: any[]) => {
-            if (index === array.length - 1) {
-              return {
-                ...link,
-                label: link.label.replace('&raquo;', '\u00BB'),
-              };
-            }
-            if (index === 0) {
-              return {
-                ...link,
-                label: link.label.replace('&laquo;', '\u00AB'),
-              };
-            }
-            return link;
-          });
-
-          setNavigationLinks(updatedLinks);
-          console.log('EXAMINATIONS LIST', examinationList);
-          console.log('NAVIGATION LINKS: ', updatedLinks);
+          // console.log('ExaminationsLIST:', examinationList);
+          setExaminationList(examinationList);
+          setExaminations(examinationList.data);
+          updateNavigationLinks(examinationList.links);
         }
       } catch (error: any) {
         console.log('Erro ao buscar os concursos', error);
@@ -53,8 +57,7 @@ function ExaminationsDashboard() {
     };
   
     fetchExaminations();
-  }, [examinations, navigationLinks]);
-
+  }, [examinations]);
 
   return (
       <div className="examinations_content">
@@ -68,9 +71,9 @@ function ExaminationsDashboard() {
           setLinks={ setNavigationLinks }
           getDataByPage={ getExaminationsByPage }
         />
-        <div className={ style.examinations_table__container }>
-
-        </div>
+        <DashboardExaminations
+        data={ examinations }
+        />
       </div>
   );
 }

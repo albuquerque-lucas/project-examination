@@ -1,0 +1,84 @@
+.data_table__container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: var(--default-border-radius);
+  min-height: 25rem;
+  padding: 1rem;
+  margin-bottom: 5rem;
+  width: 90vw;
+}
+
+.data_table {
+  background-color: white;
+  border-radius: var(--default-border-radius);
+  border-spacing: 0;
+  width: 80%;
+}
+
+.data_table thead{
+  background-color: var(--primary-background-color);
+  color: white;
+  width: 100%;
+}
+
+.data_table thead th{
+  padding: 0.5rem;
+  max-width: 20rem;
+}
+
+.data_table tbody tr{
+  margin: 2rem 0;
+  padding: 0.2rem;
+}
+
+.data_table tbody tr td{
+  padding: 0.2rem;
+}
+
+.data_table tbody tr:hover{
+  background-color: #fcf2ec;
+  cursor: pointer;
+}
+
+.dashboard_delete__buttons {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.dashboard_table__delete {
+  color: var(--primary-background-color);
+  border: none;
+  border-radius: var(--default-border-radius);
+  background-color: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+}
+
+.dashboard_table__delete:hover {
+  background-color: var(--primary-background-color);
+  color: white;
+  counter-reset: white;
+}
+
+.dashboard_table__confirmDelete {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-background-color);
+  border: none;
+  border-radius: 20px;
+  padding: 0.2rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin: 0 0.5rem;
+}
+
+.dashboard_table__confirmDelete:hover {
+  background-color: #e35b68;
+  color: white;
+}

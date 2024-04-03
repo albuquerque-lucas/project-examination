@@ -1,8 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { use, useContext, useEffect } from 'react';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 import { getExaminationsByPage } from '../../../lib/api/examinationsAPI';
+import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
+
 
 interface NavigationButtonsProps {
   navigationLinks: {
@@ -19,11 +21,11 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, 
   
   const getPage = async (url: any, e: React.MouseEvent) => {
     e.preventDefault();
+    console.log(url);
     if (typeof url === 'undefined' || url === null) return;
     try {
-      const response = await getExaminationsByPage(url);
-      console.log('Response:', response);
-      setData(response);
+      const response = await getDataByPage(url);
+      setData(response.data);
       setLinks(response.links);
     } catch (error) {
       console.error('Error:', error);
@@ -39,6 +41,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, 
               key={index}
               className={ style.examinations_navbutton__buttons }
               onClick={(e) => getPage(item.url, e)}
+              disabled={item.active}
             >
               {item.label}
             </button>
