@@ -1,17 +1,25 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getAllExaminations } from "@/app/lib/api/examinationsAPI";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import style from '@/app/ui/admin/examinations/examinations.module.css';
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
+import ExaminationsProvider, { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 
 function ExaminationsDashboard() {
-  const [examinations, setExaminations] = useState({});
-  const [navigationLinks, setNavigationLinks] = useState([]);
+  // const [examinations, setExaminations] = useState({});
+  // const [navigationLinks, setNavigationLinks] = useState([]);
+  const {
+    examinations,
+    setExaminations,
+    navigationLinks,
+    setNavigationLinks
+  } = useContext(ExaminationsContext);
 
 
   useEffect(() => {
+    console.log('Examinations:', examinations);
     const fetchExaminations = async () => {
       try {
         if (Object.keys(examinations).length === 0) {
@@ -19,9 +27,8 @@ function ExaminationsDashboard() {
           setExaminations(examinationList);
           setNavigationLinks(examinationList.links);
           console.log('EXAMINATIONS LIST', examinationList);
+          console.log('NAVIGATION LINKS: ', examinationList.links);
         }
-        console.log('EXAMIANATIONS', examinations);
-        console.log('NAVIGATION LINKS', navigationLinks);
       } catch (error: any) {
         console.log('Erro ao buscar os concursos', error);
         setExaminations({});
@@ -29,22 +36,22 @@ function ExaminationsDashboard() {
     };
   
     fetchExaminations();
-  }, [examinations]);
+  }, [examinations, navigationLinks]);
 
 
   return (
-    <div className="examinations_content">
-      <h1 className={ style.examinations_headtitle }>Dashboard Concursos</h1>
-      <div className={ style.examinations_filterbox }>
+      <div className="examinations_content">
+        <h1 className={ style.examinations_headtitle }>Dashboard Concursos</h1>
+        <div className={ style.examinations_filterbox }>
 
-      </div>
-      <NavigationButtons
-        navigationLinks={ navigationLinks }
-      />
-      <div className={ style.examinations_table__container }>
+        </div>
+        <NavigationButtons
+          navigationLinks={ navigationLinks }
+        />
+        <div className={ style.examinations_table__container }>
 
+        </div>
       </div>
-    </div>
   );
 }
 

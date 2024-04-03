@@ -16,7 +16,7 @@ export default function withAuth(Component: any) {
         if (!user) {
           try {
             const currentUser = await fetchUser();
-            console.log('USER', currentUser);
+            // console.log('USER', currentUser);
             if (!currentUser || currentUser === undefined || currentUser === null) {
               setUser(null);
               router.push('/admin/login');
@@ -30,7 +30,7 @@ export default function withAuth(Component: any) {
             router.push('/admin/login');
           }
         } else {
-          console.log('User already logged in', user);
+          // console.log('User already logged in', user);
           setIsAuthChecked(true);
           
         }

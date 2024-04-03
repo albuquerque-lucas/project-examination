@@ -9,7 +9,6 @@ const axios = Axios.create({
 	},
 });
 
-
 type loginBodyRequest = {
 	username: string | undefined;
 	password: string | undefined;
