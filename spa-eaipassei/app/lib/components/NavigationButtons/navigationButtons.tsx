@@ -38,10 +38,10 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, 
         navigationLinks && navigationLinks.length > 0 ? (
           navigationLinks.map((item, index) => (
             <button
-              key={index}
+              key={ index }
               className={ style.examinations_navbutton__buttons }
-              onClick={(e) => getPage(item.url, e)}
-              disabled={item.active}
+              onClick={ (e) => getPage(item.url, e) }
+              disabled={ item.active }
             >
               {item.label}
             </button>

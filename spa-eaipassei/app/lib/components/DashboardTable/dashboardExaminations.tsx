@@ -24,7 +24,7 @@ interface DashboardExaminationsProps {
 
 export default function DashboardExaminations({ data }: DashboardExaminationsProps) {
 
-  const { dashboardDeletionMode, setDashboardDeletionMode } = useContext(ExaminationsContext);
+  const { setDashboardDeletionMode } = useContext(ExaminationsContext);
   const router = useRouter();
 
   const navigateToExamPage = (id: number) => {
