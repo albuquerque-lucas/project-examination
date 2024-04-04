@@ -5,6 +5,7 @@ import ExaminationSavingCard from "@/app/lib/components/ExaminationSavingCard/Ex
 import withAuth from "@/app/lib/components/withAuth/withAuth"
 import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 import { Examination } from '@/app/lib/types/examinationTypes';
+import { createMany } from '@/app/lib/api/examinationsAPI';
 import { motion } from 'framer-motion';
 
 const CreateExaminationsPage = () => {
@@ -25,6 +26,16 @@ const CreateExaminationsPage = () => {
     }
     setPersistenceList([...persistenceList, examination]);
     console.log('NEW EXAMINATION', examination);
+  }
+
+  const submitExaminations = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    try {
+      const response = await createMany(persistenceList);
+      console.log('RESPONSE', response);
+    } catch (error) {
+      console.error('ERROR', error);
+    }
   }
 
   return (
@@ -75,6 +86,7 @@ const CreateExaminationsPage = () => {
             <div className={ style.form_button_box }>
               <motion.button
                 whileTap={{scale:0.9}}
+                onClick={ submitExaminations }
               >
                 Enviar
               </motion.button>

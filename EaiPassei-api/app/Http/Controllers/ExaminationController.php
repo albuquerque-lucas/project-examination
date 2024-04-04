@@ -156,7 +156,7 @@ class ExaminationController extends Controller
         }
     }
 
-    public function createMany(ExaminationListFormRequest $request)
+    public function createMany(Request $request)
     {
         try {
             $data = $request->all();
