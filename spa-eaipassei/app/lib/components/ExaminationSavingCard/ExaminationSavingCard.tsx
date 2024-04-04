@@ -1,27 +1,23 @@
 import React from 'react';
+import { Examination } from '../../types/examinationTypes';
 import style from '@/app/ui/admin/cards/examinationSavingCard.module.css'
 
-type Examination = {
-  educational_level_id: number;
-  title: string;
-  active?: boolean;
-  institution: string;
-  registration_start_date?: string;
-  registration_end_date?: string;
-  exams_start_date?: string;
-  exams_end_date?: string;
+type ExaminationSavingCardProps = {
+  examination: Examination;
 };
 
-const ExaminationSavingCard: React.FC<Examination> = ({
-  educational_level_id,
-  title,
-  active,
-  institution,
-  registration_start_date,
-  registration_end_date,
-  exams_start_date,
-  exams_end_date
-}) => {
+const ExaminationSavingCard: React.FC<ExaminationSavingCardProps> = ({ examination }) => {
+  const {
+    educational_level_id,
+    title,
+    active,
+    institution,
+    registration_start_date,
+    registration_end_date,
+    exams_start_date,
+    exams_end_date
+  } = examination;
+
   return (
     <div className={ style.saving_card__container }>
       <h4>{title}</h4>
