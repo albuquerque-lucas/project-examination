@@ -9,6 +9,7 @@ import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboard
 import ExaminationsProvider, { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
+import Link from "next/link";
 
 function ExaminationsDashboard() {
   const {
@@ -65,11 +66,22 @@ function ExaminationsDashboard() {
   return (
       <div className="examinations_content">
         <h1 className={ style.examinations_headtitle }>Dashboard Concursos</h1>
-        <div className={ style.examinations_filterbox }>
+        <div className={ style.examinations_utilitiesbox }>
+          <div className={ style.utilities_buttons } >
+            <Link
+              href='/admin/manage/examinations/create'
+            >
+              <button>
+                Adicionar Concurso
+              </button>
+            </Link>
+          </div>
+          <div className={ style.utilities_filters }>
 
+          </div>
         </div>
         {isLoading ? (
-          <SpinnerLoader /> // Substitua isso pelo seu componente de carregamento
+          <SpinnerLoader />
         ) : (
           <>
             <NavigationButtons

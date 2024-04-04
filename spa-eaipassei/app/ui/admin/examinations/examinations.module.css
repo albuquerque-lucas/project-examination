@@ -2,7 +2,7 @@
   margin-bottom: 7rem;
 }
 
-.examinations_filterbox {
+.examinations_utilitiesbox {
   background-color: var(--primary-background-color);
   margin-bottom: 3rem;
   border-radius: var(--default-border-radius);
@@ -20,4 +20,8 @@
   height: 8rem;
   margin-bottom: 3rem;
   width: 90vw;
+}
+
+.examinations_buttons {
+  
 }
