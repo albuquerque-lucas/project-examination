@@ -9,6 +9,7 @@ import { BiLogInCircle } from "react-icons/bi";
 import { FaBars } from "react-icons/fa6";
 import Link from 'next/link';
 import AuthenticatedOnlyLinksBundle from './manage/links/authenticatedOnlyLinksBundle';
+import { motion } from 'framer-motion';
 
 export default function Navbar() {
   const { sidebarOpen, setSidebarOpen } = useContext(AdminLayoutContext);
@@ -23,7 +24,11 @@ export default function Navbar() {
   }
 
   return (
-    <nav className={`${colors.primary_bg__dark} ${navbar.admin_navbar}`}>
+    <motion.nav
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    className={`${colors.primary_bg__dark} ${navbar.admin_navbar}`}
+    >
       <div className={ navbar.admin_navbar__container }>
         <button
           className={`container ${navbar.admin_navbar__toggler}`}
@@ -54,6 +59,6 @@ export default function Navbar() {
           </ul>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }

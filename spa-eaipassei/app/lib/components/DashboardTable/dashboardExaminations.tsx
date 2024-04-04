@@ -8,6 +8,7 @@ import style from '@/app/ui/admin/tables/dashboardData.module.css';
 import ConfirmationPopUp from "../ConfirmationPopUp/confirmationPopUp";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 interface Exam {
   id: number;
@@ -33,8 +34,12 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
   }
 
   return (
-    <div className={ style.data_table__container }>
-      <table className={ style.data_table }>
+    <div
+    className={ style.data_table__container }>
+      <motion.table
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className={ style.data_table }>
         <thead>
           <tr>
             <th>#</th>
@@ -67,7 +72,7 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
             </tr>
           ))}
         </tbody>
-      </table>
+      </motion.table>
     </div>
   );
 }

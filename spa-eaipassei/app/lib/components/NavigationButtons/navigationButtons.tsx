@@ -4,6 +4,7 @@ import React, { use, useContext, useEffect } from 'react';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 import { getExaminationsByPage } from '../../../lib/api/examinationsAPI';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
+import { motion } from 'framer-motion';
 
 
 interface NavigationButtonsProps {
@@ -37,14 +38,15 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, 
       {
         navigationLinks && navigationLinks.length > 0 ? (
           navigationLinks.map((item, index) => (
-            <button
+            <motion.button
+              whileTap={{ scale: 0.9}}
               key={ index }
               className={ style.examinations_navbutton__buttons }
               onClick={ (e) => getPage(item.url, e) }
               disabled={ item.active }
             >
               {item.label}
-            </button>
+            </motion.button>
           ))
         ) : (
           <div></div>

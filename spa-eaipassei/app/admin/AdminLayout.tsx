@@ -6,6 +6,7 @@ import { ExaminationsContext } from "../lib/context/ExaminationsContext";
 import Navbar from "./Navbar";
 import style from '@/app/ui/admin/layout.module.css';
 import ConfirmationPopUp from "../lib/components/ConfirmationPopUp/confirmationPopUp";
+import { motion } from "framer-motion";
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, setUser } = useContext(AuthContext);
@@ -16,13 +17,17 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
   }, [user]);
 
   return (
-    <div className="admin-layout">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="admin-layout"
+      >
     <Navbar />
     <div className={ style.admin_layout__content }>
       { children }
     </div>
     { dashboardDeletionMode && <ConfirmationPopUp /> }
-  </div>
+  </motion.div>
   )
 }
 
