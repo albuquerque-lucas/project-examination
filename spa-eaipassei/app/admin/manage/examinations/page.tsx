@@ -11,6 +11,7 @@ import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import Link from "next/link";
 
+
 function ExaminationsDashboard() {
   const {
     examinations,
