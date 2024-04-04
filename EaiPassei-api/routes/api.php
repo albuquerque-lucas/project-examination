@@ -31,7 +31,6 @@ Route::get('/users/all', [UserController::class, "getAll"]);
 Route::get('/users/id/{id}', [UserController::class, "getById"]);
 Route::get('/users/name/{name}', [UserController::class, "getByName"]);
 Route::post('/users/create', [UserController::class, "create"]);
-Route::post('/users/create/many', [UserController::class, "createMany"]);
 Route::patch('/users/update/{id}', [UserController::class, "update"]);
 Route::delete('/users/delete/{id}', [UserController::class, "delete"]);
 
@@ -47,6 +46,7 @@ Route::get('/access-levels/all', [AccessLevelController::class, "getAll"]);
 Route::get("/examinations/all", [ExaminationController::class, 'getAll']);
 Route::get('/examinations/id/{id}', [ExaminationController::class, "getById"]);
 Route::post("/examinations/create", [ExaminationController::class, "create"]);
+Route::post('/examinations/create/many', [ExaminationController::class, "createMany"]);
 Route::patch("/examinations/update/{id}", [ExaminationController::class, "update"]);
 Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delete"]);
 Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"]);
