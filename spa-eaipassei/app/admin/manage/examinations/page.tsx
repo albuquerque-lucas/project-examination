@@ -8,6 +8,7 @@ import NavigationButtons from "@/app/lib/components/NavigationButtons/navigation
 import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboardExaminations";
 import ExaminationsProvider, { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
+import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 
 function ExaminationsDashboard() {
   const {
@@ -18,6 +19,7 @@ function ExaminationsDashboard() {
   } = useContext(ExaminationsContext);
 
   const [examinationList, setExaminationList] = useState({} as any);
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {
@@ -40,12 +42,11 @@ function ExaminationsDashboard() {
   };
 
   useEffect(() => {
-    console.log('Examinations:', examinations);
     const fetchExaminations = async () => {
+      setIsLoading(true);
       try {
         if (Object.keys(examinations).length === 0) {
           const examinationList = await getAllExaminations();
-          // console.log('ExaminationsLIST:', examinationList);
           setExaminationList(examinationList);
           setExaminations(examinationList.data);
           updateNavigationLinks(examinationList.links);
@@ -53,6 +54,8 @@ function ExaminationsDashboard() {
       } catch (error: any) {
         console.log('Erro ao buscar os concursos', error);
         setExaminations({});
+      } finally {
+        setIsLoading(false);
       }
     };
   
@@ -65,15 +68,21 @@ function ExaminationsDashboard() {
         <div className={ style.examinations_filterbox }>
 
         </div>
-        <NavigationButtons
-          navigationLinks={ navigationLinks }
-          setData={ setExaminations }
-          setLinks={ setNavigationLinks }
-          getDataByPage={ getExaminationsByPage }
-        />
-        <DashboardExaminations
-        data={ examinations }
-        />
+        {isLoading ? (
+          <SpinnerLoader /> // Substitua isso pelo seu componente de carregamento
+        ) : (
+          <>
+            <NavigationButtons
+              navigationLinks={ navigationLinks }
+              setData={ setExaminations }
+              setLinks={ setNavigationLinks }
+              getDataByPage={ getExaminationsByPage }
+            />
+            <DashboardExaminations
+            data={ examinations }
+            />
+          </>
+        )}
       </div>
   );
 }

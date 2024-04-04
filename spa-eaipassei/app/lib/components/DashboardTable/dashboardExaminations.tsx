@@ -29,8 +29,8 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
   const router = useRouter();
 
   const navigateToExamPage = (id: number) => {
+    console.log('Navigating to exam page.');
     router.push(`/admin/manage/examinations/${id}`)
-    console.log('INDO');
   }
 
   return (

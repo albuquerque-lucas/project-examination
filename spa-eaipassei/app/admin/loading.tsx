@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { SpinnerLoader } from '@/app/lib/components/Loaders/Loader';
 import style from '@/app/ui/admin/loading/loading.module.css'
 
 const Loading: React.FC = () => {
@@ -10,9 +11,11 @@ const Loading: React.FC = () => {
   }, []);
 
   return (
-      <div className={ style.loading_title }>
-          <p>Carregando dados...</p>
-          <div className="spinner"></div>
+      <div className={ style.loading_screen }>
+          <span>Carregando dados...</span>
+          <div className="spinner">
+          <SpinnerLoader />
+          </div>
       </div>
   );
 };

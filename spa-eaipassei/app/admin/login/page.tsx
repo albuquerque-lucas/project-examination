@@ -8,6 +8,7 @@ import GoogleButton from 'react-google-button';
 import { makeLogin } from '@/app/lib/axios/axios';
 import MessageBox from './messageBox';
 import { AuthContext } from '../../lib/context/AuthContext';
+import { motion } from 'framer-motion';
 
 export default function LoginAdmin() {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -41,7 +42,11 @@ export default function LoginAdmin() {
     }
   }
   return (
-    <div className={ style.login_page__container }>
+    <motion.div
+      className={ style.login_page__container }
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      >
       <div className={ style.login_form__container }>
         <div className={ style.message_box__container}>
           {
@@ -104,6 +109,6 @@ export default function LoginAdmin() {
 
         </form>
       </div>
-    </div>
+    </motion.div>
   )
 }
