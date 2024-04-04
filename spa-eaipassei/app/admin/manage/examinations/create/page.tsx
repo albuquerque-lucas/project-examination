@@ -29,7 +29,7 @@ const CreateExaminationsPage = () => {
 
   return (
     <div className={ style.examination_creation__content  }>
-      <h1>Adicionar Concurso</h1>
+      <h1>Formulário</h1>
       <div className={ style.creation_form__box }>
         <form action="" onSubmit={(e) => e.preventDefault() }>
           <section className={ style.creation_screen}>
