@@ -13,7 +13,7 @@ const CreateExaminationsPage = () => {
         <form action="" onSubmit={(e) => e.preventDefault() }>
           <section className={ style.creation_screen}>
             <div className={ style.form_inputs }>
-              <h3>Formulário de adição</h3>
+              <h3 className={ style.form_title }>Formulário de adição</h3>
               <input
                 type="text"
                 placeholder='Título do concurso'
@@ -34,6 +34,9 @@ const CreateExaminationsPage = () => {
               </motion.button>
             </div>
             <div className={ style.presaved_examinations_screen }>
+            <h3 className={ style.form_title }>Lista de persistência</h3>
+            <div className={ style.list_display }>
+
               <ExaminationSavingCard
                 title='Concurso 1'
                 institution='Instituição 1'
@@ -44,7 +47,7 @@ const CreateExaminationsPage = () => {
                 exams_start_date='01/03/2021'
                 exams_end_date='01/04/2021'
               />
-                            <ExaminationSavingCard
+              <ExaminationSavingCard
                 title='Concurso 1'
                 institution='Instituição 1'
                 educational_level_id={1}
@@ -54,7 +57,7 @@ const CreateExaminationsPage = () => {
                 exams_start_date='01/03/2021'
                 exams_end_date='01/04/2021'
               />
-                            <ExaminationSavingCard
+              <ExaminationSavingCard
                 title='Concurso 1'
                 institution='Instituição 1'
                 educational_level_id={1}
@@ -65,18 +68,19 @@ const CreateExaminationsPage = () => {
                 exams_end_date='01/04/2021'
               />
             </div>
-          </section>
-          <section className={ style.form_button_box }>
-            <motion.button
-              whileTap={{scale:0.9}}
-            >
-              Enviar
-            </motion.button>
-            <motion.button
-              whileTap={{scale:0.9}}
-            >
-              Cancelar
-            </motion.button>
+            </div>
+            <div className={ style.form_button_box }>
+              <motion.button
+                whileTap={{scale:0.9}}
+              >
+                Enviar
+              </motion.button>
+              <motion.button
+                whileTap={{scale:0.9}}
+              >
+                Cancelar
+              </motion.button>
+            </div>
           </section>
         </form>
       </div>
