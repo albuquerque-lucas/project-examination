@@ -35,3 +35,15 @@ export const getExaminationsByPage = async (url: string) => {
     }
   }
 }
+  export const getExaminationById = async (id: string) => {
+    try {
+      const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATION_BY_ID}${id}`);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao buscar os concursos', error);
+      }
+    }
+  }
