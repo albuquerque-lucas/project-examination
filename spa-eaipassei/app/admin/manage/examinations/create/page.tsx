@@ -1,5 +1,6 @@
 'use client';
 
+import ExaminationSavingCard from "@/app/lib/components/ExaminationSavingCard/ExaminationSavingCard";
 import withAuth from "@/app/lib/components/withAuth/withAuth"
 import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 import { motion } from 'framer-motion';
@@ -12,7 +13,7 @@ const CreateExaminationsPage = () => {
         <form action="" onSubmit={(e) => e.preventDefault() }>
           <section className={ style.creation_screen}>
             <div className={ style.form_inputs }>
-              <h4>Formulário de adição</h4>
+              <h3>Formulário de adição</h3>
               <input
                 type="text"
                 placeholder='Título do concurso'
@@ -22,7 +23,7 @@ const CreateExaminationsPage = () => {
                 placeholder='Instituição responsável'
               />
               <select name="" id="">
-                <option value="">Selecione o tipo de concurso</option>
+                <option value="">Selecione o nível de escolaridade</option>
                 <option value="">Ensino Médio</option>
                 <option value="">Ensino Superior</option>
               </select>
@@ -33,7 +34,36 @@ const CreateExaminationsPage = () => {
               </motion.button>
             </div>
             <div className={ style.presaved_examinations_screen }>
-              
+              <ExaminationSavingCard
+                title='Concurso 1'
+                institution='Instituição 1'
+                educational_level_id={1}
+                active={true}
+                registration_start_date='01/01/2021'
+                registration_end_date='01/02/2021'
+                exams_start_date='01/03/2021'
+                exams_end_date='01/04/2021'
+              />
+                            <ExaminationSavingCard
+                title='Concurso 1'
+                institution='Instituição 1'
+                educational_level_id={1}
+                active={true}
+                registration_start_date='01/01/2021'
+                registration_end_date='01/02/2021'
+                exams_start_date='01/03/2021'
+                exams_end_date='01/04/2021'
+              />
+                            <ExaminationSavingCard
+                title='Concurso 1'
+                institution='Instituição 1'
+                educational_level_id={1}
+                active={true}
+                registration_start_date='01/01/2021'
+                registration_end_date='01/02/2021'
+                exams_start_date='01/03/2021'
+                exams_end_date='01/04/2021'
+              />
             </div>
           </section>
           <section className={ style.form_button_box }>

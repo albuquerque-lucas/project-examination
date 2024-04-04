@@ -43,7 +43,7 @@
   min-height: 25rem;
   width: 90%;
 }
-.form_inputs h4 {
+.form_inputs h3 {
   background-color: var(--primary-background-color);
   color: white;
   width: calc(100% + 3px);
@@ -60,10 +60,13 @@
 .form_inputs button {
   margin: 0.5rem 0;
   width: 80%;
+  padding: 0.5rem;
 }
 
 .form_inputs button {
   background-color: var(--primary-background-color);
+  height: 3rem;
+  font-size: 1.05rem;
   color: white;
   border: none;
   border-radius: var(--default-border-radius);
@@ -77,11 +80,12 @@
   border: 2px solid var(--primary-background-color);
   border-radius: var(--default-border-radius);
   content: '';
+  color: white;
   min-height: 15rem;
   max-height: 20rem;
   overflow: scroll;
   width: 90%;
-  background-color: blue;
+  background-color: var(--primary-background-color);
   margin: 1rem 0;
   padding: 1rem;
 

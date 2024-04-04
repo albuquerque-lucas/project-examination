@@ -1,0 +1,15 @@
+.saving_card__container {
+  background-color: white;
+  color: black;
+  border-radius: var(--default-border-radius);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin-bottom: 0.5rem;
+}
+
+.saving_card__container span {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
