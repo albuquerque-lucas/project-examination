@@ -31,6 +31,7 @@ Route::get('/users/all', [UserController::class, "getAll"]);
 Route::get('/users/id/{id}', [UserController::class, "getById"]);
 Route::get('/users/name/{name}', [UserController::class, "getByName"]);
 Route::post('/users/create', [UserController::class, "create"]);
+Route::post('/users/create/many', [UserController::class, "createMany"]);
 Route::patch('/users/update/{id}', [UserController::class, "update"]);
 Route::delete('/users/delete/{id}', [UserController::class, "delete"]);
 

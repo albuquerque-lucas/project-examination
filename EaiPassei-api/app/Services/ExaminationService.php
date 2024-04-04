@@ -14,6 +14,7 @@ use Nette\Schema\ValidationException;
 use PDOException;
 use Storage;
 use App\Interfaces\IService;
+use Illuminate\Support\Facades\DB;
 
 class ExaminationService implements IService
 {
@@ -234,6 +235,50 @@ class ExaminationService implements IService
                 'institution' => $examination->institution,
             ];
             
+            $this->serviceResponse->setAttributes(201, $responseData);
+            return $this->serviceResponse;
+        } catch (ValidationException $exception) {
+            $this->serviceResponse->setAttributes(422, (object)[
+                'message' => $this->serviceResponse->validationFailed(),
+                'info' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch (PDOException $exception) {
+            $this->serviceResponse->setAttributes(409, (object)[
+                'message' => $this->serviceResponse->failedToCreateRecord(),
+                'info' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        }
+    }
+
+    public function createMany(array $examinations): ServiceResponse
+    {
+        try {
+            DB::transaction(function () use ($examinations) {
+                foreach ($examinations as $examination) {
+                    $createdExamination = Examination::create($examination);
+    
+                    if (!$createdExamination) {
+                        throw new Exception('Failed to create examination');
+                    }
+                }
+            });
+    
+            $responseData = (object)[
+                'message' => $this->serviceResponse->createdManySuccessfully('Examinations'),
+                'count' => count($examinations),
+            ];
+    
             $this->serviceResponse->setAttributes(201, $responseData);
             return $this->serviceResponse;
         } catch (ValidationException $exception) {

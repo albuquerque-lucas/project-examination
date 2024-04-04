@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidDateFormatException;
 use App\Http\Requests\ExaminationFormRequest;
+use App\Http\Requests\ExaminationListFormRequest;
 use App\Services\DataRetrievalService;
 use Auth;
 use Error;
@@ -147,6 +148,19 @@ class ExaminationController extends Controller
         try {
             $this->authorize('manage', $request->user());
             return $this->dataRetrievalService->create($this->examinationService, $request);
+
+        } catch(InvalidDateFormatException $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
+
+    public function createMany(ExaminationListFormRequest $request)
+    {
+        try {
+            $data = $request->all();
+            return $this->examinationService->createMany($data);
 
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
