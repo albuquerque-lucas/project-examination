@@ -7,6 +7,8 @@ import Navbar from "./Navbar";
 import style from '@/app/ui/admin/layout.module.css';
 import ConfirmationPopUp from "../lib/components/ConfirmationPopUp/confirmationPopUp";
 import { motion } from "framer-motion";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, setUser } = useContext(AuthContext);
@@ -27,6 +29,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
       { children }
     </div>
     { dashboardDeletionMode && <ConfirmationPopUp /> }
+    <ToastContainer />
   </motion.div>
   )
 }

@@ -8,6 +8,7 @@ import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 import { Examination } from '@/app/lib/types/examinationTypes';
 import { createMany } from '@/app/lib/api/examinationsAPI';
 import { motion } from 'framer-motion';
+import { toast } from 'react-toastify';
 
 const CreateExaminationsPage = () => {
   const titleRef = useRef<HTMLInputElement>(null);
@@ -17,7 +18,7 @@ const CreateExaminationsPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('PERSISTENCE LIST', persistenceList);
+    console.log('Lista de persistência atualizada:', persistenceList);
   }, [persistenceList]);
 
   const addToList = () => {
@@ -27,14 +28,19 @@ const CreateExaminationsPage = () => {
       educational_level_id: educationalLevelRef.current?.value ?? ''
     }
     setPersistenceList([...persistenceList, examination]);
-    console.log('NEW EXAMINATION', examination);
   }
 
   const submitExaminations = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
-      const response = await createMany(persistenceList);
-      console.log('RESPONSE', response);
+      await toast.promise(
+        createMany(persistenceList),
+        {
+          pending: 'Enviando para o banco de dados...',
+          success: 'Os registros foram salvos no banco de dados.',
+          error: 'Falha ao enviar os registros.'
+        }
+      );
       router.push('/admin/manage/examinations');
     } catch (error) {
       console.error('ERROR', error);

@@ -1,16 +1,15 @@
 'use client';
 
 import { useContext } from 'react';
-import { useRouter } from 'next/navigation';
 import { ExaminationsContext } from '../../context/ExaminationsContext';
 import { deleteExamination, getAllExaminations } from '../../api/examinationsAPI';
+import { toast } from 'react-toastify';
+import { motion } from 'framer-motion';
 import popUp from '@/app/ui/admin/cards/popUp.module.css';
 
 
 export default function ConfirmationPopUp() {
   const { setDashboardDeletionMode, examinationToDelete, setExaminations } = useContext(ExaminationsContext);
-
-  const router = useRouter();
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>, id: number | null) => {
     event.preventDefault();
@@ -20,10 +19,16 @@ export default function ConfirmationPopUp() {
     }
     try {
       console.log(examinationToDelete);
-      const deleteResponse = await deleteExamination(id);
+      await toast.promise(
+        deleteExamination(id),
+      {
+        pending: 'Deletando concurso...',
+        success: `Concurso ${id} deletado com sucesso.`,
+        error: 'Falha ao deletar o concurso.'
+      
+      });
       const getResponse = await getAllExaminations();
       setExaminations(getResponse.data);
-      console.log(deleteResponse);
       setDashboardDeletionMode(false);
     } catch (error: any) {
       console.log('Erro ao deletar o concurso', error);
@@ -32,7 +37,13 @@ export default function ConfirmationPopUp() {
 
   return (
     <div className={ popUp.background__screen }>
-      <div className={ popUp.popUp_container}>
+      <motion.div
+        className={ popUp.popUp_container}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+
+        >
         <h4 className={ popUp.popUp_title }>
           Tem certeza que deseja deletar o concurso?
         </h4>
@@ -49,7 +60,7 @@ export default function ConfirmationPopUp() {
             Não
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }
