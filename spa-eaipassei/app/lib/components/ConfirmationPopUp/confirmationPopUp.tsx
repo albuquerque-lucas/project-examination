@@ -25,7 +25,6 @@ export default function ConfirmationPopUp() {
       setExaminations(getResponse.data);
       console.log(deleteResponse);
       setDashboardDeletionMode(false);
-      router.push('/admin/manage/examinations');
     } catch (error: any) {
       console.log('Erro ao deletar o concurso', error);
     }

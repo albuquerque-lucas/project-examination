@@ -1,5 +1,4 @@
 .data_table__container {
-  align-items: center;
   display: flex;
   justify-content: center;
   border-radius: var(--default-border-radius);
@@ -28,8 +27,8 @@
 }
 
 .data_table tbody tr{
+  height: 2rem;
   margin: 2rem 0;
-  padding: 0.2rem;
 }
 
 .data_table tbody tr td{

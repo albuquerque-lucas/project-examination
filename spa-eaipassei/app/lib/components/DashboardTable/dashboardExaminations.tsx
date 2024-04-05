@@ -3,11 +3,8 @@
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
-import { TiDelete } from "react-icons/ti";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
-import ConfirmationPopUp from "../ConfirmationPopUp/confirmationPopUp";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
-import Link from "next/link";
 import { motion } from "framer-motion";
 
 interface Exam {
@@ -16,7 +13,6 @@ interface Exam {
   institution: string;
   educational_level: string;
   active: boolean;
-  // Adicione mais campos conforme necessário
 }
 
 interface DashboardExaminationsProps {
