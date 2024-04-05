@@ -11,15 +11,22 @@
 .examinations_navbutton__buttons {
   border: 2px solid transparent;
   margin: 0 0.5rem;
-  padding: 0.8rem 1rem;
+  padding: 0.6rem 1rem;
   background-color: var(--primary-background-color);
   color: white;
-  border-radius: var(--default-border-radius);
+  border-radius: 25px;
   font-weight: 600;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.examinations_navbutton__buttons:hover {
+  background-color: #36393e;
 }
 
 .examinations_navbutton__buttons:disabled {
   background-color: white;
   border: 2px solid var(--primary-background-color);
   color: black;
+  cursor: auto;
 }

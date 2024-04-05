@@ -9,7 +9,14 @@ import popUp from '@/app/ui/admin/cards/popUp.module.css';
 
 
 export default function ConfirmationPopUp() {
-  const { setDashboardDeletionMode, examinationToDelete, setExaminations } = useContext(ExaminationsContext);
+  const {
+    setDashboardDeletionMode,
+    examinationToDelete,
+    setExaminations,
+    currentPage,
+    setCurrentPage,
+    setLoaded,
+  } = useContext(ExaminationsContext);
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>, id: number | null) => {
     event.preventDefault();
@@ -29,6 +36,7 @@ export default function ConfirmationPopUp() {
       });
       const getResponse = await getAllExaminations();
       setExaminations(getResponse.data);
+      setLoaded(false);
       setDashboardDeletionMode(false);
     } catch (error: any) {
       console.log('Erro ao deletar o concurso', error);

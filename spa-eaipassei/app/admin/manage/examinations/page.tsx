@@ -8,7 +8,8 @@ import NavigationButtons from "@/app/lib/components/NavigationButtons/navigation
 import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboardExaminations";
 import  { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { motion } from 'framer-motion';
 
 
 function ExaminationsDashboard() {
@@ -16,11 +17,39 @@ function ExaminationsDashboard() {
     examinations,
     setExaminations,
     navigationLinks,
-    setNavigationLinks
+    setNavigationLinks,
+    currentPage,
+    setCurrentPage,
+    loaded,
+    setLoaded,
   } = useContext(ExaminationsContext);
 
   const [examinationList, setExaminationList] = useState({} as any);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchExaminations = async () => {
+      try {
+        if (!loaded) {
+          setIsLoading(true);
+          const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}?page=${currentPage}`);
+          console.log('LOG DE PAGE DA PAGE', currentPage);
+          setExaminationList(examinationList);
+          setExaminations(examinationList.data);
+          updateNavigationLinks(examinationList.links);
+          setLoaded(true);
+        }
+      } catch (error: any) {
+        console.log('Erro ao buscar os concursos', error);
+        setExaminations({});
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    fetchExaminations();
+  }, [loaded, currentPage]);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {
@@ -42,42 +71,27 @@ function ExaminationsDashboard() {
     setNavigationLinks(updatedLinks);
   };
 
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const fetchExaminations = async () => {
-      setIsLoading(true);
-      try {
-        if (!loaded) {
-          const examinationList = await getAllExaminations();
-          setExaminationList(examinationList);
-          setExaminations(examinationList.data);
-          updateNavigationLinks(examinationList.links);
-          setLoaded(true);
-        }
-      } catch (error: any) {
-        console.log('Erro ao buscar os concursos', error);
-        setExaminations({});
-      } finally {
-        setIsLoading(false);
-      }
-    };
-  
-    fetchExaminations();
-  }, [loaded]); // substitua 'examinations' por 'loaded'
-
   return (
       <div className="examinations_content">
         <h1 className={ style.examinations_headtitle }>Dashboard Concursos</h1>
         <div className={ style.examinations_utilitiesbox }>
           <div className={ style.utilities_buttons } >
-            <Link
-              href='/admin/manage/examinations/create'
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              whileHover={{color: '#fff', backgroundColor: '#4F525A'}}
+              className={ style.go_back__button }
+              onClick={() => router.back()}
             >
-              <button>
-                Adicionar Concurso
-              </button>
-            </Link>
+              Voltar
+            </motion.button>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
+              onClick={() => router.push('/admin/manage/examinations/create')}
+              className={ style.new_examination__button }
+            >
+              Adicionar Concurso
+            </motion.button>
           </div>
           <div className={ style.utilities_filters }>
 
