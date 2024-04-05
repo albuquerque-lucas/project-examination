@@ -42,15 +42,18 @@ function ExaminationsDashboard() {
     setNavigationLinks(updatedLinks);
   };
 
+  const [loaded, setLoaded] = useState(false);
+
   useEffect(() => {
     const fetchExaminations = async () => {
       setIsLoading(true);
       try {
-        if (Object.keys(examinations).length === 0) {
+        if (!loaded) {
           const examinationList = await getAllExaminations();
           setExaminationList(examinationList);
           setExaminations(examinationList.data);
           updateNavigationLinks(examinationList.links);
+          setLoaded(true);
         }
       } catch (error: any) {
         console.log('Erro ao buscar os concursos', error);
@@ -61,7 +64,7 @@ function ExaminationsDashboard() {
     };
   
     fetchExaminations();
-  }, [examinations]);
+  }, [loaded]); // substitua 'examinations' por 'loaded'
 
   return (
       <div className="examinations_content">

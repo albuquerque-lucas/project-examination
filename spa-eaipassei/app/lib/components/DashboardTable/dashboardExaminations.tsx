@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
@@ -21,7 +21,7 @@ interface DashboardExaminationsProps {
 
 export default function DashboardExaminations({ data }: DashboardExaminationsProps) {
 
-  const { setDashboardDeletionMode, setExaminationToDelete } = useContext(ExaminationsContext);
+  const { setDashboardDeletionMode, setExaminationToDelete, examinations } = useContext(ExaminationsContext);
   const router = useRouter();
 
   const navigateToExamPage = (id: number) => {
