@@ -25,7 +25,7 @@ interface DashboardExaminationsProps {
 
 export default function DashboardExaminations({ data }: DashboardExaminationsProps) {
 
-  const { setDashboardDeletionMode } = useContext(ExaminationsContext);
+  const { setDashboardDeletionMode, setExaminationToDelete } = useContext(ExaminationsContext);
   const router = useRouter();
 
   const navigateToExamPage = (id: number) => {
@@ -63,6 +63,7 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
                     className={ style.dashboard_table__delete }
                     onClick={(event) => {
                       event.stopPropagation();
+                      setExaminationToDelete(item.id);
                       setDashboardDeletionMode(true);
                     }}
                   >

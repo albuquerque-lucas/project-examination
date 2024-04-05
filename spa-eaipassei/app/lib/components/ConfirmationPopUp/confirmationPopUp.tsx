@@ -1,13 +1,34 @@
+'use client';
+
 import { useContext } from 'react';
+import { useRouter } from 'next/navigation';
 import { ExaminationsContext } from '../../context/ExaminationsContext';
+import { deleteExamination, getAllExaminations } from '../../api/examinationsAPI';
 import popUp from '@/app/ui/admin/cards/popUp.module.css';
 
 
 export default function ConfirmationPopUp() {
-  const { setDashboardDeletionMode } = useContext(ExaminationsContext);
+  const { setDashboardDeletionMode, examinationToDelete, setExaminations } = useContext(ExaminationsContext);
 
-  const handleDelete = () => {
-    setDashboardDeletionMode(false);
+  const router = useRouter();
+
+  const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>, id: number | null) => {
+    event.preventDefault();
+    if (id === null) {
+      console.error('ID is null');
+      return;
+    }
+    try {
+      console.log(examinationToDelete);
+      const deleteResponse = await deleteExamination(id);
+      const getResponse = await getAllExaminations();
+      setExaminations(getResponse.data);
+      console.log(deleteResponse);
+      setDashboardDeletionMode(false);
+      router.push('/admin/manage/examinations');
+    } catch (error: any) {
+      console.log('Erro ao deletar o concurso', error);
+    }
   }
 
   return (
@@ -19,7 +40,7 @@ export default function ConfirmationPopUp() {
         <div className={ popUp.confirmation_btn__container }>
           <button
             className={ popUp.confirmation_btn__yes }
-            onClick={ () => handleDelete() }
+            onClick={ (event) => handleDelete(event, examinationToDelete) }
           >
             Sim
           </button>

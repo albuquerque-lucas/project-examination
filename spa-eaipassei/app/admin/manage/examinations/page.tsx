@@ -1,13 +1,12 @@
 'use client';
 
 import { useEffect, useState, useContext } from "react";
-import { getAllExaminations } from "@/app/lib/api/examinationsAPI";
+import { getAllExaminations, getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import style from '@/app/ui/admin/examinations/examinations.module.css';
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
 import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboardExaminations";
-import ExaminationsProvider, { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
-import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
+import  { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import Link from "next/link";
 

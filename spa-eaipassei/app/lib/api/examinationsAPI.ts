@@ -60,4 +60,18 @@ export const getExaminationsByPage = async (url: string) => {
         console.log('Erro ao buscar os concursos', error);
       }
     }
+
+  }
+
+  export const deleteExamination = async (id: number) => {
+    try {
+      const resp = await axios.delete(`${process.env.NEXT_PUBLIC_API_DELETE_EXAMINATION}${id}`);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp;
+      }
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao buscar os concursos', error);
+      }
+    }
   }

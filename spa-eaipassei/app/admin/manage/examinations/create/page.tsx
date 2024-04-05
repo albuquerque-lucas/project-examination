@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import ExaminationSavingCard from "@/app/lib/components/ExaminationSavingCard/ExaminationSavingCard";
 import withAuth from "@/app/lib/components/withAuth/withAuth"
 import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
@@ -13,6 +14,7 @@ const CreateExaminationsPage = () => {
   const institutionRef = useRef<HTMLInputElement>(null);
   const educationalLevelRef = useRef<HTMLSelectElement>(null);
   const [persistenceList, setPersistenceList] = useState<Examination[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     console.log('PERSISTENCE LIST', persistenceList);
@@ -33,6 +35,7 @@ const CreateExaminationsPage = () => {
     try {
       const response = await createMany(persistenceList);
       console.log('RESPONSE', response);
+      router.push('/admin/manage/examinations');
     } catch (error) {
       console.error('ERROR', error);
     }
