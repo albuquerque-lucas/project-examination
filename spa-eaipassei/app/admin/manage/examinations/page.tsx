@@ -24,11 +24,11 @@ function ExaminationsDashboard() {
     setCurrentPage,
     loaded,
     setLoaded,
+    selectedOrder,
   } = useContext(ExaminationsContext);
 
   const [examinationList, setExaminationList] = useState({} as any);
   const [isLoading, setIsLoading] = useState(false);
-  const [filterModeOn, setFilterModeOn] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function ExaminationsDashboard() {
       try {
         if (!loaded) {
           setIsLoading(true);
-          const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}?page=${currentPage}`);
+          const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}?page=${currentPage}?order=${selectedOrder}`);
           console.log('LOG DE PAGE DA PAGE', currentPage);
           setExaminationList(examinationList);
           setExaminations(examinationList.data);
@@ -52,7 +52,7 @@ function ExaminationsDashboard() {
     };
   
     fetchExaminations();
-  }, [loaded, currentPage]);
+  }, [loaded, currentPage, selectedOrder]);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {

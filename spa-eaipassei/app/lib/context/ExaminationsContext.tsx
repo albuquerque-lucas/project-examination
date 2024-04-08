@@ -1,21 +1,7 @@
 'use client';
 
 import { createContext, useState, useMemo } from "react";
-
-export type ExaminationsContextType = {
-  examinations: any[];
-  setExaminations: (examinations: any) => void;
-  navigationLinks: any[];
-  setNavigationLinks: (navigationLinks: any) => void;
-  dashboardDeletionMode: boolean;
-  setDashboardDeletionMode: (dashboardDeletionMode: boolean) => void;
-  examinationToDelete: number | null;
-  setExaminationToDelete: (examinationToDelete: number) => void;
-  currentPage: number;
-  setCurrentPage: (currentPage: number) => void;
-  loaded: boolean;
-  setLoaded: (loaded: boolean) => void;
-};
+import { ExaminationsContextType, ExaminationFilterList } from "../types/examinationTypes";
 
 const defaultValue: ExaminationsContextType = {
   examinations: [],
@@ -30,6 +16,10 @@ const defaultValue: ExaminationsContextType = {
   setCurrentPage: () => {},
   loaded: false,
   setLoaded: () => {},
+  selectedOrder: 'asc',
+  setSelectedOrder: () => {},
+  filterList: [] as ExaminationFilterList[],
+  setFilterList: () => {},
 };
 
 export const ExaminationsContext = createContext<ExaminationsContextType>(defaultValue);
@@ -45,6 +35,8 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   const [examinationToDelete, setExaminationToDelete] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [loaded, setLoaded] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState('asc');
+  const [filterList, setFilterList] = useState<ExaminationFilterList[]>([]);
 
   const value = useMemo(() => ({ 
     examinations,
@@ -59,6 +51,10 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     setCurrentPage,
     loaded,
     setLoaded,
+    selectedOrder,
+    setSelectedOrder,
+    filterList,
+    setFilterList,
   }), [
     examinations,
     navigationLinks,
@@ -66,6 +62,8 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     examinationToDelete,
     currentPage,
     loaded,
+    selectedOrder,
+    filterList,
   ]);
 
   return (
