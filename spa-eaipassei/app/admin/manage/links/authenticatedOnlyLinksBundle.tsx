@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import ExaminationsLink from "./examinationsLink";
-import UsersLink from "./usersLink";
-import NoticesLink from "./noticesLink";
 import SubjectsLink from "./subjectsLink";
+import NoticesLink from "./noticesLink";
+import UsersLink from "./userLink";
 import LogoutLink from "./logoutLink";
 import { AuthContext } from "@/app/lib/context/AuthContext";
 import { makeLogout } from "@/app/lib/axios/axios";
@@ -28,7 +28,6 @@ function AuthenticatedOnlyLinksBundle() {
       console.error('Logout failed:', error);
     }
   };
-  console.log('Esta sendo renderizado.');
   return (
     user !== null ? (
       <div>
@@ -36,7 +35,7 @@ function AuthenticatedOnlyLinksBundle() {
         <ExaminationsLink />
         <NoticesLink />
         <SubjectsLink />
-        <LogoutLink logout={handleLogout} />
+        <LogoutLink logout={ handleLogout } />
       </div>
     ) : (
       <div></div>

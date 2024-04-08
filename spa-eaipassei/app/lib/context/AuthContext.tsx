@@ -1,29 +1,16 @@
 'use client';
 
 import { createContext, useState, useMemo, ReactNode } from 'react';
-
-type User = {
-  id: string | null;
-  first_name: string | null;
-  last_name: string | null;
-  full_name: string | null;
-  email: string | null;
-  username: string | null;
-  account_plan: string | null;
-  phone_number: string | null;
-  subscription_date: string | null;
-  subscription_duration_days: number | null;
-  subscription_fee: number | string | null;
-  subscription_missing_days: number | null;
-  created_at: string | null;
-  updated_at: string | null;
-};
+import { User } from '../types/userTypes';
+import { AuthMessage } from '../types/messageTypes';
 
 type AuthContextType = {
   user: User | null;
   setUser: (user: User | null) => void;
   authenticated: boolean;
   setAuthenticated: (authenticated: boolean) => void;
+  authMessage: AuthMessage | null;
+  setAuthMessage: (authMessage: AuthMessage | null) => void;
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -31,6 +18,8 @@ export const AuthContext = createContext<AuthContextType>({
   setUser: () => {},
   authenticated: false,
   setAuthenticated: () => {},
+  authMessage: null,
+  setAuthMessage: () => {},
 });
 
 type AuthProviderProps = {
@@ -39,6 +28,7 @@ type AuthProviderProps = {
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [authenticated, setAuthenticated] = useState(false);
+  const [authMessage, setAuthMessage] = useState<AuthMessage | null>(null);
   const [user, _setUser] = useState<User | null>(() => {
     if (typeof window !== 'undefined') {
       return JSON.parse(localStorage.getItem('user') || 'null');
@@ -62,11 +52,15 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setUser,
       authenticated,
       setAuthenticated,
+      authMessage,
+      setAuthMessage,
     };
   }, [
     user,
     authenticated,
     setAuthenticated,
+    authMessage,
+    setAuthMessage,
   ]);
 
   return (

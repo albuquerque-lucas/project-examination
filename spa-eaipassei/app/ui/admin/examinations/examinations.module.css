@@ -1,0 +1,48 @@
+.examinations_headtitle {
+  margin-bottom: 7rem;
+}
+
+.examinations_utilitiesbox {
+  background-color: var(--primary-background-color);
+  margin-bottom: 3rem;
+  border-radius: var(--default-border-radius);
+  content: '';
+  width: 90vw;
+  height: 15em;
+  display: flex;
+  padding: 1rem;
+}
+
+.utilities_buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+}
+
+.utilities_buttons button {
+  border: 2px solid transparent;
+  border-radius: var(--default-border-radius);
+  height: 2.5rem;
+  width: 10rem;
+  margin: 1rem 0 1rem 1rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+}
+
+.new_examination__button {
+  background-color: #007bff ;
+}
+
+.go_back__button {
+  background-color: #36393e;
+}
+
+.utilities_filters {
+  border: 1px solid white;
+  content: '';
+  width: 70%;
+  height: 100%;
+  padding: 1rem;
+}

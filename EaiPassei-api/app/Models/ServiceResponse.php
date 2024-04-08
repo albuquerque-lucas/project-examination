@@ -34,6 +34,14 @@ public function createdSuccessfully(string $field = null): string
     return "Record created successfully.";
 }
 
+public function createdManySuccessfully(string $field = null): string
+{
+    if ($field) {
+        return "Many $field created successfully.";
+    }
+    return "All the records were created successfully.";
+}
+
     // Record Updates
 
     public function changesSaved(): string

@@ -1,13 +1,4 @@
-import Axios from "axios";
-
-const axios = Axios.create({
-	baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
-	withCredentials: true,
-	headers: {
-		"Content-Type": "application/json",
-		"Accept": "application/json",
-	},
-});
+import axios from "../axios/axios";
 
 type loginBodyRequest = {
 	username: string | undefined;
@@ -54,11 +45,9 @@ export const fetchUser = async () => {
 			return resp.data;
 		}
 	} catch (error: any) {
-		if (error.response && error.response.status >= 400 && error.response.status < 500) {
+		if (error.response && error.response.status === 401) {
 			console.log('AuthError', error);
 			localStorage.removeItem('user');
 		}
 	}
 };
-
-export default axios;

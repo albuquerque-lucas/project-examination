@@ -8,15 +8,14 @@ import GoogleButton from 'react-google-button';
 import { makeLogin } from '@/app/lib/axios/axios';
 import MessageBox from './messageBox';
 import { AuthContext } from '../../lib/context/AuthContext';
+import { motion } from 'framer-motion';
 
 export default function LoginAdmin() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const stayConnectedRef = useRef<HTMLInputElement>(null);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [messageType, setMessageType] = useState('');
   const router = useRouter();
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, authMessage, setAuthMessage } = useContext(AuthContext);
   console.log('USUARIO FETCHED', user);
   
   const handleLogin = async (e: React.SyntheticEvent) => {
@@ -35,20 +34,23 @@ export default function LoginAdmin() {
         console.log('Sucesso!!!', loggedIn);
         router.push('/admin/home');
 		} catch (error: any) {
-        setErrorMessage(error.message);
-        setMessageType('error');
+        setAuthMessage({ message: error.response.data.message, type: 'error' });
         console.error('Error: ', error.response.data);
     }
   }
   return (
-    <div className={ style.login_page__container }>
+    <motion.div
+      className={ style.login_page__container }
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      >
       <div className={ style.login_form__container }>
         <div className={ style.message_box__container}>
           {
-            errorMessage &&
+            authMessage &&
               <MessageBox
-                message={ errorMessage }
-                type={ messageType }
+                message={ authMessage.message }
+                type={ authMessage.type }
               /> 
             }
         </div>
@@ -104,6 +106,6 @@ export default function LoginAdmin() {
 
         </form>
       </div>
-    </div>
+    </motion.div>
   )
 }
