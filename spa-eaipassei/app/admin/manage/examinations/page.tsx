@@ -9,6 +9,8 @@ import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboard
 import  { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { useRouter } from "next/navigation";
+import FilterBox from "@/app/lib/components/Filters/filterBox";
+import { BiSolidUpArrowSquare } from "react-icons/bi";
 import { motion } from 'framer-motion';
 
 
@@ -26,6 +28,7 @@ function ExaminationsDashboard() {
 
   const [examinationList, setExaminationList] = useState({} as any);
   const [isLoading, setIsLoading] = useState(false);
+  const [filterModeOn, setFilterModeOn] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -93,9 +96,16 @@ function ExaminationsDashboard() {
               Adicionar Concurso
             </motion.button>
           </div>
-          <div className={ style.utilities_filters }>
 
+
+
+          <div className={ style.utilities_filters }>
+            <FilterBox />
           </div>
+
+
+
+
         </div>
         {isLoading ? (
           <SpinnerLoader />
