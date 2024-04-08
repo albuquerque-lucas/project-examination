@@ -40,7 +40,7 @@ class AccountPlansSeeder extends Seeder
         ]);
 
         AccountPlan::create([
-            'name' => 'Master Amin',
+            'name' => 'Admin',
             'access_level_id' => 5,
             'description' => 'Descrição do plano Master Admin',
             'price' => 00.00,

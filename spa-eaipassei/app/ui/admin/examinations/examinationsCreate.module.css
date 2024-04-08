@@ -126,8 +126,7 @@
 @media (min-width: 850px) {
   .creation_screen {
     flex-direction: row;
-    justify-content: space-around;
-    margin-bottom: 2rem;
+    justify-content: center;
     width: 100%;
   }
 
@@ -137,14 +136,16 @@
 
   .presaved_examinations_screen {
     max-height: 25rem;
-    margin: 0;
+    height: 25rem;
     position: relative;
+    margin-left: 2rem;
     width: 40%;
   }
 
   .form_button_box {
     bottom: 25%;
     transform: translate(-50%, 0);
+    width: 71%;
   }
 
   .form_button_box button {

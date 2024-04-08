@@ -54,7 +54,7 @@ export const fetchUser = async () => {
 			return resp.data;
 		}
 	} catch (error: any) {
-		if (error.response && error.response.status === 401) {
+		if (error.response && error.response.status >= 400 && error.response.status < 500) {
 			console.log('AuthError', error);
 			localStorage.removeItem('user');
 		}

@@ -4,23 +4,32 @@ import { useLayoutEffect, useState, useContext } from "react";
 import { useRouter } from 'next/navigation';
 import { fetchUser } from "../../axios/axios";
 import { AuthContext } from "../../context/AuthContext";
+import { makeLogout } from "../../axios/axios";
 
 export default function withAuth(Component: any) {
   return function WithAuth(props: any) {
     const [isAuthChecked, setIsAuthChecked] = useState(false);
+    const { user, setUser, setAuthMessage } = useContext(AuthContext);
     const router = useRouter();
-    const { user, setUser } = useContext(AuthContext);
 
     useLayoutEffect(() => {
+      setAuthMessage(null);
       async function fetchData() {
         if (!user) {
           try {
             const currentUser = await fetchUser();
             // console.log('USER', currentUser);
             if (!currentUser || currentUser === undefined || currentUser === null) {
+              setAuthMessage(
+                {
+                  message: 'Você precisa estar logado para acessar essa página.',
+                  type: 'error',
+                }
+              );
               setUser(null);
               router.push('/admin/login');
             } else {
+
               setIsAuthChecked(true);
               setUser(currentUser);
             }
@@ -30,7 +39,18 @@ export default function withAuth(Component: any) {
             router.push('/admin/login');
           }
         } else {
-          // console.log('User already logged in', user);
+          if (user && user.account_plan !== 'Admin') {
+            setAuthMessage(
+              {
+                message: 'Você não tem permissão para acessar essa página.',
+                type: 'error',
+              }
+            );
+            makeLogout();
+            setUser(null);
+            router.push('/admin/login');
+          }
+          console.log('User already logged in', user);
           setIsAuthChecked(true);
           
         }
@@ -39,7 +59,7 @@ export default function withAuth(Component: any) {
     }, [user]);
 
     if (!isAuthChecked) {
-      return null; // ou um componente de carregamento
+      return null;
     }
 
     return <Component {...props} />;

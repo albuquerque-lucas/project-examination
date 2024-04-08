@@ -28,7 +28,6 @@ function AuthenticatedOnlyLinksBundle() {
       console.error('Logout failed:', error);
     }
   };
-  console.log('Esta sendo renderizado.');
   return (
     user !== null ? (
       <div>
