@@ -92,9 +92,17 @@ export default function ExaminationsFilters() {
     }
   }
 
+  const submitFilters = () => {
+    const params: { [key: string]: string } = filterList.reduce((acc, filter) => {
+      acc[filter.filter] = filter.value;
+      return acc;
+    }, {} as { [key: string]: string });
+    console.log(params);
+  }
+
+
   useEffect(() => {
-    console.log('LISTA DE FILTROS', filterList);
-}, [filterList]);
+  }, [filterList]);
 
   return (
     <div className={ style.filters_list }>
@@ -139,7 +147,13 @@ export default function ExaminationsFilters() {
           <BiSearch />
         </motion.button>
       </div>
-      {/* <SelectedFiltersBar /> */}
+      <motion.button
+        onClick={ submitFilters }
+        className={ style.submit_filters__btn }
+        whileTap={{ scale: 0.9 }}
+      >
+        Filtrar
+      </motion.button>
     </div>
   )
 }

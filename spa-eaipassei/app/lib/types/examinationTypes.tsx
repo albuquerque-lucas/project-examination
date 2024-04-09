@@ -31,6 +31,6 @@ export type ExaminationsContextType = {
 };
 
 export type ExaminationFilterList = {
-  filter?: string;
-  value?: string;
+  filter: string;
+  value: string;
 };

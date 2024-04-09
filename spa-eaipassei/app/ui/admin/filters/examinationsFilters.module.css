@@ -50,3 +50,21 @@
   outline: none;
   padding: 0.5rem;
 }
+
+.submit_filters__btn {
+  width: 40%;
+  align-self: center;
+  margin-top: 1.2rem;
+  height: 2rem;
+  border: none;
+  outline: none;
+  background-color: var(--secondary-background-color);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.submit_filters__btn:hover {
+  background-color: var(--primary-background-hover);
+}
