@@ -3,14 +3,14 @@
 }
 
 .examinations_utilitiesbox {
-  /* background-color: blue; */
-  /* background-color: var(--primary-background-color); */
   margin-bottom: 3rem;
   border-radius: var(--default-border-radius);
-  width: 90vw;
+  width: 75vw;
+  margin: 1.5rem auto;
   display: flex;
+  justify-content: center;
   padding: 0.5rem;
-  min-height: 17rem;
+  min-height: 5rem;
 }
 
 .utilities_buttons {
@@ -51,8 +51,9 @@
   justify-content: flex-end;
   position: relative;
   margin: 0 auto;
-  width: 78.5%;
-  height: 5rem;
+  margin-top: 2rem;
+  width: 75%;
+  height: 3rem;
 }
 
 .arrow_button {
