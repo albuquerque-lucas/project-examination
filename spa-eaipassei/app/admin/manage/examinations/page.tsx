@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useContext } from "react";
-import { getAllExaminations, getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
+import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import style from '@/app/ui/admin/examinations/examinations.module.css';
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
@@ -10,7 +10,7 @@ import  { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { useRouter } from "next/navigation";
 import FilterBox from "@/app/lib/components/Filters/filterBox";
-import { BiSolidUpArrowSquare } from "react-icons/bi";
+import SelectedFiltersBar from "@/app/lib/components/SelectedFiltersBar/selectedFiltersBar";
 import { motion } from 'framer-motion';
 
 
@@ -25,6 +25,8 @@ function ExaminationsDashboard() {
     loaded,
     setLoaded,
     selectedOrder,
+    filterList,
+    setFilterList,
   } = useContext(ExaminationsContext);
 
   const [examinationList, setExaminationList] = useState({} as any);
@@ -52,7 +54,7 @@ function ExaminationsDashboard() {
     };
   
     fetchExaminations();
-  }, [loaded, currentPage, selectedOrder]);
+  }, [loaded, currentPage, selectedOrder, filterList]);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {
@@ -73,6 +75,14 @@ function ExaminationsDashboard() {
 
     setNavigationLinks(updatedLinks);
   };
+
+  const removeFromFilterList = (indexToRemove: number) => {
+    setFilterList(prevFilterList => prevFilterList.filter((_, index) => index !== indexToRemove));
+  }
+
+  const clearFilters = () => {
+    setFilterList([]);
+  }
 
   return (
       <div className="examinations_content">
@@ -117,6 +127,9 @@ function ExaminationsDashboard() {
               setLinks={ setNavigationLinks }
               getDataByPage={ getExaminationsByPage }
             />
+            <div className={ style.selected_filters }>
+            <SelectedFiltersBar />
+            </div>
             <DashboardExaminations
             data={ examinations }
             />

@@ -4,11 +4,12 @@ import { useEffect, useState, useContext, useRef } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
 import { BiSearch } from 'react-icons/bi';
 import { BsFillXSquareFill } from "react-icons/bs";
-import { IoMdAddCircle } from "react-icons/io";
 import { TiDelete } from "react-icons/ti";
+import { IoMdAddCircle } from "react-icons/io";
 import { ExaminationFilterList } from "../../types/examinationTypes";
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/filters/examinationsFilters.module.css';
+import SelectedFiltersBar from "../SelectedFiltersBar/selectedFiltersBar";
 
 export default function ExaminationsFilters() {
   const [filterBy, setFilterBy] = useState("");
@@ -149,33 +150,7 @@ export default function ExaminationsFilters() {
           <BiSearch />
         </motion.button>
       </div>
-      { filterList.length > 0 && (
-        <div className={ style.selected_filter_list }>
-          {filterList.map((filter, index) => (
-            <div key={index} className={ style.selected_filter_item }>
-              <span>
-                {filter.filter}: {filter.value}
-              </span>
-              <motion.button
-                className={ style.delete_filter_button }
-                onClick={() => removeFromFilterList(index)}
-                whileTap={{ scale: 0.9 }}
-                whileHover={{ backgroundColor: "#343a40", cursor: "pointer" }}
-              >
-                <TiDelete />
-              </motion.button>
-            </div>
-          ))}
-              <motion.button
-                className={ style.clear_filters_button }
-                onClick={ clearFilters }
-                whileTap={{ scale: 0.9 }}
-                whileHover={{ backgroundColor: "white", cursor: "pointer" }}
-              >
-                <BsFillXSquareFill />
-              </motion.button>
-        </div>
-      )}
+      <SelectedFiltersBar />
     </div>
   )
 }
