@@ -19,7 +19,6 @@ export default function ExaminationsFilters() {
     setQueryParams,
     setLoaded,
   } = useContext(ExaminationsContext);
-  const selectRef = useRef<HTMLSelectElement>(null);
 
   const textInputRef = useRef<HTMLInputElement>(null);
   const selectInputRef = useRef<HTMLSelectElement>(null);
@@ -28,22 +27,12 @@ export default function ExaminationsFilters() {
     setFilterBy(event.target.value);
   }
 
-  const orderSelectionClick = () => {
-    if (selectRef.current) {
-      console.log(selectRef.current.value);
-      setSelectedOrder(selectRef.current.value);
-    } else {
-      console.log('Nenhum valor selecionado');
-    }
-    resetInputsAndSelects();
-  }
-
   const addToFilterList = () => {
     let filterValue = "";
-    if (filterBy !== "educational_level_id") {
-      filterValue = textInputRef.current?.value || "";
-    } else {
+    if (filterBy === "educational_level_id" || filterBy === "order") {
       filterValue = selectInputRef.current?.value || "";
+    } else {
+      filterValue = textInputRef.current?.value || "";
     }
   
     // Se filterValue for nulo ou uma string vazia, retorne e não adicione o novo filtro
@@ -87,12 +76,10 @@ export default function ExaminationsFilters() {
     if (selectInputRef.current) {
       selectInputRef.current.value = "";
     }
-    if (selectRef.current) {
-      selectRef.current.value = "";
-    }
   }
 
   const submitFilters = () => {
+    console.log('FILTER LIST', filterList);
     setQueryParams(filterList);
     setLoaded(false);
   }
@@ -111,8 +98,18 @@ export default function ExaminationsFilters() {
           <option value="title">Título</option>
           <option value="institution">Instituição</option>
           <option value="educational_level_id">Nível Educacional</option>
+          <option value="order">Ordenar</option>
         </select>
-        { filterBy !== "educational_level_id" && <input ref={ textInputRef } type="text" placeholder="Pesquisar" disabled={ filterBy === '' }/>}
+        { filterBy !== "educational_level_id" &&
+          filterBy !== "order" &&
+
+          <input
+            ref={ textInputRef }
+            type="text"
+            placeholder="Pesquisar"
+            disabled={ filterBy === '' }
+          />}
+
         { filterBy === "educational_level_id" && (
           <select ref={ selectInputRef } >
             <option value="1">Nível Médio</option>
@@ -120,7 +117,13 @@ export default function ExaminationsFilters() {
             <option value="3">Pós-Graduação</option>
           </select>
         )}
-        {/* {filterBy !== "" && ( */}
+        { filterBy === "order" && (
+          <select ref={ selectInputRef } className={ style.filter_type_select } >
+            <option value="">Ordenar por:</option>
+            <option value="desc">Mais recentes</option>
+            <option value="asc">Mais antigos</option>
+          </select>
+        )}
           <motion.button
             className={ style.search_button }
             onClick={ addToFilterList }
@@ -129,23 +132,8 @@ export default function ExaminationsFilters() {
             >
             <IoMdAddCircle />
           </motion.button>
-        {/* // )} */}
       </div>
-      <div className={ style.order_by_box }>
-        <select ref={selectRef} className={ style.filter_type_select } >
-          <option value="">Ordenar por:</option>
-          <option value="desc">Mais recentes</option>
-          <option value="asc">Mais antigos</option>
-        </select>
-        <motion.button
-          className={ style.search_button }
-          onClick={orderSelectionClick}
-          whileTap={{ scale: 0.9 }}
-          whileHover={{ backgroundColor: "#343a40", cursor: "pointer" }}
-          >
-          <BiSearch />
-        </motion.button>
-      </div>
+
       <motion.button
         onClick={ submitFilters }
         className={ style.submit_filters__btn }

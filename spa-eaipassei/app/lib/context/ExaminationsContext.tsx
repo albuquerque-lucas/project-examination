@@ -61,7 +61,7 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
       const newQueryParams = {
         ...queryParams,
         page: currentPage,
-        order: selectedOrder,
+        // order: selectedOrder,
       };
   
       _setQueryParams(newQueryParams);

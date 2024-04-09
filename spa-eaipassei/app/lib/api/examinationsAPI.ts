@@ -11,10 +11,7 @@ export const axios = Axios.create({
 
 export const getAllExaminations = async (params: Record<string, any> = {}) => {
   try {
-    console.log('TESTESTSETSETSETSETSETSETSETSETSET');
-    console.log('URL', process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST);
     const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`);
-    console.log('RESPONSE', resp);
     if (resp.status >= 200 && resp.status < 300) {
       return resp;
     }
@@ -28,9 +25,7 @@ export const getAllExaminations = async (params: Record<string, any> = {}) => {
 
 export const getExaminationsByPage = async (url: string, params: Record<string, any> = {}) => {
   try {
-    console.log('TESTESTSETSETSETSETSETSETSETSETSET');
     const resp = await axios.get(url, { params });
-    console.log('Response:', resp);
     if (resp.status >= 200 && resp.status < 300) {
       return resp.data;
     }
