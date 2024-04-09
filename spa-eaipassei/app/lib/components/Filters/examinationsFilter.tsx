@@ -14,7 +14,6 @@ import SelectedFiltersBar from "../SelectedFiltersBar/selectedFiltersBar";
 export default function ExaminationsFilters() {
   const [filterBy, setFilterBy] = useState("");
   const {
-    selectedOrder,
     setSelectedOrder,
     filterList,
     setFilterList,
@@ -81,16 +80,6 @@ export default function ExaminationsFilters() {
     resetInputsAndSelects();
   }
 
-  const removeFromFilterList = (indexToRemove: number) => {
-    setFilterList(prevFilterList => prevFilterList.filter((_, index) => index !== indexToRemove));
-    resetInputsAndSelects();
-  }
-
-  const clearFilters = () => {
-    setFilterList([]);
-    resetInputsAndSelects();
-  }
-
   const resetInputsAndSelects = () => {
     if (textInputRef.current) {
       textInputRef.current.value = "";
@@ -150,7 +139,7 @@ export default function ExaminationsFilters() {
           <BiSearch />
         </motion.button>
       </div>
-      <SelectedFiltersBar />
+      {/* <SelectedFiltersBar /> */}
     </div>
   )
 }

@@ -46,11 +46,13 @@
 }
 
 .selected_filters {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
   margin: 0 auto;
-  content: '';
-  width: 70%;
+  width: 78.5%;
   height: 5rem;
-  background-color: red;
 }
 
 .arrow_button {

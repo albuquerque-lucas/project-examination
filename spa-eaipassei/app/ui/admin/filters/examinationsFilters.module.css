@@ -24,7 +24,7 @@
 .filter_selection_box select,
 .order_by_box select {
   height: 2rem;
-  width: 25%;
+  width: 45%;
 }
 
 .filter_selection_box input {
@@ -39,14 +39,6 @@
   margin-right: 0.5rem;
 }
 
-.order_by_box select option {
-  background-color: var(--primary-background-color);
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 600;
-  height: 2rem!important;
-}
-
 .search_button {
   align-items: center;
   background-color: var(--primary-background-color);
@@ -57,56 +49,4 @@
   justify-content: center;
   outline: none;
   padding: 0.5rem;
-}
-
-.selected_filter_list {
-  align-items: center;
-  background-color: #36393e;
-  border-radius: var(--default-border-radius);
-  content: '';
-  display: flex;
-  height: 3rem;
-  margin-top: 1rem;
-  padding: 0 0.5rem;
-  width: 100%;
-}
-
-.delete_filter_button {
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  border-radius: 25%;
-  color: white;
-  display: flex;
-  font-size: 1rem;
-  height: 1.5rem;
-  outline: none;
-}
-
-.selected_filter_item {
-  align-items: center;
-  border: 1px solid white;
-  border-radius: 25px;
-  display: flex;
-  margin: 0 0.5rem;
-  padding: 0.1rem 0.5rem;
-}
-
-.selected_filter_item span {
-  margin-right: 0.5rem;
-}
-
-.clear_filters_button {
-  align-items: center;
-  background-color: rgb(165, 165, 165);
-  border: none;
-  border-radius: var(--default-border-radius);
-  color: var(--primary-background-color);
-  cursor: pointer;
-  display: flex;
-  font-size: 1.5rem;
-  justify-content: center;
-  outline: none;
-  position: absolute;
-  right: 7%;
 }
