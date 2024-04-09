@@ -23,9 +23,11 @@
 .selected_filter_item {
   align-items: center;
   border: 1px solid white;
+  color: white;
   border-radius: 25px;
   display: flex;
   margin: 0 0.5rem;
+  font-size: 90%;
   padding: 0.1rem 0.5rem;
 }
 
@@ -45,5 +47,5 @@
   justify-content: center;
   outline: none;
   position: absolute;
-  right: 7%;
+  right: 2.5%;
 }
