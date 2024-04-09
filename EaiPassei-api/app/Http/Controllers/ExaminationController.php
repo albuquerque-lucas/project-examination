@@ -35,7 +35,20 @@ class ExaminationController extends Controller
     public function getAll(Request $request)
     {
         $this->authorize('manage', $request->user());
-        return $this->dataRetrievalService->getAll($this->examinationService, $request);
+        $validated = $request->validate([
+            'order' => 'nullable|string|in:asc,desc',
+            'title' => 'nullable|string',
+            'institution' => 'nullable|string',
+            'educational_level_id' => 'nullable|string',
+            'page' => 'nullable|integer',
+        ]);
+        $order = $request->input('order', 'desc');
+        $params = $validated;
+        unset($params['order'], $params['page']);
+        $response = $this->examinationService->getAll($order, 'id', $params);
+        $data = $response->data();
+        $dataArray = (array)$data;
+        return response()->json($dataArray['resource'], $response->status());
     }
 
     public function getById(int $id)

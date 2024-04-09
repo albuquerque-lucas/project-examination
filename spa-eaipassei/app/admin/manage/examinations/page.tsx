@@ -27,6 +27,7 @@ function ExaminationsDashboard() {
     selectedOrder,
     filterList,
     setFilterList,
+    queryParams,
   } = useContext(ExaminationsContext);
 
   const [examinationList, setExaminationList] = useState({} as any);
@@ -38,8 +39,8 @@ function ExaminationsDashboard() {
       try {
         if (!loaded) {
           setIsLoading(true);
-          const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}?page=${currentPage}?order=${selectedOrder}`);
-          console.log('LOG DE PAGE DA PAGE', currentPage);
+          const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`, queryParams);
+          console.log('LOG DA PAGE', currentPage);
           setExaminationList(examinationList);
           setExaminations(examinationList.data);
           updateNavigationLinks(examinationList.links);
@@ -55,6 +56,29 @@ function ExaminationsDashboard() {
   
     fetchExaminations();
   }, [loaded, currentPage, selectedOrder, filterList]);
+
+  // useEffect(() => {
+  //   const fetchExaminations = async () => {
+  //     try {
+  //       if (!loaded) {
+  //         setIsLoading(true);
+  //         const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}?page=${currentPage}?order=${selectedOrder}`);
+  //         console.log('LOG DE PAGE DA PAGE', currentPage);
+  //         setExaminationList(examinationList);
+  //         setExaminations(examinationList.data);
+  //         updateNavigationLinks(examinationList.links);
+  //         setLoaded(true);
+  //       }
+  //     } catch (error: any) {
+  //       console.log('Erro ao buscar os concursos', error);
+  //       setExaminations({});
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  
+  //   fetchExaminations();
+  // }, [loaded, currentPage, selectedOrder, filterList]);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {

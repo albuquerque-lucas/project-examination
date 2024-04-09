@@ -28,9 +28,20 @@ export type ExaminationsContextType = {
   setFilterList: React.Dispatch<React.SetStateAction<ExaminationFilterList[]>>;
   filterMessage: string | null;
   setFilterMessage: (filterMessage: string) => void;
+  queryParams: ExaminationsQueryParams;
+  setQueryParams: (filterList: ExaminationFilterList[]) => void;
 };
 
 export type ExaminationFilterList = {
   filter: string;
   value: string;
+};
+
+export type ExaminationsQueryParams = {
+  educational_level_id?: string;
+  title?: string;
+  active?: boolean;
+  institution?: string;
+  page?: number;
+  order?: string;
 };

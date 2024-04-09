@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useState, useMemo } from "react";
-import { ExaminationsContextType, ExaminationFilterList } from "../types/examinationTypes";
+import { ExaminationsContextType, ExaminationFilterList, ExaminationsQueryParams } from "../types/examinationTypes";
 
 
 type SetFilterMessage = (value: string | null) => void;
@@ -25,6 +25,8 @@ const defaultValue: ExaminationsContextType = {
   setFilterList: () => {},
   filterMessage: null,
   setFilterMessage: (() => {}) as SetFilterMessage,
+  queryParams: {} as ExaminationsQueryParams,
+  setQueryParams: () => {},
 };
 
 export const ExaminationsContext = createContext<ExaminationsContextType>(defaultValue);
@@ -38,13 +40,35 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   const [navigationLinks, setNavigationLinks] = useState([]);
   const [dashboardDeletionMode, setDashboardDeletionMode] = useState(false);
   const [examinationToDelete, setExaminationToDelete] = useState<number | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [loaded, setLoaded] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState('asc');
+  const [selectedOrder, setSelectedOrder] = useState('desc');
   const [filterList, setFilterList] = useState<ExaminationFilterList[]>([]);
   const [filterMessage, setFilterMessage] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [queryParams, _setQueryParams] = useState<ExaminationsQueryParams>({
+    page: 1,
+    order: 'desc',
+  });
 
-  const value = useMemo(() => ({ 
+  const value = useMemo(() =>{ 
+
+    const setQueryParams = (filterList: ExaminationFilterList[]) => {
+      const queryParams: { [key: string]: string } = filterList.reduce((acc, filter) => {
+        acc[filter.filter] = filter.value;
+        return acc;
+      }, {} as { [key: string]: string });
+
+      const newQueryParams = {
+        ...queryParams,
+        page: currentPage,
+        order: selectedOrder,
+      };
+  
+      _setQueryParams(newQueryParams);
+    }
+
+
+    return { 
     examinations,
     setExaminations,
     navigationLinks,
@@ -63,7 +87,10 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     setFilterList,
     filterMessage,
     setFilterMessage,
-  }), [
+    queryParams,
+    setQueryParams,
+  }
+  }, [
     examinations,
     navigationLinks,
     dashboardDeletionMode,
@@ -73,6 +100,7 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     selectedOrder,
     filterList,
     filterMessage,
+    queryParams,
   ]);
 
   return (

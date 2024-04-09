@@ -28,11 +28,10 @@ class ExaminationService implements IService
         $this->model = $model;
     }
 
-    public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
+    public function getAll(string $order, string $orderBy = 'id', array $params = []): ServiceResponse
     {
         try {
-            $examinations = Examination::getAllOrdered($order, $orderBy);
-
+            $examinations = Examination::getAllOrdered($order, $orderBy, $params);
             $collection = ExaminationResource::collection($examinations);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
