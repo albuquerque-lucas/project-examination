@@ -26,6 +26,8 @@ export type ExaminationsContextType = {
   setSelectedOrder: (selectedOrder: string) => void;
   filterList: ExaminationFilterList[];
   setFilterList: React.Dispatch<React.SetStateAction<ExaminationFilterList[]>>;
+  filterMessage: string | null;
+  setFilterMessage: (filterMessage: string) => void;
 };
 
 export type ExaminationFilterList = {

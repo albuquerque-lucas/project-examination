@@ -3,6 +3,9 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
 import { BiSearch } from 'react-icons/bi';
+import { BsFillXSquareFill } from "react-icons/bs";
+import { AiOutlineCloseSquare } from "react-icons/ai";
+import { AiFillCloseSquare } from "react-icons/ai";
 import { IoMdAddCircle } from "react-icons/io";
 import { TiDelete } from "react-icons/ti";
 import { ExaminationFilterList } from "../../types/examinationTypes";
@@ -11,36 +14,21 @@ import style from '@/app/ui/admin/filters/examinationsFilters.module.css';
 
 export default function ExaminationsFilters() {
   const [filterBy, setFilterBy] = useState("");
-  const { selectedOrder, setSelectedOrder, filterList, setFilterList } = useContext(ExaminationsContext);
+  const {
+    selectedOrder,
+    setSelectedOrder,
+    filterList,
+    setFilterList,
+    setFilterMessage,
+  } = useContext(ExaminationsContext);
   const selectRef = useRef<HTMLSelectElement>(null);
 
   const textInputRef = useRef<HTMLInputElement>(null);
   const selectInputRef = useRef<HTMLSelectElement>(null);
 
-  useEffect(() => {
-    console.log('LISTA DE FILTROS', filterList);
-}, [filterList])
-
-const addToFilterList = () => {
-  let filterValue = "";
-  if (filterBy !== "educational_level") {
-    filterValue = textInputRef.current?.value || "";
-  } else {
-    filterValue = selectInputRef.current?.value || "";
+  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterBy(event.target.value);
   }
-
-  // Se filterValue for nulo ou uma string vazia, retorne e não adicione o novo filtro
-  if (!filterValue) {
-    return;
-  }
-
-  const newFilter: ExaminationFilterList = {
-    filter: filterBy,
-    value: filterValue,
-  };
-
-  setFilterList(prevFilterList => [...prevFilterList, newFilter]);
-}
 
   const orderSelectionClick = () => {
     if (selectRef.current) {
@@ -49,10 +37,76 @@ const addToFilterList = () => {
     } else {
       console.log('Nenhum valor selecionado');
     }
+    resetInputsAndSelects();
   }
-  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterBy(event.target.value);
+
+  const addToFilterList = () => {
+    let filterValue = "";
+    if (filterBy !== "educational_level") {
+      filterValue = textInputRef.current?.value || "";
+    } else {
+      filterValue = selectInputRef.current?.value || "";
+    }
+  
+    // Se filterValue for nulo ou uma string vazia, retorne e não adicione o novo filtro
+    if (!filterValue) {
+      setFilterMessage("O valor do filtro não pode ser vazio");
+      return;
+    }
+  
+    const newFilter: ExaminationFilterList = {
+      filter: filterBy,
+      value: filterValue,
+    };
+  
+    // Verifique se o filtro já existe
+    const existingFilterIndex = filterList.findIndex(filter => filter.filter === newFilter.filter);
+    if (existingFilterIndex !== -1) {
+      // Se o valor do filtro existente for o mesmo, retorne e não adicione o novo filtro
+      if (filterList[existingFilterIndex].value === newFilter.value) {
+        setFilterMessage("Este filtro já foi adicionado");
+        return;
+      } else {
+        // Se o valor do filtro existente for diferente, remova o filtro existente
+        filterList.splice(existingFilterIndex, 1);
+      }
+    }
+  
+    // Verifique se já existem 3 filtros
+    if (filterList.length >= 3) {
+      setFilterMessage("Não é possível adicionar mais de 3 filtros");
+      return;
+    }
+  
+    setFilterList(prevFilterList => [...prevFilterList, newFilter]);
+    resetInputsAndSelects();
   }
+
+  const removeFromFilterList = (indexToRemove: number) => {
+    setFilterList(prevFilterList => prevFilterList.filter((_, index) => index !== indexToRemove));
+    resetInputsAndSelects();
+  }
+
+  const clearFilters = () => {
+    setFilterList([]);
+    resetInputsAndSelects();
+  }
+
+  const resetInputsAndSelects = () => {
+    if (textInputRef.current) {
+      textInputRef.current.value = "";
+    }
+    if (selectInputRef.current) {
+      selectInputRef.current.value = "";
+    }
+    if (selectRef.current) {
+      selectRef.current.value = "";
+    }
+  }
+
+  useEffect(() => {
+    console.log('LISTA DE FILTROS', filterList);
+}, [filterList]);
 
   return (
     <div className={ style.filters_list }>
@@ -105,6 +159,8 @@ const addToFilterList = () => {
                 {filter.filter}: {filter.value}
               </span>
               <motion.button
+                className={ style.delete_filter_button }
+                onClick={() => removeFromFilterList(index)}
                 whileTap={{ scale: 0.9 }}
                 whileHover={{ backgroundColor: "#343a40", cursor: "pointer" }}
               >
@@ -112,6 +168,14 @@ const addToFilterList = () => {
               </motion.button>
             </div>
           ))}
+              <motion.button
+                className={ style.clear_filters_button }
+                onClick={ clearFilters }
+                whileTap={{ scale: 0.9 }}
+                whileHover={{ backgroundColor: "white", cursor: "pointer" }}
+              >
+                <BsFillXSquareFill />
+              </motion.button>
         </div>
       )}
     </div>

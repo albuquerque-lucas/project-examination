@@ -20,6 +20,8 @@ const defaultValue: ExaminationsContextType = {
   setSelectedOrder: () => {},
   filterList: [] as ExaminationFilterList[],
   setFilterList: () => {},
+  filterMessage: null,
+  setFilterMessage: () => {},
 };
 
 export const ExaminationsContext = createContext<ExaminationsContextType>(defaultValue);
@@ -37,6 +39,7 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   const [loaded, setLoaded] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState('asc');
   const [filterList, setFilterList] = useState<ExaminationFilterList[]>([]);
+  const [filterMessage, setFilterMessage] = useState<string | null>(null);
 
   const value = useMemo(() => ({ 
     examinations,
@@ -55,6 +58,8 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     setSelectedOrder,
     filterList,
     setFilterList,
+    filterMessage,
+    setFilterMessage,
   }), [
     examinations,
     navigationLinks,
@@ -64,6 +69,7 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     loaded,
     selectedOrder,
     filterList,
+    filterMessage,
   ]);
 
   return (

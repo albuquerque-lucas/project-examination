@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ExaminationsContext } from "../../context/ExaminationsContext";
 import { BiSolidUpArrowSquare } from "react-icons/bi";
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/filters/filterbox.module.css';
@@ -6,6 +7,7 @@ import ExaminationsFilters from "./examinationsFilter";
 
 export default function FilterBox() {
   const [filterModeOn, setFilterModeOn] = useState(false);
+  const { filterMessage } = useContext(ExaminationsContext);
 
   const toggleFilterMode = () => {
     setFilterModeOn(prevState => !prevState);
@@ -36,6 +38,7 @@ export default function FilterBox() {
   return (
     <div className={ style.filter_box }>
       <div className={ style.button_container }>
+        { filterMessage && <p>{ filterMessage }</p>}
         <motion.button
           className={ style.arrow_button }
           onClick={toggleFilterMode}
