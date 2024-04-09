@@ -3,6 +3,9 @@
 import { createContext, useState, useMemo } from "react";
 import { ExaminationsContextType, ExaminationFilterList } from "../types/examinationTypes";
 
+
+type SetFilterMessage = (value: string | null) => void;
+
 const defaultValue: ExaminationsContextType = {
   examinations: [],
   setExaminations: () => {},
@@ -21,7 +24,7 @@ const defaultValue: ExaminationsContextType = {
   filterList: [] as ExaminationFilterList[],
   setFilterList: () => {},
   filterMessage: null,
-  setFilterMessage: () => {},
+  setFilterMessage: (() => {}) as SetFilterMessage,
 };
 
 export const ExaminationsContext = createContext<ExaminationsContextType>(defaultValue);

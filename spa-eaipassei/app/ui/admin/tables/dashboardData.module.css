@@ -12,6 +12,8 @@
   background-color: white;
   border-radius: var(--default-border-radius);
   border-spacing: 0;
+  max-height: 400px;
+  overflow-y: auto;
   width: 80%;
 }
 

@@ -4,8 +4,6 @@ import { useEffect, useState, useContext, useRef } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
 import { BiSearch } from 'react-icons/bi';
 import { BsFillXSquareFill } from "react-icons/bs";
-import { AiOutlineCloseSquare } from "react-icons/ai";
-import { AiFillCloseSquare } from "react-icons/ai";
 import { IoMdAddCircle } from "react-icons/io";
 import { TiDelete } from "react-icons/ti";
 import { ExaminationFilterList } from "../../types/examinationTypes";
@@ -111,13 +109,13 @@ export default function ExaminationsFilters() {
   return (
     <div className={ style.filters_list }>
       <div className={ style.filter_selection_box }>
-      <select onChange={handleFilterChange} className={ style.filter_type_select } >
+        <select onChange={handleFilterChange} className={ style.filter_type_select } >
           <option value="">Filtrar por:</option>
           <option value="name">Nome</option>
           <option value="institution">Instituição</option>
           <option value="educational_level">Nível Educacional</option>
         </select>
-        { filterBy !== "" && filterBy !== "educational_level" && <input ref={ textInputRef } type="text" placeholder="Pesquisar"/>}
+        { filterBy !== "educational_level" && <input ref={ textInputRef } type="text" placeholder="Pesquisar" disabled={ filterBy === '' }/>}
         { filterBy === "educational_level" && (
           <select ref={ selectInputRef } >
             <option value="1">Nível Médio</option>
@@ -125,7 +123,7 @@ export default function ExaminationsFilters() {
             <option value="3">Pós-Graduação</option>
           </select>
         )}
-        {filterBy !== "" && (
+        {/* {filterBy !== "" && ( */}
           <motion.button
             className={ style.search_button }
             onClick={ addToFilterList }
@@ -134,7 +132,7 @@ export default function ExaminationsFilters() {
             >
             <IoMdAddCircle />
           </motion.button>
-        )}
+        {/* // )} */}
       </div>
       <div className={ style.order_by_box }>
         <select ref={selectRef} className={ style.filter_type_select } >

@@ -1,13 +1,13 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
 import { BiSolidUpArrowSquare } from "react-icons/bi";
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import style from '@/app/ui/admin/filters/filterbox.module.css';
 import ExaminationsFilters from "./examinationsFilter";
 
 export default function FilterBox() {
   const [filterModeOn, setFilterModeOn] = useState(false);
-  const { filterMessage } = useContext(ExaminationsContext);
+  const { filterMessage, setFilterMessage } = useContext(ExaminationsContext);
 
   const toggleFilterMode = () => {
     setFilterModeOn(prevState => !prevState);
@@ -35,10 +35,32 @@ export default function FilterBox() {
     },
   };
 
+  useEffect(() => {
+    if (filterMessage) {
+      const timer = setTimeout(() => {
+        setFilterMessage('');
+      }, 3500); // 1 second
+
+      // Limpar o timer quando o componente for desmontado
+      return () => clearTimeout(timer);
+    }
+  }, [filterMessage, setFilterMessage]);
+
   return (
     <div className={ style.filter_box }>
       <div className={ style.button_container }>
-        { filterMessage && <p>{ filterMessage }</p>}
+        <AnimatePresence>
+          { filterMessage &&
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0 }}
+            >
+            { filterMessage }
+            </motion.p> 
+          }
+        </AnimatePresence>
         <motion.button
           className={ style.arrow_button }
           onClick={toggleFilterMode}

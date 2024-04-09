@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 import { ExaminationsContext } from "../../context/ExaminationsContext";
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 
 interface Exam {
   id: number;

@@ -27,12 +27,16 @@
   width: 25%;
 }
 
+.filter_selection_box input {
+  padding: 0 0.5rem;
+}
+
 .order_by_box select {
   margin-right: 1rem;
 }
 
 .filter_type_select {
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
 .order_by_box select option {
@@ -85,7 +89,7 @@
   border-radius: 25px;
   display: flex;
   margin: 0 0.5rem;
-  padding: 0.5rem;
+  padding: 0.1rem 0.5rem;
 }
 
 .selected_filter_item span {
