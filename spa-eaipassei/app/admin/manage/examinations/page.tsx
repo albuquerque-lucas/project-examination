@@ -54,7 +54,7 @@ function ExaminationsDashboard() {
     };
   
     fetchExaminations();
-  }, [loaded, selectedOrder]);
+  }, [loaded]);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {

@@ -27,12 +27,13 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, 
     setLoaded,
     setFilterList,
     filterList,
-    setQueryParams
+    setQueryParams,
+    loaded
   } = useContext(ExaminationsContext);
 
   useEffect(() => {
-    setQueryParams(filterList);
-  }, [currentPage, filterList]);
+    // setQueryParams(filterList);
+  }, [currentPage]);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {
@@ -71,7 +72,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, 
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
   
       const response = await getDataByPage(url, updatedQueryParams);
-      console.log(response);
+      console.log('RESPOSTA DE GET PAGE', response);
       setData(response.data);
       updateNavigationLinks(response.links);
       setLoaded(false);
