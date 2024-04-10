@@ -45,26 +45,24 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   const [filterList, setFilterList] = useState<ExaminationFilterList[]>([]);
   const [filterMessage, setFilterMessage] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [queryParams, _setQueryParams] = useState<ExaminationsQueryParams>({
-    page: 1,
-    order: 'desc',
-  });
+  const [queryParams, _setQueryParams] = useState<ExaminationsQueryParams>({});
 
   const value = useMemo(() =>{ 
 
     const setQueryParams = (filterList: ExaminationFilterList[]) => {
-      const queryParams: { [key: string]: string } = filterList.reduce((acc, filter) => {
-        acc[filter.filter] = filter.value;
+      const newQueryParams: { [key: string]: string } = filterList.reduce((acc, filter) => {
+        if (filter.filter && filter.value) { // Verifique se filter.filter e filter.value não são null ou undefined
+          acc[filter.filter] = filter.value;
+        }
         return acc;
       }, {} as { [key: string]: string });
-
-      const newQueryParams = {
-        ...queryParams,
-        page: currentPage,
-        // order: selectedOrder,
-      };
-  
+    
       _setQueryParams(newQueryParams);
+    
+      // const mergedQueryParams = {
+      //   ...queryParams, // include existing queryParams
+      //   ...newQueryParams, // include new queryParams
+      // };
     }
 
 

@@ -2,6 +2,7 @@
 
 import React, { useContext, useEffect } from 'react';
 import { ExaminationsContext } from '../../context/ExaminationsContext';
+import { ExaminationsQueryParams } from '../../types/examinationTypes';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 import { motion } from 'framer-motion';
 
@@ -14,16 +15,24 @@ interface NavigationButtonsProps {
   }[] | undefined;
   setData: React.Dispatch<React.SetStateAction<any>>;
   setLinks: React.Dispatch<React.SetStateAction<any>>;
-  getDataByPage: (url: string) => Promise<any>;
+  getDataByPage: (url: string, queryParams?: ExaminationsQueryParams) => Promise<any>;
 }
 
 const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, setData, setLinks, getDataByPage }) => {
   
-  const { currentPage, setCurrentPage } = useContext(ExaminationsContext);
+  const {
+    currentPage,
+    setCurrentPage,
+    queryParams,
+    setLoaded,
+    setFilterList,
+    filterList,
+    setQueryParams
+  } = useContext(ExaminationsContext);
 
   useEffect(() => {
-    console.log(navigationLinks);
-  }, [currentPage]);
+    setQueryParams(filterList);
+  }, [currentPage, filterList]);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {
@@ -47,17 +56,25 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, 
 
   const getPage = async (url: any, e: React.MouseEvent) => {
     e.preventDefault();
-    console.log(url);
     if (typeof url === 'undefined' || url === null) return;
     try {
       const urlObj = new URL(url);
+      console.log('URL OBJECT', urlObj);
       const page = urlObj.searchParams.get('page');
       setCurrentPage(Number(page));
-      console.log(page); // Isto irá imprimir o número da página
   
-      const response = await getDataByPage(url);
+      const updatedQueryParams = {
+        ...queryParams,
+        page: page ? Number(page) : undefined,
+      };
+
+      setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
+  
+      const response = await getDataByPage(url, updatedQueryParams);
+      console.log(response);
       setData(response.data);
       updateNavigationLinks(response.links);
+      setLoaded(false);
     } catch (error) {
       console.error('Error:', error);
     }

@@ -33,8 +33,8 @@ export type ExaminationsContextType = {
 };
 
 export type ExaminationFilterList = {
-  filter: string;
-  value: string;
+  filter?: string | null;
+  value?: string | null;
 };
 
 export type ExaminationsQueryParams = {

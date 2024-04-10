@@ -8,14 +8,19 @@ import { TiDelete } from "react-icons/ti";
 import style from '@/app/ui/admin/filters_bar/filtersBar.module.css';
 
 export default function SelectedFiltersBar() {
-  const { filterList, setFilterList } = useContext(ExaminationsContext);
+  const { filterList, setFilterList, setQueryParams } = useContext(ExaminationsContext);
 
   const removeFromFilterList = (indexToRemove: number) => {
-    setFilterList(prevFilterList => prevFilterList.filter((_, index) => index !== indexToRemove));
+    setFilterList(prevFilterList => {
+      const updatedFilterList = prevFilterList.filter((_, index) => index !== indexToRemove);
+      setQueryParams(updatedFilterList);
+      return updatedFilterList;
+    });
   }
 
   const clearFilters = () => {
     setFilterList([]);
+    setQueryParams([]);
   }
 
   return (

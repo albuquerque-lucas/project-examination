@@ -79,15 +79,13 @@ export default function ExaminationsFilters() {
   }
 
   const submitFilters = () => {
-    console.log('FILTER LIST', filterList);
+    console.log('FILTER LIST DE SUBMIT FILTERS', filterList);
     setQueryParams(filterList);
     setLoaded(false);
   }
 
 
   useEffect(() => {
-    console.log('FILTER LIST', filterList);
-    console.log('QUERY PARAMS', queryParams);
   }, [filterList, queryParams]);
 
   return (

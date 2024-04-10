@@ -26,7 +26,6 @@ function ExaminationsDashboard() {
     setLoaded,
     selectedOrder,
     filterList,
-    setFilterList,
     queryParams,
   } = useContext(ExaminationsContext);
 
@@ -39,8 +38,8 @@ function ExaminationsDashboard() {
       try {
         if (!loaded) {
           setIsLoading(true);
+          console.log('QUERY PARAMS DA PAGE', queryParams);
           const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`, queryParams);
-          console.log('LOG DA PAGE', currentPage);
           setExaminationList(examinationList);
           setExaminations(examinationList.data);
           updateNavigationLinks(examinationList.links);
@@ -55,30 +54,7 @@ function ExaminationsDashboard() {
     };
   
     fetchExaminations();
-  }, [loaded, currentPage, selectedOrder, filterList]);
-
-  // useEffect(() => {
-  //   const fetchExaminations = async () => {
-  //     try {
-  //       if (!loaded) {
-  //         setIsLoading(true);
-  //         const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}?page=${currentPage}?order=${selectedOrder}`);
-  //         console.log('LOG DE PAGE DA PAGE', currentPage);
-  //         setExaminationList(examinationList);
-  //         setExaminations(examinationList.data);
-  //         updateNavigationLinks(examinationList.links);
-  //         setLoaded(true);
-  //       }
-  //     } catch (error: any) {
-  //       console.log('Erro ao buscar os concursos', error);
-  //       setExaminations({});
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  
-  //   fetchExaminations();
-  // }, [loaded, currentPage, selectedOrder, filterList]);
+  }, [loaded, selectedOrder]);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {
@@ -99,14 +75,6 @@ function ExaminationsDashboard() {
 
     setNavigationLinks(updatedLinks);
   };
-
-  const removeFromFilterList = (indexToRemove: number) => {
-    setFilterList(prevFilterList => prevFilterList.filter((_, index) => index !== indexToRemove));
-  }
-
-  const clearFilters = () => {
-    setFilterList([]);
-  }
 
   return (
       <div className="examinations_content">
