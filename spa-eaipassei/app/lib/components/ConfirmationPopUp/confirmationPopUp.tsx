@@ -26,14 +26,16 @@ export default function ConfirmationPopUp() {
       console.log(examinationToDelete);
       await toast.promise(
         deleteExamination(id),
-      {
-        pending: 'Deletando concurso...',
-        success: `Concurso ${id} deletado com sucesso.`,
-        error: 'Falha ao deletar o concurso.'
-      
-      });
+        {
+          pending: 'Deletando concurso...',
+          success: `Concurso ${id} deletado com sucesso.`,
+          error: 'Falha ao deletar o concurso.'
+        }
+      );
       const getResponse = await getAllExaminations();
-      setExaminations(getResponse.data);
+      if (getResponse) {
+        setExaminations(getResponse.data);
+      }
       setLoaded(false);
       setDashboardDeletionMode(false);
     } catch (error: any) {
@@ -48,7 +50,7 @@ export default function ConfirmationPopUp() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 0.1 }}
           >
           <h4 className={ popUp.popUp_title }>
             Tem certeza que deseja deletar o concurso?
