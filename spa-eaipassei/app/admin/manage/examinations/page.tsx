@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useContext } from "react";
-import { getAllExaminations, getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
+import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import style from '@/app/ui/admin/examinations/examinations.module.css';
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
@@ -9,6 +9,8 @@ import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboard
 import  { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { useRouter } from "next/navigation";
+import FilterBox from "@/app/lib/components/Filters/filterBox";
+import SelectedFiltersBar from "@/app/lib/components/SelectedFiltersBar/selectedFiltersBar";
 import { motion } from 'framer-motion';
 
 
@@ -22,6 +24,9 @@ function ExaminationsDashboard() {
     setCurrentPage,
     loaded,
     setLoaded,
+    selectedOrder,
+    filterList,
+    queryParams,
   } = useContext(ExaminationsContext);
 
   const [examinationList, setExaminationList] = useState({} as any);
@@ -33,8 +38,8 @@ function ExaminationsDashboard() {
       try {
         if (!loaded) {
           setIsLoading(true);
-          const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}?page=${currentPage}`);
-          console.log('LOG DE PAGE DA PAGE', currentPage);
+          console.log('QUERY PARAMS DA PAGE', queryParams);
+          const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`, queryParams);
           setExaminationList(examinationList);
           setExaminations(examinationList.data);
           updateNavigationLinks(examinationList.links);
@@ -49,7 +54,7 @@ function ExaminationsDashboard() {
     };
   
     fetchExaminations();
-  }, [loaded, currentPage]);
+  }, [loaded]);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {
@@ -93,9 +98,16 @@ function ExaminationsDashboard() {
               Adicionar Concurso
             </motion.button>
           </div>
-          <div className={ style.utilities_filters }>
 
+
+
+          <div className={ style.utilities_filters }>
+            <FilterBox />
           </div>
+
+
+
+
         </div>
         {isLoading ? (
           <SpinnerLoader />
@@ -107,6 +119,9 @@ function ExaminationsDashboard() {
               setLinks={ setNavigationLinks }
               getDataByPage={ getExaminationsByPage }
             />
+            <div className={ style.selected_filters }>
+            <SelectedFiltersBar />
+            </div>
             <DashboardExaminations
             data={ examinations }
             />

@@ -50,7 +50,7 @@ export default function withAuth(Component: any) {
             setUser(null);
             router.push('/admin/login');
           }
-          console.log('User already logged in', user);
+          // console.log('User already logged in', user);
           setIsAuthChecked(true);
           
         }

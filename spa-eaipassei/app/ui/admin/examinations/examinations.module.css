@@ -3,19 +3,18 @@
 }
 
 .examinations_utilitiesbox {
-  background-color: var(--primary-background-color);
   margin-bottom: 3rem;
   border-radius: var(--default-border-radius);
-  content: '';
-  width: 90vw;
-  height: 15em;
+  width: 75vw;
+  margin: 1.5rem auto;
   display: flex;
-  padding: 1rem;
+  justify-content: center;
+  padding: 0.5rem;
+  min-height: 5rem;
 }
 
 .utilities_buttons {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   width: 30%;
 }
@@ -40,9 +39,23 @@
 }
 
 .utilities_filters {
-  border: 1px solid white;
-  content: '';
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
   width: 70%;
-  height: 100%;
-  padding: 1rem;
+}
+
+.selected_filters {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 2rem;
+  width: 78%;
+  height: 3rem;
+}
+
+.arrow_button {
+  font-size: 1.5rem;
 }

@@ -1,6 +1,9 @@
 :root {
 
   --primary-background-color:#212529;
+  --secondary-background-color: #36393e;
+
+  --primary-background-hover: #424549;
 
   --default-border-radius: 5px;
 }

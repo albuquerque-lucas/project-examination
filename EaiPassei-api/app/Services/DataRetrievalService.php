@@ -15,9 +15,6 @@ class DataRetrievalService
     public function getAll(IService $service, Request $request): JsonResponse | Response
     {
         try {
-            $request->validate([
-                'order' => 'nullable|string|in:asc,desc',
-            ]);
             $order = $request->input('order', 'desc');
             $response = $service->getAll($order);
             $data = $response->data();

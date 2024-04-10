@@ -13,8 +13,6 @@ export default function ConfirmationPopUp() {
     setDashboardDeletionMode,
     examinationToDelete,
     setExaminations,
-    currentPage,
-    setCurrentPage,
     setLoaded,
   } = useContext(ExaminationsContext);
 
@@ -28,14 +26,16 @@ export default function ConfirmationPopUp() {
       console.log(examinationToDelete);
       await toast.promise(
         deleteExamination(id),
-      {
-        pending: 'Deletando concurso...',
-        success: `Concurso ${id} deletado com sucesso.`,
-        error: 'Falha ao deletar o concurso.'
-      
-      });
+        {
+          pending: 'Deletando concurso...',
+          success: `Concurso ${id} deletado com sucesso.`,
+          error: 'Falha ao deletar o concurso.'
+        }
+      );
       const getResponse = await getAllExaminations();
-      setExaminations(getResponse.data);
+      if (getResponse) {
+        setExaminations(getResponse.data);
+      }
       setLoaded(false);
       setDashboardDeletionMode(false);
     } catch (error: any) {
@@ -45,30 +45,30 @@ export default function ConfirmationPopUp() {
 
   return (
     <div className={ popUp.background__screen }>
-      <motion.div
-        className={ popUp.popUp_container}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-
-        >
-        <h4 className={ popUp.popUp_title }>
-          Tem certeza que deseja deletar o concurso?
-        </h4>
-        <div className={ popUp.confirmation_btn__container }>
-          <button
-            className={ popUp.confirmation_btn__yes }
-            onClick={ (event) => handleDelete(event, examinationToDelete) }
+        <motion.div
+          className={ popUp.popUp_container}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.1 }}
           >
-            Sim
-          </button>
-          <button
-          onClick={ () => setDashboardDeletionMode(false) }
-          >
-            Não
-          </button>
-        </div>
-      </motion.div>
+          <h4 className={ popUp.popUp_title }>
+            Tem certeza que deseja deletar o concurso?
+          </h4>
+          <div className={ popUp.confirmation_btn__container }>
+            <button
+              className={ popUp.confirmation_btn__yes }
+              onClick={ (event) => handleDelete(event, examinationToDelete) }
+            >
+              Sim
+            </button>
+            <button
+            onClick={ () => setDashboardDeletionMode(false) }
+            >
+              Não
+            </button>
+          </div>
+        </motion.div>
     </div>
   )
 }

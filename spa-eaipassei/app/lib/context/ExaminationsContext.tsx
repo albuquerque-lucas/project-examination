@@ -1,21 +1,10 @@
 'use client';
 
 import { createContext, useState, useMemo } from "react";
+import { ExaminationsContextType, ExaminationFilterList, ExaminationsQueryParams, EducationalLevel } from "../types/examinationTypes";
 
-export type ExaminationsContextType = {
-  examinations: any[];
-  setExaminations: (examinations: any) => void;
-  navigationLinks: any[];
-  setNavigationLinks: (navigationLinks: any) => void;
-  dashboardDeletionMode: boolean;
-  setDashboardDeletionMode: (dashboardDeletionMode: boolean) => void;
-  examinationToDelete: number | null;
-  setExaminationToDelete: (examinationToDelete: number) => void;
-  currentPage: number;
-  setCurrentPage: (currentPage: number) => void;
-  loaded: boolean;
-  setLoaded: (loaded: boolean) => void;
-};
+
+type SetFilterMessage = (value: string | null) => void;
 
 const defaultValue: ExaminationsContextType = {
   examinations: [],
@@ -30,6 +19,16 @@ const defaultValue: ExaminationsContextType = {
   setCurrentPage: () => {},
   loaded: false,
   setLoaded: () => {},
+  selectedOrder: 'asc',
+  setSelectedOrder: () => {},
+  filterList: [] as ExaminationFilterList[],
+  setFilterList: () => {},
+  filterMessage: null,
+  setFilterMessage: (() => {}) as SetFilterMessage,
+  queryParams: {} as ExaminationsQueryParams,
+  setQueryParams: () => {},
+  educationalLevels: [],
+  setEducationalLevels: () => {},
 };
 
 export const ExaminationsContext = createContext<ExaminationsContextType>(defaultValue);
@@ -43,10 +42,34 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   const [navigationLinks, setNavigationLinks] = useState([]);
   const [dashboardDeletionMode, setDashboardDeletionMode] = useState(false);
   const [examinationToDelete, setExaminationToDelete] = useState<number | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [loaded, setLoaded] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState('desc');
+  const [filterList, setFilterList] = useState<ExaminationFilterList[]>([]);
+  const [filterMessage, setFilterMessage] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [queryParams, _setQueryParams] = useState<ExaminationsQueryParams>({});
+  const [educationalLevels, setEducationalLevels] = useState<EducationalLevel[]>([]);
 
-  const value = useMemo(() => ({ 
+  const value = useMemo(() =>{ 
+
+    const setQueryParams = (filterList: ExaminationFilterList[]) => {
+      const newQueryParams: { [key: string]: string } = filterList.reduce((acc, filter) => {
+        if (filter.filter && filter.value) { // Verifique se filter.filter e filter.value não são null ou undefined
+          acc[filter.filter] = filter.value;
+        }
+        return acc;
+      }, {} as { [key: string]: string });
+    
+      _setQueryParams(newQueryParams);
+    
+      // const mergedQueryParams = {
+      //   ...queryParams, // include existing queryParams
+      //   ...newQueryParams, // include new queryParams
+      // };
+    }
+
+
+    return { 
     examinations,
     setExaminations,
     navigationLinks,
@@ -59,13 +82,29 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     setCurrentPage,
     loaded,
     setLoaded,
-  }), [
+    selectedOrder,
+    setSelectedOrder,
+    filterList,
+    setFilterList,
+    filterMessage,
+    setFilterMessage,
+    queryParams,
+    setQueryParams,
+    educationalLevels,
+    setEducationalLevels,
+  }
+  }, [
     examinations,
     navigationLinks,
     dashboardDeletionMode,
     examinationToDelete,
     currentPage,
     loaded,
+    selectedOrder,
+    filterList,
+    filterMessage,
+    queryParams,
+    educationalLevels,
   ]);
 
   return (

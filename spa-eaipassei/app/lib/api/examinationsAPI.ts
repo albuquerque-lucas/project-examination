@@ -7,13 +7,13 @@ export const axios = Axios.create({
 		"Content-Type": "application/json",
 		"Accept": "application/json",
 	},
-})
+});
 
-export const getAllExaminations = async () => {
+export const getAllExaminations = async (params: Record<string, any> = {}) => {
   try {
     const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`);
     if (resp.status >= 200 && resp.status < 300) {
-      return resp.data;
+      return resp;
     }
   } catch (error: any) {
     if (error.response >= 400 && error.response.status < 500) {
@@ -23,10 +23,9 @@ export const getAllExaminations = async () => {
 
 }
 
-export const getExaminationsByPage = async (url: string) => {
+export const getExaminationsByPage = async (url: string, params: Record<string, any> = {}) => {
   try {
-    const resp = await axios.get(url);
-    console.log('Response:', resp);
+    const resp = await axios.get(url, { params });
     if (resp.status >= 200 && resp.status < 300) {
       return resp.data;
     }
