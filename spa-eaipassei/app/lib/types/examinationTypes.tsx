@@ -9,6 +9,11 @@ export type Examination = {
   exams_end_date?: string;
 };
 
+export type EducationalLevel = {
+  id: number;
+  name: string;
+};
+
 export type ExaminationsContextType = {
   examinations: any[];
   setExaminations: (examinations: any) => void;
@@ -30,6 +35,8 @@ export type ExaminationsContextType = {
   setFilterMessage: (filterMessage: string) => void;
   queryParams: ExaminationsQueryParams;
   setQueryParams: (filterList: ExaminationFilterList[]) => void;
+  educationalLevels: EducationalLevel[];
+  setEducationalLevels: (educationalLevels: EducationalLevel[]) => void;
 };
 
 export type ExaminationFilterList = {

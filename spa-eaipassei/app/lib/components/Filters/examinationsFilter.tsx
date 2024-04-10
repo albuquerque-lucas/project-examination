@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useContext, useRef } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
+import { educationalLevelsApi } from "../../api/educationalLevelsAPI";
 import { BiSearch } from 'react-icons/bi';
 import { IoMdAddCircle } from "react-icons/io";
 import { ExaminationFilterList } from "../../types/examinationTypes";
@@ -10,6 +11,7 @@ import style from '@/app/ui/admin/filters/examinationsFilters.module.css';
 
 export default function ExaminationsFilters() {
   const [filterBy, setFilterBy] = useState("");
+  const [educationalLevelsLoaded, setEducationalLevelsLoaded] = useState(false);
   const {
     setSelectedOrder,
     filterList,
@@ -18,6 +20,8 @@ export default function ExaminationsFilters() {
     queryParams,
     setQueryParams,
     setLoaded,
+    educationalLevels,
+    setEducationalLevels,
   } = useContext(ExaminationsContext);
 
   const textInputRef = useRef<HTMLInputElement>(null);
@@ -86,7 +90,24 @@ export default function ExaminationsFilters() {
 
 
   useEffect(() => {
-  }, [filterList, queryParams]);
+    const getEducationalLevels = async () => {
+      if (educationalLevelsLoaded) return;
+      try {
+        const levels = await educationalLevelsApi.getAll();
+        if (levels) {
+          console.log('LEVELS', levels);
+          setEducationalLevels(levels.data);
+        }
+      } catch (error: any) {
+        console.log('Erro ao buscar os níveis de escolaridade', error);
+      } finally {
+        setEducationalLevelsLoaded(true);
+      }
+    }
+
+    getEducationalLevels();
+    console.log('EDUCATIONAL LEVELS', educationalLevels);
+  }, [filterList, queryParams, educationalLevelsLoaded]);
 
   return (
     <div className={ style.filters_list }>
@@ -110,9 +131,11 @@ export default function ExaminationsFilters() {
 
         { filterBy === "educational_level_id" && (
           <select ref={ selectInputRef } >
-            <option value="1">Nível Médio</option>
-            <option value="2">Nível Superior</option>
-            <option value="3">Pós-Graduação</option>
+            {
+              educationalLevels.map(level => (
+                <option key={level.id} value={level.id}>{level.name}</option>
+              ))
+            }
           </select>
         )}
         { filterBy === "order" && (

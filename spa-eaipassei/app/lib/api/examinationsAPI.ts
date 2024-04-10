@@ -7,7 +7,7 @@ export const axios = Axios.create({
 		"Content-Type": "application/json",
 		"Accept": "application/json",
 	},
-})
+});
 
 export const getAllExaminations = async (params: Record<string, any> = {}) => {
   try {

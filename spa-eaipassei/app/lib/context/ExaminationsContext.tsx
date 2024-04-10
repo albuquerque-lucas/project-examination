@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useState, useMemo } from "react";
-import { ExaminationsContextType, ExaminationFilterList, ExaminationsQueryParams } from "../types/examinationTypes";
+import { ExaminationsContextType, ExaminationFilterList, ExaminationsQueryParams, EducationalLevel } from "../types/examinationTypes";
 
 
 type SetFilterMessage = (value: string | null) => void;
@@ -27,6 +27,8 @@ const defaultValue: ExaminationsContextType = {
   setFilterMessage: (() => {}) as SetFilterMessage,
   queryParams: {} as ExaminationsQueryParams,
   setQueryParams: () => {},
+  educationalLevels: [],
+  setEducationalLevels: () => {},
 };
 
 export const ExaminationsContext = createContext<ExaminationsContextType>(defaultValue);
@@ -46,6 +48,7 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   const [filterMessage, setFilterMessage] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [queryParams, _setQueryParams] = useState<ExaminationsQueryParams>({});
+  const [educationalLevels, setEducationalLevels] = useState<EducationalLevel[]>([]);
 
   const value = useMemo(() =>{ 
 
@@ -87,6 +90,8 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     setFilterMessage,
     queryParams,
     setQueryParams,
+    educationalLevels,
+    setEducationalLevels,
   }
   }, [
     examinations,
@@ -99,6 +104,7 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     filterList,
     filterMessage,
     queryParams,
+    educationalLevels,
   ]);
 
   return (
