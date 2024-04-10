@@ -1,6 +1,7 @@
 .filters_list {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
 }
 
@@ -8,16 +9,6 @@
   align-items: center;
   display: flex;
   justify-content: center;
-}
-
-.order_by_box {
-  align-items: center;
-  display: flex;
-  height: 2.5rem;
-  justify-content: center;
-  margin: 0.5rem;
-  padding: 1rem;
-  width: 100%;
 }
 
 .filter_selection_box input,
@@ -29,10 +20,6 @@
 
 .filter_selection_box input {
   padding: 0 0.5rem;
-}
-
-.order_by_box select {
-  margin-right: 1rem;
 }
 
 .filter_type_select {
