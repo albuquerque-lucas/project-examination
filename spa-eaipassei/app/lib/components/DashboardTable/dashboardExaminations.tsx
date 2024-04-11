@@ -33,9 +33,7 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
       {!Array.isArray(data) ? (
         <h1>Não há dados disponíveis</h1>
       ) : (
-        <motion.table
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <table
           className={ style.data_table }>
           <thead>
             <tr>
@@ -70,7 +68,7 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
               </tr>
             ))}
           </tbody>
-        </motion.table>
+        </table>
       )}
     </div>
   );

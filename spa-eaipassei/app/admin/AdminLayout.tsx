@@ -6,7 +6,7 @@ import { ExaminationsContext } from "../lib/context/ExaminationsContext";
 import Navbar from "./Navbar";
 import style from '@/app/ui/admin/layout.module.css';
 import ConfirmationPopUp from "../lib/components/ConfirmationPopUp/confirmationPopUp";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,7 +15,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
   const { dashboardDeletionMode, setDashboardDeletionMode } = useContext(ExaminationsContext);
 
   useEffect(() => {
-    console.log('Layout renderizado pela troca de usuario.');
+    // console.log('Layout renderizado pela troca de usuario.');
   }, [user]);
 
   return (
@@ -28,7 +28,11 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
     <div className={ style.admin_layout__content }>
       { children }
     </div>
-    { dashboardDeletionMode && <ConfirmationPopUp /> }
+    <AnimatePresence>
+      { dashboardDeletionMode &&
+          <ConfirmationPopUp />
+      }
+    </AnimatePresence>
     <ToastContainer />
   </motion.div>
   )

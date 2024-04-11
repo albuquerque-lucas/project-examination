@@ -50,13 +50,14 @@ export const getExaminationsByPage = async (url: string, params: Record<string, 
 
   export const createMany = async(data: Examination[]) => {
     try {
+      console.log('CHEGOU NO TRY DE CREATE MANY', data);
       const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_CREATE_MANY}`, data);
-      if (resp.status >= 200 && resp.status < 300) {
-        return resp;
-      }
+      console.log('RESPONSE CREATE MANY', resp);
+      return resp;
     } catch (error: any) {
-      if (error.response >= 400 && error.response.status < 500) {
-        console.log('Erro ao buscar os concursos', error);
+      if (error.response && error.response.status >= 400 && error.response.status < 500) {
+        console.log('Erro ao buscar os concursos', error.response.status);
+        return error.response;
       }
     }
 

@@ -274,7 +274,7 @@ class ExaminationService implements IService
             });
     
             $responseData = (object)[
-                'message' => $this->serviceResponse->createdManySuccessfully('Examinations'),
+                'message' => $this->serviceResponse->createdManySuccessfully(),
                 'count' => count($examinations),
             ];
     

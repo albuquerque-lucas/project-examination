@@ -3,30 +3,29 @@
 import { useEffect, useState, useContext } from "react";
 import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
-import style from '@/app/ui/admin/examinations/examinations.module.css';
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
 import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboardExaminations";
-import  { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
+import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { useRouter } from "next/navigation";
 import FilterBox from "@/app/lib/components/Filters/filterBox";
 import SelectedFiltersBar from "@/app/lib/components/SelectedFiltersBar/selectedFiltersBar";
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import FlashMessage from "@/app/lib/components/Message/FlashMessage";
+import style from '@/app/ui/admin/examinations/examinations.module.css';
 
 
-function ExaminationsDashboard() {
+function ExaminationsPage() {
   const {
     examinations,
     setExaminations,
     navigationLinks,
     setNavigationLinks,
-    currentPage,
-    setCurrentPage,
     loaded,
     setLoaded,
-    selectedOrder,
-    filterList,
     queryParams,
+    flashMessage,
+    setFlashMessage,
   } = useContext(ExaminationsContext);
 
   const [examinationList, setExaminationList] = useState({} as any);
@@ -38,7 +37,6 @@ function ExaminationsDashboard() {
       try {
         if (!loaded) {
           setIsLoading(true);
-          console.log('QUERY PARAMS DA PAGE', queryParams);
           const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`, queryParams);
           setExaminationList(examinationList);
           setExaminations(examinationList.data);
@@ -78,7 +76,20 @@ function ExaminationsDashboard() {
 
   return (
       <div className="examinations_content">
-        <h1 className={ style.examinations_headtitle }>Dashboard Concursos</h1>
+        <h1 className={ style.examinations_headtitle }>
+          Dashboard Concursos
+        </h1>
+        <div className={ style.messages_messagebox }>
+          <AnimatePresence>
+            { flashMessage && (
+              <FlashMessage
+                message={ flashMessage }
+                setMessage={ setFlashMessage }
+              />
+            )  
+            }
+          </AnimatePresence>
+        </div>
         <div className={ style.examinations_utilitiesbox }>
           <div className={ style.utilities_buttons } >
             <motion.button
@@ -98,16 +109,9 @@ function ExaminationsDashboard() {
               Adicionar Concurso
             </motion.button>
           </div>
-
-
-
           <div className={ style.utilities_filters }>
             <FilterBox />
           </div>
-
-
-
-
         </div>
         {isLoading ? (
           <SpinnerLoader />
@@ -131,4 +135,4 @@ function ExaminationsDashboard() {
   );
 }
 
-export default withAuth(ExaminationsDashboard);
+export default withAuth(ExaminationsPage);

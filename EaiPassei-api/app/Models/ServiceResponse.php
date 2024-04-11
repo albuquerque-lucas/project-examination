@@ -39,7 +39,7 @@ public function createdManySuccessfully(string $field = null): string
     if ($field) {
         return "Many $field created successfully.";
     }
-    return "All the records were created successfully.";
+    return "Os dados foram registrados com sucesso";
 }
 
     // Record Updates
@@ -88,7 +88,7 @@ public function createdManySuccessfully(string $field = null): string
 
     public function failedToCreateRecord(): string
     {
-        return "Failed to create record. Please check the submitted data.";
+        return "Os dados informados já existem na tabela.";
     }
 
     // Record Not Found

@@ -1,0 +1,9 @@
+.creation_messagebox {
+  padding: 0.5rem;
+  width: 50%;
+  border-radius: var(--default-border-radius);
+  background-color: var(--primary-background-color);
+  color: white;
+  font-weight: 600;
+
+}
