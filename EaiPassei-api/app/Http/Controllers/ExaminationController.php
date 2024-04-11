@@ -174,7 +174,9 @@ class ExaminationController extends Controller
     {
         try {
             $data = $request->all();
-            return $this->examinationService->createMany($data);
+            $response = $this->examinationService->createMany($data);
+
+            return response()->json($response->data(), $response->status());
 
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);

@@ -83,7 +83,6 @@ export default function ExaminationsFilters() {
   }
 
   const submitFilters = () => {
-    console.log('FILTER LIST DE SUBMIT FILTERS', filterList);
     setQueryParams(filterList);
     setLoaded(false);
   }
@@ -95,7 +94,6 @@ export default function ExaminationsFilters() {
       try {
         const levels = await educationalLevelsApi.getAll();
         if (levels) {
-          console.log('LEVELS', levels);
           setEducationalLevels(levels.data);
         }
       } catch (error: any) {
@@ -106,7 +104,6 @@ export default function ExaminationsFilters() {
     }
 
     getEducationalLevels();
-    console.log('EDUCATIONAL LEVELS', educationalLevels);
   }, [filterList, queryParams, educationalLevelsLoaded]);
 
   return (

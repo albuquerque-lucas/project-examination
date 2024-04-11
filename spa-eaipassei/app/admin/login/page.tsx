@@ -3,8 +3,6 @@
 import React, { useRef, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import style from '@/app/ui/admin/login/login.module.css';
-import { signIn, useSession } from 'next-auth/react';
-import GoogleButton from 'react-google-button';
 import { makeLogin } from '@/app/lib/axios/axios';
 import MessageBox from './messageBox';
 import { AuthContext } from '../../lib/context/AuthContext';
@@ -50,6 +48,7 @@ export default function LoginAdmin() {
             authMessage &&
               <MessageBox
                 message={ authMessage.message }
+                setMessage={ setAuthMessage }
                 type={ authMessage.type }
               /> 
             }
@@ -99,10 +98,6 @@ export default function LoginAdmin() {
               >Entrar
             </button>
           </div>
-            {/* <GoogleButton
-              type='dark'
-              onClick={ () => signIn('google') }
-            /> */}
 
         </form>
       </div>

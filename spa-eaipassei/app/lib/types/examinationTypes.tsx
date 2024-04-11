@@ -37,6 +37,8 @@ export type ExaminationsContextType = {
   setQueryParams: (filterList: ExaminationFilterList[]) => void;
   educationalLevels: EducationalLevel[];
   setEducationalLevels: (educationalLevels: EducationalLevel[]) => void;
+  flashMessage: string | null;
+  setFlashMessage: (flashMessage: string | null) => void;
 };
 
 export type ExaminationFilterList = {

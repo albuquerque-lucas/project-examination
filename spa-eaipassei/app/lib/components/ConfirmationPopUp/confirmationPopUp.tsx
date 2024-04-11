@@ -44,31 +44,32 @@ export default function ConfirmationPopUp() {
   }
 
   return (
-    <div className={ popUp.background__screen }>
-        <motion.div
-          className={ popUp.popUp_container}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.1 }}
-          >
-          <h4 className={ popUp.popUp_title }>
-            Tem certeza que deseja deletar o concurso?
-          </h4>
-          <div className={ popUp.confirmation_btn__container }>
-            <button
-              className={ popUp.confirmation_btn__yes }
-              onClick={ (event) => handleDelete(event, examinationToDelete) }
+      <motion.div
+        className={ popUp.background__screen }
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.1 }}
+      >
+          <div
+            className={ popUp.popUp_container}
             >
-              Sim
-            </button>
-            <button
-            onClick={ () => setDashboardDeletionMode(false) }
-            >
-              Não
-            </button>
+            <h4 className={ popUp.popUp_title }>
+              Tem certeza que deseja deletar o concurso?
+            </h4>
+            <div className={ popUp.confirmation_btn__container }>
+              <button
+                className={ popUp.confirmation_btn__yes }
+                onClick={ (event) => handleDelete(event, examinationToDelete) }
+              >
+                Sim
+              </button>
+              <button
+              onClick={ () => setDashboardDeletionMode(false) }
+              >
+                Não
+              </button>
+            </div>
           </div>
-        </motion.div>
-    </div>
+      </motion.div>
   )
 }
