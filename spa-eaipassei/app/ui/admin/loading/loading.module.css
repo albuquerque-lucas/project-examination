@@ -1,6 +1,6 @@
 .loading_screen {
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.5);
+  /* background-color: rgba(0, 0, 0, 0.5); */
   top: 0;
   left: 0;
   height: 100%;
@@ -11,7 +11,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 11;
+}
+
+.loading_screen > * {
+  height: 4rem;
+  margin-top: 5rem;
 }
 
 .loading_screen span {
