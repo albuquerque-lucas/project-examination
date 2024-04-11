@@ -57,18 +57,13 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
 
     const setQueryParams = (filterList: ExaminationFilterList[]) => {
       const newQueryParams: { [key: string]: string } = filterList.reduce((acc, filter) => {
-        if (filter.filter && filter.value) { // Verifique se filter.filter e filter.value não são null ou undefined
+        if (filter.filter && filter.value) {
           acc[filter.filter] = filter.value;
         }
         return acc;
       }, {} as { [key: string]: string });
     
       _setQueryParams(newQueryParams);
-    
-      // const mergedQueryParams = {
-      //   ...queryParams, // include existing queryParams
-      //   ...newQueryParams, // include new queryParams
-      // };
     }
 
 

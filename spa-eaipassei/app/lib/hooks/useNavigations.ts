@@ -1,5 +1,5 @@
 'use Client';
-// useUpdateNavigationLinks.ts
+
 import { useContext } from "react";
 import { NavigationContext } from "../context/NavigationContext";
 
