@@ -42,9 +42,9 @@ class Examination extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function notice(): HasOne
+    public function notice(): HasMany
     {
-        return $this->hasOne(Notice::class);
+        return $this->hasMany(Notice::class);
     }
 
     public function exams(): HasMany
