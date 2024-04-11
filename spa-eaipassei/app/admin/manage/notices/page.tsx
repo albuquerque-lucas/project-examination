@@ -35,22 +35,22 @@ function NoticesPage() {
       </div>
       <div className={ style.notices_utilitiesbox }>
         <div className={ style.utilities_buttons }>
-        <motion.button
-              whileTap={{ scale: 0.9 }}
-              whileHover={{color: '#fff', backgroundColor: '#4F525A'}}
-              className={ style.go_back__button }
-              onClick={() => router.back()}
-            >
-              Voltar
-            </motion.button>
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
-              onClick={() => router.push('/admin/manage/examinations/create')}
-              className={ style.new_examination__button }
-            >
-              Adicionar Concurso
-            </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            whileHover={{color: '#fff', backgroundColor: '#4F525A'}}
+            className={ style.go_back__button }
+            onClick={() => router.back()}
+          >
+            Voltar
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
+            onClick={() => router.push('/admin/manage/examinations/create')}
+            className={ style.new_examination__button }
+          >
+            Adicionar Concurso
+          </motion.button>
         </div>
       </div>
       {isLoading ? (
