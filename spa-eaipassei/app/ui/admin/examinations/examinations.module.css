@@ -1,5 +1,6 @@
 .examinations_headtitle {
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
+  margin-bottom: 1rem;
 }
 
 .messages_messagebox {
@@ -38,7 +39,8 @@
   border-radius: var(--default-border-radius);
   height: 2.5rem;
   width: 10rem;
-  margin: 1rem 0 1rem 1rem;
+  /* margin: 1rem 0 1rem 1rem; */
+  margin: 0.2rem 0 0.2rem 0;
   font-weight: 600;
   color: white;
   cursor: pointer;
@@ -57,7 +59,7 @@
   flex-direction: column;
   align-items: center;
   padding-top: 1rem;
-  width: 70%;
+  width: 100%;
 }
 
 .selected_filters {
@@ -73,4 +75,30 @@
 
 .arrow_button {
   font-size: 1.5rem;
+}
+
+@media (min-width: 510px) {
+  .examinations_utilitiesbox {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 830px) {
+  .examinations_utilitiesbox {
+    align-items: flex-start;
+  }
+
+  .utilities_buttons {
+    flex-direction: row;
+    margin-right: 1rem;
+  }
+
+  .utilities_buttons button {
+    margin: 1rem 0 1rem 1rem;
+  }
+
+  .utilities_filters {
+    flex-direction: row;
+    width: 70%;
+  }
 }
