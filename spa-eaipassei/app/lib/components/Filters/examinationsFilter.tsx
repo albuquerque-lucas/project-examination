@@ -22,7 +22,7 @@ export default function ExaminationsFilters() {
     educationalLevels,
     setEducationalLevels,
   } = useContext(ExaminationsContext);
-  const { setLoaded } = useContext(NavigationContext);
+  const { setExaminationsLoaded } = useContext(NavigationContext);
 
   const textInputRef = useRef<HTMLInputElement>(null);
   const selectInputRef = useRef<HTMLSelectElement>(null);
@@ -84,7 +84,7 @@ export default function ExaminationsFilters() {
 
   const submitFilters = () => {
     setQueryParams(filterList);
-    setLoaded(false);
+    setExaminationsLoaded(false);
   }
 
 

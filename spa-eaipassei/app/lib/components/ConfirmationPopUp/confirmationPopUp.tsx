@@ -15,7 +15,7 @@ export default function ConfirmationPopUp() {
     examinationToDelete,
     setExaminations,
   } = useContext(ExaminationsContext);
-  const { setLoaded } = useContext(NavigationContext);
+  const { setExaminationsLoaded } = useContext(NavigationContext);
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>, id: number | null) => {
     event.preventDefault();
@@ -37,7 +37,7 @@ export default function ConfirmationPopUp() {
       if (getResponse) {
         setExaminations(getResponse.data);
       }
-      setLoaded(false);
+      setExaminationsLoaded(false);
       setDashboardDeletionMode(false);
     } catch (error: any) {
       console.log('Erro ao deletar o concurso', error);

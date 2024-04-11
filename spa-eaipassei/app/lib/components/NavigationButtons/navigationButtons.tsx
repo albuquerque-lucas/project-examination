@@ -28,7 +28,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ setData, getDataB
     filterList,
     setQueryParams,
   } = useContext(ExaminationsContext);
-  const { setLoaded } = useContext(NavigationContext);
+  const { setExaminationsLoaded } = useContext(NavigationContext);
   const { navigationLinks, updateNavigationLinks } = useNavigations();
   useEffect(() => {
     // setQueryParams(filterList);
@@ -54,7 +54,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ setData, getDataB
       console.log('RESPOSTA DE GET PAGE', response);
       setData(response.data);
       updateNavigationLinks(response.links);
-      setLoaded(false);
+      setExaminationsLoaded(false);
     } catch (error) {
       console.error('Error:', error);
     }

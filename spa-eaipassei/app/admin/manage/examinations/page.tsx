@@ -27,7 +27,7 @@ function ExaminationsPage() {
 
   const { navigationLinks, updateNavigationLinks } = useNavigations();
 
-  const { examinationList, isLoading, loaded } = useFetchExaminations();
+  const { examinationList, isLoading, examinationsLoaded } = useFetchExaminations();
   const router = useRouter();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function ExaminationsPage() {
     if (examinationList.links) {
       updateNavigationLinks(examinationList.links);
     }
-  }, [examinationList, loaded]);
+  }, [examinationsLoaded]);
 
   return (
       <div className="examinations_content">

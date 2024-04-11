@@ -14,7 +14,7 @@ export const useExaminations = () => {
   const [persistenceList, setPersistenceList] = useState<Examination[]>([]);
   const router = useRouter();
   const { setFlashMessage } = useContext(ExaminationsContext);
-  const { setLoaded } = useContext(NavigationContext);
+  const { setExaminationsLoaded } = useContext(NavigationContext);
 
   const addToList = () => {
     const title = titleRef.current?.value ?? '';
@@ -56,7 +56,7 @@ export const useExaminations = () => {
       };
 
       if (response.status === 201) {
-        setLoaded(false);
+        setExaminationsLoaded(false);
         setFlashMessage('Concursos enviados com sucesso.');
         router.push('/admin/manage/examinations');
       };

@@ -1,6 +1,6 @@
 export type Notice = {
   id: number;
-  file: string;
+  file_path: string;
   extension: string;
   file_name?: string;
   publication_date?: string;
@@ -13,6 +13,8 @@ export type NoticeContextType = {
   setFilterList: React.Dispatch<React.SetStateAction<NoticeFilterList[]>>;
   queryParams: NoticesQueryParams;
   setQueryParams: (filterList: NoticeFilterList[]) => void;
+  noticesLoaded: boolean;
+  setNoticesLoaded: (noticesLoaded: boolean) => void;
 };
 
 export type NoticesQueryParams = {

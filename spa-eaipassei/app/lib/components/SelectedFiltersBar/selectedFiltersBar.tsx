@@ -10,13 +10,13 @@ import style from '@/app/ui/admin/filters_bar/filtersBar.module.css';
 
 export default function SelectedFiltersBar() {
   const { filterList, setFilterList, setQueryParams } = useContext(ExaminationsContext);
-  const { setLoaded } = useContext(NavigationContext);
+  const { setExaminationsLoaded } = useContext(NavigationContext);
 
   const removeFromFilterList = (indexToRemove: number) => {
     setFilterList(prevFilterList => {
       const updatedFilterList = prevFilterList.filter((_, index) => index !== indexToRemove);
       setQueryParams(updatedFilterList);
-      setLoaded(false);
+      setExaminationsLoaded(false);
       return updatedFilterList;
     });
   }
@@ -24,7 +24,7 @@ export default function SelectedFiltersBar() {
   const clearFilters = () => {
     setFilterList([]);
     setQueryParams([]);
-    setLoaded(false);
+    setExaminationsLoaded(false);
   }
 
   return (

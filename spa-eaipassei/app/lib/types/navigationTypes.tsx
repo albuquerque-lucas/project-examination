@@ -7,6 +7,4 @@ export type NavigationLink = {
 export type NavigationContextType = {
   navigationLinks: NavigationLink[];
   setNavigationLinks: (navigationLinks: NavigationLink[]) => void;
-  loaded: boolean;
-  setLoaded: (loaded: boolean) => void;
 }

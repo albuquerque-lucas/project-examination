@@ -35,6 +35,8 @@ export type ExaminationsContextType = {
   setEducationalLevels: (educationalLevels: EducationalLevel[]) => void;
   flashMessage: string | null;
   setFlashMessage: (flashMessage: string | null) => void;
+  examinationsLoaded: boolean;
+  setExaminationsLoaded: (examinationsLoaded: boolean) => void;
 };
 
 export type ExaminationFilterList = {

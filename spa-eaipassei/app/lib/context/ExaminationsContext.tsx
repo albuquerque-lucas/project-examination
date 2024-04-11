@@ -27,6 +27,8 @@ const defaultValue: ExaminationsContextType = {
   setEducationalLevels: () => {},
   flashMessage: null,
   setFlashMessage: () => {},
+  examinationsLoaded: false,
+  setExaminationsLoaded: () => {},
 };
 
 export const ExaminationsContext = createContext<ExaminationsContextType>(defaultValue);
@@ -46,6 +48,7 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   const [queryParams, _setQueryParams] = useState<ExaminationsQueryParams>({});
   const [educationalLevels, setEducationalLevels] = useState<EducationalLevel[]>([]);
   const [flashMessage, setFlashMessage] = useState<string | null>(null);
+  const [examinationsLoaded, setExaminationsLoaded] = useState(false);
 
   const value = useMemo(() =>{ 
 
@@ -82,6 +85,8 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     setEducationalLevels,
     flashMessage,
     setFlashMessage,
+    examinationsLoaded,
+    setExaminationsLoaded,
   }
   }, [
     examinations,
@@ -94,6 +99,8 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     queryParams,
     educationalLevels,
     flashMessage,
+    examinationsLoaded,
+    setExaminationsLoaded,
   ]);
 
   return (

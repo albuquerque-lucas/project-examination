@@ -6,18 +6,23 @@ import { getAllNotices } from '../api/noticesAPI';
 export const useFetchNotices = () => {
   const [noticesList, setNoticesList] = useState({} as any);
   const [isLoading, setIsLoading] = useState(false);
-  const { notices, setNotices, queryParams } = useContext(NoticesContext);
-  const { loaded, setLoaded } = useContext(NavigationContext);
+  const {
+    notices,
+    setNotices,
+    queryParams,
+    noticesLoaded,
+    setNoticesLoaded,
+  } = useContext(NoticesContext);
 
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        if (!loaded) {
+        if (!noticesLoaded) {
           setIsLoading(true);
           const noticesList = await getAllNotices(`${process.env.NEXT_PUBLIC_API_GET_NOTICES_LIST}`, queryParams);
           setNoticesList(noticesList);
           setNotices(noticesList.data);
-          setLoaded(true);
+          setNoticesLoaded(true);
         }
       } catch (error: any) {
         console.log('Erro ao buscar os editais', error);
@@ -28,12 +33,13 @@ export const useFetchNotices = () => {
     };
   
     fetchNotices();
-  }, [loaded]);
+  }, [noticesLoaded]);
 
   return {
+    notices,
     noticesList,
     isLoading,
-    loaded,
+    noticesLoaded,
   };
 
 }
