@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useContext, useRef } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
+import { NavigationContext } from "../../context/NavigationContext";
 import { educationalLevelsApi } from "../../api/educationalLevelsAPI";
 import { BiSearch } from 'react-icons/bi';
 import { IoMdAddCircle } from "react-icons/io";
@@ -13,16 +14,15 @@ export default function ExaminationsFilters() {
   const [filterBy, setFilterBy] = useState("");
   const [educationalLevelsLoaded, setEducationalLevelsLoaded] = useState(false);
   const {
-    setSelectedOrder,
     filterList,
     setFilterList,
     setFilterMessage,
     queryParams,
     setQueryParams,
-    setLoaded,
     educationalLevels,
     setEducationalLevels,
   } = useContext(ExaminationsContext);
+  const { setLoaded } = useContext(NavigationContext);
 
   const textInputRef = useRef<HTMLInputElement>(null);
   const selectInputRef = useRef<HTMLSelectElement>(null);

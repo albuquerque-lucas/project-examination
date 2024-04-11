@@ -2,6 +2,7 @@
 
 import { useState, useRef, useContext } from 'react';
 import { ExaminationsContext } from '../context/ExaminationsContext';
+import { NavigationContext } from '../context/NavigationContext';
 import { useRouter } from 'next/navigation';
 import { Examination } from '@/app/lib/types/examinationTypes';
 import { createMany } from '@/app/lib/api/examinationsAPI';
@@ -12,7 +13,8 @@ export const useExaminations = () => {
   const educationalLevelRef = useRef<HTMLSelectElement>(null);
   const [persistenceList, setPersistenceList] = useState<Examination[]>([]);
   const router = useRouter();
-  const { setFlashMessage, setLoaded } = useContext(ExaminationsContext);
+  const { setFlashMessage } = useContext(ExaminationsContext);
+  const { setLoaded } = useContext(NavigationContext);
 
   const addToList = () => {
     const title = titleRef.current?.value ?? '';

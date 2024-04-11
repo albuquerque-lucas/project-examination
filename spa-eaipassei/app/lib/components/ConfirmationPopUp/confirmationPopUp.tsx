@@ -2,6 +2,7 @@
 
 import { useContext } from 'react';
 import { ExaminationsContext } from '../../context/ExaminationsContext';
+import { NavigationContext } from '../../context/NavigationContext';
 import { deleteExamination, getAllExaminations } from '../../api/examinationsAPI';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
@@ -13,8 +14,8 @@ export default function ConfirmationPopUp() {
     setDashboardDeletionMode,
     examinationToDelete,
     setExaminations,
-    setLoaded,
   } = useContext(ExaminationsContext);
+  const { setLoaded } = useContext(NavigationContext);
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>, id: number | null) => {
     event.preventDefault();

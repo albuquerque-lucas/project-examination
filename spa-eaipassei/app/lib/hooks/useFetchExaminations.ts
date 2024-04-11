@@ -2,11 +2,13 @@
 import { useState, useEffect, useContext } from 'react';
 import { getExaminationsByPage } from '@/app/lib/api/examinationsAPI';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
+import { NavigationContext } from '../context/NavigationContext';
 
 export const useFetchExaminations = () => {
   const [examinationList, setExaminationList] = useState({} as any);
   const [isLoading, setIsLoading] = useState(false);
-  const { setExaminations, loaded, setLoaded, queryParams } = useContext(ExaminationsContext);
+  const { setExaminations, queryParams } = useContext(ExaminationsContext);
+  const { loaded, setLoaded } = useContext(NavigationContext);
 
   useEffect(() => {
     const fetchExaminations = async () => {

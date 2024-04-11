@@ -23,8 +23,6 @@ export type ExaminationsContextType = {
   setExaminationToDelete: (examinationToDelete: number) => void;
   currentPage: number;
   setCurrentPage: (currentPage: number) => void;
-  loaded: boolean;
-  setLoaded: (loaded: boolean) => void;
   selectedOrder: string | null;
   setSelectedOrder: (selectedOrder: string) => void;
   filterList: ExaminationFilterList[];

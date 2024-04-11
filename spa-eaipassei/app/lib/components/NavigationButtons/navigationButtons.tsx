@@ -2,6 +2,7 @@
 
 import React, { useContext, useEffect } from 'react';
 import { ExaminationsContext } from '../../context/ExaminationsContext';
+import { NavigationContext } from '../../context/NavigationContext';
 import { ExaminationsQueryParams } from '../../types/examinationTypes';
 import { useNavigations } from '../../hooks/useNavigations';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
@@ -24,12 +25,10 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ setData, getDataB
     currentPage,
     setCurrentPage,
     queryParams,
-    setLoaded,
-    setFilterList,
     filterList,
     setQueryParams,
-    loaded
   } = useContext(ExaminationsContext);
+  const { setLoaded } = useContext(NavigationContext);
   const { navigationLinks, updateNavigationLinks } = useNavigations();
   useEffect(() => {
     // setQueryParams(filterList);

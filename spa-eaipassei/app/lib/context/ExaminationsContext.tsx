@@ -15,8 +15,6 @@ const defaultValue: ExaminationsContextType = {
   setExaminationToDelete: () => {},
   currentPage: 1,
   setCurrentPage: () => {},
-  loaded: false,
-  setLoaded: () => {},
   selectedOrder: 'asc',
   setSelectedOrder: () => {},
   filterList: [] as ExaminationFilterList[],
@@ -41,7 +39,6 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   const [examinations, setExaminations] = useState([]);
   const [dashboardDeletionMode, setDashboardDeletionMode] = useState(false);
   const [examinationToDelete, setExaminationToDelete] = useState<number | null>(null);
-  const [loaded, setLoaded] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState('desc');
   const [filterList, setFilterList] = useState<ExaminationFilterList[]>([]);
   const [filterMessage, setFilterMessage] = useState<string | null>(null);
@@ -73,8 +70,6 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     setExaminationToDelete,
     currentPage,
     setCurrentPage,
-    loaded,
-    setLoaded,
     selectedOrder,
     setSelectedOrder,
     filterList,
@@ -93,7 +88,6 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     dashboardDeletionMode,
     examinationToDelete,
     currentPage,
-    loaded,
     selectedOrder,
     filterList,
     filterMessage,

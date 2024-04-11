@@ -1,19 +1,11 @@
 import { createContext, useState, useMemo } from "react";
-
-type NavigationLink = {
-  label: string;
-  url: string;
-  active: boolean | undefined;
-}
-
-type NavigationContextType = {
-  navigationLinks: NavigationLink[];
-  setNavigationLinks: (navigationLinks: NavigationLink[]) => void;
-}
+import { NavigationLink, NavigationContextType } from "../types/navigationTypes";
 
 const defaultValue: NavigationContextType = {
   navigationLinks: [],
   setNavigationLinks: () => {},
+  loaded: false,
+  setLoaded: () => {},
 };
 
 export const NavigationContext = createContext<NavigationContextType>(defaultValue);
@@ -24,13 +16,19 @@ interface NavigationProviderProps {
 
 export default function NavigationProvider({ children }: NavigationProviderProps) {
   const [navigationLinks, setNavigationLinks] = useState<NavigationLink[]>([]);
+  const [loaded, setLoaded] = useState(false);
 
   const value = useMemo(() => {
     return {
       navigationLinks,
       setNavigationLinks,
+      loaded,
+      setLoaded,
     }
-  }, [navigationLinks]);
+  }, [
+    navigationLinks,
+    loaded
+  ]);
 
   return (
     <NavigationContext.Provider value={value}>
