@@ -9,8 +9,6 @@ type SetFilterMessage = (value: string | null) => void;
 const defaultValue: ExaminationsContextType = {
   examinations: [],
   setExaminations: () => {},
-  navigationLinks: [],
-  setNavigationLinks: () => {},
   dashboardDeletionMode: false,
   setDashboardDeletionMode: () => {},
   examinationToDelete: null,
@@ -41,7 +39,6 @@ interface ExaminationsProviderProps {
 
 export default function ExaminationsProvider({ children }: ExaminationsProviderProps) {
   const [examinations, setExaminations] = useState([]);
-  const [navigationLinks, setNavigationLinks] = useState([]);
   const [dashboardDeletionMode, setDashboardDeletionMode] = useState(false);
   const [examinationToDelete, setExaminationToDelete] = useState<number | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -70,8 +67,6 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     return { 
     examinations,
     setExaminations,
-    navigationLinks,
-    setNavigationLinks,
     dashboardDeletionMode,
     setDashboardDeletionMode,
     examinationToDelete,
@@ -95,7 +90,6 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   }
   }, [
     examinations,
-    navigationLinks,
     dashboardDeletionMode,
     examinationToDelete,
     currentPage,

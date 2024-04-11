@@ -17,8 +17,6 @@ export type EducationalLevel = {
 export type ExaminationsContextType = {
   examinations: any[];
   setExaminations: (examinations: any) => void;
-  navigationLinks: any[];
-  setNavigationLinks: (navigationLinks: any) => void;
   dashboardDeletionMode: boolean;
   setDashboardDeletionMode: (dashboardDeletionMode: boolean) => void;
   examinationToDelete: number | null;
