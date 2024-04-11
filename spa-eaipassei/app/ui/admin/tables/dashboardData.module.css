@@ -42,6 +42,19 @@
   cursor: pointer;
 }
 
+
+.institution_column {
+  display: none;
+}
+
+.educational_level_column {
+  display: none;
+}
+
+.active_column {
+  display: none;
+}
+
 .dashboard_delete__buttons {
   display: flex;
   width: 100%;
@@ -84,4 +97,22 @@
 .dashboard_table__confirmDelete:hover {
   background-color: #e35b68;
   color: white;
+}
+
+
+@media (min-width: 768px) {
+  .data_table {
+    width: 100%;
+  }
+  .institution_column {
+    display: revert;
+  }
+  
+.educational_level_column {
+  display: revert;
+}
+
+.active_column {
+  display: revert;
+}
 }
