@@ -10,68 +10,23 @@ import { createMany } from '@/app/lib/api/examinationsAPI';
 import { educationalLevelsApi } from '@/app/lib/api/educationalLevelsAPI';
 import { motion, AnimatePresence } from 'framer-motion';
 import FlashMessage from '@/app/lib/components/Message/FlashMessage';
+import { useExaminations } from '@/app/lib/hooks/useExamination';
 import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 
 const CreateExaminationsPage = () => {
-  const titleRef = useRef<HTMLInputElement>(null);
-  const institutionRef = useRef<HTMLInputElement>(null);
-  const educationalLevelRef = useRef<HTMLSelectElement>(null);
-  const [persistenceList, setPersistenceList] = useState<Examination[]>([]);
   const router = useRouter();
   const { setLoaded, educationalLevels, setEducationalLevels, flashMessage, setFlashMessage } = useContext(ExaminationsContext);
   const { getAll } = educationalLevelsApi;
-
+  const {
+    titleRef,
+    institutionRef,
+    educationalLevelRef,
+    persistenceList,
+    setPersistenceList,
+    addToList,
+    submitExaminations
+  } = useExaminations();
   
-  const addToList = () => {
-    const title = titleRef.current?.value ?? '';
-    const institution = institutionRef.current?.value ?? '';
-    const educational_level_id = educationalLevelRef.current?.value ?? '';
-    
-    if (!title || !institution || !educational_level_id) {
-      setFlashMessage('Os campos do formulário não podem estar vazios.');
-      return;
-    }
-    
-    const examination: Examination = {
-      title,
-      institution,
-      educational_level_id
-    }
-
-    const doesItemExist = persistenceList.some(item => 
-      item.title === title && 
-      item.institution === institution && 
-      item.educational_level_id === educational_level_id
-    );
-  
-    if (doesItemExist) {
-      setFlashMessage('Um item com os mesmos dados já existe na lista.');
-      return;
-    }
-  
-    setPersistenceList([...persistenceList, examination]);
-  }
-
-  const submitExaminations = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    try {
-      const response = await createMany(persistenceList);
-      setFlashMessage(response.data.message);
-      if (response.status === 409) {
-        setFlashMessage(response.data.message);
-        console.log('CONFLITO', response.data.message);
-      };
-
-      if (response.status === 201) {
-        setFlashMessage(response.data.message);
-        console.log('RESPONSE CREATION', response.data.message)
-        setLoaded(false);
-        router.push('/admin/manage/examinations');
-      };
-    } catch (error) {
-      console.error('ERROR', error);
-    }
-  }
   
   useEffect(() => {
     try {
@@ -160,6 +115,10 @@ const CreateExaminationsPage = () => {
               </motion.button>
               <motion.button
                 whileTap={{scale:0.9}}
+                onClick={() => {
+                  setPersistenceList([]);
+                  router.push('/admin/manage/examinations');
+                }}
               >
                 Cancelar
               </motion.button>
