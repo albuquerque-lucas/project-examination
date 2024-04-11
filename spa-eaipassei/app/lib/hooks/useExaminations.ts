@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Examination } from '@/app/lib/types/examinationTypes';
 import { createMany } from '@/app/lib/api/examinationsAPI';
 
-export const useExaminationsCreation = () => {
+export const useExaminations = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const institutionRef = useRef<HTMLInputElement>(null);
   const educationalLevelRef = useRef<HTMLSelectElement>(null);
