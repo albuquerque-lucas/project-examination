@@ -6,13 +6,13 @@ import { useRouter } from 'next/navigation';
 import { Examination } from '@/app/lib/types/examinationTypes';
 import { createMany } from '@/app/lib/api/examinationsAPI';
 
-export const useExaminations = () => {
+export const useExaminationsCreation = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const institutionRef = useRef<HTMLInputElement>(null);
   const educationalLevelRef = useRef<HTMLSelectElement>(null);
   const [persistenceList, setPersistenceList] = useState<Examination[]>([]);
   const router = useRouter();
-  const { setFlashMessage } = useContext(ExaminationsContext);
+  const { setFlashMessage, setLoaded } = useContext(ExaminationsContext);
 
   const addToList = () => {
     const title = titleRef.current?.value ?? '';
@@ -54,6 +54,7 @@ export const useExaminations = () => {
       };
 
       if (response.status === 201) {
+        setLoaded(false);
         setFlashMessage('Concursos enviados com sucesso.');
         router.push('/admin/manage/examinations');
       };

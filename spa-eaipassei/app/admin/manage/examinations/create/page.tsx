@@ -10,7 +10,7 @@ import { createMany } from '@/app/lib/api/examinationsAPI';
 import { educationalLevelsApi } from '@/app/lib/api/educationalLevelsAPI';
 import { motion, AnimatePresence } from 'framer-motion';
 import FlashMessage from '@/app/lib/components/Message/FlashMessage';
-import { useExaminations } from '@/app/lib/hooks/useExamination';
+import { useExaminationsCreation } from '@/app/lib/hooks/useExaminationCreation';
 import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 
 const CreateExaminationsPage = () => {
@@ -25,7 +25,7 @@ const CreateExaminationsPage = () => {
     setPersistenceList,
     addToList,
     submitExaminations
-  } = useExaminations();
+  } = useExaminationsCreation();
   
   
   useEffect(() => {
