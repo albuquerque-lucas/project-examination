@@ -4,7 +4,7 @@ import { useEffect, useContext } from "react";
 import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
-import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboardExaminations";
+import DashboardExaminations from './dashboardExaminations';
 import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";

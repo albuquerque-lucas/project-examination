@@ -12,6 +12,8 @@ const defaultValue: NoticeContextType = {
   setQueryParams: () => {},
   noticesLoaded: false,
   setNoticesLoaded: () => {},
+  currentPage: 1,
+  setCurrentPage: () => {},
 };
 
 export const NoticesContext = createContext<NoticeContextType>(defaultValue);
@@ -25,6 +27,7 @@ export default function NoticesProvider({ children }: NoticesProviderProps) {
   const [filterList, setFilterList] = useState<NoticeFilterList[]>([]);
   const [queryParams, _setQueryParams] = useState<NoticesQueryParams>({});
   const [noticesLoaded, setNoticesLoaded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const value = useMemo(() => {
 
@@ -48,12 +51,15 @@ export default function NoticesProvider({ children }: NoticesProviderProps) {
       setQueryParams,
       noticesLoaded,
       setNoticesLoaded,
+      currentPage,
+      setCurrentPage,
     }
   }, [
     notices,
     filterList,
     queryParams,
     noticesLoaded,
+    currentPage,
   ]);
 
   return (

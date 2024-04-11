@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { useFetchNotices } from "@/app/lib/hooks/useFetchNotices";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
-import DashboardNotices from "@/app/lib/components/DashboardTable/dashboardNotices";
+import DashboardNotices from "./dashboardNotices";
+import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/pages/notices/notices.module.css';
+import NoticeNavigationButtons from "./NoticeNavigationButton";
 
 function NoticesPage() {
   const { notices, noticesList, isLoading, noticesLoaded } = useFetchNotices();
@@ -51,9 +53,19 @@ function NoticesPage() {
             </motion.button>
         </div>
       </div>
-      <DashboardNotices
-        data={ notices }
-      />
+      {isLoading ? (
+          <SpinnerLoader />
+        ) : (
+          <>
+            <NoticeNavigationButtons />
+            <div className={ style.selected_filters }>
+            </div>
+            <DashboardNotices
+              data={ notices }
+            />
+          </>
+        )}
+
     </div>
   );
 }

@@ -16,6 +16,8 @@ export type NoticeContextType = {
   setQueryParams: (filterList: NoticeFilterList[]) => void;
   noticesLoaded: boolean;
   setNoticesLoaded: (noticesLoaded: boolean) => void;
+  currentPage: number;
+  setCurrentPage: (currentPage: number) => void;
 };
 
 export type NoticesQueryParams = {

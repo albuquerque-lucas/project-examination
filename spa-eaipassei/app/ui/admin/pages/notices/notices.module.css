@@ -19,17 +19,19 @@
   /* margin: 1.5rem auto; */
   margin: 0 auto 2rem;
   display: flex;
-  padding: 0.5rem;
   min-height: 5rem;
   flex-direction: column;
   align-items: center;
+  width: 70vw;
 }
 
 .utilities_buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%;
+  padding: 1rem;
+  padding: 1rem;
+  width: 40%;
 }
 
 .utilities_buttons button {
@@ -37,7 +39,6 @@
   border-radius: var(--default-border-radius);
   height: 2.5rem;
   width: 10rem;
-  /* margin: 1rem 0 1rem 1rem; */
   margin: 0.2rem 0 0.2rem 0;
   font-weight: 600;
   color: white;
@@ -88,11 +89,11 @@
 
   .utilities_buttons {
     flex-direction: row;
-    margin-right: 1rem;
+    width: 100%;
   }
 
   .utilities_buttons button {
-    margin: 1rem 0 1rem 1rem;
+    margin: 1rem;
   }
 
   .utilities_filters {

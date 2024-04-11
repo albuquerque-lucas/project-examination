@@ -3,7 +3,7 @@
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
-import { ExaminationsContext } from "../../context/ExaminationsContext";
+import { ExaminationsContext } from "../../../lib/context/ExaminationsContext";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
 interface Exam {

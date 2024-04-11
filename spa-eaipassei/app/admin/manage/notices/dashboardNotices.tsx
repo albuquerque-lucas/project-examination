@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { Notice } from "../../types/noticeTypes";
+import { Notice } from "../../../lib/types/noticeTypes";
 import { MdDelete } from "react-icons/md";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
