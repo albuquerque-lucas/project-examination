@@ -8,6 +8,7 @@ import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboard
 import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { useRouter } from "next/navigation";
+import { useFetchExaminations } from "@/app/lib/hooks/useFetchExaminations";
 import FilterBox from "@/app/lib/components/Filters/filterBox";
 import SelectedFiltersBar from "@/app/lib/components/SelectedFiltersBar/selectedFiltersBar";
 import { motion, AnimatePresence } from 'framer-motion';
@@ -28,31 +29,14 @@ function ExaminationsPage() {
     setFlashMessage,
   } = useContext(ExaminationsContext);
 
-  const [examinationList, setExaminationList] = useState({} as any);
-  const [isLoading, setIsLoading] = useState(false);
+  const { examinationList, isLoading } = useFetchExaminations();
   const router = useRouter();
 
   useEffect(() => {
-    const fetchExaminations = async () => {
-      try {
-        if (!loaded) {
-          setIsLoading(true);
-          const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`, queryParams);
-          setExaminationList(examinationList);
-          setExaminations(examinationList.data);
-          updateNavigationLinks(examinationList.links);
-          setLoaded(true);
-        }
-      } catch (error: any) {
-        console.log('Erro ao buscar os concursos', error);
-        setExaminations({});
-      } finally {
-        setIsLoading(false);
-      }
-    };
-  
-    fetchExaminations();
-  }, [loaded]);
+    if (examinationList.links) {
+      updateNavigationLinks(examinationList.links);
+    }
+  }, [examinationList]);
 
   const updateNavigationLinks = (links: any[]) => {
     const updatedLinks = links.map((link: any, index: number, array: any[]) => {
