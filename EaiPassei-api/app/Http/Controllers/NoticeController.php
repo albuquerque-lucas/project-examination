@@ -24,12 +24,25 @@ class NoticeController extends Controller
         $this->noticeService = $noticeService;
         $this->dataRetrievalService = $dataRetrievalService;
 
-        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById']]);
+        $this->middleware('auth:sanctum');
     }
-
+    
     public function getAll(Request $request)
     {
-        return $this->dataRetrievalService->getAll($this->noticeService, $request);
+        $this->authorize('manage', $request->user());
+        $validated = $request->validate([
+            'order' => 'nullable|string|in:asc,desc',
+            'examination' => 'nullable|string',
+            'examination_id' => 'nullable|integer',
+            'page' => 'nullable|integer',
+        ]);
+        $order = $request->input('order', 'desc');
+        $params = $validated;
+        unset($params['order'], $params['page']);
+        $response = $this->noticeService->getAll($order, 'id', $params);
+        $data = $response->data();
+        $dataArray = (array)$data;
+        return response()->json($dataArray['resource'], $response->status());
     }
 
     public function getById(int $id): JsonResponse | Response

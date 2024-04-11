@@ -22,10 +22,10 @@ class NoticeService implements IService
         $this->serviceResponse = $serviceResponse;
     }
 
-    public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
+    public function getAll(string $order, string $orderBy = 'id', array $params = []): ServiceResponse
     {
         try {
-            $notices = Notice::getAllOrdered($order, $orderBy);
+            $notices = Notice::getAllOrdered($order, $orderBy, $params);
 
             $collection = NoticeResource::collection($notices);
             $this->serviceResponse->setAttributes(200, $collection);

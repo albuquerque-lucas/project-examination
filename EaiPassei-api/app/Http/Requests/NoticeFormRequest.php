@@ -23,7 +23,7 @@ class NoticeFormRequest extends FormRequest
     {
         return [
             'examination_id' => 'required|integer',
-            'file' => 'required|string',
+            'file_path' => 'required|string',
             'file_name' => 'nullable|string',
             'publication_date' => 'nullable|string',
         ];

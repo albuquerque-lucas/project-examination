@@ -4,6 +4,7 @@ export type Notice = {
   extension: string;
   file_name?: string;
   publication_date?: string;
+  examination?: NoticeExamination;
 };
 
 export type NoticeContextType = {
@@ -25,4 +26,10 @@ export type NoticesQueryParams = {
 export type NoticeFilterList = {
   filter?: string | null;
   value?: string | null;
+};
+
+export type NoticeExamination = {
+  id: number;
+  title: string;
+  institution: string;
 };
