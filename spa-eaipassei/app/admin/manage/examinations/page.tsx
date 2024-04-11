@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
 import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboardExaminations";
 import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
+import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { useRouter } from "next/navigation";
 import { useFetchExaminations } from "@/app/lib/hooks/useFetchExaminations";
@@ -20,14 +21,11 @@ function ExaminationsPage() {
   const {
     examinations,
     setExaminations,
-    navigationLinks,
-    setNavigationLinks,
-    loaded,
-    setLoaded,
-    queryParams,
     flashMessage,
     setFlashMessage,
   } = useContext(ExaminationsContext);
+
+  const { navigationLinks, updateNavigationLinks } = useNavigations();
 
   const { examinationList, isLoading } = useFetchExaminations();
   const router = useRouter();
@@ -37,26 +35,6 @@ function ExaminationsPage() {
       updateNavigationLinks(examinationList.links);
     }
   }, [examinationList]);
-
-  const updateNavigationLinks = (links: any[]) => {
-    const updatedLinks = links.map((link: any, index: number, array: any[]) => {
-      if (index === array.length - 1) {
-          return {
-            ...link,
-            label: link.label.replace('&raquo;', '\u00BB'),
-          };
-      }
-      if (index === 0) {
-        return {
-          ...link,
-          label: link.label.replace('&laquo;', '\u00AB'),
-        };
-      }
-      return link;
-    });
-
-    setNavigationLinks(updatedLinks);
-  };
 
   return (
       <div className="examinations_content">
@@ -104,7 +82,6 @@ function ExaminationsPage() {
             <NavigationButtons
               navigationLinks={ navigationLinks }
               setData={ setExaminations }
-              setLinks={ setNavigationLinks }
               getDataByPage={ getExaminationsByPage }
             />
             <div className={ style.selected_filters }>

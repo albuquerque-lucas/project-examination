@@ -3,6 +3,7 @@
 import React, { useContext, useEffect } from 'react';
 import { ExaminationsContext } from '../../context/ExaminationsContext';
 import { ExaminationsQueryParams } from '../../types/examinationTypes';
+import { useNavigations } from '../../hooks/useNavigations';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 import { motion } from 'framer-motion';
 
@@ -14,11 +15,10 @@ interface NavigationButtonsProps {
     active: boolean | undefined;
   }[] | undefined;
   setData: React.Dispatch<React.SetStateAction<any>>;
-  setLinks: React.Dispatch<React.SetStateAction<any>>;
   getDataByPage: (url: string, queryParams?: ExaminationsQueryParams) => Promise<any>;
 }
 
-const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, setData, setLinks, getDataByPage }) => {
+const NavigationButtons: React.FC<NavigationButtonsProps> = ({ setData, getDataByPage }) => {
   
   const {
     currentPage,
@@ -30,30 +30,10 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ navigationLinks, 
     setQueryParams,
     loaded
   } = useContext(ExaminationsContext);
-
+  const { navigationLinks, updateNavigationLinks } = useNavigations();
   useEffect(() => {
     // setQueryParams(filterList);
   }, [currentPage]);
-
-  const updateNavigationLinks = (links: any[]) => {
-    const updatedLinks = links.map((link: any, index: number, array: any[]) => {
-      if (index === array.length - 1) {
-          return {
-            ...link,
-            label: link.label.replace('&raquo;', '\u00BB'),
-          };
-      }
-      if (index === 0) {
-        return {
-          ...link,
-          label: link.label.replace('&laquo;', '\u00AB'),
-        };
-      }
-      return link;
-    });
-
-    setLinks(updatedLinks);
-  };
 
   const getPage = async (url: any, e: React.MouseEvent) => {
     e.preventDefault();
