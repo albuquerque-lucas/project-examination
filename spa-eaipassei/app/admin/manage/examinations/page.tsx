@@ -80,11 +80,7 @@ function ExaminationsPage() {
           <SpinnerLoader />
         ) : (
           <>
-            <NavigationButtons
-              navigationLinks={ navigationLinks }
-              setData={ setExaminations }
-              getDataByPage={ getExaminationsByPage }
-            />
+            <NavigationButtons />
             <div className={ style.selected_filters }>
             <SelectedFiltersBar />
             </div>

@@ -9,8 +9,12 @@ import { TiDelete } from "react-icons/ti";
 import style from '@/app/ui/admin/filters_bar/filtersBar.module.css';
 
 export default function SelectedFiltersBar() {
-  const { filterList, setFilterList, setQueryParams } = useContext(ExaminationsContext);
-  const { setExaminationsLoaded } = useContext(NavigationContext);
+  const {
+    filterList,
+    setFilterList,
+    setQueryParams,
+    setExaminationsLoaded
+  } = useContext(ExaminationsContext);
 
   const removeFromFilterList = (indexToRemove: number) => {
     setFilterList(prevFilterList => {

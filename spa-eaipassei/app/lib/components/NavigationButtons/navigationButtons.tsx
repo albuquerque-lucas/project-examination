@@ -2,24 +2,13 @@
 
 import React, { useContext, useEffect } from 'react';
 import { ExaminationsContext } from '../../context/ExaminationsContext';
-import { NavigationContext } from '../../context/NavigationContext';
-import { ExaminationsQueryParams } from '../../types/examinationTypes';
 import { useNavigations } from '../../hooks/useNavigations';
+import { getExaminationsByPage } from '../../api/examinationsAPI';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 import { motion } from 'framer-motion';
 
 
-interface NavigationButtonsProps {
-  navigationLinks: {
-    label: string | undefined;
-    url: string | undefined;
-    active: boolean | undefined;
-  }[] | undefined;
-  setData: React.Dispatch<React.SetStateAction<any>>;
-  getDataByPage: (url: string, queryParams?: ExaminationsQueryParams) => Promise<any>;
-}
-
-const NavigationButtons: React.FC<NavigationButtonsProps> = ({ setData, getDataByPage }) => {
+const NavigationButtons: React.FC = () => {
   
   const {
     currentPage,
@@ -27,8 +16,9 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ setData, getDataB
     queryParams,
     filterList,
     setQueryParams,
+    setExaminationsLoaded,
+    setExaminations,
   } = useContext(ExaminationsContext);
-  const { setExaminationsLoaded } = useContext(NavigationContext);
   const { navigationLinks, updateNavigationLinks } = useNavigations();
   useEffect(() => {
     // setQueryParams(filterList);
@@ -50,9 +40,8 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ setData, getDataB
 
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
   
-      const response = await getDataByPage(url, updatedQueryParams);
-      console.log('RESPOSTA DE GET PAGE', response);
-      setData(response.data);
+      const response = await getExaminationsByPage(url, updatedQueryParams);
+      setExaminations(response.data);
       updateNavigationLinks(response.links);
       setExaminationsLoaded(false);
     } catch (error) {

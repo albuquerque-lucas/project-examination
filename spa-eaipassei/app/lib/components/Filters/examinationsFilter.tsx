@@ -2,9 +2,7 @@
 
 import { useEffect, useState, useContext, useRef } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
-import { NavigationContext } from "../../context/NavigationContext";
 import { educationalLevelsApi } from "../../api/educationalLevelsAPI";
-import { BiSearch } from 'react-icons/bi';
 import { IoMdAddCircle } from "react-icons/io";
 import { ExaminationFilterList } from "../../types/examinationTypes";
 import { motion } from 'framer-motion';
@@ -21,8 +19,8 @@ export default function ExaminationsFilters() {
     setQueryParams,
     educationalLevels,
     setEducationalLevels,
+    setExaminationsLoaded,
   } = useContext(ExaminationsContext);
-  const { setExaminationsLoaded } = useContext(NavigationContext);
 
   const textInputRef = useRef<HTMLInputElement>(null);
   const selectInputRef = useRef<HTMLSelectElement>(null);

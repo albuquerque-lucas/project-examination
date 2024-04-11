@@ -27,7 +27,6 @@ export default function DashboardNotices({ data }: DashboardExaminationsProps) {
               <th>Concurso</th>
               <th className={ style.file_name_column }>Arquivo</th>
               <th className={ style.publication_date_column }>Data de Publicação</th>
-              <th>Excluir</th>
             </tr>
           </thead>
           <tbody>
@@ -37,18 +36,6 @@ export default function DashboardNotices({ data }: DashboardExaminationsProps) {
                   <td>{ item.examination ? item.examination.title : 'Nenhum concurso associado'}</td>
                   <td className={ style.file_name_column }>{item.file_name}</td>
                   <td className={ style.publication_date_column }>{item.publication_date }</td>
-                  <td className={ style.dashboard_delete__buttons }>
-                    <button
-                      className={ style.dashboard_table__delete }
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        // setExaminationToDelete(item.id);
-                        // setDashboardDeletionMode(true);
-                      }}
-                    >
-                      <MdDelete />
-                    </button>
-                  </td>
               </tr>
             ))}
           </tbody>
