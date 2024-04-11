@@ -15,16 +15,21 @@
   margin-bottom: 3rem;
   border-radius: var(--default-border-radius);
   width: 75vw;
-  margin: 1.5rem auto;
+  /* margin: 1.5rem auto; */
+  margin: 0 auto 2rem;
   display: flex;
   justify-content: center;
   padding: 0.5rem;
   min-height: 5rem;
+  flex-direction: column;
+  align-items: center;
 }
 
 .utilities_buttons {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
   width: 30%;
 }
 
@@ -50,6 +55,7 @@
 .utilities_filters {
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding-top: 1rem;
   width: 70%;
 }

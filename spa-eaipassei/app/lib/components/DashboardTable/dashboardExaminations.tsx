@@ -3,9 +3,8 @@
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
-import style from '@/app/ui/admin/tables/dashboardData.module.css';
 import { ExaminationsContext } from "../../context/ExaminationsContext";
-import { motion, useScroll } from "framer-motion";
+import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
 interface Exam {
   id: number;
@@ -39,8 +38,8 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
             <tr>
               <th>#</th>
               <th>Título</th>
-              <th>Instituição</th>
-              <th>Nível de Escolaridade</th>
+              <th className={ style.institution_column }>Instituição</th>
+              <th className={ style.educational_level_column }>Nível de Escolaridade</th>
               <th>Ativo</th>
               <th>Excluir</th>
             </tr>
@@ -50,8 +49,8 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
               <tr key={index} onClick={ () => navigateToExamPage(item.id) }>
                   <td>{item.id}</td>
                   <td>{item.title}</td>
-                  <td>{item.institution}</td>
-                  <td>{item.educational_level}</td>
+                  <td className={ style.institution_column }>{item.institution}</td>
+                  <td className={ style.educational_level_column }>{item.educational_level}</td>
                   <td>{item.active ? 'Ativo' : 'Inativo'}</td>
                   <td className={ style.dashboard_delete__buttons }>
                     <button
