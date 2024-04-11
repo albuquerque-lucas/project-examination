@@ -1,4 +1,4 @@
-// useFetchExaminations.ts
+
 import { useState, useEffect, useContext } from 'react';
 import { getExaminationsByPage } from '@/app/lib/api/examinationsAPI';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
@@ -34,5 +34,6 @@ export const useFetchExaminations = () => {
   return {
     examinationList,
     isLoading,
+    loaded,
   };
 }
