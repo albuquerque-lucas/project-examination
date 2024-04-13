@@ -34,6 +34,18 @@
   width: 40%;
 }
 
+.notice_creation__form {
+  content: '';
+  width: 50rem;
+  height: 2.5rem;
+  border-radius: var(--default-border-radius);
+  background-color: var(--primary-background-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+
 .utilities_buttons button {
   border: 2px solid transparent;
   border-radius: var(--default-border-radius);
@@ -43,6 +55,12 @@
   font-weight: 600;
   color: white;
   cursor: pointer;
+}
+
+.notice_creation__form button {
+  background-color: var(--secondary-background-color);
+  height: 2rem;
+  width: 5rem;
 }
 
 .new_examination__button {

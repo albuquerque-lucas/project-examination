@@ -46,11 +46,21 @@ function NoticesPage() {
           <motion.button
             whileTap={{ scale: 0.9 }}
             whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
-            onClick={() => router.push('/admin/manage/examinations/create')}
             className={ style.new_examination__button }
           >
-            Adicionar Concurso
+            Adicionar Edital
           </motion.button>
+          <div className={ style.notice_creation__form }>
+            <input type="file" />
+            <motion.button
+            whileTap={{ scale: 0.9 }}
+            whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
+            onClick={() => {console.log('Adicionar Edital')}}
+            className={ style.submit_notice__button }
+          >
+            Adicionar
+          </motion.button>
+          </div>
         </div>
       </div>
       {isLoading ? (
