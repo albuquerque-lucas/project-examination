@@ -24,12 +24,12 @@ class NoticeController extends Controller
         $this->noticeService = $noticeService;
         $this->dataRetrievalService = $dataRetrievalService;
 
-        $this->middleware('auth:sanctum');
+        // $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById']]);
     }
     
     public function getAll(Request $request)
     {
-        $this->authorize('manage', $request->user());
+        // $this->authorize('manage', $request->user());
         $validated = $request->validate([
             'order' => 'nullable|string|in:asc,desc',
             'examination' => 'nullable|string',
@@ -50,13 +50,20 @@ class NoticeController extends Controller
         return $this->dataRetrievalService->getById($this->noticeService, $id);
     }
 
-    public function create(NoticeFormRequest $request)
+    public function create(Request $request)
     {
         try {
             $requestData = $request->all();
-            DateValidationService::validateAndFormatDates($requestData);
+            if ($request->file('notice_file')) {
+                $request->file('notice_file')->store('notices', 'public');
+            }
+            // foreach ($requestData as &$data) {
+            //     if (isset($data['notice_file'])) {
+            //         $data['notice_file']->store('notices', 'public');
+            //     }
+            // }
             $response = $this->noticeService->create($requestData);
-
+    
             return response()->json($response->data(), $response->status());
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);

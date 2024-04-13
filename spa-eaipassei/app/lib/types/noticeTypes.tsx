@@ -7,6 +7,13 @@ export type Notice = {
   examination?: NoticeExamination;
 };
 
+export type NoticeFormRequest = {
+  examination_id: number;
+  notice_file: File,
+  file_name: string;
+  extension: string;
+};
+
 export type NoticeContextType = {
   notices: Notice[];
   setNotices: (notices: Notice[]) => void;

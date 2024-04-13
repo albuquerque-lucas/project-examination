@@ -1,8 +1,8 @@
 export type Examination = {
   educational_level_id: string;
   title: string;
-  active?: boolean;
   institution: string;
+  active?: boolean;
   registration_start_date?: string;
   registration_end_date?: string;
   exams_start_date?: string;

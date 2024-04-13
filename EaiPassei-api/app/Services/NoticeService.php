@@ -12,6 +12,7 @@ use App\Models\Notice;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Storage;
 use App\Interfaces\IService;
+use Illuminate\Support\Facades\DB;
 
 class NoticeService implements IService
 {
@@ -80,22 +81,25 @@ class NoticeService implements IService
     public function create(array $data): ServiceResponse
     {
         try {
-            $notice = Notice::create($data);
-
-            if (!$notice) {
-                $this->serviceResponse->setAttributes(422, (object)[
-                    'message' => $this->serviceResponse->failedToCreateRecord()
-                ]);
-                return $this->serviceResponse;
-            }
-
+            $noticeIds = [];
+            unset($data['notice_file']);
+            // DB::transaction(function () use ($data, &$noticeIds) {
+                // foreach ($data as $noticeData) {
+                    // dd($data);
+                    $notice = Notice::create($data);
+                    // dd($notice);
+                    if (!$notice) {
+                        throw new Exception('Failed to create notice');
+                    }
+                    // $noticeIds[] = $notice->id;
+                // }
+            // });
+            // dd($noticeIds);
             $responseData = (object)[
-                'message' => $this->serviceResponse->createdSuccessfully('Notice'),
-                'id' => $notice->id,
-                'file_name' => $notice->file_name,
-                'file_path' => $notice->file,
+                'message' => $this->serviceResponse->createdSuccessfully(),
+                'notice_ids' => $noticeIds,
             ];
-
+        
             $this->serviceResponse->setAttributes(201, $responseData);
             return $this->serviceResponse;
         } catch (ValidationException $exception) {

@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use App\Exceptions\InvalidDateFormatException;
 use App\Http\Resources\ExaminationResource;
 use App\Models\Examination;
 use App\Models\ServiceResponse;
 use Exception;
-use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
@@ -84,21 +82,24 @@ class ExaminationService implements IService
     public function create(array $examinations): ServiceResponse
     {
         try {
-            DB::transaction(function () use ($examinations) {
+            DB::transaction(function () use ($examinations, &$createdExaminationsIds) {
                 foreach ($examinations as $examination) {
                     $createdExamination = Examination::create($examination);
-    
+
                     if (!$createdExamination) {
                         throw new Exception('Failed to create examination');
                     }
+
+                    $createdExaminationsIds[] = $createdExamination->id;
                 }
             });
-    
+
             $responseData = (object)[
                 'message' => $this->serviceResponse->createdManySuccessfully(),
                 'count' => count($examinations),
+                'ids' => $createdExaminationsIds,
             ];
-    
+
             $this->serviceResponse->setAttributes(201, $responseData);
             return $this->serviceResponse;
         } catch (ValidationException $exception) {

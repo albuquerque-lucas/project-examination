@@ -14,8 +14,8 @@ export default function ConfirmationPopUp() {
     setDashboardDeletionMode,
     examinationToDelete,
     setExaminations,
+    setExaminationsLoaded,
   } = useContext(ExaminationsContext);
-  const { setExaminationsLoaded } = useContext(NavigationContext);
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>, id: number | null) => {
     event.preventDefault();
