@@ -1,6 +1,7 @@
 'use client';
 
 import { BiLogOutCircle } from "react-icons/bi";
+import NavbarItem from "@/app/lib/components/ListItems/navbarItem";
 import style from '@/app/ui/admin/links/logoutLink.module.css';
 
 interface LogoutLinkProps {
@@ -10,7 +11,7 @@ interface LogoutLinkProps {
 const LogoutLink: React.FC<LogoutLinkProps> = ({ logout }) => {
 
   return (
-    <li className="nav-item">
+    <NavbarItem>
     <BiLogOutCircle />
       <button
         className={ style.logout_btn }
@@ -18,7 +19,7 @@ const LogoutLink: React.FC<LogoutLinkProps> = ({ logout }) => {
         >
         Logout
       </button>
-    </li>
+    </NavbarItem>
   )
 }
 

@@ -9,6 +9,7 @@ import { BiLogInCircle } from "react-icons/bi";
 import { FaBars } from "react-icons/fa6";
 import Link from 'next/link';
 import AuthenticatedOnlyLinksBundle from './manage/links/authenticatedOnlyLinksBundle';
+import NavbarItem from '../lib/components/ListItems/navbarItem';
 import { motion } from 'framer-motion';
 
 export default function Navbar() {
@@ -30,15 +31,17 @@ export default function Navbar() {
     className={`${colors.primary_bg__dark} ${navbar.admin_navbar}`}
     >
       <div className={ navbar.admin_navbar__container }>
-        <button
+        <motion.button
           className={`container ${navbar.admin_navbar__toggler}`}
           type="button"
           onClick={() => handleToggler() }
+          whileTap={{ scale: 0.9 }}
+          whileHover={{ color: '#fff' }}
           >
           
 
           <FaBars />
-        </button>
+        </motion.button>
         <Link href="/admin/home">
           <h3 className={ navbar.navbar_brand }>
               EaiPassei Admin
@@ -51,10 +54,10 @@ export default function Navbar() {
             </li>
             <AuthenticatedOnlyLinksBundle />
             <Link href="/admin/login" className="nav-link">
-              <li className="nav-item">
+              <NavbarItem>
                 <BiLogInCircle />
                   Login
-              </li>
+              </NavbarItem>
             </Link>
           </ul>
         </div>

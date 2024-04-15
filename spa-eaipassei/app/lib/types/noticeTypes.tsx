@@ -25,6 +25,8 @@ export type NoticeContextType = {
   setNoticesLoaded: (noticesLoaded: boolean) => void;
   currentPage: number;
   setCurrentPage: (currentPage: number) => void;
+  creationMode: boolean;
+  setCreationMode: (creationMode: boolean) => void;
 };
 
 export type NoticesQueryParams = {

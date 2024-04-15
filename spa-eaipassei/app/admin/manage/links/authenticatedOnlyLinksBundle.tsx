@@ -5,6 +5,7 @@ import SubjectsLink from "./subjectsLink";
 import NoticesLink from "./noticesLink";
 import UsersLink from "./userLink";
 import LogoutLink from "./logoutLink";
+import NavbarItem from "@/app/lib/components/ListItems/navbarItem";
 import { AuthContext } from "@/app/lib/context/AuthContext";
 import { makeLogout } from "@/app/lib/axios/axios";
 import { useRouter } from "next/navigation";
