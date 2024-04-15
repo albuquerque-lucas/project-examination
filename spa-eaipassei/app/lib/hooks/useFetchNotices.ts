@@ -12,6 +12,7 @@ export const useFetchNotices = () => {
     queryParams,
     noticesLoaded,
     setNoticesLoaded,
+    currentPage,
   } = useContext(NoticesContext);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ export const useFetchNotices = () => {
     noticesList,
     isLoading,
     noticesLoaded,
+    currentPage,
   };
 
 }

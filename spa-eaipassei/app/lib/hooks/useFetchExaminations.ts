@@ -10,7 +10,8 @@ export const useFetchExaminations = () => {
     setExaminations,
     queryParams,
     examinationsLoaded,
-    setExaminationsLoaded
+    setExaminationsLoaded,
+    currentPage,
   } = useContext(ExaminationsContext);
 
   useEffect(() => {
@@ -38,5 +39,6 @@ export const useFetchExaminations = () => {
     examinationList,
     isLoading,
     examinationsLoaded,
+    currentPage,
   };
 }

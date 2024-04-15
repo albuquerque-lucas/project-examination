@@ -47,7 +47,7 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
           <tbody>
             {(data as Exam[]).map((item, index) => (
               <tr key={index} onClick={ () => navigateToExamPage(item.id) }>
-                  <td>{item.id}</td>
+                  <td className={ style.id_column }>{item.id}</td>
                   <td className={ style.title_column }>{item.title}</td>
                   <td className={ style.institution_column }>{item.institution}</td>
                   <td className={ style.educational_level_column }>{item.educational_level}</td>

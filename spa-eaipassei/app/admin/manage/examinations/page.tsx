@@ -27,7 +27,7 @@ function ExaminationsPage() {
 
   const { navigationLinks, updateNavigationLinks } = useNavigations();
 
-  const { examinationList, isLoading, examinationsLoaded } = useFetchExaminations();
+  const { examinationList, isLoading, examinationsLoaded, currentPage } = useFetchExaminations();
   const router = useRouter();
 
   useEffect(() => {
@@ -76,7 +76,7 @@ function ExaminationsPage() {
             <FilterBox />
           </div>
         </div>
-        {isLoading ? (
+        {isLoading && currentPage === 1 ? (
           <SpinnerLoader />
         ) : (
           <>

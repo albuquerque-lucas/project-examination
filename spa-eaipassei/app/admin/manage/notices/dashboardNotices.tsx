@@ -25,6 +25,7 @@ export default function DashboardNotices({ data }: DashboardExaminationsProps) {
             <tr>
               <th>#</th>
               <th className={ style.title_column }>Concurso</th>
+              <th className={ style.aux_id_column }>ID do Concurso</th>
               <th className={ style.file_name_column }>Arquivo</th>
               <th>Excluir</th>
             </tr>
@@ -32,8 +33,9 @@ export default function DashboardNotices({ data }: DashboardExaminationsProps) {
           <tbody>
             {(data as Notice[]).map((item, index) => (
               <tr key={index} onClick={ () => navigateToPage(item.id) }>
-                  <td>{item.id}</td>
+                  <td className={ style.id_column }>{item.id}</td>
                   <td className={ style.title_column }>{ item.examination ? item.examination.title : 'Nenhum concurso associado'}</td>
+                  <td className={ style.file_name_column }>{ item.examination?.id ?? 'Não definido' }</td>
                   <td className={ style.file_name_column }>{item.file_name}</td>
                   <td className={ style.dashboard_delete__buttons }>
                     <button

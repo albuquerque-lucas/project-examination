@@ -11,9 +11,8 @@
   background-color: white;
   border-radius: var(--default-border-radius);
   border-spacing: 0;
-  max-height: 400px;
   overflow-y: auto;
-  width: 100%;
+  width: 80%;
 }
 
 .data_table thead{
@@ -23,21 +22,22 @@
 
 .data_table thead th{
   padding: 0.5rem;
-
 }
 
-.data_table tbody tr{
-  height: 2rem;
-  margin: 2rem 0;
-}
-
-.data_table tbody tr td{
-  padding: 0.2rem;
+.data_table tbody tr {
+  cursor: pointer;
 }
 
 .data_table tbody tr:hover{
   background-color: #fcf2ec;
-  cursor: pointer;
+}
+
+.data_table tbody tr td{
+  padding: 0.3rem;
+}
+
+.id_column {
+  font-weight: 700;
 }
 
 .title_column,

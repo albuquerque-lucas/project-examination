@@ -13,7 +13,7 @@ import style from '@/app/ui/admin/pages/notices/notices.module.css';
 import NoticeNavigationButtons from "./NoticeNavigationButton";
 
 function NoticesPage() {
-  const { notices, noticesList, isLoading, noticesLoaded } = useFetchNotices();
+  const { notices, noticesList, isLoading, noticesLoaded, currentPage } = useFetchNotices();
   const { navigationLinks, updateNavigationLinks } = useNavigations();
   const {
     submitNotices,
@@ -89,7 +89,7 @@ function NoticesPage() {
 
         </div>
       </div>
-      {isLoading ? (
+      {isLoading && currentPage === 1 ? (
           <SpinnerLoader />
         ) : (
           <>
