@@ -27,6 +27,10 @@ export type NoticeContextType = {
   setCurrentPage: (currentPage: number) => void;
   creationMode: boolean;
   setCreationMode: (creationMode: boolean) => void;
+  noticeDeletionMode: boolean;
+  setNoticeDeletionMode: (noticeDeletionMode: boolean) => void;
+  noticeDeletionList: number[];
+  setNoticeDeletionList: (noticeDeletionList: number[]) => void;
 };
 
 export type NoticesQueryParams = {

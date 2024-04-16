@@ -30,12 +30,27 @@ export const createNotice = async (url: string, data: any) => {
       console.log('RESPOSTA DE SUCESSO', resp.data);
       return resp.data;
     } else {
-      console.log('NAO DEU');
+      console.log('Resposta nao identificada.');
     }
-      console.log('RESPOSTA...');
   } catch (error: any) {
     if (error.response && error.response.status >= 400 && error.response.status < 500) {
       console.log('Erro ao criar o edital', error.message);
+    }
+  }
+}
+
+export const deleteNotices = async (url: string, data: number[]) => {
+  try {
+    const resp = await axios.delete(url, { data: { ids: data }, headers: { 'Content-Type': 'application/json' }});
+    if (resp.status >= 200 && resp.status < 300) {
+      return resp;
+    } else {
+      console.log('Resposta nao identificada.');
+    }
+  } catch (error: any) {
+    if (error.response && error instanceof Error) {
+      console.log('Erro ao deletar o edital', error.message);
+      console.error(error);
     }
   }
 }

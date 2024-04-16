@@ -61,7 +61,7 @@ Route::get('/examinations/activity-status', [ExaminationController::class, 'getB
   Route::post('/notices/create', [NoticeController::class, 'create']);
   Route::get('/notices/id/{id}', [NoticeController::class, 'getById']);
   Route::patch('/notices/update/{id}', [NoticeController::class, 'update']);
-  Route::delete('/notices/delete/{id}', [NoticeController::class, 'delete']);
+  Route::delete('/notices/delete', [NoticeController::class, 'delete']);
   Route::delete('/notices/delete/examination/{id}', [NoticeController::class, 'deleteByExamination']);
 
 

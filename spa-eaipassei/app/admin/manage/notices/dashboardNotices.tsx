@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import { useDeleteNotices } from "@/app/lib/hooks/useDeleteNotices";
 import { Notice } from "../../../lib/types/noticeTypes";
 import { MdDelete } from "react-icons/md";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
@@ -8,6 +9,8 @@ interface DashboardExaminationsProps {
 }
 
 export default function DashboardNotices({ data }: DashboardExaminationsProps) {
+  const { setNoticeDeletionMode, setNoticeDeletionList } = useDeleteNotices();
+
   const router = useRouter();
 
   const navigateToPage = (id: number) => {
@@ -42,6 +45,8 @@ export default function DashboardNotices({ data }: DashboardExaminationsProps) {
                       className={ style.dashboard_table__delete }
                       onClick={(event) => {
                         event.stopPropagation();
+                        setNoticeDeletionList([item.id]);
+                        setNoticeDeletionMode(true);
                       }}
                     >
                       <MdDelete />

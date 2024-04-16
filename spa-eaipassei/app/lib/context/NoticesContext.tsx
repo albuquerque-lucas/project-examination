@@ -16,6 +16,10 @@ const defaultValue: NoticeContextType = {
   setCurrentPage: () => {},
   creationMode: false,
   setCreationMode: () => {},
+  noticeDeletionMode: false,
+  setNoticeDeletionMode: () => {},
+  noticeDeletionList: [],
+  setNoticeDeletionList: () => {},
 };
 
 export const NoticesContext = createContext<NoticeContextType>(defaultValue);
@@ -31,6 +35,8 @@ export default function NoticesProvider({ children }: NoticesProviderProps) {
   const [noticesLoaded, setNoticesLoaded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [creationMode, setCreationMode] = useState(false);
+  const [noticeDeletionMode, setNoticeDeletionMode] = useState(false);
+  const [noticeDeletionList, setNoticeDeletionList] = useState<number[]>([]);
 
   const value = useMemo(() => {
 
@@ -58,6 +64,10 @@ export default function NoticesProvider({ children }: NoticesProviderProps) {
       setCurrentPage,
       creationMode,
       setCreationMode,
+      noticeDeletionMode,
+      setNoticeDeletionMode,
+      noticeDeletionList,
+      setNoticeDeletionList,
     }
   }, [
     notices,
@@ -66,6 +76,8 @@ export default function NoticesProvider({ children }: NoticesProviderProps) {
     noticesLoaded,
     currentPage,
     creationMode,
+    noticeDeletionMode,
+    noticeDeletionList,
   ]);
 
   return (

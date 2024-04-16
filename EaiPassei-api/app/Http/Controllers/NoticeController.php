@@ -77,9 +77,19 @@ class NoticeController extends Controller
         return $this->dataRetrievalService->update($this->noticeService, $id, $request, 'notice_file');
     }
 
-    public function delete(int $id)
+    public function delete(Request $request)
     {
-        return $this->dataRetrievalService->delete($this->noticeService, $id);
+        try {
+            $deletionList = $request->all();
+            if (empty($deletionList)) {
+                return response()->json(['message' => 'No Notices'], 200);
+            }
+            $response = $this->noticeService->delete($deletionList);
+            return response()->json($response->data(), $response->status());
+    
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function deleteByExamination(int $id)

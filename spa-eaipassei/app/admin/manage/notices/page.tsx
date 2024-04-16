@@ -5,14 +5,17 @@ import { useRouter } from "next/navigation";
 import { useFetchNotices } from "@/app/lib/hooks/useFetchNotices";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { useCreateNotices } from "@/app/lib/hooks/useCreateNotices";
+import { useDeleteNotices } from "@/app/lib/hooks/useDeleteNotices";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import DashboardNotices from "./dashboardNotices";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/pages/notices/notices.module.css';
 import NoticeNavigationButtons from "./NoticeNavigationButton";
+import DeleteNoticePopUp from "@/app/lib/components/ConfirmationPopUp/DeleteNoticePopUp";
 
 function NoticesPage() {
+  const { noticeDeletionMode, setNoticeDeletionMode } = useDeleteNotices();
   const { notices, noticesList, isLoading, noticesLoaded, currentPage } = useFetchNotices();
   const { navigationLinks, updateNavigationLinks } = useNavigations();
   const {
@@ -27,11 +30,7 @@ function NoticesPage() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('NoticesList', noticesList);
-    console.log('SUBMIT LIST', fileList);
     if (noticesList.links) {
-      console.log('noticesList', noticesList);
-      console.log('noticesList.links', noticesList.links);
       updateNavigationLinks(noticesList.links);
     }
   }, [noticesLoaded, fileList]);
@@ -99,6 +98,10 @@ function NoticesPage() {
             <DashboardNotices
               data={ notices }
             />
+            {
+              noticeDeletionMode &&
+              <DeleteNoticePopUp />
+            }
           </>
         )}
 
