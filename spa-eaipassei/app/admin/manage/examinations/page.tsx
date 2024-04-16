@@ -25,7 +25,7 @@ function ExaminationsPage() {
     setFlashMessage,
   } = useContext(ExaminationsContext);
 
-  const { navigationLinks, updateNavigationLinks } = useNavigations();
+  const { updateNavigationLinks } = useNavigations();
 
   const { examinationList, isLoading, examinationsLoaded, currentPage } = useFetchExaminations();
   const router = useRouter();
