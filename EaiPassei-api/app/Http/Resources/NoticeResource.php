@@ -16,9 +16,8 @@ class NoticeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'file_path' => $this->file,
+            'file_path' => $this->file_path,
             'file_name' => $this->file_name,
-            'publication_date' => $this->publication_date,
             'examination' => $this->examination? [
                 'id' => $this->examination->id,
                 'title' => $this->examination->title,

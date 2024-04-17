@@ -22,8 +22,8 @@ class NoticeFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'notices.*.examination_id' => 'required|integer',
-            'notices.*.file_name' => 'required|string',
+            'examination_id' => 'required|integer',
+            'file_name' => 'required|string',
         ];
     }
 

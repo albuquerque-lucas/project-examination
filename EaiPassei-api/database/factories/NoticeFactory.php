@@ -18,6 +18,7 @@ class NoticeFactory extends Factory
     {
         return [
             'file_name' => "no-file-{$this->faker->firstName()}",
+            'file_path' => "example_path_image.com",
             'extension' => 'jpg',
         ];
     }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Examination::class);
             $table->string('file_name')->nullable();
+            $table->string('file_path')->nullable();
             $table->string('extension')->nullable();
             $table->timestamps();
         });

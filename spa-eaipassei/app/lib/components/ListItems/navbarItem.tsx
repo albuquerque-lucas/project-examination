@@ -5,7 +5,7 @@ export default function NavbarItem({ children }: { children: React.ReactNode }) 
     <motion.li
       className="nav-item"
       whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.9 }}
+      whileTap={{ backgroundColor: 'rgba(255, 255, 255, 0.5)'}}
     >
       { children }
     </motion.li>

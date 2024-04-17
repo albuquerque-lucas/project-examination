@@ -59,6 +59,7 @@ Route::get('/examinations/activity-status', [ExaminationController::class, 'getB
   // ROTAS DE NOTICES
   Route::get('/notices/all', [NoticeController::class, 'getAll']);
   Route::post('/notices/create', [NoticeController::class, 'create']);
+  Route::post('/notices/uploadFile', [NoticeController::class, 'uploadFile']);
   Route::get('/notices/id/{id}', [NoticeController::class, 'getById']);
   Route::patch('/notices/update/{id}', [NoticeController::class, 'update']);
   Route::delete('/notices/delete', [NoticeController::class, 'delete']);

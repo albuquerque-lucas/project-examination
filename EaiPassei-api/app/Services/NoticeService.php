@@ -81,23 +81,17 @@ class NoticeService
     public function create(array $data): ServiceResponse
     {
         try {
-            $noticeIds = [];
-            unset($data['notice_file']);
-            // DB::transaction(function () use ($data, &$noticeIds) {
-                // foreach ($data as $noticeData) {
-                    // dd($data);
-                    $notice = Notice::create($data);
-                    // dd($notice);
-                    if (!$notice) {
-                        throw new Exception('Failed to create notice');
-                    }
-                    // $noticeIds[] = $notice->id;
-                // }
-            // });
-            // dd($noticeIds);
+            if ($data['notice_file']) {
+                unset($data['notice_file']);
+            }
+            $notice = Notice::create($data);
+
+            if (!$notice) {
+                throw new Exception('Failed to create notice');
+            }
             $responseData = (object)[
                 'message' => $this->serviceResponse->createdSuccessfully(),
-                'notice_ids' => $noticeIds,
+                'id' => $notice->id,
             ];
         
             $this->serviceResponse->setAttributes(201, $responseData);

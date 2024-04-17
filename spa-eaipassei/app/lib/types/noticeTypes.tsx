@@ -9,7 +9,7 @@ export type Notice = {
 
 export type NoticeFormRequest = {
   examination_id: number;
-  notice_file: File,
+  notice_file: File;
   file_name: string;
   extension: string;
 };

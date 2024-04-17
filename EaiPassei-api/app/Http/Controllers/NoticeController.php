@@ -54,19 +54,28 @@ class NoticeController extends Controller
     {
         try {
             $requestData = $request->all();
-            if ($request->file('notice_file')) {
-                $request->file('notice_file')->store('notices', 'public');
+
+            if ($request->hasFile('notice_file')) {
+                $filePath = $request->file('notice_file')->store('notices', 'public');
+            } else {
+                $filePath = null;
             }
-            // foreach ($requestData as &$data) {
-            //     if (isset($data['notice_file'])) {
-            //         $data['notice_file']->store('notices', 'public');
-            //     }
-            // }
+
             $response = $this->noticeService->create($requestData);
     
             return response()->json($response->data(), $response->status());
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
+
+    public function uploadFile(Request $request) {
+        try {
+            if ($request->hasFile('notice_file')) {
+                $filePath = $request->file('notice_file')->store('notices', 'public');
+            }
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }

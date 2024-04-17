@@ -9,7 +9,8 @@ import { mimeToExtension } from '@/app/lib/utils/mapperFunctions';
 export const useCreateNotices = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const idExaminationRef = useRef<HTMLInputElement>(null);
-  const [fileList, setFileList] = useState<FormData[]>([]);
+  // const [fileList, setFileList] = useState<FormData[]>([]);
+  const [noticesList, setNoticesList] = useState<NoticeFormRequest[]>([]);
   const { setNoticesLoaded, creationMode, setCreationMode } = useContext(NoticesContext);
 
   const addToSubmitList = () => {
@@ -28,6 +29,7 @@ export const useCreateNotices = () => {
       file_name: noticeFile.name,
       extension: noticeFile.name.split('.').pop() || '',
     };
+  
 
     const formData = new FormData();
     Object.entries(noticeFormRequest).forEach(([key, value]) => {
@@ -37,43 +39,20 @@ export const useCreateNotices = () => {
         formData.append(key, String(value));
       }
     });
-
-    setFileList([...fileList, formData]);
+    setNoticesList([...noticesList, noticeFormRequest]);;
   }
 
   const submitNotices = async () => {
-    try {
-      const noticeFile = fileRef.current?.files?.length && fileRef.current.files[0] instanceof File
-        ? fileRef.current.files[0]
-        : null;
-
-      if (!noticeFile) {
-        console.log('Nenhum arquivo foi selecionado');
-        return;
+    console.log('NOTICES PARA SUBMIT', noticesList);
+    noticesList.forEach(async (notice) => {
+      try {
+        const response = await createNotice(`${process.env.NEXT_PUBLIC_API_CREATE_NOTICE}`, notice);
+        console.log('Resposta da criação do edital', response);
+        setNoticesLoaded(false);
+      } catch (error: any) {
+        console.log('Erro ao criar os editais', error);
       }
-
-      const noticeFormRequest: NoticeFormRequest = {
-        examination_id: 46,
-        notice_file: noticeFile,
-        file_name: noticeFile.name,
-        extension: noticeFile.name.split('.').pop() || '',
-      };
-
-      const formData = new FormData();
-      Object.entries(noticeFormRequest).forEach(([key, value]) => {
-        if (value instanceof Blob) {
-          formData.append(key, value);
-        } else {
-          formData.append(key, String(value));
-        }
-      });
-
-      const response = await createNotice(`${process.env.NEXT_PUBLIC_API_CREATE_NOTICE}`, formData);
-      console.log('Resposta da criação do edital', response);
-      setNoticesLoaded(false);
-    } catch (error: any) {
-      console.log('Erro ao criar os editais', error);
-    }
+    });
   }
 
   return {
@@ -83,6 +62,5 @@ export const useCreateNotices = () => {
     idExaminationRef,
     creationMode,
     setCreationMode,
-    fileList,
   }
 }

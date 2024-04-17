@@ -33,6 +33,7 @@ function NoticesPage() {
     if (noticesList.links) {
       updateNavigationLinks(noticesList.links);
     }
+    console.log('FILE LIST ATUALIZADA', fileList);
   }, [noticesLoaded, fileList]);
 
   return (

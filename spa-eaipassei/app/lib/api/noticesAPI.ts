@@ -1,6 +1,7 @@
 'use client';
 
 import Axios from "axios";
+import { NoticeFormRequest } from "../types/noticeTypes";
 
 const axios = Axios.create({
 	withCredentials: true,
@@ -23,17 +24,17 @@ export const getAllNotices = async (url: string, params: any) => {
   }
 }
 
-export const createNotice = async (url: string, data: any) => {
+export const createNotice = async (url: string, notice: NoticeFormRequest) => {
   try {
-    const resp = await axios.post(url, data);
+    const resp = await axios.post(url, notice);
     if (resp.status >= 200 && resp.status < 300) {
-      console.log('RESPOSTA DE SUCESSO', resp.data);
-      return resp.data;
+      console.log('RESPOSTA DE SUCESSO', resp);
+      return resp;
     } else {
       console.log('Resposta nao identificada.');
     }
   } catch (error: any) {
-    if (error.response && error.response.status >= 400 && error.response.status < 500) {
+    if (error.response && error.response.status >= 400 && error.response.status <= 500) {
       console.log('Erro ao criar o edital', error.message);
     }
   }
