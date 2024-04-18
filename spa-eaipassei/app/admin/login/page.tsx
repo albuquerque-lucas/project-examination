@@ -91,12 +91,13 @@ export default function LoginAdmin() {
             <label htmlFor="stayConnected">Keep me signed in</label>
           </div>
           <div className={ style.login_form__input }>
-            <button
+            <motion.button
               type="submit"
               className={ style.submit_button }
+              whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
               onClick={ (e) => handleLogin(e) }
               >Entrar
-            </button>
+            </motion.button>
           </div>
 
         </form>

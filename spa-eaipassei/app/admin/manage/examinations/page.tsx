@@ -20,7 +20,6 @@ import style from '@/app/ui/admin/examinations/examinations.module.css';
 function ExaminationsPage() {
   const {
     examinations,
-    setExaminations,
     flashMessage,
     setFlashMessage,
   } = useContext(ExaminationsContext);
@@ -56,7 +55,7 @@ function ExaminationsPage() {
         <div className={ style.examinations_utilitiesbox }>
           <div className={ style.utilities_buttons } >
             <motion.button
-              whileTap={{ scale: 0.9 }}
+              whileTap={{ scale: 0.95 }}
               whileHover={{color: '#fff', backgroundColor: '#4F525A'}}
               className={ style.go_back__button }
               onClick={() => router.back()}
@@ -64,7 +63,7 @@ function ExaminationsPage() {
               Voltar
             </motion.button>
             <motion.button
-              whileTap={{ scale: 0.9 }}
+              whileTap={{ scale: 0.95 }}
               whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
               onClick={() => router.push('/admin/manage/examinations/create')}
               className={ style.new_examination__button }

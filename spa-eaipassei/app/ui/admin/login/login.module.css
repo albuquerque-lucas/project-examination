@@ -22,7 +22,7 @@
 }
 
 .login_form {
-  border: 3px solid #212529;
+  border: 2px solid #212529;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -77,9 +77,5 @@
   width: 15rem;
   margin: 0 1rem;
   height: 3rem;
-}
-
-.submit_button:hover {
-  background-color: black;
-  box-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
