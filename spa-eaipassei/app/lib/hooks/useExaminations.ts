@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useRef, useContext } from 'react';
-import { ExaminationsContext } from '../context/ExaminationsContext';
 import { useRouter } from 'next/navigation';
+import { ExaminationsContext } from '../context/ExaminationsContext';
 import { Examination } from '@/app/lib/types/examinationTypes';
 import { createMany } from '@/app/lib/api/examinationsAPI';
-import { createNotice } from '../api/noticesAPI';
-import { mimeToExtension } from '@/app/lib/utils/mapperFunctions';
 import { NoticeFormRequest } from '../types/noticeTypes';
+import { mimeToExtension } from '../utils/mapperFunctions';
+import { createNotice } from '../api/noticesAPI';
 
 export const useExaminations = () => {
   const titleRef = useRef<HTMLInputElement>(null);
@@ -26,7 +26,6 @@ export const useExaminations = () => {
     const notice = fileRef.current?.files?.length && fileRef.current.files[0] instanceof File
     ? fileRef.current.files[0]
     : null;
-  
     
     if (!title || !institution || !educational_level_id) {
       setFlashMessage('Os campos do formulário não podem estar vazios.');
@@ -58,19 +57,39 @@ export const useExaminations = () => {
   const submitExaminations = async () => {
     try {
       const response = await createMany(persistenceList);
-      console.log('ARRAY DE IDS', response.data.ids);
       if (response.status === 409) {
         setFlashMessage(response.data.message);
         return;
       };
       
       if (response.status === 201) {
-        console.log('FILE LIST', fileList);
+        console.log('ARRAY DE IDS', response.data.ids);
+        response.data.ids.forEach(async (id: number, index: number) => {
+          const noticeFile = fileList[index];
+          const noticeFormRequest: NoticeFormRequest = {
+            examination_id: id,
+            notice_file: noticeFile,
+            file_name: noticeFile.name,
+            extension: mimeToExtension[noticeFile.type] || '',
+          };
+          const formData = new FormData();
+          Object.entries(noticeFormRequest).forEach(([key, value]) => {
+            if (value instanceof Blob) {
+              formData.append(key, value);
+            } else {
+              formData.append(key, String(value));
+            }
+          });
+          try {
+            const response = await createNotice(`${process.env.NEXT_PUBLIC_API_CREATE_NOTICE}`, noticeFormRequest);
+            console.log('Resposta da criação do edital', response);
+          } catch (error: any) {
+            console.log('Erro ao criar os editais', error);
+          }
+        });
         setExaminationsLoaded(false);
         setFlashMessage('Concursos enviados com sucesso.');
         router.push('/admin/manage/examinations');
-
-
         }
       } catch (error) {
       console.error('ERROR', error);

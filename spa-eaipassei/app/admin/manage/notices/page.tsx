@@ -17,7 +17,7 @@ import DeleteNoticePopUp from "@/app/lib/components/ConfirmationPopUp/DeleteNoti
 function NoticesPage() {
   const { noticeDeletionMode, setNoticeDeletionMode } = useDeleteNotices();
   const { notices, noticesList, isLoading, noticesLoaded, currentPage } = useFetchNotices();
-  const { navigationLinks, updateNavigationLinks } = useNavigations();
+  const { updateNavigationLinks } = useNavigations();
   const {
     submitNotices,
     fileRef,
@@ -25,7 +25,6 @@ function NoticesPage() {
     creationMode,
     setCreationMode,
     addToSubmitList,
-    fileList,
   } = useCreateNotices();
   const router = useRouter();
 
@@ -33,8 +32,7 @@ function NoticesPage() {
     if (noticesList.links) {
       updateNavigationLinks(noticesList.links);
     }
-    console.log('FILE LIST ATUALIZADA', fileList);
-  }, [noticesLoaded, fileList]);
+  }, [noticesLoaded]);
 
   return (
     <div className="notices_content">

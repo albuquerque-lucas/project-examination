@@ -2,14 +2,13 @@
 
 import { useState, useRef, useContext } from 'react';
 import { NoticesContext } from '../context/NoticesContext';
-import { Notice, NoticeFormRequest } from '../types/noticeTypes';
+import { NoticeFormRequest } from '../types/noticeTypes';
 import { createNotice } from '../api/noticesAPI';
 import { mimeToExtension } from '@/app/lib/utils/mapperFunctions';
 
 export const useCreateNotices = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const idExaminationRef = useRef<HTMLInputElement>(null);
-  // const [fileList, setFileList] = useState<FormData[]>([]);
   const [noticesList, setNoticesList] = useState<NoticeFormRequest[]>([]);
   const { setNoticesLoaded, creationMode, setCreationMode } = useContext(NoticesContext);
 
@@ -27,7 +26,7 @@ export const useCreateNotices = () => {
       examination_id: Number(idExaminationRef.current?.value),
       notice_file: noticeFile,
       file_name: noticeFile.name,
-      extension: noticeFile.name.split('.').pop() || '',
+      extension: mimeToExtension[noticeFile.type] || '',
     };
   
 
@@ -49,6 +48,7 @@ export const useCreateNotices = () => {
         const response = await createNotice(`${process.env.NEXT_PUBLIC_API_CREATE_NOTICE}`, notice);
         console.log('Resposta da criação do edital', response);
         setNoticesLoaded(false);
+        setNoticesList([]);
       } catch (error: any) {
         console.log('Erro ao criar os editais', error);
       }
