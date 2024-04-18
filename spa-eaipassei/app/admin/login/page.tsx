@@ -56,7 +56,9 @@ export default function LoginAdmin() {
         <form
           className={ style.login_form }
           >
-        <h3 className={ style.login_form__title }>SIGN IN TO YOUR ACCOUNT</h3>
+        <h3 className={ style.login_form__title }>
+          SIGN IN TO YOUR ACCOUNT
+        </h3>
 
           <div className={ style.login_form__input }>
             <input
