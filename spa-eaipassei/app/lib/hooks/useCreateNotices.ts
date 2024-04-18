@@ -62,5 +62,6 @@ export const useCreateNotices = () => {
     idExaminationRef,
     creationMode,
     setCreationMode,
+    setNoticesLoaded,
   }
 }
