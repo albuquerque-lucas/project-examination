@@ -54,7 +54,6 @@ class NoticeController extends Controller
     {
         try {
             $requestData = $request->all();
-
             if ($request->hasFile('notice_file')) {
                 $filePath = $request->file('notice_file')->store('notices', 'public');
             } else {
@@ -68,7 +67,6 @@ class NoticeController extends Controller
                 'file_path' => $filePath,
                 'extension' => $requestData['extension'],
             ];
-
             $response = $this->noticeService->create($data);
     
             return response()->json($response->data(), $response->status());

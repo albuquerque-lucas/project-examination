@@ -13,9 +13,9 @@ class Notice extends Model
 
     protected $fillable = [
         'examination_id',
-        'file',
+        'file_path',
         'file_name',
-        'publication_date',
+        'extension',
     ];
 
     protected $casts = [
