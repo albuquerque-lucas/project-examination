@@ -21,7 +21,7 @@ use App\Http\Controllers\AccountPlanController;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
+| routes are examinationsLoaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
 |
 */
@@ -59,9 +59,10 @@ Route::get('/examinations/activity-status', [ExaminationController::class, 'getB
   // ROTAS DE NOTICES
   Route::get('/notices/all', [NoticeController::class, 'getAll']);
   Route::post('/notices/create', [NoticeController::class, 'create']);
+  Route::post('/notices/uploadFile', [NoticeController::class, 'uploadFile']);
   Route::get('/notices/id/{id}', [NoticeController::class, 'getById']);
   Route::patch('/notices/update/{id}', [NoticeController::class, 'update']);
-  Route::delete('/notices/delete/{id}', [NoticeController::class, 'delete']);
+  Route::delete('/notices/delete', [NoticeController::class, 'delete']);
   Route::delete('/notices/delete/examination/{id}', [NoticeController::class, 'deleteByExamination']);
 
 

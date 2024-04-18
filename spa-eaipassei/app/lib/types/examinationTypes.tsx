@@ -1,8 +1,8 @@
 export type Examination = {
   educational_level_id: string;
   title: string;
-  active?: boolean;
   institution: string;
+  active?: boolean;
   registration_start_date?: string;
   registration_end_date?: string;
   exams_start_date?: string;
@@ -17,16 +17,12 @@ export type EducationalLevel = {
 export type ExaminationsContextType = {
   examinations: any[];
   setExaminations: (examinations: any) => void;
-  navigationLinks: any[];
-  setNavigationLinks: (navigationLinks: any) => void;
   dashboardDeletionMode: boolean;
   setDashboardDeletionMode: (dashboardDeletionMode: boolean) => void;
   examinationToDelete: number | null;
   setExaminationToDelete: (examinationToDelete: number) => void;
   currentPage: number;
   setCurrentPage: (currentPage: number) => void;
-  loaded: boolean;
-  setLoaded: (loaded: boolean) => void;
   selectedOrder: string | null;
   setSelectedOrder: (selectedOrder: string) => void;
   filterList: ExaminationFilterList[];
@@ -39,6 +35,8 @@ export type ExaminationsContextType = {
   setEducationalLevels: (educationalLevels: EducationalLevel[]) => void;
   flashMessage: string | null;
   setFlashMessage: (flashMessage: string | null) => void;
+  examinationsLoaded: boolean;
+  setExaminationsLoaded: (examinationsLoaded: boolean) => void;
 };
 
 export type ExaminationFilterList = {

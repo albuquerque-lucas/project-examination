@@ -3,7 +3,6 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
 import { educationalLevelsApi } from "../../api/educationalLevelsAPI";
-import { BiSearch } from 'react-icons/bi';
 import { IoMdAddCircle } from "react-icons/io";
 import { ExaminationFilterList } from "../../types/examinationTypes";
 import { motion } from 'framer-motion';
@@ -13,15 +12,14 @@ export default function ExaminationsFilters() {
   const [filterBy, setFilterBy] = useState("");
   const [educationalLevelsLoaded, setEducationalLevelsLoaded] = useState(false);
   const {
-    setSelectedOrder,
     filterList,
     setFilterList,
     setFilterMessage,
     queryParams,
     setQueryParams,
-    setLoaded,
     educationalLevels,
     setEducationalLevels,
+    setExaminationsLoaded,
   } = useContext(ExaminationsContext);
 
   const textInputRef = useRef<HTMLInputElement>(null);
@@ -84,7 +82,7 @@ export default function ExaminationsFilters() {
 
   const submitFilters = () => {
     setQueryParams(filterList);
-    setLoaded(false);
+    setExaminationsLoaded(false);
   }
 
 

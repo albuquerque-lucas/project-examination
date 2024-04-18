@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use App\Exceptions\InvalidDateFormatException;
 use App\Http\Resources\ExaminationResource;
 use App\Models\Examination;
 use App\Models\ServiceResponse;
 use Exception;
-use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
@@ -81,203 +79,27 @@ class ExaminationService implements IService
         }
     }
 
-    public function getByTitle(string $title, string $order): ServiceResponse
+    public function create(array $examinations): ServiceResponse
     {
         try {
-            $examinations = Examination::getByTitle($title, $order);
-
-            $collection = ExaminationResource::collection($examinations);
-
-            $this->serviceResponse->setAttributes(200, $collection);
-            return $this->serviceResponse;
-        } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $this->serviceResponse->recordsNotFound('Examination'),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch (Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $this->serviceResponse->badRequest(),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        }
-    }
-    public function getByInstitution(string $institution, string $order): ServiceResponse
-    {
-        try {
-            $examinations = Examination::getByInstitution($institution, $order);
-
-            $collection = ExaminationResource::collection($examinations);
-            $this->serviceResponse->setAttributes(200, $collection);
-
-            return $this->serviceResponse;
-        } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $this->serviceResponse->recordsNotFound('Examination'),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch (Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $this->serviceResponse->badRequest(),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        }
-    }
-
-    public function getByRegistrationDate(DateTime $registrationDate, string $order, string $position): ServiceResponse
-    {
-        try {
-            $examinations = Examination::getByRegistrationDate($registrationDate, $order, $position);
-
-            $collection = ExaminationResource::collection($examinations);
-
-            $this->serviceResponse->setAttributes(200, $collection);
-            return $this->serviceResponse;
-        } catch (InvalidDateFormatException $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $this->serviceResponse->badRequest(),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $this->serviceResponse->recordsNotFound('Examination'),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch (Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $this->serviceResponse->badRequest(),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        }
-    }
-
-    public function getByEducationalLevel(int $educationalLevelId, string $order): ServiceResponse
-    {
-        try {
-            $examinations = Examination::getByEducationalLevel($educationalLevelId, $order);
-            $collection = ExaminationResource::collection($examinations);
-            $this->serviceResponse->setAttributes(200, $collection);
-            return $this->serviceResponse;
-        } catch(NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $this->serviceResponse->recordsNotFound('Examination'),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch (Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $this->serviceResponse->badRequest(),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        }
-    }
-
-    public function getByActivityStatus(bool $active, string $order): ServiceResponse
-    {
-        try {
-            $examinations = Examination::getByActivityStatus($active, $order);
-
-
-            $collection = ExaminationResource::collection($examinations);
-            $this->serviceResponse->setAttributes(200, $collection);
-            return $this->serviceResponse;
-        } catch (NotFound $exception) {
-            $this->serviceResponse->setAttributes(404, (object)[
-                'message' => $this->serviceResponse->recordsNotFound('Examination'),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch (Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $this->serviceResponse->badRequest(),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        }
-    }
-
-    public function create(array $data): ServiceResponse
-    {
-        try {
-            $examination = Examination::create($data);
-
-            if(!$examination) {
-                $this->serviceResponse->setAttributes(422, (object)[
-                    'message' => $this->serviceResponse->failedToCreateRecord(),
-                ]);
-                return $this->serviceResponse;
-            }
-
-            $responseData = (object)[
-                'message' => $this->serviceResponse->createdSuccessfully('Examination'),
-                'id' => $examination->id,
-                'title' => $examination->title,
-                'institution' => $examination->institution,
-            ];
-            
-            $this->serviceResponse->setAttributes(201, $responseData);
-            return $this->serviceResponse;
-        } catch (ValidationException $exception) {
-            $this->serviceResponse->setAttributes(422, (object)[
-                'message' => $this->serviceResponse->validationFailed(),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch (PDOException $exception) {
-            $this->serviceResponse->setAttributes(409, (object)[
-                'message' => $this->serviceResponse->failedToCreateRecord(),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        } catch (Exception $exception) {
-            $this->serviceResponse->setAttributes(400, (object)[
-                'message' => $this->serviceResponse->badRequest(),
-                'info' => $exception->getMessage(),
-                'code' => $exception->getCode()
-            ]);
-            return $this->serviceResponse;
-        }
-    }
-
-    public function createMany(array $examinations): ServiceResponse
-    {
-        try {
-            DB::transaction(function () use ($examinations) {
+            DB::transaction(function () use ($examinations, &$createdExaminationsIds) {
                 foreach ($examinations as $examination) {
                     $createdExamination = Examination::create($examination);
-    
+
                     if (!$createdExamination) {
                         throw new Exception('Failed to create examination');
                     }
+
+                    $createdExaminationsIds[] = $createdExamination->id;
                 }
             });
-    
+
             $responseData = (object)[
                 'message' => $this->serviceResponse->createdManySuccessfully(),
                 'count' => count($examinations),
+                'ids' => $createdExaminationsIds,
             ];
-    
+
             $this->serviceResponse->setAttributes(201, $responseData);
             return $this->serviceResponse;
         } catch (ValidationException $exception) {

@@ -5,14 +5,12 @@
   min-height: 25rem;
   padding: 1rem;
   margin-bottom: 5rem;
-  width: 90vw;
 }
 
 .data_table {
   background-color: white;
   border-radius: var(--default-border-radius);
   border-spacing: 0;
-  max-height: 400px;
   overflow-y: auto;
   width: 80%;
 }
@@ -20,28 +18,32 @@
 .data_table thead{
   background-color: var(--primary-background-color);
   color: white;
-  width: 100%;
 }
 
 .data_table thead th{
   padding: 0.5rem;
-  max-width: 20rem;
 }
 
-.data_table tbody tr{
-  height: 2rem;
-  margin: 2rem 0;
-}
-
-.data_table tbody tr td{
-  padding: 0.2rem;
+.data_table tbody tr {
+  cursor: pointer;
 }
 
 .data_table tbody tr:hover{
   background-color: #fcf2ec;
-  cursor: pointer;
 }
 
+.data_table tbody tr td{
+  padding: 0.3rem;
+}
+
+.id_column {
+  font-weight: 700;
+}
+
+.title_column,
+.file_name_column {
+  max-width: 15rem;
+}
 
 .institution_column {
   display: none;
@@ -101,9 +103,9 @@
 
 
 @media (min-width: 768px) {
-  .data_table {
+  /* .data_table {
     width: 100%;
-  }
+  } */
   .institution_column {
     display: revert;
   }

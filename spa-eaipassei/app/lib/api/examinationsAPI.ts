@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { Examination } from "../types/examinationTypes";
 
-export const axios = Axios.create({
+const axios = Axios.create({
 	withCredentials: true,
 	headers: {
 		"Content-Type": "application/json",

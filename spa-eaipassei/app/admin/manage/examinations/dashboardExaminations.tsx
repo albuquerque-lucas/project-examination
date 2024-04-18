@@ -3,7 +3,7 @@
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
-import { ExaminationsContext } from "../../context/ExaminationsContext";
+import { ExaminationsContext } from "../../../lib/context/ExaminationsContext";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
 interface Exam {
@@ -37,7 +37,7 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
           <thead>
             <tr>
               <th>#</th>
-              <th>Título</th>
+              <th className={ style.title_column }>Título</th>
               <th className={ style.institution_column }>Instituição</th>
               <th className={ style.educational_level_column }>Nível de Escolaridade</th>
               <th>Ativo</th>
@@ -47,8 +47,8 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
           <tbody>
             {(data as Exam[]).map((item, index) => (
               <tr key={index} onClick={ () => navigateToExamPage(item.id) }>
-                  <td>{item.id}</td>
-                  <td>{item.title}</td>
+                  <td className={ style.id_column }>{item.id}</td>
+                  <td className={ style.title_column }>{item.title}</td>
                   <td className={ style.institution_column }>{item.institution}</td>
                   <td className={ style.educational_level_column }>{item.educational_level}</td>
                   <td>{item.active ? 'Ativo' : 'Inativo'}</td>

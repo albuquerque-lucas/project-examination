@@ -1,26 +1,24 @@
 'use client';
-
 import React, { useContext, useEffect } from 'react';
-import { ExaminationsContext } from '../../context/ExaminationsContext';
-import { useNavigations } from '../../hooks/useNavigations';
-import { getExaminationsByPage } from '../../api/examinationsAPI';
-import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
+import { useNavigations } from '@/app/lib/hooks/useNavigations';
+import { NoticesContext } from '@/app/lib/context/NoticesContext';
 import { motion } from 'framer-motion';
+import { getAllNotices } from '@/app/lib/api/noticesAPI';
+import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
 
-const NavigationButtons: React.FC = () => {
+const NoticeNavigationButtons: React.FC = () => {
   const { navigationLinks, updateNavigationLinks } = useNavigations();
-  
   const {
     currentPage,
     setCurrentPage,
     queryParams,
     filterList,
     setQueryParams,
-    setExaminationsLoaded,
-    setExaminations,
-  } = useContext(ExaminationsContext);
-  
+    setNoticesLoaded,
+    setNotices,
+  } = useContext(NoticesContext);
+
   useEffect(() => {
   }, [currentPage]);
 
@@ -40,10 +38,10 @@ const NavigationButtons: React.FC = () => {
 
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
   
-      const response = await getExaminationsByPage(url, updatedQueryParams);
-      setExaminations(response.data);
+      const response = await getAllNotices(url, updatedQueryParams);
+      setNotices(response.data);
       updateNavigationLinks(response.links);
-      setExaminationsLoaded(false);
+      setNoticesLoaded(false);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -72,4 +70,4 @@ const NavigationButtons: React.FC = () => {
   )
 }
 
-export default NavigationButtons;
+export default NoticeNavigationButtons;

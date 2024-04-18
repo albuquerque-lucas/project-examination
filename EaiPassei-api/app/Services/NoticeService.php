@@ -12,8 +12,9 @@ use App\Models\Notice;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Storage;
 use App\Interfaces\IService;
+use Illuminate\Support\Facades\DB;
 
-class NoticeService implements IService
+class NoticeService
 {
     private $serviceResponse;
 
@@ -22,10 +23,10 @@ class NoticeService implements IService
         $this->serviceResponse = $serviceResponse;
     }
 
-    public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
+    public function getAll(string $order, string $orderBy = 'id', array $params = []): ServiceResponse
     {
         try {
-            $notices = Notice::getAllOrdered($order, $orderBy);
+            $notices = Notice::getAllOrdered($order, $orderBy, $params);
 
             $collection = NoticeResource::collection($notices);
             $this->serviceResponse->setAttributes(200, $collection);
@@ -80,22 +81,19 @@ class NoticeService implements IService
     public function create(array $data): ServiceResponse
     {
         try {
+            if (array_key_exists('notice_file', $data)) {
+                unset($data['notice_file']);
+            }
             $notice = Notice::create($data);
 
             if (!$notice) {
-                $this->serviceResponse->setAttributes(422, (object)[
-                    'message' => $this->serviceResponse->failedToCreateRecord()
-                ]);
-                return $this->serviceResponse;
+                throw new Exception('Failed to create notice');
             }
-
             $responseData = (object)[
-                'message' => $this->serviceResponse->createdSuccessfully('Notice'),
+                'message' => $this->serviceResponse->createdSuccessfully(),
                 'id' => $notice->id,
-                'file_name' => $notice->file_name,
-                'file_path' => $notice->file,
             ];
-
+        
             $this->serviceResponse->setAttributes(201, $responseData);
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
@@ -172,35 +170,39 @@ class NoticeService implements IService
             }
     }
 
-    public function delete(int $id): ServiceResponse
+    public function delete(array $deletionList)
     {
         try {
-            $notice = Notice::findOrFail($id);
-
-            if (!$notice) {
-                $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => $this->serviceResponse->recordsNotFound('Notice'),
-                    'deleted' => false,
+            return DB::transaction(function () use ($deletionList) {
+                foreach ($deletionList['ids'] as $id) {
+                    $notice = Notice::find($id);
+    
+                    if (!$notice) {
+                        $this->serviceResponse->setAttributes(200, (object)[
+                            'message' => "Nenhum edital com o id informado: $id",
+                            'deleted' => false,
+                        ]);
+                        return $this->serviceResponse;
+                    }
+    
+                    $isDeleted = $notice->delete();
+    
+                    if (!$isDeleted) {
+                        $this->serviceResponse->setAttributes(400, (object)[
+                            'message' => $this->serviceResponse->errorTryingToDelete(),
+                            'deleted' => false,
+                        ]);
+                        return $this->serviceResponse;
+                    }
+                }
+    
+                $this->serviceResponse->setAttributes(200, (object)[
+                    'message' => $this->serviceResponse->deletedSuccessfully('Notice'),
+                    'deleted' => true,
                 ]);
+    
                 return $this->serviceResponse;
-            }
-    
-            $isDeleted = $notice->delete();
-    
-            if (!$isDeleted) {
-                $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => $this->serviceResponse->errorTryingToDelete(),
-                    'deleted' => false,
-                ]);
-                return $this->serviceResponse;
-            }
-    
-            $this->serviceResponse->setAttributes(200, (object)[
-                'message' => $this->serviceResponse->deletedSuccessfully('Notice'),
-                'deleted' => true,
-            ]);
-
-            return $this->serviceResponse;
+            });
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
                 'message' => $this->serviceResponse->recordsNotFound(),
@@ -215,7 +217,6 @@ class NoticeService implements IService
             ]);
             return $this->serviceResponse;
         }
-
     }
 
     public function deleteByExamination(int $id): ServiceResponse

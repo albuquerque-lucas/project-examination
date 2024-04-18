@@ -23,14 +23,14 @@ class ExaminationFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'educational_level_id' => 'required|integer',
-            'title' => 'required|string',
-            'active' => 'boolean',
-            'institution' => 'required|string',
-            'registration_start_date' => 'string',
-            'registration_end_date' => 'string',
-            'exams_start_date' => 'string',
-            'exams_end_date' => 'string',
+            'examinations.*.educational_level_id' => 'required|integer',
+            'examinations.*.title' => 'required|string',
+            'examinations.*.active' => 'nullable|boolean',
+            'examinations.*.institution' => 'required|string',
+            'examinations.*.registration_start_date' => 'nullable|string',
+            'examinations.*.registration_end_date' => 'nullable|string',
+            'examinations.*.exams_start_date' => 'nullable|string',
+            'examinations.*.exams_end_date' => 'nullable|string',
         ];
     }
 }

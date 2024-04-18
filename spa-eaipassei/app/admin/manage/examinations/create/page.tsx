@@ -5,8 +5,6 @@ import { useRouter } from 'next/navigation';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
 import ExaminationSavingCard from "@/app/lib/components/ExaminationSavingCard/ExaminationSavingCard";
 import withAuth from "@/app/lib/components/withAuth/withAuth"
-import { Examination } from '@/app/lib/types/examinationTypes';
-import { createMany } from '@/app/lib/api/examinationsAPI';
 import { educationalLevelsApi } from '@/app/lib/api/educationalLevelsAPI';
 import { motion, AnimatePresence } from 'framer-motion';
 import FlashMessage from '@/app/lib/components/Message/FlashMessage';
@@ -15,9 +13,15 @@ import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 
 const CreateExaminationsPage = () => {
   const router = useRouter();
-  const { setLoaded, educationalLevels, setEducationalLevels, flashMessage, setFlashMessage } = useContext(ExaminationsContext);
+  const {
+    educationalLevels,
+    setEducationalLevels,
+    flashMessage,
+    setFlashMessage,
+  } = useContext(ExaminationsContext);
   const { getAll } = educationalLevelsApi;
   const {
+    fileRef,
     titleRef,
     institutionRef,
     educationalLevelRef,
@@ -81,6 +85,13 @@ const CreateExaminationsPage = () => {
                   ))
                 }
               </select>
+
+              <input
+                type="file"
+                name="file_path"
+                ref={ fileRef }
+              />
+
               <motion.button
                 whileTap={{scale:0.9}}
                 onClick={ addToList }

@@ -2,19 +2,25 @@
 
 import { useContext } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
+import { NavigationContext } from "../../context/NavigationContext";
 import { motion } from 'framer-motion';
 import { BsFillXSquareFill } from "react-icons/bs";
 import { TiDelete } from "react-icons/ti";
 import style from '@/app/ui/admin/filters_bar/filtersBar.module.css';
 
 export default function SelectedFiltersBar() {
-  const { filterList, setFilterList, setQueryParams, setLoaded } = useContext(ExaminationsContext);
+  const {
+    filterList,
+    setFilterList,
+    setQueryParams,
+    setExaminationsLoaded
+  } = useContext(ExaminationsContext);
 
   const removeFromFilterList = (indexToRemove: number) => {
     setFilterList(prevFilterList => {
       const updatedFilterList = prevFilterList.filter((_, index) => index !== indexToRemove);
       setQueryParams(updatedFilterList);
-      setLoaded(false);
+      setExaminationsLoaded(false);
       return updatedFilterList;
     });
   }
@@ -22,7 +28,7 @@ export default function SelectedFiltersBar() {
   const clearFilters = () => {
     setFilterList([]);
     setQueryParams([]);
-    setLoaded(false);
+    setExaminationsLoaded(false);
   }
 
   return (

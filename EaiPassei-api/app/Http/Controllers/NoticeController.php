@@ -24,12 +24,25 @@ class NoticeController extends Controller
         $this->noticeService = $noticeService;
         $this->dataRetrievalService = $dataRetrievalService;
 
-        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById']]);
+        // $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById']]);
     }
-
+    
     public function getAll(Request $request)
     {
-        return $this->dataRetrievalService->getAll($this->noticeService, $request);
+        // $this->authorize('manage', $request->user());
+        $validated = $request->validate([
+            'order' => 'nullable|string|in:asc,desc',
+            'examination' => 'nullable|string',
+            'examination_id' => 'nullable|integer',
+            'page' => 'nullable|integer',
+        ]);
+        $order = $request->input('order', 'desc');
+        $params = $validated;
+        unset($params['order'], $params['page']);
+        $response = $this->noticeService->getAll($order, 'id', $params);
+        $data = $response->data();
+        $dataArray = (array)$data;
+        return response()->json($dataArray['resource'], $response->status());
     }
 
     public function getById(int $id): JsonResponse | Response
@@ -37,16 +50,38 @@ class NoticeController extends Controller
         return $this->dataRetrievalService->getById($this->noticeService, $id);
     }
 
-    public function create(NoticeFormRequest $request)
+    public function create(Request $request)
     {
         try {
             $requestData = $request->all();
-            DateValidationService::validateAndFormatDates($requestData);
-            $response = $this->noticeService->create($requestData);
-
+            if ($request->hasFile('notice_file')) {
+                $filePath = $request->file('notice_file')->store('notices', 'public');
+            } else {
+                $filePath = null;
+            }
+            
+            // return response()->json($filePath, 200);
+            $data = [
+                'examination_id' => $requestData['examination_id'],
+                'file_name' => $requestData['file_name'],
+                'file_path' => $filePath,
+                'extension' => $requestData['extension'],
+            ];
+            $response = $this->noticeService->create($data);
+    
             return response()->json($response->data(), $response->status());
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
+
+    public function uploadFile(Request $request) {
+        try {
+            if ($request->hasFile('notice_file')) {
+                $filePath = $request->file('notice_file')->store('notices', 'public');
+            }
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }
@@ -57,9 +92,19 @@ class NoticeController extends Controller
         return $this->dataRetrievalService->update($this->noticeService, $id, $request, 'notice_file');
     }
 
-    public function delete(int $id)
+    public function delete(Request $request)
     {
-        return $this->dataRetrievalService->delete($this->noticeService, $id);
+        try {
+            $deletionList = $request->all();
+            if (empty($deletionList)) {
+                return response()->json(['message' => 'No Notices'], 200);
+            }
+            $response = $this->noticeService->delete($deletionList);
+            return response()->json($response->data(), $response->status());
+    
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function deleteByExamination(int $id)

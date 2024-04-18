@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
-import DashboardExaminations from "@/app/lib/components/DashboardTable/dashboardExaminations";
+import DashboardExaminations from './dashboardExaminations';
 import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
+import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { useRouter } from "next/navigation";
+import { useFetchExaminations } from "@/app/lib/hooks/useFetchExaminations";
 import FilterBox from "@/app/lib/components/Filters/filterBox";
 import SelectedFiltersBar from "@/app/lib/components/SelectedFiltersBar/selectedFiltersBar";
 import { motion, AnimatePresence } from 'framer-motion';
@@ -19,60 +21,21 @@ function ExaminationsPage() {
   const {
     examinations,
     setExaminations,
-    navigationLinks,
-    setNavigationLinks,
-    loaded,
-    setLoaded,
-    queryParams,
     flashMessage,
     setFlashMessage,
   } = useContext(ExaminationsContext);
 
-  const [examinationList, setExaminationList] = useState({} as any);
-  const [isLoading, setIsLoading] = useState(false);
+  const { updateNavigationLinks } = useNavigations();
+
+  const { examinationList, isLoading, examinationsLoaded, currentPage } = useFetchExaminations();
   const router = useRouter();
 
   useEffect(() => {
-    const fetchExaminations = async () => {
-      try {
-        if (!loaded) {
-          setIsLoading(true);
-          const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`, queryParams);
-          setExaminationList(examinationList);
-          setExaminations(examinationList.data);
-          updateNavigationLinks(examinationList.links);
-          setLoaded(true);
-        }
-      } catch (error: any) {
-        console.log('Erro ao buscar os concursos', error);
-        setExaminations({});
-      } finally {
-        setIsLoading(false);
-      }
-    };
-  
-    fetchExaminations();
-  }, [loaded]);
-
-  const updateNavigationLinks = (links: any[]) => {
-    const updatedLinks = links.map((link: any, index: number, array: any[]) => {
-      if (index === array.length - 1) {
-          return {
-            ...link,
-            label: link.label.replace('&raquo;', '\u00BB'),
-          };
-      }
-      if (index === 0) {
-        return {
-          ...link,
-          label: link.label.replace('&laquo;', '\u00AB'),
-        };
-      }
-      return link;
-    });
-
-    setNavigationLinks(updatedLinks);
-  };
+    console.log('ExaminationList', examinationList);
+    if (examinationList.links) {
+      updateNavigationLinks(examinationList.links);
+    }
+  }, [examinationsLoaded]);
 
   return (
       <div className="examinations_content">
@@ -113,16 +76,11 @@ function ExaminationsPage() {
             <FilterBox />
           </div>
         </div>
-        {isLoading ? (
+        {isLoading && currentPage === 1 ? (
           <SpinnerLoader />
         ) : (
           <>
-            <NavigationButtons
-              navigationLinks={ navigationLinks }
-              setData={ setExaminations }
-              setLinks={ setNavigationLinks }
-              getDataByPage={ getExaminationsByPage }
-            />
+            <NavigationButtons />
             <div className={ style.selected_filters }>
             <SelectedFiltersBar />
             </div>
