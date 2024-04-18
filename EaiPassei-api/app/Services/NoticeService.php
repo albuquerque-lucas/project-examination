@@ -81,7 +81,7 @@ class NoticeService
     public function create(array $data): ServiceResponse
     {
         try {
-            if ($data['notice_file']) {
+            if (array_key_exists('notice_file', $data)) {
                 unset($data['notice_file']);
             }
             $notice = Notice::create($data);

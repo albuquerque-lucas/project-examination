@@ -60,8 +60,16 @@ class NoticeController extends Controller
             } else {
                 $filePath = null;
             }
+            
+            // return response()->json($filePath, 200);
+            $data = [
+                'examination_id' => $requestData['examination_id'],
+                'file_name' => $requestData['file_name'],
+                'file_path' => $filePath,
+                'extension' => $requestData['extension'],
+            ];
 
-            $response = $this->noticeService->create($requestData);
+            $response = $this->noticeService->create($data);
     
             return response()->json($response->data(), $response->status());
         } catch(InvalidDateFormatException $exception) {

@@ -26,7 +26,12 @@ export const getAllNotices = async (url: string, params: any) => {
 
 export const createNotice = async (url: string, notice: NoticeFormRequest) => {
   try {
-    const resp = await axios.post(url, notice);
+    const resp = await axios.post(url, notice, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    
+    });
     if (resp.status >= 200 && resp.status < 300) {
       console.log('RESPOSTA DE SUCESSO', resp);
       return resp;
@@ -35,6 +40,7 @@ export const createNotice = async (url: string, notice: NoticeFormRequest) => {
     }
   } catch (error: any) {
     if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+      console.log('Erro ao criar o edital', error);
       console.log('Erro ao criar o edital', error.message);
     }
   }
