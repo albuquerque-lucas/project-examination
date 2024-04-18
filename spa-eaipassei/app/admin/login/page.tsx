@@ -56,7 +56,9 @@ export default function LoginAdmin() {
         <form
           className={ style.login_form }
           >
-        <h3 className={ style.login_form__title }>SIGN IN TO YOUR ACCOUNT</h3>
+        <h3 className={ style.login_form__title }>
+          SIGN IN TO YOUR ACCOUNT
+        </h3>
 
           <div className={ style.login_form__input }>
             <input
@@ -91,12 +93,13 @@ export default function LoginAdmin() {
             <label htmlFor="stayConnected">Keep me signed in</label>
           </div>
           <div className={ style.login_form__input }>
-            <button
+            <motion.button
               type="submit"
               className={ style.submit_button }
+              whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
               onClick={ (e) => handleLogin(e) }
               >Entrar
-            </button>
+            </motion.button>
           </div>
 
         </form>

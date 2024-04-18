@@ -1,7 +1,7 @@
 'use-client';
 
 import { useLayoutEffect, useState, useContext } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { fetchUser } from "../../axios/axios";
 import { AuthContext } from "../../context/AuthContext";
 import { makeLogout } from "../../axios/axios";
@@ -11,6 +11,7 @@ export default function withAuth(Component: any) {
     const [isAuthChecked, setIsAuthChecked] = useState(false);
     const { user, setUser, setAuthMessage } = useContext(AuthContext);
     const router = useRouter();
+    const pathname = usePathname()
 
     useLayoutEffect(() => {
       setAuthMessage(null);
@@ -19,7 +20,7 @@ export default function withAuth(Component: any) {
           try {
             const currentUser = await fetchUser();
             // console.log('USER', currentUser);
-            if (!currentUser || currentUser === undefined || currentUser === null) {
+            if (pathname !== '/admin/login' && (!currentUser || currentUser === undefined || currentUser === null)) {
               setAuthMessage(
                 {
                   message: 'Você precisa estar logado para acessar essa página.',
