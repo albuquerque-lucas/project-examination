@@ -4,11 +4,11 @@ import { Notice } from "../../../lib/types/noticeTypes";
 import { MdDelete } from "react-icons/md";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
-interface DashboardExaminationsProps {
+interface DashboardNoticesProps {
   data: Notice[] | {};
 }
 
-export default function DashboardNotices({ data }: DashboardExaminationsProps) {
+export default function DashboardNotices({ data }: DashboardNoticesProps) {
   const { setNoticeDeletionMode, setNoticeDeletionList } = useDeleteNotices();
 
   const router = useRouter();
