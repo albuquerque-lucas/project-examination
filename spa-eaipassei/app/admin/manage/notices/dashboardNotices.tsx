@@ -14,7 +14,7 @@ export default function DashboardNotices({ data }: DashboardNoticesProps) {
   const router = useRouter();
 
   const navigateToPage = (id: number) => {
-    router.push(`/admin/manage/examinations/${id}`)
+    router.push(`/admin/manage/notices/${id}`)
   }
 
   return (

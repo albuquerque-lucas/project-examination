@@ -1,6 +1,7 @@
 export type Subject = {
   id: number;
-  name: string;
+  title: string;
+  study_area: string;
 }
 
 export type SubjectContextType = {
@@ -33,5 +34,5 @@ export type SubjectsFilterList = {
 };
 
 export type SubjectsFormRequest = {
-  name: string;
+  title: string;
 }
