@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchSubjects } from "@/app/lib/hooks/useFetchSubjects";
 import { useDeleteSubjects } from "@/app/lib/hooks/useDeleteSubjects";
+import { useCreateSubjects } from "@/app/lib/hooks/useCreateSubjects";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { motion } from 'framer-motion';
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
@@ -23,6 +24,7 @@ function SubjectsPage () {
   } = useFetchSubjects();
   const { subjectDeletionMode } = useDeleteSubjects();
   const { updateNavigationLinks } = useNavigations();
+  const { creationMode, setCreationMode } = useCreateSubjects();
   const router = useRouter();
 
   useEffect(() => {
@@ -53,12 +55,12 @@ function SubjectsPage () {
             whileTap={{ scale: 0.9 }}
             whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
             className={ style.new_subject__button }
-            // onClick={() => setCreationMode(!creationMode)}
+            onClick={() => setCreationMode(!creationMode)}
           >
             Adicionar Edital
           </motion.button>
           {
-            // creationMode &&
+            creationMode &&
             <div className={ style.subject_creation__form }>
               <label htmlFor="subject_name">Nome:</label>
               <input type="test" name='subject_name'/>

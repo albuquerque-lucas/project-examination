@@ -35,3 +35,19 @@ export const getAllSubjects = async (url: string, params: any) => {
       }
     }
   }
+
+  export const createSubject = async (url: string, subject: SubjectsFormRequest) => {
+    try {
+      const resp = await axios.post(url, subject);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp;
+      } else {
+        console.log('Resposta nao identificada.');
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+        console.log('Erro ao criar a disciplina', error);
+        console.log('Erro ao criar a disciplina', error.message);
+      }
+    }
+  }
