@@ -31,3 +31,7 @@ export type SubjectsFilterList = {
   filter?: string | null;
   value?: string | null;
 };
+
+export type SubjectsFormRequest = {
+  name: string;
+}

@@ -1,6 +1,5 @@
 import { useContext, useEffect } from 'react';
 import { NoticesContext } from '../context/NoticesContext';
-import { toast } from 'react-toastify';
 import { getAllNotices, deleteNotices } from '../api/noticesAPI';
 
 export const useDeleteNotices = () => {

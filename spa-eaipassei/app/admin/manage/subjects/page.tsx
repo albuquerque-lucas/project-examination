@@ -1,17 +1,36 @@
 'use client';
 
 import withAuth from "@/app/lib/components/withAuth/withAuth";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useFetchSubjects } from "@/app/lib/hooks/useFetchSubjects";
+import { useDeleteSubjects } from "@/app/lib/hooks/useDeleteSubjects";
+import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { motion } from 'framer-motion';
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
-import style from '@/app/ui/admin/pages/subjects/subjects.module.css';
 import SubjectsNavigationButtons from "./SubjectsNavigationButtons";
 import DeleteSubjectsPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteSubjectsPopUp";
+import SubjectsDashboard from "./SubjectsDashboard";
+import style from '@/app/ui/admin/pages/subjects/subjects.module.css';
 
-function SubjectsDashboard () {
+function SubjectsPage () {
+  const {
+    subjects,
+    subjectsList,
+    isLoading,
+    currentPage,
+    subjectsLoaded,
+  } = useFetchSubjects();
+  const { subjectDeletionMode } = useDeleteSubjects();
+  const { updateNavigationLinks } = useNavigations();
   const router = useRouter();
-  const isLoading = false;
-  const currentPage = 1;
+
+  useEffect(() => {
+    if (subjectsList.links) {
+      updateNavigationLinks(subjectsList.links);
+    }
+  }, [subjectsLoaded]);
+
   return (
     <div className="subjects_content">
       <h1>
@@ -55,7 +74,7 @@ function SubjectsDashboard () {
 
         </div>
       </div>
-            {isLoading && currentPage === 1 ? (
+      {isLoading && currentPage === 1 ? (
           <SpinnerLoader />
         ) : (
           <>
@@ -63,9 +82,10 @@ function SubjectsDashboard () {
             <div className={ style.selected_filters }>
             </div>
             <SubjectsDashboard
+              data={subjects}
             />
             {
-              // noticeDeletionMode &&
+              subjectDeletionMode &&
               <DeleteSubjectsPopUp />
             }
           </>
@@ -74,4 +94,4 @@ function SubjectsDashboard () {
   );
 }
 
-export default withAuth(SubjectsDashboard);
+export default withAuth(SubjectsPage);
