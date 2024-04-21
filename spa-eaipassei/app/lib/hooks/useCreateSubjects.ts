@@ -7,7 +7,12 @@ import { SubjectsFormRequest } from "../types/subjectTypes";
 
 export const useCreateSubjects = () => {
   const titleRef = useRef<HTMLInputElement>(null);
-  const { subjectsLoaded, setSubjectsLoaded, creationMode, setCreationMode } = useContext(SubjectsContext);
+  const { 
+    subjectsLoaded,
+    setSubjectsLoaded,
+    creationMode,
+    setCreationMode,
+  } = useContext(SubjectsContext);
 
   const submitSubject = async () => {
     const subject: SubjectsFormRequest = {

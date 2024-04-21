@@ -1,7 +1,12 @@
 'use client';
 
 import { createContext, useState, useMemo } from "react";
-import { SubjectContextType, Subject, SubjectsQueryParams, SubjectsFilterList } from "../types/subjectTypes";
+import {
+  SubjectContextType,
+  Subject,
+  SubjectsQueryParams,
+  SubjectsFilterList
+} from "../types/subjectTypes";
 
 const defaultValue: SubjectContextType = {
   subjects: [],

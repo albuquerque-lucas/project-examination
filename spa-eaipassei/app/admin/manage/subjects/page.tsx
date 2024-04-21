@@ -63,8 +63,9 @@ function SubjectsPage () {
             creationMode &&
             <div className={ style.subject_creation__form }>
               <label htmlFor="subject_title">Título:</label>
-              <input type="test" name='subject_title' ref={ titleRef }/>
-              <select name="" id="">
+              <input type="text" id='subject_title' ref={ titleRef }/>
+              <input type="text" id="study_area_title"/>
+              <select id="educational_level_select">
                 
               </select>
               <motion.button
