@@ -6,12 +6,12 @@ import { createSubject } from "../api/subjectsAPI";
 import { SubjectsFormRequest } from "../types/subjectTypes";
 
 export const useCreateSubjects = () => {
-  const nameRef = useRef<HTMLInputElement>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
   const { subjectsLoaded, setSubjectsLoaded, creationMode, setCreationMode } = useContext(SubjectsContext);
 
   const submitSubject = async () => {
     const subject: SubjectsFormRequest = {
-      name: nameRef.current?.value || '',
+      title: titleRef.current?.value || '',
     };
 
     try {
@@ -24,7 +24,7 @@ export const useCreateSubjects = () => {
   }
 
   return {
-    nameRef,
+    titleRef,
     subjectsLoaded,
     creationMode,
     setSubjectsLoaded,

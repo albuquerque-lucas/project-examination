@@ -24,7 +24,7 @@ function SubjectsPage () {
   } = useFetchSubjects();
   const { subjectDeletionMode } = useDeleteSubjects();
   const { updateNavigationLinks } = useNavigations();
-  const { creationMode, setCreationMode } = useCreateSubjects();
+  const { creationMode, setCreationMode, submitSubject, titleRef } = useCreateSubjects();
   const router = useRouter();
 
   useEffect(() => {
@@ -62,12 +62,16 @@ function SubjectsPage () {
           {
             creationMode &&
             <div className={ style.subject_creation__form }>
-              <label htmlFor="subject_name">Nome:</label>
-              <input type="test" name='subject_name'/>
+              <label htmlFor="subject_title">Título:</label>
+              <input type="test" name='subject_title' ref={ titleRef }/>
+              <select name="" id="">
+                
+              </select>
               <motion.button
-              whileTap={{ scale: 0.9 }}
-              whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
-              className={ style.submit_subject__button }
+                whileTap={{ scale: 0.9 }}
+                whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
+                className={ style.submit_subject__button }
+                onClick={() => submitSubject()}
               >
                 Adicionar
               </motion.button>
