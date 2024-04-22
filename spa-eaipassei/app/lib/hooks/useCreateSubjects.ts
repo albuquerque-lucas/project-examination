@@ -7,6 +7,8 @@ import { SubjectsFormRequest } from "../types/subjectTypes";
 
 export const useCreateSubjects = () => {
   const titleRef = useRef<HTMLInputElement>(null);
+  const educationalLevelRef = useRef<HTMLSelectElement>(null);
+  const studyAreaRef = useRef<HTMLSelectElement>(null);
   const { 
     subjectsLoaded,
     setSubjectsLoaded,
@@ -15,8 +17,16 @@ export const useCreateSubjects = () => {
   } = useContext(SubjectsContext);
 
   const submitSubject = async () => {
+    if (!titleRef.current || !educationalLevelRef.current || !studyAreaRef.current) {
+      console.error('All fields are required');
+      console.log('All fields are required');
+      return;
+    }
+  
     const subject: SubjectsFormRequest = {
-      title: titleRef.current?.value || '',
+      title: titleRef.current.value,
+      educational_level_id: parseInt(educationalLevelRef.current.value),
+      study_area_id: parseInt(studyAreaRef.current.value),
     };
 
     try {
@@ -30,6 +40,8 @@ export const useCreateSubjects = () => {
 
   return {
     titleRef,
+    educationalLevelRef,
+    studyAreaRef,
     subjectsLoaded,
     creationMode,
     setSubjectsLoaded,

@@ -24,6 +24,7 @@ export default function SubjectsDashboard({ data }: SubjectsDashboardProps) {
               <th>#</th>
               <th className={ style.title_column }>Nome</th>
               <th>Área</th>
+              <th>Escolaridade</th>
               <th>Excluir</th>
             </tr>
           </thead>
@@ -33,6 +34,7 @@ export default function SubjectsDashboard({ data }: SubjectsDashboardProps) {
                   <td className={ style.id_column }>{item.id}</td>
                   <td className={ style.title_column }>{ item.title ? item.title : 'Nome indisponivel'}</td>
                   <td className={ style.title_column }>{ item.study_area ? item.study_area : 'Area indisponivel'}</td>
+                  <td className={ style.title_column }>{ item.educational_level ? item.educational_level : 'Escolaridade não informada'}</td>
                   <td className={ style.dashboard_delete__buttons }>
                     <button
                     className={ style.dashboard_table__delete }

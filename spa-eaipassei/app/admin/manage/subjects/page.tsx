@@ -29,19 +29,19 @@ function SubjectsPage () {
   } = useFetchSubjects();
   const { 
     studyAreasList,
-    studyAreasLoaded,
   } = useFetchStudyAreas();
 
   const {
     educationalLevelsList,
-    educationalLevelsLoaded,
   } = useFetchEducationalLevels();
 
   const {
     creationMode,
     setCreationMode,
     submitSubject,
-    titleRef
+    titleRef,
+    educationalLevelRef,
+    studyAreaRef,
   } = useCreateSubjects();
 
   useEffect(() => {
@@ -81,14 +81,14 @@ function SubjectsPage () {
             <div className={ style.subject_creation__form }>
               <label htmlFor="subject_title">Título:</label>
               <input type="text" id='subject_title' ref={ titleRef }/>
-              <select id="educatonal_level_select">
+              <select id="educatonal_level_select" ref={ educationalLevelRef }>
                 {
                   educationalLevelsList.map((level) => (
                     <option key={level.id} value={level.id}>{level.name}</option>
                   ))
                 }
               </select>
-              <select id="study_areas_select">
+              <select id="study_areas_select" ref={ studyAreaRef }>
                 {
                   studyAreasList.map((area) => (
                     <option key={area.id} value={area.id}>{area.area}</option>

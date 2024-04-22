@@ -2,6 +2,7 @@ export type Subject = {
   id: number;
   title: string;
   study_area: string;
+  educational_level: string;
 }
 
 export type SubjectContextType = {

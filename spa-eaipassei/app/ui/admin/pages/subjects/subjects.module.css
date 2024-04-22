@@ -37,13 +37,35 @@
 .subject_creation__form {
   content: '';
   width: 50rem;
-  height: 2.5rem;
+  height: 3rem;
   border-radius: var(--default-border-radius);
   background-color: var(--primary-background-color);
   color: white;
   display: flex;
   align-items: center;
   padding: 0 1rem;
+}
+
+.subject_creation__form input,
+.subject_creation__form select {
+  margin-left: 0.7rem;
+}
+
+.subject_creation__form input {
+  height: 1.7rem;
+  padding-left: 0.5rem;
+}
+
+.subject_creation__form select {
+  height: 1.7rem;
+  width: 10rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.subject_creation__form select,
+.subject_creation__form option {
+  cursor: pointer;
 }
 
 .utilities_buttons button {
