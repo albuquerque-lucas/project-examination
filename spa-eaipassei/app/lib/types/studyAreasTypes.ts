@@ -1,6 +1,6 @@
 export type StudyArea = {
   id: number;
-  title: string;
+  area: string;
 }
 
 export type StudyAreaContextType = {
@@ -33,5 +33,5 @@ export type StudyAreasFilterList = {
 };
 
 export type StudyAreasFormRequest = {
-  title: string;
+  area: string;
 }

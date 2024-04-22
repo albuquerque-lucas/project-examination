@@ -35,4 +35,7 @@ export type SubjectsFilterList = {
 
 export type SubjectsFormRequest = {
   title: string;
+  educational_level_id: number;
+  study_area_id: number;
+
 }

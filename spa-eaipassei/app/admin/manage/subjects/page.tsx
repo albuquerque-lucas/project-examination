@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { useFetchSubjects } from "@/app/lib/hooks/useFetchSubjects";
 import { useDeleteSubjects } from "@/app/lib/hooks/useDeleteSubjects";
 import { useCreateSubjects } from "@/app/lib/hooks/useCreateSubjects";
+import { useFetchStudyAreas } from "@/app/lib/hooks/useFetchStudyAreas";
+import { useFetchEducationalLevels } from "@/app/lib/hooks/useFetchEducationalLevels";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { motion } from 'framer-motion';
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
@@ -15,6 +17,9 @@ import SubjectsDashboard from "./SubjectsDashboard";
 import style from '@/app/ui/admin/pages/subjects/subjects.module.css';
 
 function SubjectsPage () {
+  const router = useRouter();
+  const { subjectDeletionMode } = useDeleteSubjects();
+  const { updateNavigationLinks } = useNavigations();
   const {
     subjects,
     subjectsList,
@@ -22,10 +27,22 @@ function SubjectsPage () {
     currentPage,
     subjectsLoaded,
   } = useFetchSubjects();
-  const { subjectDeletionMode } = useDeleteSubjects();
-  const { updateNavigationLinks } = useNavigations();
-  const { creationMode, setCreationMode, submitSubject, titleRef } = useCreateSubjects();
-  const router = useRouter();
+  const { 
+    studyAreasList,
+    studyAreasLoaded,
+  } = useFetchStudyAreas();
+
+  const {
+    educationalLevelsList,
+    educationalLevelsLoaded,
+  } = useFetchEducationalLevels();
+
+  const {
+    creationMode,
+    setCreationMode,
+    submitSubject,
+    titleRef
+  } = useCreateSubjects();
 
   useEffect(() => {
     if (subjectsList.links) {
@@ -57,16 +74,26 @@ function SubjectsPage () {
             className={ style.new_subject__button }
             onClick={() => setCreationMode(!creationMode)}
           >
-            Adicionar Edital
+            Adicionar Matéria
           </motion.button>
           {
             creationMode &&
             <div className={ style.subject_creation__form }>
               <label htmlFor="subject_title">Título:</label>
               <input type="text" id='subject_title' ref={ titleRef }/>
-              <input type="text" id="study_area_title"/>
-              <select id="educational_level_select">
-                
+              <select id="educatonal_level_select">
+                {
+                  educationalLevelsList.map((level) => (
+                    <option key={level.id} value={level.id}>{level.name}</option>
+                  ))
+                }
+              </select>
+              <select id="study_areas_select">
+                {
+                  studyAreasList.map((area) => (
+                    <option key={area.id} value={area.id}>{area.area}</option>
+                  ))
+                }
               </select>
               <motion.button
                 whileTap={{ scale: 0.9 }}

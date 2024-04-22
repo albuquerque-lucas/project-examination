@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
 import ExaminationSavingCard from "@/app/lib/components/ExaminationSavingCard/ExaminationSavingCard";
 import withAuth from "@/app/lib/components/withAuth/withAuth"
-import { educationalLevelsApi } from '@/app/lib/api/educationalLevelsAPI';
+import { getAllEducationalLevels } from '@/app/lib/api/educationalLevelsAPI';
 import { motion, AnimatePresence } from 'framer-motion';
 import FlashMessage from '@/app/lib/components/Message/FlashMessage';
 import { useExaminations } from '@/app/lib/hooks/useExaminations';
@@ -19,7 +19,6 @@ const CreateExaminationsPage = () => {
     flashMessage,
     setFlashMessage,
   } = useContext(ExaminationsContext);
-  const { getAll } = educationalLevelsApi;
   const {
     fileRef,
     titleRef,
@@ -36,7 +35,7 @@ const CreateExaminationsPage = () => {
     try {
       if (educationalLevels.length === 0) {
         const fetchData = async () => {
-          const levels = await getAll();
+          const levels = await getAllEducationalLevels();
           if (levels) {
             setEducationalLevels(levels.data);
           }

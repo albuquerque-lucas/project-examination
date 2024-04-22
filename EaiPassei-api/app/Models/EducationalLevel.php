@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,9 +26,9 @@ class EducationalLevel extends Model
         return $this->hasMany(Subject::class);
     }
 
-    public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
+    public static function getAllOrdered(string $order, string $orderBy = 'id'): Collection
     {
-        return self::orderBy($orderBy, $order)->paginate();
+        return self::orderBy($orderBy, $order)->get();
     }
 
     public static function getById(int $id): self | null

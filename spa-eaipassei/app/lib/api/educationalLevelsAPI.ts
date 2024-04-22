@@ -9,10 +9,9 @@ export const axios = Axios.create({
   },
 });
 
-export const educationalLevelsApi = {
-  getAll: async (params: Record<string, any> = {}) => {
+export const getAllEducationalLevels = async (url: string, params: any) => {
     try {
-      const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_GET_EDUCATIONAL_LEVELS}`, { params });
+      const resp = await axios.get(url, { params });
       if (resp.status >= 200 && resp.status < 300) {
         return resp.data;
       }
@@ -22,4 +21,3 @@ export const educationalLevelsApi = {
       }
     }
   }
-}

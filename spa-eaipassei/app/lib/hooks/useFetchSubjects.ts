@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from "react";
-import { Subject } from "../types/subjectTypes";
 import { SubjectsContext } from "../context/SubjectsContext";
 import { getAllSubjects } from "../api/subjectsAPI";
 

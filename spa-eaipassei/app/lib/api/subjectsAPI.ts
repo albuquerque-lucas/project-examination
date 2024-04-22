@@ -6,7 +6,7 @@ import { SubjectsFormRequest } from "../types/subjectTypes";
 const axios = Axios.create({
 	withCredentials: true,
 	headers: {
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
 		"Accept": "application/json",
 	},
 });

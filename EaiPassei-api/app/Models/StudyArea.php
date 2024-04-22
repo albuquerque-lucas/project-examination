@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -37,9 +38,9 @@ class StudyArea extends Model
         return $this->hasManyThrough(ExamQuestion::class, Subject::class);
     }
 
-    public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
+    public static function getAllOrdered(string $order, string $orderBy = 'id'):Collection
     {
-        return self::orderBy($orderBy, $order)->paginate();
+        return self::orderBy($orderBy, $order)->get();
     }
 
     public static function getByArea(string $area, string $order = 'desc'): LengthAwarePaginator
