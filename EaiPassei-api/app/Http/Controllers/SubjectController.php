@@ -19,7 +19,7 @@ class SubjectController extends Controller
         $this->subjectService = $subjectService;
         $this->dataRetrievalService = $dataRetrievalService;
 
-        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById', 'getByTitle']]);
+        // $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById', 'getByTitle']]);
     }
 
     public function getAll(Request $request)
@@ -77,7 +77,7 @@ class SubjectController extends Controller
         try {
             $deletionList = $request->all();
             if (empty($deletionList)) {
-                return response()->json(['message' => 'No Notices'], 200);
+                return response()->json(['message' => 'Nenhuma materia identificada.'], 200);
             }
             $response = $this->subjectService->delete($deletionList);
             return response()->json($response->data(), $response->status());

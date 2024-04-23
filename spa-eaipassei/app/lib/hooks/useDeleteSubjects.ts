@@ -22,6 +22,8 @@ export const useDeleteSubjects = () => {
       console.error('ID is null');
       return;
     }
+
+    console.log('DELETION LIST', subjectDeletionList);
     
     try {
       const response = await deleteSubjects(`${process.env.NEXT_PUBLIC_API_DELETE_SUBJECTS}`, subjectDeletionList);

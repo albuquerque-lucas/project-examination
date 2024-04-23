@@ -191,8 +191,13 @@ class SubjectService
     public function delete(array $deletionList): ServiceResponse
     {
         try {
+            // $this->serviceResponse->setAttributes(200, (object)[
+            //     'message' => 'chegou ate o service',
+            //     'deleted' => $deletionList
+            // ]);
+            // return $this->serviceResponse;
             return DB::transaction(function () use ($deletionList) {
-                foreach ($deletionList['ids'] as $id) {
+                foreach ($deletionList as $id) {
                     $subject = Subject::find($id);
     
                     if (!$subject) {
@@ -215,7 +220,7 @@ class SubjectService
                 }
     
                 $this->serviceResponse->setAttributes(200, (object)[
-                    'message' => $this->serviceResponse->deletedSuccessfully('Subject'),
+                    'message' => $this->serviceResponse->deletedSuccessfully(),
                     'deleted' => true,
                 ]);
     
