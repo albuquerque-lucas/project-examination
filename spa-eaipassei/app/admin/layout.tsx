@@ -8,22 +8,25 @@ import NoticesProvider from "../lib/context/NoticesContext";
 import SubjectsProvider from "../lib/context/SubjectsContext";
 import { Suspense } from "react";
 import Loading from "./loading";
+import StudyAreasProvider from "../lib/context/StudyAreasContext";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
       <NavigationProvider>
         <AuthProvider>
-          <SubjectsProvider>
-            <ExaminationsProvider>
-              <NoticesProvider>
-                <Suspense fallback={ <Loading /> }>
-                  <AdminLayout>
-                      { children }
-                  </AdminLayout>
-                </Suspense>
-              </NoticesProvider>
-            </ExaminationsProvider>
-          </SubjectsProvider>
+          <StudyAreasProvider>
+            <SubjectsProvider>
+              <ExaminationsProvider>
+                <NoticesProvider>
+                  <Suspense fallback={ <Loading /> }>
+                    <AdminLayout>
+                        { children }
+                    </AdminLayout>
+                  </Suspense>
+                </NoticesProvider>
+              </ExaminationsProvider>
+            </SubjectsProvider>
+          </StudyAreasProvider>
         </AuthProvider>
       </NavigationProvider>
   );

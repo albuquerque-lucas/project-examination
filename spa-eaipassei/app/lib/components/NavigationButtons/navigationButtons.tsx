@@ -29,7 +29,6 @@ const NavigationButtons: React.FC = () => {
     if (typeof url === 'undefined' || url === null) return;
     try {
       const urlObj = new URL(url);
-      console.log('URL OBJECT', urlObj);
       const page = urlObj.searchParams.get('page');
       setCurrentPage(Number(page));
   

@@ -1,6 +1,9 @@
+import { Subject } from "./subjectTypes";
+
 export type StudyArea = {
   id: number;
   area: string;
+  subjects?: Subject[];
 }
 
 export type StudyAreaContextType = {

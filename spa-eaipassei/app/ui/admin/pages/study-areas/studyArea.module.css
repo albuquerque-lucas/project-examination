@@ -1,0 +1,120 @@
+.study_areas_headtitle {
+  /* margin-bottom: 3rem; */
+  margin-bottom: 1rem;
+}
+
+.messages_messagebox {
+  content: '';
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.study_areas_utilitiesbox {
+  margin-bottom: 3rem;
+  border-radius: var(--default-border-radius);
+  width: 100%;
+  /* margin: 1.5rem auto; */
+  margin: 0 auto 2rem;
+  display: flex;
+  min-height: 5rem;
+  flex-direction: column;
+  align-items: center;
+  width: 70vw;
+}
+
+.utilities_buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  padding: 1rem;
+  width: 40%;
+}
+
+.study_area_creation__form {
+  content: '';
+  width: 50rem;
+  height: 3rem;
+  border-radius: var(--default-border-radius);
+  background-color: var(--primary-background-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.study_area_creation__form input,
+.study_area_creation__form select {
+  margin-left: 0.7rem;
+}
+
+.study_area_creation__form input {
+  height: 1.7rem;
+  padding-left: 0.5rem;
+}
+
+.study_area_creation__form select {
+  height: 1.7rem;
+  width: 10rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.study_area_creation__form select,
+.study_area_creation__form option {
+  cursor: pointer;
+}
+
+.utilities_buttons button {
+  border: 2px solid transparent;
+  border-radius: var(--default-border-radius);
+  height: 2.5rem;
+  width: 10rem;
+  margin: 0.2rem 0 0.2rem 0;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+}
+
+.study_area_creation__form button {
+  background-color: var(--secondary-background-color);
+  height: 2rem;
+  width: 5rem;
+}
+
+.new_study_area__button {
+  background-color: #007bff;
+}
+
+.go_back__button {
+  background-color: #36393e;
+}
+
+@media (min-width: 510px) {
+  .study_areas_utilitiesbox {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 830px) {
+  .study_areas_utilitiesbox {
+    align-items: flex-start;
+  }
+
+  .utilities_buttons {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .utilities_buttons button {
+    margin: 1rem;
+  }
+
+  /* .utilities_filters {
+    flex-direction: row;
+    width: 70%;
+  } */
+}
