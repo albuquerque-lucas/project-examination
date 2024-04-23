@@ -89,6 +89,13 @@ class SubjectController extends Controller
 
     public function create(SubjectFormRequest $request)
     {
-        return $this->dataRetrievalService->create($this->subjectService, $request);
+        try {
+            $requestData = $request->all();
+            $response = $this->subjectService->create($requestData);
+
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 }

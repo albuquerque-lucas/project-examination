@@ -41,6 +41,7 @@ export const getAllSubjects = async (url: string, params: any) => {
     try {
       const resp = await axios.post(url, subject);
       if (resp.status >= 200 && resp.status < 300) {
+        console.log('RESPOSTA', resp);
         return resp;
       } else {
         console.log('Resposta nao identificada.');
