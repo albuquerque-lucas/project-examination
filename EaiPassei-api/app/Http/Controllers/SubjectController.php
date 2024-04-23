@@ -24,7 +24,19 @@ class SubjectController extends Controller
 
     public function getAll(Request $request)
     {
-        return $this->dataRetrievalService->getAll($this->subjectService, $request);
+        $validated = $request->validate([
+            'order' => 'nullable|string|in:asc,desc',
+            'educational_level_id' => 'nullable|integer',
+            'study_area_id' => 'nullable|integer',
+            'page' => 'nullable|integer',
+        ]);
+        $order = $request->input('order', 'desc');
+        $params = $validated;
+        unset($params['order'], $params['page']);
+        $response = $this->subjectService->getAll($order, 'id', $params);
+        $data = $response->data();
+        $dataArray = (array)$data;
+        return response()->json($dataArray['resource'], $response->status());
     }
 
     public function getById(int $id)
@@ -60,9 +72,19 @@ class SubjectController extends Controller
         return $this->dataRetrievalService->update($this->subjectService, $id, $request);
     }
 
-    public function delete(int $id)
+    public function delete(Request $request)
     {
-        return $this->dataRetrievalService->delete($this->subjectService, $id);
+        try {
+            $deletionList = $request->all();
+            if (empty($deletionList)) {
+                return response()->json(['message' => 'No Notices'], 200);
+            }
+            $response = $this->subjectService->delete($deletionList);
+            return response()->json($response->data(), $response->status());
+    
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function create(SubjectFormRequest $request)

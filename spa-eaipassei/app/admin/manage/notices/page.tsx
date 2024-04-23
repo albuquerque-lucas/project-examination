@@ -15,7 +15,7 @@ import NoticeNavigationButtons from "./NoticeNavigationButton";
 import DeleteNoticePopUp from "@/app/lib/components/ConfirmationPopUp/DeleteNoticePopUp";
 
 function NoticesPage() {
-  const { noticeDeletionMode, setNoticeDeletionMode } = useDeleteNotices();
+  const { noticeDeletionMode } = useDeleteNotices();
   const { notices, noticesList, isLoading, noticesLoaded, currentPage } = useFetchNotices();
   const { updateNavigationLinks } = useNavigations();
   const {

@@ -14,6 +14,7 @@ const axios = Axios.create({
 export const getAllSubjects = async (url: string, params: any) => {
   try {
     const resp = await axios.get(url, { params });
+    console.error('RESPOSTA DO FETCH ALL', resp);
     if (resp.status >= 200 && resp.status < 300) {
       return resp.data;
     }

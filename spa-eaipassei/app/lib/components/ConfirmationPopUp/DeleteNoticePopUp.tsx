@@ -1,7 +1,6 @@
 'use client';
 
 import { useDeleteNotices } from '../../hooks/useDeleteNotices';
-import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 import popUp from '@/app/ui/admin/cards/popUp.module.css';
 
