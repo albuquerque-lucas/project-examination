@@ -21,11 +21,11 @@ class StudyAreaService implements IService
     {
         $this->serviceResponse = $serviceResponse;
     }
-    public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
+    public function getAll(string $order, string $orderBy = 'id', array $params = []): ServiceResponse
     {
         try {
-            $studyAreas = StudyArea::getAllOrdered($order, $orderBy);
-
+            $studyAreas = StudyArea::getAllOrdered($order, $orderBy, $params);
+            $this->serviceResponse->setAttributes(200, $studyAreas);
             $collection = StudyAreaResource::collection($studyAreas);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;

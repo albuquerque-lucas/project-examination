@@ -20,6 +20,7 @@ function StudyAreasPage() {
     isLoading,
     currentPage,
     studyAreas,
+    studyAreasAPIResponse,
   } = useFetchStudyAreas();
 
   useEffect(() => {

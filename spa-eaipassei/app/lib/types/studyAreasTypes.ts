@@ -28,6 +28,7 @@ export type StudyAreaContextType = {
 export type StudyAreasQueryParams = {
   page?: number;
   order?: string;
+  pagination?: boolean;
 };
 
 export type StudyAreasFilterList = {

@@ -5,6 +5,8 @@ import { StudyArea } from "../types/studyAreasTypes";
 
 export const useFetchStudyAreas = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [studyAreasAPIResponse, setStudyAreasAPIResponse] = useState({} as any);
+  const [noPaginatedAreasList, setNotPaginatedList] = useState<StudyArea[]>([]);
   const {
     studyAreas,
     setStudyAreas,
@@ -20,8 +22,10 @@ export const useFetchStudyAreas = () => {
         if (!studyAreasLoaded) {
           setIsLoading(true);
           const fetchedStudyAreasList = await getAllAreas(`${process.env.NEXT_PUBLIC_API_GET_STUDY_AREAS_LIST}`, queryParams);
-          console.log('RESPONSE HOOK', fetchedStudyAreasList);
-            setStudyAreas(fetchedStudyAreasList);
+          const fetchedNotPaginatedAreasList = await getAllAreas(`${process.env.NEXT_PUBLIC_API_GET_STUDY_AREAS_LIST}`, { order: 'asc', pagination: false});
+            setStudyAreasAPIResponse(fetchedStudyAreasList);
+            setStudyAreas(fetchedStudyAreasList.data);
+            setNotPaginatedList(fetchedNotPaginatedAreasList);
             setStudyAreasLoaded(true);
           }
       } catch (error: any) {
@@ -37,9 +41,11 @@ export const useFetchStudyAreas = () => {
 
   return {
     studyAreas,
+    studyAreasAPIResponse,
     isLoading,
     studyAreasLoaded,
     currentPage,
     queryParams,
+    noPaginatedAreasList,
   };
 }

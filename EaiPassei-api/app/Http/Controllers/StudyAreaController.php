@@ -26,7 +26,20 @@ class StudyAreaController extends Controller
 
     public function getAll(Request $request)
     {
-        return $this->dataRetrievalService->getAll($this->studyAreaService, $request);
+        $validated = $request->validate([
+            'order' => 'nullable|string|in:asc,desc',
+            'area' => 'nullable|string',
+            'page' => 'nullable|integer',
+        ]);
+        $pagination = filter_var($request->query('pagination', 'true'), FILTER_VALIDATE_BOOLEAN);
+        $order = $request->input('order', 'desc');
+        $params = $validated;
+        $params += ['pagination' => $pagination];
+        unset($params['order'], $params['page']);
+        $response = $this->studyAreaService->getAll($order, 'id', $params);
+        $data = $response->data();
+        $dataArray = (array)$data;
+        return response()->json($dataArray['resource'], $response->status());
     }
 
     public function getById(int $id)

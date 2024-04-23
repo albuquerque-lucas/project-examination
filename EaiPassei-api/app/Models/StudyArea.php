@@ -38,9 +38,19 @@ class StudyArea extends Model
         return $this->hasManyThrough(ExamQuestion::class, Subject::class);
     }
 
-    public static function getAllOrdered(string $order, string $orderBy = 'id'):Collection
+    public static function getAllOrdered(string $order, string $orderBy = 'id', array $params = []): Collection | LengthAwarePaginator
     {
-        return self::orderBy($orderBy, $order)->get();
+        $query = self::orderBy($orderBy, $order);
+        $pagination = $params['pagination'] ?? true;
+        unset($params['pagination']);
+        foreach ($params as $key => $value) {
+            if (!is_null($value)) {
+                $query = $query->where($key, 'like', "%$value%");
+            }
+        }
+    
+    
+        return $pagination ? $query->paginate() : $query->get();
     }
 
     public static function getByArea(string $area, string $order = 'desc'): LengthAwarePaginator

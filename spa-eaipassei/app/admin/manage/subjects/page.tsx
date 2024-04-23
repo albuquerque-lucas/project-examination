@@ -28,7 +28,7 @@ function SubjectsPage () {
     subjectsLoaded,
   } = useFetchSubjects();
   const { 
-    studyAreasList,
+    noPaginatedAreasList,
   } = useFetchStudyAreas();
 
   const {
@@ -90,7 +90,7 @@ function SubjectsPage () {
               </select>
               <select id="study_areas_select" ref={ studyAreaRef }>
                 {
-                  studyAreasList.map((area) => (
+                  noPaginatedAreasList.map((area) => (
                     <option key={area.id} value={area.id}>{area.area}</option>
                   ))
                 }
