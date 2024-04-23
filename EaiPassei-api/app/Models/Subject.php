@@ -53,9 +53,15 @@ class Subject extends Model
         return $this->belongsTo(EducationalLevel::class);
     }
 
-    public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
+    public static function getAllOrdered(string $order, string $orderBy = 'id', array $params = []): LengthAwarePaginator
     {
-        return self::orderBy($orderBy, $order)->paginate();
+        $query = self::orderBy($orderBy, $order);
+        foreach ($params as $key => $value) {
+            if (!is_null($value)) {
+                $query = $query->where($key, 'like', "%$value%");
+            }
+        }
+        return $query->paginate();
     }
 
     public static function getById(int $id): self | null

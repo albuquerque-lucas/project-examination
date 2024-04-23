@@ -10,10 +10,10 @@ use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
 use PDOException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Interfaces\IService;
+use Illuminate\Support\Facades\DB;
 
 
-class SubjectService implements IService
+class SubjectService
 {
     private $serviceResponse;
 
@@ -22,7 +22,7 @@ class SubjectService implements IService
         $this->serviceResponse = $serviceResponse;
     }
 
-    public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
+    public function getAll(string $order, string $orderBy = 'id', array $params = []): ServiceResponse
     {
         try {
             $subjects = Subject::getAllOrdered($order, $orderBy);
@@ -188,35 +188,44 @@ class SubjectService implements IService
             return $this->serviceResponse;
         }
     }
-    public function delete(int $id): ServiceResponse
+    public function delete(array $deletionList): ServiceResponse
     {
         try {
-            $subject = Subject::findOrFail($id);
-
-            if (!$subject) {
-                $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => $this->serviceResponse->recordsNotFound('Subject'),
-                    'deleted' => false,
+            // $this->serviceResponse->setAttributes(200, (object)[
+            //     'message' => 'chegou ate o service',
+            //     'deleted' => $deletionList
+            // ]);
+            // return $this->serviceResponse;
+            return DB::transaction(function () use ($deletionList) {
+                foreach ($deletionList as $id) {
+                    $subject = Subject::find($id);
+    
+                    if (!$subject) {
+                        $this->serviceResponse->setAttributes(200, (object)[
+                            'message' => "Nenhuma matéria com o id informado: $id",
+                            'deleted' => false,
+                        ]);
+                        return $this->serviceResponse;
+                    }
+    
+                    $isDeleted = $subject->delete();
+    
+                    if (!$isDeleted) {
+                        $this->serviceResponse->setAttributes(400, (object)[
+                            'message' => $this->serviceResponse->errorTryingToDelete(),
+                            'deleted' => false,
+                        ]);
+                        return $this->serviceResponse;
+                    }
+                }
+    
+                $this->serviceResponse->setAttributes(200, (object)[
+                    'message' => $this->serviceResponse->deletedSuccessfully(),
+                    'deleted' => true,
                 ]);
+    
                 return $this->serviceResponse;
-            }
-    
-            $isDeleted = $subject->delete();
-    
-            if (!$isDeleted) {
-                $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => $this->serviceResponse->errorTryingToDelete(),
-                    'deleted' => false,
-                ]);
-                return $this->serviceResponse;
-            }
-    
-            $this->serviceResponse->setAttributes(200, (object)[
-                'message' => $this->serviceResponse->deletedSuccessfully('Subject'),
-                'deleted' => true,
-            ]);
-
-            return $this->serviceResponse;
+            });
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
                 'message' => $this->serviceResponse->recordsNotFound(),

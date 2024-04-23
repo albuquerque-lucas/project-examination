@@ -1,15 +1,15 @@
 'use client';
 
-import { useDeleteNotices } from '../../hooks/useDeleteNotices';
-import { motion } from 'framer-motion';
+import { useDeleteSubjects } from "../../hooks/useDeleteSubjects";
+import { motion } from "framer-motion";
 import popUp from '@/app/ui/admin/cards/popUp.module.css';
 
-export default function DeleteNoticePopUp() {
+export default function DeleteSubjectsPopUp() {
   const {
     handleDelete,
-    setNoticeDeletionMode,
-    noticeDeletionList,
-  } = useDeleteNotices();
+    setSubjectDeletionMode,
+    subjectDeletionList,
+  } = useDeleteSubjects();
   return (
     <motion.div
       className={ popUp.background__screen }
@@ -31,12 +31,12 @@ export default function DeleteNoticePopUp() {
               Sim
             </button>
             <button
-            onClick={ () => setNoticeDeletionMode(false) }
+            onClick={ () => setSubjectDeletionMode(false) }
             >
               Não
             </button>
           </div>
         </div>
     </motion.div>
-)
+  )
 }

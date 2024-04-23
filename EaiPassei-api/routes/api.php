@@ -72,7 +72,7 @@ Route::get('/examinations/activity-status', [ExaminationController::class, 'getB
   Route::get('/subjects/id/{id}', [SubjectController::class, 'getById']);
   Route::post('/subjects/create', [SubjectController::class, 'create']);
   Route::patch('/subjects/update/{id}', [SubjectController::class, 'update']);
-  Route::delete('/subjects/delete/{id}', [SubjectController::class, 'delete']);
+  Route::delete('/subjects/delete', [SubjectController::class, 'delete']);
 
 
   // ROTAS DE STUDY AREAS

@@ -1,4 +1,4 @@
-.notices_headtitle {
+.subjects_headtitle {
   /* margin-bottom: 3rem; */
   margin-bottom: 1rem;
 }
@@ -12,7 +12,7 @@
   align-items: center;
 }
 
-.notices_utilitiesbox {
+.subjects_utilitiesbox {
   margin-bottom: 3rem;
   border-radius: var(--default-border-radius);
   width: 100%;
@@ -34,16 +34,38 @@
   width: 40%;
 }
 
-.notice_creation__form {
+.subject_creation__form {
   content: '';
   width: 50rem;
-  height: 2.5rem;
+  height: 3rem;
   border-radius: var(--default-border-radius);
   background-color: var(--primary-background-color);
   color: white;
   display: flex;
   align-items: center;
   padding: 0 1rem;
+}
+
+.subject_creation__form input,
+.subject_creation__form select {
+  margin-left: 0.7rem;
+}
+
+.subject_creation__form input {
+  height: 1.7rem;
+  padding-left: 0.5rem;
+}
+
+.subject_creation__form select {
+  height: 1.7rem;
+  width: 10rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.subject_creation__form select,
+.subject_creation__form option {
+  cursor: pointer;
 }
 
 .utilities_buttons button {
@@ -57,13 +79,13 @@
   cursor: pointer;
 }
 
-.notice_creation__form button {
+.subject_creation__form button {
   background-color: var(--secondary-background-color);
   height: 2rem;
   width: 5rem;
 }
 
-.new_examination__button {
+.new_subject__button {
   background-color: #007bff ;
 }
 
@@ -95,13 +117,13 @@
 } */
 
 @media (min-width: 510px) {
-  .notices_utilitiesbox {
+  .subjects_utilitiesbox {
     flex-direction: row;
   }
 }
 
 @media (min-width: 830px) {
-  .notices_utilitiesbox {
+  .subjects_utilitiesbox {
     align-items: flex-start;
   }
 

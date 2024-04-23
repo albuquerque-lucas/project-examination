@@ -24,66 +24,66 @@ class ServiceResponse extends Model
         $this->data = $data;
     }
 
-    // Record Creation
+    // Criação de registro
 
-public function createdSuccessfully(string $field = null): string
-{
-    if ($field) {
-        return "$field created successfully.";
+    public function createdSuccessfully(string $field = null): string
+    {
+        if ($field) {
+            return "$field criado com sucesso.";
+        }
+        return "Registro criado com sucesso.";
     }
-    return "Record created successfully.";
-}
 
-public function createdManySuccessfully(string $field = null): string
-{
-    if ($field) {
-        return "Many $field created successfully.";
+    public function createdManySuccessfully(string $field = null): string
+    {
+        if ($field) {
+            return "Vários $field criados com sucesso.";
+        }
+        return "Os dados foram registrados com sucesso.";
     }
-    return "Os dados foram registrados com sucesso";
-}
 
-    // Record Updates
+    // Atualizações de registro
 
     public function changesSaved(): string
     {
-        return "Changes saved successfully.";
+        return "Alterações salvas com sucesso.";
     }
 
     public function noChangesToBeMade(): string
     {
-        return "No changes to be made.";
+        return "Nenhuma alteração a ser feita.";
     }
 
     public function failedToUpdateRecord(): string
     {
-        return "Failed to change record. Please check the submitted data.";
+        return "Falha ao alterar o registro. Por favor, verifique os dados enviados.";
     }
 
-    // Record Deletion
+    // Exclusão de registro
 
     public function deletedSuccessfully(string $field = null): string
     {
         if ($field) {
-            return "$field deleted successfully.";
+            return "$field excluído com sucesso.";
         }
-        return "Record deleted successfully.";
+        return "Registro deletado com sucesso.";
     }
 
     public function errorTryingToDelete(): string
     {
-        return "Failed to delete record. Please check the submitted data.";
+        return "Falha ao excluir o registro. Por favor, verifique os dados enviados.";
     }
 
-    // Errors
+    // Erros
 
     public function badRequest(): string
     {
-        return "We apologize, but we were unable to complete your request at this time.";
+        return "Pedimos desculpas, mas não conseguimos completar sua solicitação neste momento.";
     }
 
     public function validationFailed(): string
     {
-        return "Validation failed. Please check the submitted data.";
+        return "A validação falhou. Por favor, verifique os dados enviados.";
     }
 
     public function failedToCreateRecord(): string
@@ -91,13 +91,13 @@ public function createdManySuccessfully(string $field = null): string
         return "Os dados informados já existem na tabela.";
     }
 
-    // Record Not Found
+    // Registro não encontrado
 
     public function recordsNotFound(string $field = null): string
     {
         if ($field) {
-            return "We couldn't find any records matching your request for $field.";
+            return "Não conseguimos encontrar nenhum registro correspondente à sua solicitação para $field.";
         }
-        return "We couldn't find any records matching your request.";
+        return "Não conseguimos encontrar nenhum registro correspondente à sua solicitação.";
     }
 }
