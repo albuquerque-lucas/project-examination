@@ -28,7 +28,9 @@ function SubjectsPage () {
     subjectsLoaded,
   } = useFetchSubjects();
   const { 
-    noPaginatedAreasList,
+    notPaginatedAreasList,
+    studyAreasLoaded,
+    setStudyAreasLoaded,
   } = useFetchStudyAreas();
 
   const {
@@ -45,6 +47,7 @@ function SubjectsPage () {
   } = useCreateSubjects();
 
   useEffect(() => {
+    setStudyAreasLoaded(false);
     if (subjectsList.links) {
       updateNavigationLinks(subjectsList.links);
     }
@@ -84,14 +87,18 @@ function SubjectsPage () {
               <select id="educatonal_level_select" ref={ educationalLevelRef }>
                 {
                   educationalLevelsList.map((level) => (
-                    <option key={level.id} value={level.id}>{level.name}</option>
+                    <option key={level.id} value={level.id}>
+                      {level.name}
+                    </option>
                   ))
                 }
               </select>
               <select id="study_areas_select" ref={ studyAreaRef }>
                 {
-                  noPaginatedAreasList.map((area) => (
-                    <option key={area.id} value={area.id}>{area.area}</option>
+                  notPaginatedAreasList.map((area) => (
+                    <option key={area.id} value={area.id}>
+                      {area.area}
+                    </option>
                   ))
                 }
               </select>

@@ -6,7 +6,7 @@ import { StudyArea } from "../types/studyAreasTypes";
 export const useFetchStudyAreas = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [studyAreasAPIResponse, setStudyAreasAPIResponse] = useState({} as any);
-  const [noPaginatedAreasList, setNotPaginatedList] = useState<StudyArea[]>([]);
+  const [notPaginatedAreasList, setNotPaginatedList] = useState<StudyArea[]>([]);
   const {
     studyAreas,
     setStudyAreas,
@@ -21,13 +21,15 @@ export const useFetchStudyAreas = () => {
       try {
         if (!studyAreasLoaded) {
           setIsLoading(true);
-          const fetchedStudyAreasList = await getAllAreas(`${process.env.NEXT_PUBLIC_API_GET_STUDY_AREAS_LIST}`, queryParams);
-          const fetchedNotPaginatedAreasList = await getAllAreas(`${process.env.NEXT_PUBLIC_API_GET_STUDY_AREAS_LIST}`, { order: 'asc', pagination: false});
-            setStudyAreasAPIResponse(fetchedStudyAreasList);
-            setStudyAreas(fetchedStudyAreasList.data);
-            setNotPaginatedList(fetchedNotPaginatedAreasList);
-            setStudyAreasLoaded(true);
-          }
+          const [fetchedStudyAreasList, fetchedNotPaginatedAreasList] = await Promise.all([
+            getAllAreas(`${process.env.NEXT_PUBLIC_API_GET_STUDY_AREAS_LIST}`, queryParams),
+            getAllAreas(`${process.env.NEXT_PUBLIC_API_GET_STUDY_AREAS_LIST}`, { order: 'asc', pagination: false})
+          ]);
+          setStudyAreasAPIResponse(fetchedStudyAreasList);
+          setStudyAreas(fetchedStudyAreasList.data);
+          setNotPaginatedList(fetchedNotPaginatedAreasList);
+          setStudyAreasLoaded(true);
+        }
       } catch (error: any) {
         console.log('Erro ao buscar as areas', error);
         setStudyAreas([]);
@@ -35,7 +37,7 @@ export const useFetchStudyAreas = () => {
         setIsLoading(false);
       }
     };
-
+  
     fetchStudyAreas();
   }, [studyAreasLoaded]);
 
@@ -44,8 +46,9 @@ export const useFetchStudyAreas = () => {
     studyAreasAPIResponse,
     isLoading,
     studyAreasLoaded,
+    setStudyAreasLoaded,
     currentPage,
     queryParams,
-    noPaginatedAreasList,
+    notPaginatedAreasList,
   };
 }
