@@ -38,3 +38,17 @@ export const createStudyArea = async (url: string, studyArea: StudyAreasFormRequ
     }
   }
 }
+
+export const deleteAreas = async (url: string, data: any) => {
+  try {
+    const resp = await axios.delete(url, { data });
+    if (resp.status >= 200 && resp.status < 300) {
+      console.log('DATA RESULT DELETE STUDY AREA', resp);
+      return resp.data;
+    }
+  } catch (error: any) {
+    if (error.response && error.response.status >= 400 && error.response.status < 500) {
+      console.log('Erro ao deletar a area', error);
+    }
+  }
+}

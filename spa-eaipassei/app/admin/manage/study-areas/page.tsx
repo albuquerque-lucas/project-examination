@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useFetchStudyAreas } from "@/app/lib/hooks/useFetchStudyAreas";
 import { useCreateStudyAreas } from "@/app/lib/hooks/useCreateStudyAreas";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
+import { useDeleteStudyAreas } from "@/app/lib/hooks/useDeleteStudyAreas";
 import { motion } from 'framer-motion';
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import DeleteStudyAreasPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteStudyAreasPopUp";
@@ -16,6 +17,7 @@ import style from '@/app/ui/admin/pages/study-areas/studyArea.module.css';
 function StudyAreasPage() {
   const router = useRouter();
   const { updateNavigationLinks } = useNavigations();
+  const { studyAreaDeletionMode } = useDeleteStudyAreas();
   const { 
     studyAreasLoaded,
     isLoading,
@@ -91,7 +93,7 @@ function StudyAreasPage() {
               data={ studyAreas }
             />
             {
-              // subjectDeletionMode &&
+              studyAreaDeletionMode &&
               <DeleteStudyAreasPopUp />
             }
           </>

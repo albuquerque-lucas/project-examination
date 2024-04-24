@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import { useDeleteStudyAreas } from "@/app/lib/hooks/useDeleteStudyAreas";
 import { StudyArea } from "@/app/lib/types/studyAreasTypes";
 import { MdDelete } from "react-icons/md";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
@@ -8,6 +9,11 @@ interface StudyAreasDashboardProps {
 }
 
 export default function StudyAreasDashboard({ data }: StudyAreasDashboardProps) {
+  const router = useRouter();
+  const {
+    setStudyAreaDeletionMode,
+    setStudyAreaDeletionList,
+  } = useDeleteStudyAreas();
   return (
     <div className={ style.data_table__container }>
       {!Array.isArray(data) ? (
@@ -32,8 +38,8 @@ export default function StudyAreasDashboard({ data }: StudyAreasDashboardProps) 
                     className={ style.dashboard_table__delete }
                       onClick={(event) => {
                         event.stopPropagation();
-                        // setSubjectDeletionList([item.id]);
-                        // setSubjectDeletionMode(true);
+                        setStudyAreaDeletionMode(true);
+                        setStudyAreaDeletionList([item.id]);
                       }}
                     >
                       <MdDelete />

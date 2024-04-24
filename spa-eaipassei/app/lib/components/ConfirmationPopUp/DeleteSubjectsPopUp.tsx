@@ -8,7 +8,6 @@ export default function DeleteSubjectsPopUp() {
   const {
     handleDelete,
     setSubjectDeletionMode,
-    subjectDeletionList,
   } = useDeleteSubjects();
   return (
     <motion.div

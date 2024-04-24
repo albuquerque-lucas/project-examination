@@ -71,9 +71,19 @@ class StudyAreaController extends Controller
         return $this->dataRetrievalService->update($this->studyAreaService, $id, $request);
     }
 
-    public function delete(int $id)
+    public function delete(Request $request)
     {
-        return $this->dataRetrievalService->delete($this->studyAreaService, $id);
+        try {
+            $deletionList = $request->all();
+            if (empty($deletionList)) {
+                return response()->json(['message' => 'Nenhuma materia identificada.'], 200);
+            }
+            $response = $this->studyAreaService->delete($deletionList);
+            return response()->json($response->data(), $response->status());
+    
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function create(StudyAreaFormRequest $request)

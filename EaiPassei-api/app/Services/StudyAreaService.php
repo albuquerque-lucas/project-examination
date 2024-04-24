@@ -11,8 +11,9 @@ use Spatie\FlareClient\Http\Exceptions\NotFound;
 use PDOException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 
-class StudyAreaService implements IService
+class StudyAreaService
 {
 
     protected ServiceResponse $serviceResponse;
@@ -177,35 +178,31 @@ class StudyAreaService implements IService
             return $this->serviceResponse;
         }
     }
-    public function delete(int $id): ServiceResponse
+    public function delete(array $deletionList)
     {
         try {
-            $studyArea = StudyArea::findOrFail($id);
+            return DB::transaction( function() use ($deletionList) {
+                foreach($deletionList as $id) {
+                    $studyArea = StudyArea::find($id);
+                    if (!$studyArea) {
+                        $this->serviceResponse->setAttributes(404, (object)[
+                            'message' => $this->serviceResponse->recordsNotFound(),
+                            'deleted' => false,
+                        ]);
+                        return $this->serviceResponse;
+                    }
 
-            if (!$studyArea) {
-                $this->serviceResponse->setAttributes(404, (object)[
-                    'message' => $this->serviceResponse->recordsNotFound(),
-                    'deleted' => false,
-                ]);
-                return $this->serviceResponse;
-            }
+                    $isDeleted = $studyArea->delete();
 
-            $isDeleted = $studyArea->delete();
-
-            if (!$isDeleted) {
-                $this->serviceResponse->setAttributes(400, (object)[
-                    'message' => $this->serviceResponse->errorTryingToDelete(),
-                    'deleted' => false,
-                ]);
-                return $this->serviceResponse;
-            }
-    
-            $this->serviceResponse->setAttributes(200, (object)[
-                'message' => $this->serviceResponse->deletedSuccessfully('Area'),
-                'deleted' => true,
-            ]);
-
-            return $this->serviceResponse;
+                    if (!$isDeleted) {
+                        $this->serviceResponse->setAttributes(400, (object)[
+                            'message' => $this->serviceResponse->errorTryingToDelete(),
+                            'deleted' => false,
+                        ]);
+                        return $this->serviceResponse;
+                    }
+                }
+            });
         } catch (ModelNotFoundException $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
                 'message' => $this->serviceResponse->recordsNotFound(),
