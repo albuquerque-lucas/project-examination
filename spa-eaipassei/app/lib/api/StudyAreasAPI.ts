@@ -28,7 +28,9 @@ export const createStudyArea = async (url: string, studyArea: StudyAreasFormRequ
     const resp = await axios.post(url, studyArea);
     if (resp.status >= 200 && resp.status < 300) {
       console.log('DATA RESULT CREATE STUDY AREA', resp);
-      return resp.data;
+      return resp;
+    } else {
+      console.log('Resposta nao identificada.');
     }
   } catch (error: any) {
     if (error.response && error.response.status >= 400 && error.response.status < 500) {

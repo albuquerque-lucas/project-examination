@@ -4,6 +4,7 @@ import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchStudyAreas } from "@/app/lib/hooks/useFetchStudyAreas";
+import { useCreateStudyAreas } from "@/app/lib/hooks/useCreateStudyAreas";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { motion } from 'framer-motion';
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
@@ -23,10 +24,17 @@ function StudyAreasPage() {
     studyAreasAPIResponse,
   } = useFetchStudyAreas();
 
+  const {
+    titleRef,
+    creationMode,
+    setCreationMode,
+    submitStudyArea,
+  } = useCreateStudyAreas();
+
   useEffect(() => {
     console.log('STUDY AREAS DA PAGE:', studyAreas);
     console.log('STUDY AREAS LOADED DA PAGE:', studyAreasLoaded);
-  }, [studyAreasLoaded, studyAreas]);
+  }, [studyAreasLoaded]);
   return (
     <div className={ style.study_area_content }>
       <h1>
@@ -49,20 +57,24 @@ function StudyAreasPage() {
             whileTap={{ scale: 0.9 }}
             whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
             className={ style.new_study_area__button }
-            // onClick={() => setCreationMode(!creationMode)}
+            onClick={() => setCreationMode(!creationMode)}
           >
             Adicionar Area
           </motion.button>
           {
-            // creationMode &&
+            creationMode &&
             <div className={ style.study_area_creation__form }>
               <label htmlFor="study_area_title">Título:</label>
-              <input type="text" id='study_area_title'/>
+              <input
+                type="text"
+                id='study_area_title'
+                ref={ titleRef }
+                />
               <motion.button
                 whileTap={{ scale: 0.9 }}
                 whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
                 className={ style.submit_study_area__button }
-                // onClick={() => submitstudy_area()}
+                onClick={() => submitStudyArea()}
               >
                 Adicionar
               </motion.button>
