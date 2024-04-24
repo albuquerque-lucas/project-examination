@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
 import ExaminationSavingCard from "@/app/lib/components/ExaminationSavingCard/ExaminationSavingCard";
+import { useFetchEducationalLevels } from '@/app/lib/hooks/useFetchEducationalLevels';
 import withAuth from "@/app/lib/components/withAuth/withAuth"
 import { getAllEducationalLevels } from '@/app/lib/api/educationalLevelsAPI';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,11 +15,14 @@ import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 const CreateExaminationsPage = () => {
   const router = useRouter();
   const {
-    educationalLevels,
-    setEducationalLevels,
     flashMessage,
     setFlashMessage,
   } = useContext(ExaminationsContext);
+
+  const {
+    educationalLevelsList,
+  } = useFetchEducationalLevels();
+
   const {
     fileRef,
     titleRef,
@@ -32,20 +36,8 @@ const CreateExaminationsPage = () => {
   
   
   useEffect(() => {
-    try {
-      if (educationalLevels.length === 0) {
-        const fetchData = async () => {
-          const levels = await getAllEducationalLevels();
-          if (levels) {
-            setEducationalLevels(levels.data);
-          }
-        };
-        fetchData();
-      }
-    } catch (error: any) {
-      console.error('ERROR', error);
-    }
-  }, [persistenceList, educationalLevels, flashMessage]);
+
+  }, [persistenceList, educationalLevelsList, flashMessage]);
 
 
   return (
@@ -78,8 +70,8 @@ const CreateExaminationsPage = () => {
               />
               <select ref={ educationalLevelRef }>
                 {
-                  educationalLevels.length > 0 &&
-                  educationalLevels.map((level, index) => (
+                  educationalLevelsList.length > 0 &&
+                  educationalLevelsList.map((level, index) => (
                     <option key={ index } value={ level.id }>{ level.name }</option>
                   ))
                 }
