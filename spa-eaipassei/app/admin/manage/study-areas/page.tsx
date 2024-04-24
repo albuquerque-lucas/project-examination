@@ -32,8 +32,9 @@ function StudyAreasPage() {
   } = useCreateStudyAreas();
 
   useEffect(() => {
-    console.log('STUDY AREAS DA PAGE:', studyAreas);
-    console.log('STUDY AREAS LOADED DA PAGE:', studyAreasLoaded);
+    if (studyAreasAPIResponse.links) {
+      updateNavigationLinks(studyAreasAPIResponse.links);
+    }
   }, [studyAreasLoaded]);
   return (
     <div className={ style.study_area_content }>
@@ -82,9 +83,6 @@ function StudyAreasPage() {
           }
         </div>
       </div>
-      {isLoading && currentPage === 1 ? (
-          <SpinnerLoader />
-        ) : (
           <>
             <StudyAreasNavigationButtons />
             <div className={ style.selected_filters }>
@@ -97,7 +95,6 @@ function StudyAreasPage() {
               <DeleteStudyAreasPopUp />
             }
           </>
-        )}
     </div>
   );
 }

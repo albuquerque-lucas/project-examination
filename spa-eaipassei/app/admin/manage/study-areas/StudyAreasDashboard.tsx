@@ -8,8 +8,6 @@ interface StudyAreasDashboardProps {
 }
 
 export default function StudyAreasDashboard({ data }: StudyAreasDashboardProps) {
-  const router = useRouter();
-  console.log('DATA DASHBOARD', data);
   return (
     <div className={ style.data_table__container }>
       {!Array.isArray(data) ? (
