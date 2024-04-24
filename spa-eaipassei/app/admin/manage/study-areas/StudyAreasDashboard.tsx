@@ -36,7 +36,7 @@ export default function StudyAreasDashboard({ data }: StudyAreasDashboardProps) 
                   <td className={ style.dashboard_delete__buttons }>
                     <button
                     className={ style.dashboard_table__delete }
-                      onClick={(event) => {
+                        onClick={(event) => {
                         event.stopPropagation();
                         setStudyAreaDeletionMode(true);
                         setStudyAreaDeletionList([item.id]);
