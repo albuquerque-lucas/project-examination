@@ -29,7 +29,7 @@ class DataRetrievalService
         }
     }
 
-    public function getById(IService $service, int $id = null): JsonResponse | Response
+    public function getById($service, int $id = null): JsonResponse | Response
     {
         try {
             $response = $service->getById($id);

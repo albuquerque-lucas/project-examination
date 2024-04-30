@@ -23,11 +23,6 @@ class Subject extends Model
         'title' => 'string',
     ];
 
-    public function examinations(): BelongsToMany
-    {
-        return $this->belongsToMany(Examination::class);
-    }
-
     public function exams(): BelongsToMany
     {
         return $this->belongsToMany(Exam::class);
