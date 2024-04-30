@@ -1,6 +1,9 @@
+import { useContext, useEffect } from 'react';
+import { AdminLayoutContext } from '@/app/lib/context/AdminLayoutContext';
 import { motion } from 'framer-motion';
 
 export default function NavbarItem({ children }: { children: React.ReactNode }) {
+  const { setSidebarOpen } = useContext(AdminLayoutContext);
   return (
     <motion.li
       className="nav-item"

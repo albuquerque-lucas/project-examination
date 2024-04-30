@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { inter } from "./ui/fonts";
 import AdminLayoutProvider from "./lib/context/AdminLayoutContext";
+import AuthProvider from "@/app/lib/context/AuthContext";
+import ExaminationsProvider from "@/app/lib/context/ExaminationsContext";
+import NavigationProvider from "@/app/lib/context/NavigationContext";
+import NoticesProvider from "@/app/lib/context/NoticesContext";
+import SubjectsProvider from "@/app/lib/context/SubjectsContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
