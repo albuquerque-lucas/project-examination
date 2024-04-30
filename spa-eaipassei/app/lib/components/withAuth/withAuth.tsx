@@ -11,7 +11,7 @@ export default function withAuth(Component: any) {
     const [isAuthChecked, setIsAuthChecked] = useState(false);
     const { user, setUser, setAuthMessage } = useContext(AuthContext);
     const router = useRouter();
-    const pathname = usePathname()
+    const pathname = usePathname();
 
     useLayoutEffect(() => {
       setAuthMessage(null);
@@ -19,7 +19,7 @@ export default function withAuth(Component: any) {
         if (!user) {
           try {
             const currentUser = await fetchUser();
-            // console.log('USER', currentUser);
+            console.log('USER', currentUser);
             if (pathname !== '/admin/login' && (!currentUser || currentUser === undefined || currentUser === null)) {
               setAuthMessage(
                 {
