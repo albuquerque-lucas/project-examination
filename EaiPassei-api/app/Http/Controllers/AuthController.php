@@ -68,8 +68,15 @@ class AuthController extends Controller
 
     // get the authenticated user method
     public function user(Request $request) {
-        $user = auth('sanctum')->user();
-        return new UserResource($user);
+        try {
+            $user = auth('sanctum')->user();
+            return new UserResource($user);
+        } catch (Exception $e) {
+            return response([
+                'message' => 'Ocorreu um erro ao buscar usuario.',
+                'info' => $e->getMessage(),
+            ], 500);
+        }
     }
 
 }

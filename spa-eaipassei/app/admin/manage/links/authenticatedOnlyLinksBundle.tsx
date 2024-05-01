@@ -7,7 +7,7 @@ import UsersLink from "./userLink";
 import LogoutLink from "./logoutLink";
 import StudyAreasLink from "./StudyAreasLink";
 import { AuthContext } from "@/app/lib/context/AuthContext";
-import { makeLogout } from "@/app/lib/axios/axios";
+import { makeLogout } from "@/app/lib/api/authenticationAPI";
 import { useRouter } from "next/navigation";
 
 

@@ -11,7 +11,7 @@ export default function MessageBox({ message, type, setMessage }: AuthMessage) {
     if (setMessage) {
       setMessage(null);
     }
-  }, 5000);
+  }, 2500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -21,7 +21,7 @@ export default function MessageBox({ message, type, setMessage }: AuthMessage) {
     warning: style.warning,
   };
   return (
-    <div className={`${style.login_message__span} ${messageType[type]}`}>
+    <div className={`${style.login_message__span} ${messageType[type || 'warning']}`}>
       <MdError />
       <p>
         { message }

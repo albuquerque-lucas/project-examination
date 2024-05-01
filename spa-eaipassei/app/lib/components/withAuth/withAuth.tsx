@@ -1,8 +1,8 @@
-'use-client';
+'use client';
 
-import { useLayoutEffect, useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useRouter, usePathname } from 'next/navigation';
-import { fetchUser } from "../../axios/axios";
+import { fetchUser } from "@/app/lib/api/authenticationAPI";
 import { AuthContext } from "../../context/AuthContext";
 import { makeLogout } from "../../axios/axios";
 
@@ -12,19 +12,19 @@ export default function withAuth(Component: any) {
     const { user, setUser, setAuthMessage } = useContext(AuthContext);
     const router = useRouter();
     const pathname = usePathname();
-
-    useLayoutEffect(() => {
+    useEffect(() => {
       setAuthMessage(null);
       async function fetchData() {
         if (!user) {
           try {
-            const currentUser = await fetchUser();
-            console.log('USER', currentUser);
-            if (pathname !== '/admin/login' && (!currentUser || currentUser === undefined || currentUser === null)) {
+            const response = await fetchUser();
+            console.log('USER', response);
+            if (pathname !== '/admin/login' || response.type === 'error') {
+              console.log('RESPOSTA DE USUARIO NOT FOUND', response);
               setAuthMessage(
                 {
-                  message: 'Você precisa estar logado para acessar essa página.',
-                  type: 'error',
+                  message: response.message,
+                  type: response.type,
                 }
               );
               setUser(null);
@@ -32,10 +32,11 @@ export default function withAuth(Component: any) {
             } else {
 
               setIsAuthChecked(true);
-              setUser(currentUser);
+              setUser(response.user);
             }
           } catch (error: any) {
             console.error('Error: ', error);
+            console.log('Error: ', error.response?.data);
             setUser(null);
             router.push('/admin/login');
           }

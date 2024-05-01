@@ -3,7 +3,7 @@
 import React, { useRef, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import style from '@/app/ui/admin/login/login.module.css';
-import { makeLogin } from '@/app/lib/axios/axios';
+import { makeLogin } from '@/app/lib/api/authenticationAPI';
 import MessageBox from './messageBox';
 import { AuthContext } from '../../lib/context/AuthContext';
 import { motion } from 'framer-motion';
