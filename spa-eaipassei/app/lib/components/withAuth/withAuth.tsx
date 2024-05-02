@@ -13,7 +13,6 @@ export default function withAuth(Component: any) {
     const router = useRouter();
     const pathname = usePathname();
     useEffect(() => {
-      setAuthMessage(null);
       async function fetchData() {
         if (!user) {
           try {

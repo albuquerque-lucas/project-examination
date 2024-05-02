@@ -44,4 +44,5 @@ function AuthenticatedOnlyLinksBundle() {
     )
   )
 }
+
 export default withAuth(AuthenticatedOnlyLinksBundle);
