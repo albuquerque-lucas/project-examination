@@ -7,6 +7,7 @@ import MessageBox from './messageBox';
 import { AuthContext } from '../../lib/context/AuthContext';
 import { SpinnerCircular } from 'spinners-react';
 import { motion } from 'framer-motion';
+import { authCodeMapper } from '@/app/lib/utils/authCodeMapper';
 import style from '@/app/ui/admin/login/login.module.css';
 
 export default function LoginAdmin() {
@@ -37,7 +38,7 @@ export default function LoginAdmin() {
     try {
         const loggedIn = await makeLogin(body);
         setUser(loggedIn.user);
-        setAuthMessage({ message: loggedIn.message, type: 'success' });
+        setAuthMessage({ message: loggedIn.message, type: 'success', code: authCodeMapper.login });
         setRequestingLogin(false);
         router.push('/admin/home');
 		} catch (error: any) {
@@ -55,7 +56,7 @@ export default function LoginAdmin() {
       <div className={ style.login_form__container }>
         <div className={ style.message_box__container}>
           {
-            authMessage &&
+            authMessage && authMessage.code !== authCodeMapper.login &&
               <MessageBox
                 message={ authMessage.message }
                 setMessage={ setAuthMessage }

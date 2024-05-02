@@ -7,6 +7,7 @@ import profileImage from './no-image.jpg';
 import Image from 'next/image';
 import MessageBox from '../login/messageBox';
 import { motion } from 'framer-motion';
+import { authCodeMapper } from '@/app/lib/utils/authCodeMapper';
 import style from '@/app/ui/admin/home/home.module.css';
 
 const Home = () => {
@@ -19,7 +20,7 @@ const Home = () => {
       <div className='profile_content'>
         <div className={  style.profile_content__messagebox}>
           {
-            authMessage && (
+            authMessage && authMessage.code !== authCodeMapper.logout && (
               <MessageBox
                 message={ authMessage.message }
                 setMessage={ setAuthMessage }

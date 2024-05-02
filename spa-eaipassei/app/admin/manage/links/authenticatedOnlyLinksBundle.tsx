@@ -8,6 +8,7 @@ import LogoutLink from "./logoutLink";
 import StudyAreasLink from "./StudyAreasLink";
 import { AuthContext } from "@/app/lib/context/AuthContext";
 import { makeLogout } from "@/app/lib/api/authenticationAPI";
+import { authCodeMapper } from "@/app/lib/utils/authCodeMapper";
 import { useRouter } from "next/navigation";
 
 
@@ -23,7 +24,7 @@ function AuthenticatedOnlyLinksBundle() {
       const resp = await makeLogout();
       console.log('Logout efetuado com sucesso.');
       console.log('Resposta do Logout', resp);
-      setAuthMessage({ message: resp?.data?.message, type: 'success' });
+      setAuthMessage({ message: resp?.data?.message, type: 'success', code: authCodeMapper.logout });
       setUser(null);
       router.push('/admin/login');
     } catch (error) {
