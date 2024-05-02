@@ -9,7 +9,7 @@ import { makeLogout } from "../../axios/axios";
 export default function withAuth(Component: any) {
   return function WithAuth(props: any) {
     const [isAuthChecked, setIsAuthChecked] = useState(false);
-    const { user, setUser, setAuthMessage } = useContext(AuthContext);
+    const { user, setUser, setAuthMessage, authMessage } = useContext(AuthContext);
     const router = useRouter();
     const pathname = usePathname();
     useEffect(() => {
@@ -19,13 +19,7 @@ export default function withAuth(Component: any) {
             const response = await fetchUser();
             console.log('USER', response);
             if (pathname !== '/admin/login' || response.type === 'error') {
-              console.log('RESPOSTA DE USUARIO NOT FOUND', response);
-              setAuthMessage(
-                {
-                  message: response.message,
-                  type: response.type,
-                }
-              );
+              authMessage === null && setAuthMessage({ message: response.message, type: response.type });
               setUser(null);
               router.push('/admin/login');
             } else {

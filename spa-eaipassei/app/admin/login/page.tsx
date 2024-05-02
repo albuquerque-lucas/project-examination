@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { makeLogin } from '@/app/lib/api/authenticationAPI';
 import MessageBox from './messageBox';
@@ -17,6 +17,10 @@ export default function LoginAdmin() {
   const router = useRouter();
   const { user, setUser, authMessage, setAuthMessage } = useContext(AuthContext);
   console.log('USUARIO FETCHED', user);
+
+  useEffect(() => {
+    console.log('Mensagem de autenticação', authMessage);
+  }, [authMessage]);
   
   const handleLogin = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -31,7 +35,7 @@ export default function LoginAdmin() {
     try {
         const loggedIn = await makeLogin(body);
         setUser(loggedIn.user);
-        console.log('Sucesso!!!', loggedIn);
+        setAuthMessage({ message: loggedIn.message, type: 'success' });
         setRequestingLogin(false);
         router.push('/admin/home');
 		} catch (error: any) {

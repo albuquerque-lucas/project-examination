@@ -33,7 +33,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'user' => new UserResource($user),
-                'token' => $token,
+                'message' => 'Login efetuado com sucesso!'
             ])->withCookie($cookie);
         } catch (AuthenticationException $e) {
             return response([

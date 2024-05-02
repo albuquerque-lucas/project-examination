@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 
 function AuthenticatedOnlyLinksBundle() {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, setAuthMessage } = useContext(AuthContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,7 +22,8 @@ function AuthenticatedOnlyLinksBundle() {
     try {
       const resp = await makeLogout();
       console.log('Logout efetuado com sucesso.');
-      console.log(resp);
+      console.log('Resposta do Logout', resp);
+      setAuthMessage({ message: resp?.data?.message, type: 'success' });
       setUser(null);
       router.push('/admin/login');
     } catch (error) {

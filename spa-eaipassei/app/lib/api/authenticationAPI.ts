@@ -47,6 +47,7 @@ export const makeLogout = async () => {
 			localStorage.removeItem('user');
 			console.log('Logout efetuado com suceddo.');
 			console.log(resp);
+			return resp;
 		}
 	} catch (error) {
 		console.log('Nao foi possivel fazer logout.');
