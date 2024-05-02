@@ -73,10 +73,6 @@ class ExaminationSeeder extends Seeder
                 'title' => $title,
                 'active' => true,  // Atribuindo valor fixo para active
                 'institution' => 'Governo Federal',  // Adapte a instituição se necessário
-                'registration_start_date' => now()->subDays(15),  // Início das inscrições 15 dias atrás
-                'registration_end_date' => now()->addWeeks(2),  // Término das inscrições em duas semanas
-                'exams_start_date' => now()->addWeeks(4),  // Início das provas em quatro semanas
-                'exams_end_date' => now()->addWeeks(5),  // Término das provas em cinco semanas
                 'educational_level_id' => $educationalLevelId,
             ]);
         }

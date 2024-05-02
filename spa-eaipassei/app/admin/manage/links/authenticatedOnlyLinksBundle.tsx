@@ -7,13 +7,12 @@ import UsersLink from "./userLink";
 import LogoutLink from "./logoutLink";
 import StudyAreasLink from "./StudyAreasLink";
 import { AuthContext } from "@/app/lib/context/AuthContext";
-import { makeLogout } from "@/app/lib/axios/axios";
-import { useRouter } from "next/navigation";
+import { makeLogout } from "@/app/lib/api/authenticationAPI";
+import { authCodeMapper } from "@/app/lib/utils/authCodeMapper";
 
 
 function AuthenticatedOnlyLinksBundle() {
-  const { user, setUser } = useContext(AuthContext);
-  const router = useRouter();
+  const { user, setUser, setAuthMessage } = useContext(AuthContext);
 
   useEffect(() => {
   }, [user]);
@@ -21,10 +20,12 @@ function AuthenticatedOnlyLinksBundle() {
     e.preventDefault();
     try {
       const resp = await makeLogout();
-      console.log('Logout efetuado com sucesso.');
-      console.log(resp);
+      setAuthMessage({
+        message: resp?.data?.message,
+        type: resp?.data.type,
+        code: authCodeMapper.logout,
+      });
       setUser(null);
-      router.push('/admin/login');
     } catch (error) {
       console.error('Logout failed:', error);
     }
@@ -44,4 +45,5 @@ function AuthenticatedOnlyLinksBundle() {
     )
   )
 }
+
 export default withAuth(AuthenticatedOnlyLinksBundle);

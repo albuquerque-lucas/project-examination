@@ -33,7 +33,6 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
           <ConfirmationPopUp />
       }
     </AnimatePresence>
-    <ToastContainer />
   </motion.div>
   )
 }

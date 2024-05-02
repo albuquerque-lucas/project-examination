@@ -17,12 +17,11 @@ class SubjectResource extends JsonResource
         return [
             "id" => $this->id,
             "study_area_id" => $this->study_area_id,
-            "educational_level_id" => $this->educational_level_id,
+            "educational_level_id" => $this->educational_level_id ?? null,
             "title" => $this->title,
-            "study_area" => $this->studyArea->area,
-            "educational_level" => $this->educationalLevel->name,
-            // "created_at" => $this->created_at,
-            // "updated_at" => $this->updated_at,
+            "study_area" => $this->studyArea->area ?? "Não informada",
+            "educational_level" => $this->educationalLevel->name ?? "Não informado",
+            'exams' => ExamResource::collection($this->exams),
         ];
     }
 }

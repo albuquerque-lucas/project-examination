@@ -18,3 +18,15 @@
   box-shadow: 0 0 0 0.1rem rgba(0, 0, 0, 0.1);
   margin-bottom: 3rem;
 }
+
+.profile_content__messagebox {
+  content: '';
+  width: 30rem;
+  height: 5rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

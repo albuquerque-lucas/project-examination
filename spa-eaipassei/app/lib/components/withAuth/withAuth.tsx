@@ -1,41 +1,32 @@
-'use-client';
+'use client';
 
-import { useLayoutEffect, useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useRouter, usePathname } from 'next/navigation';
-import { fetchUser } from "../../axios/axios";
+import { fetchUser } from "@/app/lib/api/authenticationAPI";
 import { AuthContext } from "../../context/AuthContext";
 import { makeLogout } from "../../axios/axios";
 
 export default function withAuth(Component: any) {
   return function WithAuth(props: any) {
     const [isAuthChecked, setIsAuthChecked] = useState(false);
-    const { user, setUser, setAuthMessage } = useContext(AuthContext);
+    const { user, setUser, setAuthMessage, authMessage } = useContext(AuthContext);
     const router = useRouter();
-    const pathname = usePathname()
-
-    useLayoutEffect(() => {
-      setAuthMessage(null);
+    const pathname = usePathname();
+    useEffect(() => {
       async function fetchData() {
         if (!user) {
           try {
-            const currentUser = await fetchUser();
-            // console.log('USER', currentUser);
-            if (pathname !== '/admin/login' && (!currentUser || currentUser === undefined || currentUser === null)) {
-              setAuthMessage(
-                {
-                  message: 'Você precisa estar logado para acessar essa página.',
-                  type: 'error',
-                }
-              );
+            const response = await fetchUser();
+            if (pathname !== '/admin/login' || response.type === 'error') {
+              authMessage === null && setAuthMessage({ message: response.message, type: response.type });
               setUser(null);
               router.push('/admin/login');
             } else {
 
               setIsAuthChecked(true);
-              setUser(currentUser);
+              setUser(response.user);
             }
           } catch (error: any) {
-            console.error('Error: ', error);
             setUser(null);
             router.push('/admin/login');
           }
@@ -51,7 +42,6 @@ export default function withAuth(Component: any) {
             setUser(null);
             router.push('/admin/login');
           }
-          // console.log('User already logged in', user);
           setIsAuthChecked(true);
           
         }

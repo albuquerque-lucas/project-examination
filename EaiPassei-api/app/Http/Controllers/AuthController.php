@@ -24,7 +24,7 @@ class AuthController extends Controller
             $user = User::where('username', $credentials['username'])->first();
 
             if (!$user || !Hash::check($credentials['password'], $user->password)) {
-                throw new AuthenticationException('Username or password is incorrect.');
+                throw new AuthenticationException('Usuário ou senha incorretos.');
             }
 
             $token = $user->createToken('eaipassei-app')->plainTextToken;
@@ -33,18 +33,19 @@ class AuthController extends Controller
 
             return response()->json([
                 'user' => new UserResource($user),
-                'token' => $token,
+                'message' => 'Login efetuado com sucesso!',
+                'type' => 'success'
             ])->withCookie($cookie);
         } catch (AuthenticationException $e) {
             return response([
                 'message' => $e->getMessage(),
-                'info' => 'Excessao de Autenticacao.'
+                'info' => 'Não foi possível fazer o login.',
+                'type' => 'error'
             ], 401);
         } catch (Exception $e) {
-            // Log the exception for debugging
-            // ...
             return response([
-                'message' => 'An unexpected error occurred.'
+                'message' => 'Ocorreu um erro inesperado.',
+                'type' => 'error'
             ], 500);
         }
     }
@@ -57,19 +58,28 @@ class AuthController extends Controller
             $cookie = cookie()->forget('token');
 
             return response()->json([
-                'message' => 'Logged out successfully!'
+                'message' => 'Logout efetuado com sucesso!',
+                'type' => 'success',
             ])->withCookie($cookie);
         } catch (Exception $e) {
             return response([
-                'message' => 'An error occurred while logging out.'
+                'message' => 'Ocorreu um erro ao tentar fazer o logout.',
+                'type' => 'error'
             ], 500);
         }
     }
 
     // get the authenticated user method
     public function user(Request $request) {
-        $user = auth('sanctum')->user();
-        return new UserResource($user);
+        try {
+            $user = auth('sanctum')->user();
+            return new UserResource($user);
+        } catch (Exception $e) {
+            return response([
+                'message' => 'Ocorreu um erro ao buscar usuario.',
+                'info' => $e->getMessage(),
+            ], 500);
+        }
     }
 
 }

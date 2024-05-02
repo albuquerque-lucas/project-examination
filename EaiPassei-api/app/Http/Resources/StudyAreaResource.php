@@ -18,6 +18,7 @@ class StudyAreaResource extends JsonResource
             'id' => $this->id,
             'area' => $this->area,
             'subjects' => SubjectMinResource::collection($this->subjects),
+            'examinations' => ExaminationResource::collection($this->examinations),
         ];
     }
 }

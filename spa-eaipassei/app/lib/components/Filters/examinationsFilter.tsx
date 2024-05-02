@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState, useContext, useRef } from "react";
+import { useFetchEducationalLevels } from "../../hooks/useFetchEducationalLevels";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
-import { educationalLevelsApi } from "../../api/educationalLevelsAPI";
+import { getAllEducationalLevels } from "../../api/educationalLevelsAPI";
 import { IoMdAddCircle } from "react-icons/io";
 import { ExaminationFilterList } from "../../types/examinationTypes";
 import { motion } from 'framer-motion';
@@ -17,10 +18,12 @@ export default function ExaminationsFilters() {
     setFilterMessage,
     queryParams,
     setQueryParams,
-    educationalLevels,
-    setEducationalLevels,
     setExaminationsLoaded,
   } = useContext(ExaminationsContext);
+
+  const {
+    educationalLevelsList,
+  } = useFetchEducationalLevels();
 
   const textInputRef = useRef<HTMLInputElement>(null);
   const selectInputRef = useRef<HTMLSelectElement>(null);
@@ -87,21 +90,6 @@ export default function ExaminationsFilters() {
 
 
   useEffect(() => {
-    const getEducationalLevels = async () => {
-      if (educationalLevelsLoaded) return;
-      try {
-        const levels = await educationalLevelsApi.getAll();
-        if (levels) {
-          setEducationalLevels(levels.data);
-        }
-      } catch (error: any) {
-        console.log('Erro ao buscar os níveis de escolaridade', error);
-      } finally {
-        setEducationalLevelsLoaded(true);
-      }
-    }
-
-    getEducationalLevels();
   }, [filterList, queryParams, educationalLevelsLoaded]);
 
   return (
@@ -127,7 +115,7 @@ export default function ExaminationsFilters() {
         { filterBy === "educational_level_id" && (
           <select ref={ selectInputRef } >
             {
-              educationalLevels.map(level => (
+              educationalLevelsList.map(level => (
                 <option key={level.id} value={level.id}>{level.name}</option>
               ))
             }
