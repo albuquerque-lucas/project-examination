@@ -26,6 +26,7 @@ class UserFormRequest extends FormRequest
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'username' => 'required|string',
+            'profile_img' => 'nullable|string',
             'email' => 'required|email',
             'phone_number' => 'required|string',
             'password' => 'required|string',
