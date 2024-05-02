@@ -2,16 +2,18 @@
 
 import React, { useRef, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import style from '@/app/ui/admin/login/login.module.css';
 import { makeLogin } from '@/app/lib/api/authenticationAPI';
 import MessageBox from './messageBox';
 import { AuthContext } from '../../lib/context/AuthContext';
+import { SpinnerCircular } from 'spinners-react';
 import { motion } from 'framer-motion';
+import style from '@/app/ui/admin/login/login.module.css';
 
 export default function LoginAdmin() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const stayConnectedRef = useRef<HTMLInputElement>(null);
+  const [requestingLogin, setRequestingLogin] = useState<boolean>(false);
   const router = useRouter();
   const { user, setUser, authMessage, setAuthMessage } = useContext(AuthContext);
   console.log('USUARIO FETCHED', user);
@@ -25,15 +27,17 @@ export default function LoginAdmin() {
       callbackUrl: process.env.NEXT_PUBLIC_API_LOGIN_ROUTE,
       redirect: false,
     };
-
+    setRequestingLogin(true);
     try {
         const loggedIn = await makeLogin(body);
         setUser(loggedIn.user);
         console.log('Sucesso!!!', loggedIn);
+        setRequestingLogin(false);
         router.push('/admin/home');
 		} catch (error: any) {
         setAuthMessage({ message: error.response.data.message, type: 'error' });
         console.error('Error: ', error.response.data);
+        setRequestingLogin(false);
     }
   }
   return (
@@ -96,9 +100,19 @@ export default function LoginAdmin() {
             <motion.button
               type="submit"
               className={ style.submit_button }
-              whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
+              whileHover={{color: '#fff', backgroundColor: '#4F525A'}}
               onClick={ (e) => handleLogin(e) }
-              >Entrar
+              >
+              {
+                requestingLogin ?
+                <div>
+                  <SpinnerCircular
+                    className={ style.loading_spinner }
+                  />
+                </div>
+                :
+                'Entrar'
+              }
             </motion.button>
           </div>
 
