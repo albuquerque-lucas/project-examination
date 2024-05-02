@@ -17,7 +17,6 @@ export default function LoginAdmin() {
   const [requestingLogin, setRequestingLogin] = useState<boolean>(false);
   const router = useRouter();
   const { user, setUser, authMessage, setAuthMessage } = useContext(AuthContext);
-  console.log('USUARIO FETCHED', user);
 
   useEffect(() => {
     if (user) {
@@ -38,7 +37,11 @@ export default function LoginAdmin() {
     try {
         const loggedIn = await makeLogin(body);
         setUser(loggedIn.user);
-        setAuthMessage({ message: loggedIn.message, type: 'success', code: authCodeMapper.login });
+        setAuthMessage({
+          message: loggedIn.message,
+          type: loggedIn.type,
+          code: authCodeMapper.login
+        });
         setRequestingLogin(false);
         router.push('/admin/home');
 		} catch (error: any) {

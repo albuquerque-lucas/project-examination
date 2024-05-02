@@ -33,16 +33,19 @@ class AuthController extends Controller
 
             return response()->json([
                 'user' => new UserResource($user),
-                'message' => 'Login efetuado com sucesso!'
+                'message' => 'Login efetuado com sucesso!',
+                'type' => 'success'
             ])->withCookie($cookie);
         } catch (AuthenticationException $e) {
             return response([
                 'message' => $e->getMessage(),
-                'info' => 'Não foi possível fazer o login.'
+                'info' => 'Não foi possível fazer o login.',
+                'type' => 'error'
             ], 401);
         } catch (Exception $e) {
             return response([
-                'message' => 'Ocorreu um erro inesperado.'
+                'message' => 'Ocorreu um erro inesperado.',
+                'type' => 'error'
             ], 500);
         }
     }
@@ -55,11 +58,13 @@ class AuthController extends Controller
             $cookie = cookie()->forget('token');
 
             return response()->json([
-                'message' => 'Logout efetuado com sucesso!'
+                'message' => 'Logout efetuado com sucesso!',
+                'type' => 'success',
             ])->withCookie($cookie);
         } catch (Exception $e) {
             return response([
-                'message' => 'Ocorreu um erro ao tentar fazer o logout.'
+                'message' => 'Ocorreu um erro ao tentar fazer o logout.',
+                'type' => 'error'
             ], 500);
         }
     }
