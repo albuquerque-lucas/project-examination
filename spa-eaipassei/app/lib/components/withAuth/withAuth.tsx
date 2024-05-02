@@ -17,7 +17,6 @@ export default function withAuth(Component: any) {
         if (!user) {
           try {
             const response = await fetchUser();
-            console.log('USER', response);
             if (pathname !== '/admin/login' || response.type === 'error') {
               authMessage === null && setAuthMessage({ message: response.message, type: response.type });
               setUser(null);
@@ -28,8 +27,6 @@ export default function withAuth(Component: any) {
               setUser(response.user);
             }
           } catch (error: any) {
-            console.error('Error: ', error);
-            console.log('Error: ', error.response?.data);
             setUser(null);
             router.push('/admin/login');
           }
@@ -45,7 +42,6 @@ export default function withAuth(Component: any) {
             setUser(null);
             router.push('/admin/login');
           }
-          // console.log('User already logged in', user);
           setIsAuthChecked(true);
           
         }

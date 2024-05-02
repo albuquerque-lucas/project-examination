@@ -19,8 +19,10 @@ export default function LoginAdmin() {
   console.log('USUARIO FETCHED', user);
 
   useEffect(() => {
-    console.log('Mensagem de autenticação', authMessage);
-  }, [authMessage]);
+    if (user) {
+      router.push('/admin/home');
+    }
+  }, [authMessage, user]);
   
   const handleLogin = async (e: React.SyntheticEvent) => {
     e.preventDefault();
