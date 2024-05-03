@@ -9,48 +9,16 @@ import MessageBox from '../login/messageBox';
 import { motion } from 'framer-motion';
 import { authCodeMapper } from '@/app/lib/utils/authCodeMapper';
 import { BiSolidDownArrowSquare } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
+import { FaUsers } from "react-icons/fa6";
 import style from '@/app/ui/admin/home/home.module.css';
+import ProfileBoard from './ProfileBoard';
 
 const Home = () => {
   const { user, authMessage, setAuthMessage } = useContext(AuthContext);
-  const [buttonListMode, setButtonListMode] = useState(false);
-
-  const toggleOpen = () => setButtonListMode(!buttonListMode);
-
-  const buttonBoxVariants = {
-    open: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        height: { duration: 0.2 },
-        opacity: { delay: 0.3, duration: 0.1 },
-      }
-    },
-    closed: {
-      opacity: 0,
-      scale: 0,
-      transition: {
-        opacity: { duration: 0.1 },
-        height: { delay: 0.4, duration: 0.2 },
-        scale: { delay: 0.6 }
-      }
-    },
-  };
-
-  const buttonPanelVariants = {
-    open: {
-      height: "40rem",
-      transition: {
-        height: { duration: 0.2 }
-      }
-    },
-    closed: {
-      height: "2rem",
-      transition: {
-        height: { duration: 0.2 }
-      }
-    }
-  }
+  const [panelShow, setPanelShow] = useState({
+    edit_profile: false,
+  });
   
   return (
   <motion.div
@@ -94,41 +62,25 @@ const Home = () => {
             </div>
           </div>
 
-          <motion.div
-            className={ style.profile_buttons__panel }
-            variants={ buttonPanelVariants }
-            initial="closed"
-            animate={ buttonListMode ? "open" : "closed" }
-            >
-            <button
-              className={ style.options_btn }
-              onClick={ toggleOpen }
+          <div className={ style.profile_buttons__panel } >
+              <motion.button
+              onClick={ () => setPanelShow({ edit_profile: !panelShow.edit_profile }) }
               >
-              Opções
-              <motion.div
-              className={ style.arrow_button }
-              animate={{ rotate: buttonListMode ? -180 : 0 }}
-              >
-                <BiSolidDownArrowSquare />
-              </motion.div>
-            </button>
-            <motion.div
-            className={ style.hidden_buttons }
-            initial="closed"
-            animate={ buttonListMode ? "open" : "closed" }
-            variants={ buttonBoxVariants }
-            >
-              <button>
-                Editar perfil
-              </button>
-              <button>
-                Gerenciar Usuarios
-              </button>
-            </motion.div>
-          </motion.div>
+                <CgProfile />
+              </motion.button>
+              <motion.button>
+                <FaUsers />
+              </motion.button>
+          </div>
 
           <div className={ style.profile_content__panel }>
-            Content
+            {
+              panelShow.edit_profile && user && (
+                <ProfileBoard
+                  user={ user }
+                />
+              )
+            }
           </div>
 
         </div>
