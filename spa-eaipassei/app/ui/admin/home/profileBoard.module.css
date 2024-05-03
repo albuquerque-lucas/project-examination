@@ -7,3 +7,7 @@
   align-items: center;
   /* background-color: red; */
 }
+
+.panel_case h3 {
+  margin: 3rem 0 5rem 0;
+}

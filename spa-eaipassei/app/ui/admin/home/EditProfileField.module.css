@@ -25,6 +25,7 @@
   border: none;
   margin: 0 0.1rem;
 }
+
 .default_value_field {
   border: 2px solid transparent;
   display: flex;
@@ -36,6 +37,14 @@
 
 .default_value_field :hover {
   border: 2px solid white;
+}
+
+.default_value_field p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height: 2rem;
 }
 
 @media (min-width: 486px) {

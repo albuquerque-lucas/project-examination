@@ -9,7 +9,7 @@
   width: 100%;
   padding: 1rem;
   border-radius: var(--default-border-radius);
-  min-height: 100vh;
+  min-height: 95vh;
 }
 
 .profile_content__info {
@@ -26,6 +26,7 @@
   border-radius: var(--default-border-radius);
   border: 1px solid rgb(151, 151, 151);
   width: 90%;
+  max-width: 30rem;
   padding: 1rem;
   min-height: 30rem;
 }
@@ -79,5 +80,22 @@
 .profile_content__panel {
   width: 100%;
   height: inherit;
+}
+
+@media(min-width: 923px) {
+  .profile_content__info {
+    align-items: flex-start;
+    flex-direction: row;
+  }
+
+  .profile_content__sideinfo {
+    height: 50rem;
+  }
+
+  .profile_buttons__panel {
+    flex-direction: column;
+    width: 10rem;
+    margin-top: 0;
+  }
 }
 
