@@ -15,7 +15,7 @@ function ProfileBoard({ user }: { user: User}) {
 
   return (
     <div className={`${style.panel_case} ${style.panel_case__edit_profile}`}>
-      <h3>Editar Perfil</h3>
+      <h3>Alterar Informações de Perfil</h3>
       <div>
         <ImageUploadField label="Imagem" ref={ imageRef } />
         <div className={style.panel_case__edit_profile__data}>
@@ -44,7 +44,7 @@ function ProfileBoard({ user }: { user: User}) {
             type="text" ref={usernameRef}
             defaultValue={user?.username || ''}
           />
-          <ShowcaseProfileField
+          {/* <ShowcaseProfileField
             label="Nível de Acesso"
             type="text"
             defaultValue={user?.account_plan || ''}
@@ -68,7 +68,7 @@ function ProfileBoard({ user }: { user: User}) {
             label="Dias Restantes"
             type="text"
             defaultValue={user?.subscription_missing_days || ''}
-          />
+          /> */}
         </div>
       </div>
     </div>

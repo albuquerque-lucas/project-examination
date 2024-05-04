@@ -8,7 +8,7 @@ interface EditProfileFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-function ShowcaseProfileField({ label, type, defaultValue }: EditProfileFieldProps) {
+function ShowcaseProfileField({ label, defaultValue }: EditProfileFieldProps) {
   return (
     <div className={style.edit_field}>
       <label>{label}</label>

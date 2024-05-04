@@ -4,47 +4,47 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  /* background-color: blue; */
-  min-width: 30vw;
+  min-width: 40vw;
   max-width: 40rem;
+  margin: 0.5rem 0;
+  padding: 0.5rem 1rem;
 }
 
 .panel_case__edit_profile_field input,
 .edit_field input {
   height: 2rem;
   margin: 0.1rem 0;
+  padding: 0 0 0 0.5rem;
 }
 
 .panel_case__edit_profile_field button,
 .edit_field button {
+  border-radius: var(--default-border-radius);
   font-size: 1.2rem;
   height: 2rem;
   width: 2rem;
   color: white;
   background-color: black;
   border: none;
-  margin: 0 0.1rem;
+  margin: 0 0.2rem;
 }
 
 .default_value_field {
-  border: 2px solid transparent;
   display: flex;
   width: 15rem;
   justify-content: space-between;
+  align-items: center;
   margin-left: 1rem;
   padding: 0.5rem;
 }
 
-.default_value_field :hover {
-  border: 2px solid white;
-}
-
 .default_value_field p {
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 90%;
-  height: 2rem;
+  height: 1rem;
 }
 
 @media (min-width: 486px) {
