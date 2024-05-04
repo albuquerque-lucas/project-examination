@@ -6,15 +6,16 @@ import { createSubject } from "../api/subjectsAPI";
 import { SubjectsFormRequest } from "../types/subjectTypes";
 
 export const useCreateSubjects = () => {
-  const titleRef = useRef<HTMLInputElement>(null);
-  const educationalLevelRef = useRef<HTMLSelectElement>(null);
-  const studyAreaRef = useRef<HTMLSelectElement>(null);
   const { 
     subjectsLoaded,
     setSubjectsLoaded,
     creationMode,
     setCreationMode,
   } = useContext(SubjectsContext);
+
+  const titleRef = useRef<HTMLInputElement>(null);
+  const educationalLevelRef = useRef<HTMLSelectElement>(null);
+  const studyAreaRef = useRef<HTMLSelectElement>(null);
 
   const submitSubject = async () => {
     if (!titleRef.current || !educationalLevelRef.current || !studyAreaRef.current) {

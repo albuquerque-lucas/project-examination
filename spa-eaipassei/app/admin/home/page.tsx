@@ -46,6 +46,7 @@ const Home = () => {
                 width={ 250 }
                 height={ 250 }
                 className={ style.profile_content__image }
+                priority
                 />
             </div>
 

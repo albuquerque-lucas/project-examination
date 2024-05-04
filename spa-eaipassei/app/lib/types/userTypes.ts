@@ -14,3 +14,14 @@ export type User = {
   created_at: string | null;
   updated_at: string | null;
 };
+
+export type UserUpdateRequest = {
+  id: number;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  username: string | null;
+  phone_number: string | null;
+  profile_img: File | null;
+  [key: string]: number | string | null | File;
+}

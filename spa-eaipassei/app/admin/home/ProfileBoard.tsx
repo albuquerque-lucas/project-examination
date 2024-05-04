@@ -1,17 +1,26 @@
-import React, { useRef } from 'react';
+'use client';
+
+import React, { useRef, useEffect } from 'react';
 import { User } from '@/app/lib/types/userTypes';
 import style from '@/app/ui/admin/home/profileBoard.module.css';
 import EditProfileField from './EditProfileField';
 import ImageUploadField from './ImageUploadField';
 import ShowcaseProfileField from './ShowcaseProfileField';
+import useUpdateUser from '@/app/lib/hooks/useUpdateUser';
 
 function ProfileBoard({ user }: { user: User}) {
-  const firstNameRef = useRef(null);
-  const lastNameRef = useRef(null);
-  const emailRef = useRef(null);
-  const phoneNumberRef = useRef(null);
-  const usernameRef = useRef(null);
-  const imageRef = useRef(null);
+  const {
+    firstNameRef,
+    lastNameRef,
+    emailRef,
+    phoneNumberRef,
+    usernameRef,
+    imageRef,
+  } = useUpdateUser();
+
+  useEffect(() => {
+    console.log('Id do usuario', user.id);
+  }, [user]);
 
   return (
     <div className={`${style.panel_case} ${style.panel_case__edit_profile}`}>
@@ -21,28 +30,38 @@ function ProfileBoard({ user }: { user: User}) {
         <div className={style.panel_case__edit_profile__data}>
           <EditProfileField
             label="Nome"
-            type="text" ref={firstNameRef}
+            type="text"
+            ref={firstNameRef}
             defaultValue={user?.first_name || ''}
+            userId={ user.id }
           />
           <EditProfileField
             label="Sobrenome"
-            type="text" ref={lastNameRef}
+            type="text"
+            ref={lastNameRef}
             defaultValue={user?.last_name || ''}
+            userId={ user.id }
           />
           <EditProfileField
             label="Email"
-            type="email" ref={emailRef}
+            type="email"
+            ref={emailRef}
             defaultValue={user?.email || ''}
+            userId={ user.id }
           />
           <EditProfileField
             label="Telefone"
-            type="text" ref={phoneNumberRef}
+            type="text"
+            ref={phoneNumberRef}
             defaultValue={user?.phone_number || ''}
+            userId={ user.id }
           />
           <EditProfileField
             label="Nome de Usuário"
-            type="text" ref={usernameRef}
+            type="text"
+            ref={usernameRef}
             defaultValue={user?.username || ''}
+            userId={ user.id }
           />
           {/* <ShowcaseProfileField
             label="Nível de Acesso"
