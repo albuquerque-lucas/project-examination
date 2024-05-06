@@ -23,29 +23,34 @@ const EditProfileField = forwardRef<HTMLInputElement, EditProfileFieldProps>(fun
         editMode ? (
           <div className={ style.default_value_field }>
             <input ref={ ref } type={ type } defaultValue={ defaultValue } />
-            <motion.button
-              whileTap={ { scale: 0.9, backgroundColor: '#36393e'} }
-              onClick={ () => updateUser(userId, ref, field) }
-            >
-              <IoCheckbox />
-            </motion.button>
-            <motion.button
-              onClick={() => setEditMode(false)}
-              whileTap={{ scale: 0.9, backgroundColor: '#36393e'}}
-            >
-              <MdCancelPresentation />
-            </motion.button>
+            <div className={ style.buttons_box }>
+              <motion.button
+                whileTap={ { scale: 0.9, backgroundColor: '#36393e'} }
+                onClick={ () => updateUser(userId, ref, field) }
+              >
+                <IoCheckbox />
+              </motion.button>
+              <motion.button
+                onClick={() => setEditMode(false)}
+                whileTap={{ scale: 0.9, backgroundColor: '#36393e'}}
+              >
+                <MdCancelPresentation />
+              </motion.button>
+
+            </div>
           </div>
 
         ) : (
           <div className={ style.default_value_field }>
             <p>{defaultValue}</p>
-            <motion.button
-              whileTap={{ scale: 0.9, backgroundColor: '#36393e'}}
-              onClick={() => setEditMode(true)}
-            >
-              <IoCheckbox />
-            </motion.button>
+            <div className={ style.buttons_box }>
+              <motion.button
+                whileTap={{ scale: 0.9, backgroundColor: '#36393e'}}
+                onClick={() => setEditMode(true)}
+              >
+                <IoCheckbox />
+              </motion.button>
+            </div>
           </div>
         )
       }

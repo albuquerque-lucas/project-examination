@@ -31,7 +31,7 @@
 
 .default_value_field {
   display: flex;
-  width: 15rem;
+  width: 20rem;
   justify-content: space-between;
   align-items: center;
   margin-left: 1rem;
@@ -45,6 +45,11 @@
   justify-content: center;
   width: 90%;
   height: 1rem;
+}
+
+.buttons_box {
+  padding: 0.1rem;
+  display: flex;
 }
 
 @media (min-width: 486px) {
