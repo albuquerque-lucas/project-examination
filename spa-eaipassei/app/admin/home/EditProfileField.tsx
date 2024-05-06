@@ -26,7 +26,7 @@ const EditProfileField = forwardRef<HTMLInputElement, EditProfileFieldProps>(fun
             <div className={ style.buttons_box }>
               <motion.button
                 whileTap={ { scale: 0.9, backgroundColor: '#36393e'} }
-                onClick={ () => updateUser(userId, ref, field) }
+                onClick={ (event) => updateUser(event, userId, ref, field) }
               >
                 <IoCheckbox />
               </motion.button>

@@ -1,5 +1,6 @@
 export type User = {
   id: string | null;
+  profile_img: string | null;
   first_name: string | null;
   last_name: string | null;
   full_name: string | null;

@@ -16,7 +16,8 @@ export default function useUpdateUser() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   
-  const updateUser = async (userId: string | null, ref: any, field: string) => {
+  const updateUser = async (event: React.FormEvent, userId: string | null, ref: any, field: string) => {
+    event.preventDefault();
     if (!userId) {
       console.log('O ID do usuário é obrigatório.');
       return;
@@ -32,14 +33,6 @@ export default function useUpdateUser() {
       id: Number(userId),
       [field]: ref.current.value,
     };
-    const formData = new FormData();
-    Object.entries(userUpdateRequest).forEach(([key, value]) => {
-      if (value instanceof Blob) {
-        formData.append(key, value);
-      } else {
-        formData.append(key, String(value));
-      }
-    });
 
     try {
       const response = await update(`${process.env.NEXT_PUBLIC_API_UPDATE_PROFILE}/${id}`, userUpdateRequest);
@@ -47,6 +40,7 @@ export default function useUpdateUser() {
       if (response?.status === 200) {
         console.log('Atualização realizada com sucesso', response);
         if (response.data.user) {
+          console.log('Tem data user sim');
           setUser(response.data.user);
         }
       }
@@ -55,13 +49,14 @@ export default function useUpdateUser() {
     }
   }
 
-  const updateUserImage = async (userId: string | null, ref: any, field: string) => {
+  const updateUserImage = async (event: React.FormEvent, userId: string | null, ref: any, field: string) => {
+    event.preventDefault();
     const id = Number(userId);
     if (!userId) {
       console.log('O ID do usuário é obrigatório.');
       return;
     }
-
+  
     const fileRef = ref.current?.files?.length
       && ref.current.files[0] instanceof File
       ?
@@ -69,30 +64,22 @@ export default function useUpdateUser() {
       :
       null;
       ;
-
+  
       if (!fileRef) {
         console.log('Nenhum arquivo foi selecionado');
         return;
       }
-
-      console.log('Aparentemente temos um arquivo selecionado.');
       const fileRequest: ProfileImageFormRequest = {
         profile_img: fileRef,
-      }
-      
-      console.log('Arquivo: ', fileRequest.profile_img);
-      const formData = new FormData();
-      formData.append('profile_img', fileRef);
-      for (var pair of formData.entries()) { 
-      console.log(pair[0]+ ', ' + pair[1]);
-      }
-
+      };
+  
     try {
       const response = await updateImage(`${process.env.NEXT_PUBLIC_API_UPDATE_PROFILE}/${id}`, fileRequest);
       console.log('Resposta', response);
       if (response?.status === 200) {
         console.log('Atualização realizada com sucesso', response);
         if (response.data.user) {
+          console.log('Tem data User sim');
           setUser(response.data.user);
         }
       }

@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { UserUpdateRequest, ProfileImageFormRequest } from "../types/userTypes";
+import { Profile } from "next-auth";
 
 const axios = Axios.create({
 	withCredentials: true,
@@ -19,8 +20,6 @@ const axiosWithImage = Axios.create({
 
 export const update = async (url: string, userUpdateRequest: UserUpdateRequest) => {
   try {
-    console.log('userUpdateRequest', userUpdateRequest);
-    console.log('url informada', url);
 
     const resp = await axios.patch(url, userUpdateRequest);
 
@@ -44,7 +43,21 @@ export const updateImage = async (url: string, profileImg: ProfileImageFormReque
     console.log('profileImg', profileImg);
     console.log('url informada', url);
 
-    const resp = await axiosWithImage.patch(url, profileImg);
+    const formData = new FormData();
+    formData.append('profile_img', profileImg.profile_img);
+    formData.append('_method', 'PATCH');
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0]+ ', ' + pair[1]); 
+      console.log('teste')
+  }
+
+    const resp = await axios.post(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    
+    });
 
     if (resp.status >= 200 && resp.status < 300) {
       console.log('RESPOSTA DE SUCESSO de updateUser', resp);

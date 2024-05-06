@@ -23,7 +23,7 @@ const ImageUploadField = forwardRef<HTMLInputElement, ImageUploadFieldProps>(fun
           <div className={ style.buttons_box }>
             <motion.button
                 whileTap={{ scale: 0.9, backgroundColor: '#36393e'}}
-                onClick={() => updateUserImage(userId, ref, 'prorfile_img_input')}
+                onClick={(event) => updateUserImage(event, userId, ref, 'prorfile_img_input')}
               >
                 <IoCheckbox />
             </motion.button>

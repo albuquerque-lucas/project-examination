@@ -3,7 +3,7 @@
 import { useContext, useState } from 'react';
 import withAuth from '@/app/lib/components/withAuth/withAuth';
 import { AuthContext } from '../../lib/context/AuthContext';
-import profileImage from './no-image.jpg';
+import noImage from './no-image.jpg';
 import Image from 'next/image';
 import MessageBox from '../login/messageBox';
 import { motion } from 'framer-motion';
@@ -41,7 +41,7 @@ const Home = () => {
           <div className={ style.profile_content__sideinfo }>
             <div className={ style.profile_content__imagebox }>
               <Image
-                src={ profileImage }
+                src={ user?.profile_img ? `http://localhost/storage/${user.profile_img}` : noImage }
                 alt='Imagem de perfil do usuario autenticado'
                 width={ 250 }
                 height={ 250 }

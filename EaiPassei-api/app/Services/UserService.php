@@ -129,7 +129,7 @@ class UserService implements IService
             return $this->serviceResponse;
         }
     }
-    public function update(int $id, array $data, bool $hasFile): ServiceResponse
+    public function update(int $id, array $data, $hasFile): ServiceResponse
     {
         try {
             $user = User::find($id);
