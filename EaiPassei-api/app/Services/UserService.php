@@ -141,10 +141,12 @@ class UserService implements IService
             }
 
             $user->fill($data);
+            $userResource = new UserResource($user);
 
             $responseModel = (object)[
                 'message' => $this->serviceResponse->changesSaved(),
                 'id' => $user->id,
+                'user' => $userResource,
             ];
 
             if ($user->isDirty()) {

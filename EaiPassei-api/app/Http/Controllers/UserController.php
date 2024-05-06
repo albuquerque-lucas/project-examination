@@ -55,7 +55,15 @@ class UserController extends Controller
 
     public function update(Request $request, int $id)
     {
-        return $this->dataRetrievalService->update($this->userService, $id, $request);
+        try {
+            $data = $request->all();
+
+            $response = $this->userService->update($id, $data, false);
+    
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function delete(int $id)

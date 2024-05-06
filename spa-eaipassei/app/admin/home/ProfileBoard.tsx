@@ -34,6 +34,7 @@ function ProfileBoard({ user }: { user: User}) {
             ref={firstNameRef}
             defaultValue={user?.first_name || ''}
             userId={ user.id }
+            field="first_name"
           />
           <EditProfileField
             label="Sobrenome"
@@ -41,6 +42,7 @@ function ProfileBoard({ user }: { user: User}) {
             ref={lastNameRef}
             defaultValue={user?.last_name || ''}
             userId={ user.id }
+            field="last_name"
           />
           <EditProfileField
             label="Email"
@@ -48,6 +50,7 @@ function ProfileBoard({ user }: { user: User}) {
             ref={emailRef}
             defaultValue={user?.email || ''}
             userId={ user.id }
+            field="email"
           />
           <EditProfileField
             label="Telefone"
@@ -55,6 +58,7 @@ function ProfileBoard({ user }: { user: User}) {
             ref={phoneNumberRef}
             defaultValue={user?.phone_number || ''}
             userId={ user.id }
+            field="phone_number"
           />
           <EditProfileField
             label="Nome de Usuário"
@@ -62,6 +66,7 @@ function ProfileBoard({ user }: { user: User}) {
             ref={usernameRef}
             defaultValue={user?.username || ''}
             userId={ user.id }
+            field="username"
           />
           {/* <ShowcaseProfileField
             label="Nível de Acesso"

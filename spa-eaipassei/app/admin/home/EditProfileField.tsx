@@ -10,9 +10,10 @@ interface EditProfileFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   type: string;
   defaultValue: string;
   userId: string | null;
+  field: string;
 }
 
-const EditProfileField = forwardRef<HTMLInputElement, EditProfileFieldProps>(function({ label, type, defaultValue, userId }, ref) {
+const EditProfileField = forwardRef<HTMLInputElement, EditProfileFieldProps>(function({ label, type, defaultValue, userId, field }, ref) {
   const { updateUser } = useUpdateUser();
   const [editMode, setEditMode] = useState(false);
   return (
@@ -24,7 +25,7 @@ const EditProfileField = forwardRef<HTMLInputElement, EditProfileFieldProps>(fun
             <input ref={ ref } type={ type } defaultValue={ defaultValue } />
             <motion.button
               whileTap={ { scale: 0.9, backgroundColor: '#36393e'} }
-              onClick={ () => updateUser(userId, ref) }
+              onClick={ () => updateUser(userId, ref, field) }
             >
               <IoCheckbox />
             </motion.button>

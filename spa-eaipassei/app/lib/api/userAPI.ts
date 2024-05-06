@@ -4,26 +4,17 @@ import { UserUpdateRequest } from "../types/userTypes";
 const axios = Axios.create({
 	withCredentials: true,
 	headers: {
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
 		"Accept": "application/json",
 	},
 });
 
-export const updateUser = async (url: string, userUpdateRequest: UserUpdateRequest) => {
+export const update = async (url: string, userUpdateRequest: UserUpdateRequest) => {
   try {
-    const formData = new FormData();
-    Object.keys(userUpdateRequest).forEach(key => {
-      const value = userUpdateRequest[key];
-      if (value !== null) {
-        formData.append(key, value as string | Blob);
-      }
-    });
+    console.log('userUpdateRequest', userUpdateRequest);
+    console.log('url informada', url);
 
-    const resp = await axios.put(url, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const resp = await axios.patch(url, userUpdateRequest);
 
     if (resp.status >= 200 && resp.status < 300) {
       console.log('RESPOSTA DE SUCESSO de updateUser', resp);

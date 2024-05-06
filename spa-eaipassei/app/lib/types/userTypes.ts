@@ -17,11 +17,11 @@ export type User = {
 
 export type UserUpdateRequest = {
   id: number;
-  first_name: string | null;
-  last_name: string | null;
-  email: string | null;
-  username: string | null;
-  phone_number: string | null;
-  profile_img: File | null;
-  [key: string]: number | string | null | File;
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  username?: string;
+  phone_number?: string;
+  profile_img?: File;
+  [key: string]: number | string | File | undefined;
 }
