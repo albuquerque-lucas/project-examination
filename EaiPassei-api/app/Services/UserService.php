@@ -145,7 +145,6 @@ class UserService implements IService
 
             $responseModel = (object)[
                 'message' => $this->serviceResponse->changesSaved(),
-                'id' => $user->id,
                 'user' => $userResource,
             ];
 
