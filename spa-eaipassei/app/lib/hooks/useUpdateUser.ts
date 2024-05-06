@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useContext, useEffect, useRef } from "react";
-import { useRouter, usePathname } from 'next/navigation';
+import { useContext, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { UserUpdateRequest } from "../types/userTypes";
-import { update } from "../api/userAPI";
+import { update, updateImage } from "../api/userAPI";
+import { ProfileImageFormRequest } from "../types/userTypes";
 
 export default function useUpdateUser() {
   const { user, setUser } = useContext(AuthContext);
@@ -46,7 +46,55 @@ export default function useUpdateUser() {
 
       if (response?.status === 200) {
         console.log('Atualização realizada com sucesso', response);
-        setUser(response.data.user);
+        if (response.data.user) {
+          setUser(response.data.user);
+        }
+      }
+    } catch (error: any) {
+      console.log('Erro ao atualizar o usuário', error);
+    }
+  }
+
+  const updateUserImage = async (userId: string | null, ref: any, field: string) => {
+    const id = Number(userId);
+    if (!userId) {
+      console.log('O ID do usuário é obrigatório.');
+      return;
+    }
+
+    const fileRef = ref.current?.files?.length
+      && ref.current.files[0] instanceof File
+      ?
+      ref.current.files[0]
+      :
+      null;
+      ;
+
+      if (!fileRef) {
+        console.log('Nenhum arquivo foi selecionado');
+        return;
+      }
+
+      console.log('Aparentemente temos um arquivo selecionado.');
+      const fileRequest: ProfileImageFormRequest = {
+        profile_img: fileRef,
+      }
+      
+      console.log('Arquivo: ', fileRequest.profile_img);
+      const formData = new FormData();
+      formData.append('profile_img', fileRef);
+      for (var pair of formData.entries()) { 
+      console.log(pair[0]+ ', ' + pair[1]);
+      }
+
+    try {
+      const response = await updateImage(`${process.env.NEXT_PUBLIC_API_UPDATE_PROFILE}/${id}`, fileRequest);
+      console.log('Resposta', response);
+      if (response?.status === 200) {
+        console.log('Atualização realizada com sucesso', response);
+        if (response.data.user) {
+          setUser(response.data.user);
+        }
       }
     } catch (error: any) {
       console.log('Erro ao atualizar o usuário', error);
@@ -55,6 +103,7 @@ export default function useUpdateUser() {
 
   return {
     updateUser,
+    updateUserImage,
     firstNameRef,
     lastNameRef,
     emailRef,

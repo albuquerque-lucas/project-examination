@@ -26,7 +26,11 @@ function ProfileBoard({ user }: { user: User}) {
     <div className={`${style.panel_case} ${style.panel_case__edit_profile}`}>
       <h3>Alterar Informações de Perfil</h3>
       <div>
-        <ImageUploadField label="Imagem" ref={ imageRef } />
+        <ImageUploadField
+          label="Imagem"
+          ref={ imageRef }
+          userId={ user.id }
+        />
         <div className={style.panel_case__edit_profile__data}>
           <EditProfileField
             label="Nome"

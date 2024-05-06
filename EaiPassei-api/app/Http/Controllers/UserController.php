@@ -58,9 +58,25 @@ class UserController extends Controller
         try {
             $data = $request->all();
 
-            $response = $this->userService->update($id, $data, false);
+            if ($request->hasFile('profile_img')) {
+                $path = $request->file('profile_img')->store('profile_img', 'public');
+                $data['profile_img'] = $path;
+                return response()->json([
+                    'message' => 'Resposta do UserController@update',
+                    'data' => $data,
+                    'request-info' => $request,
+                ], 200);
+            }
+
+
+            return response()->json([
+                'message' => 'Nao foi identificada nenhuma imagem',
+                'request-info' => $request,
+            ], 200);
+            
+            // $response = $this->userService->update($id, $data, false);
     
-            return response()->json($response->data(), $response->status());
+            // return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }

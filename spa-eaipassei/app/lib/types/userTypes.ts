@@ -25,3 +25,7 @@ export type UserUpdateRequest = {
   profile_img?: File;
   [key: string]: number | string | File | undefined;
 }
+
+export type ProfileImageFormRequest = {
+  profile_img: File;
+}
