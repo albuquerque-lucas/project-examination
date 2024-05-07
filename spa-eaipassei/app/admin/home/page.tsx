@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import withAuth from '@/app/lib/components/withAuth/withAuth';
 import { AuthContext } from '../../lib/context/AuthContext';
 import noImage from './no-image.jpg';
@@ -8,17 +8,22 @@ import Image from 'next/image';
 import MessageBox from '../login/messageBox';
 import { motion } from 'framer-motion';
 import { authCodeMapper } from '@/app/lib/utils/authCodeMapper';
-import { BiSolidDownArrowSquare } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa6";
 import style from '@/app/ui/admin/home/home.module.css';
 import ProfileBoard from './ProfileBoard';
+import useUpdateUser from '@/app/lib/hooks/useUpdateUser';
 
 const Home = () => {
   const { user, authMessage, setAuthMessage } = useContext(AuthContext);
+  const { updateMessage, setUpdateMessage } = useUpdateUser()
   const [panelShow, setPanelShow] = useState({
     edit_profile: false,
   });
+
+  useEffect(() => {
+    console.log('Identificado alteracao em UpdateMessage', updateMessage);
+  }, [updateMessage]);
   
   return (
   <motion.div
@@ -32,6 +37,15 @@ const Home = () => {
                 message={ authMessage.message }
                 setMessage={ setAuthMessage }
                 type={ authMessage.type }
+                />
+            )
+          }
+          {
+            updateMessage && (
+              <MessageBox
+                message={ updateMessage.message }
+                setMessage={ setUpdateMessage }
+                type={ updateMessage.type }
                 />
             )
           }

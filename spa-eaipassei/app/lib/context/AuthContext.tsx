@@ -2,7 +2,7 @@
 
 import { createContext, useState, useMemo, ReactNode } from 'react';
 import { User } from '../types/userTypes';
-import { AuthMessage } from '../types/messageTypes';
+import { AuthMessage, UpdateUserMessage } from '../types/messageTypes';
 
 type AuthContextType = {
   user: User | null;
@@ -11,6 +11,8 @@ type AuthContextType = {
   setAuthenticated: (authenticated: boolean) => void;
   authMessage: AuthMessage | null;
   setAuthMessage: (authMessage: AuthMessage | null) => void;
+  updateMessage: UpdateUserMessage | null;
+  setUpdateMessage: (updateMessage: UpdateUserMessage | null) => void;
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -20,6 +22,8 @@ export const AuthContext = createContext<AuthContextType>({
   setAuthenticated: () => {},
   authMessage: null,
   setAuthMessage: () => {},
+  updateMessage: null,
+  setUpdateMessage: () => {},
 });
 
 type AuthProviderProps = {
@@ -35,6 +39,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     }
     return null;
   });
+  const [updateMessage, setUpdateMessage] = useState<UpdateUserMessage | null>(null);
 
   const value = useMemo(() => {
     const setUser = (user: User | null) => {
@@ -54,13 +59,14 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setAuthenticated,
       authMessage,
       setAuthMessage,
+      updateMessage,
+      setUpdateMessage,
     };
   }, [
     user,
     authenticated,
-    setAuthenticated,
     authMessage,
-    setAuthMessage,
+    updateMessage,
   ]);
 
   return (

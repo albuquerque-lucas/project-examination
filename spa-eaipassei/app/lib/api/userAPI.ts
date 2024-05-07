@@ -1,6 +1,7 @@
 import Axios from "axios";
 import { UserUpdateRequest, ProfileImageFormRequest } from "../types/userTypes";
 import { Profile } from "next-auth";
+import HttpError from "../utils/Class/HttpError";
 
 const axios = Axios.create({
 	withCredentials: true,
@@ -66,9 +67,16 @@ export const updateImage = async (url: string, profileImg: ProfileImageFormReque
       console.log('Resposta nao identificada de updateUser.');
     }
   } catch (error: any) {
-    if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+    if (error.response && error.response.status >= 400 && error.response.status < 500) {
+      console.log('Erro ao atualizar o usuário', error);
+      console.log(error.response.data.message);
+      throw new HttpError(error.response.data.message, error.response.status);
+    }
+
+    if (error.response.status >= 500) {
       console.log('Erro ao atualizar o usuário', error);
       console.log('Erro ao atualizar o usuário', error.message);
+      throw new HttpError('Erro interno no servidor', error.response.status);
     }
   }
 }

@@ -1,13 +1,14 @@
 'use client';
 
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { UserUpdateRequest } from "../types/userTypes";
 import { update, updateImage } from "../api/userAPI";
 import { ProfileImageFormRequest } from "../types/userTypes";
+import { UpdateUserMessage } from "../types/messageTypes";
 
 export default function useUpdateUser() {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, updateMessage, setUpdateMessage } = useContext(AuthContext);
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -46,6 +47,14 @@ export default function useUpdateUser() {
       }
     } catch (error: any) {
       console.log('Erro ao atualizar o usuário', error);
+      if(error.status === 400) {
+        console.log('Erro 400 identificado');
+        console.log(error.data.message);
+        setUpdateMessage({
+          message: error.data.message,
+          type: 'error',
+        });
+      }
     }
   }
 
@@ -77,25 +86,35 @@ export default function useUpdateUser() {
       const response = await updateImage(`${process.env.NEXT_PUBLIC_API_UPDATE_PROFILE}/${id}`, fileRequest);
       console.log('Resposta', response);
       if (response?.status === 200) {
-        console.log('Atualização realizada com sucesso', response);
         if (response.data.user) {
-          console.log('Tem data User sim');
           setUser(response.data.user);
         }
       }
     } catch (error: any) {
       console.log('Erro ao atualizar o usuário', error);
+      if(error.status === 400) {
+        console.log(error.message);
+        setUpdateMessage({
+          message: error.message,
+          type: 'error',
+        });
+      }
     }
   }
+  useEffect(() => {
+    console.log('Identificado alteracao em UpdateMessage', updateMessage);
+  }, [updateMessage]);
 
   return {
     updateUser,
     updateUserImage,
+    setUpdateMessage,
     firstNameRef,
     lastNameRef,
     emailRef,
     phoneNumberRef,
     usernameRef,
     imageRef,
+    updateMessage,
   }
 }

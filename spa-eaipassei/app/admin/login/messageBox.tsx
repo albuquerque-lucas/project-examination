@@ -1,17 +1,17 @@
 import { useEffect } from "react";
-import { AuthMessage } from "@/app/lib/types/messageTypes";
+import { AuthMessage, UpdateUserMessage } from "@/app/lib/types/messageTypes";
 import { MdError } from "react-icons/md";
 import style from '@/app/ui/admin/login/messages.module.css';
 
 
-export default function MessageBox({ message, type, setMessage }: AuthMessage) {
+export default function MessageBox({ message, type, setMessage }: AuthMessage | UpdateUserMessage) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
     if (setMessage) {
       setMessage(null);
     }
-  }, 2500);
+  }, 3500);
     return () => clearTimeout(timer);
   }, []);
 
