@@ -32,12 +32,23 @@ export const useCreateStudyAreas = () => {
     try {
       const response = await createStudyArea(`${process.env.NEXT_PUBLIC_API_CREATE_STUDY_AREA}`, studyArea);
       console.log('Resposta da criação da área de estudo', response);
+      setStudyAreasMessage({
+        message: response?.data.message,
+        type: 'dark',
+      });
       if (titleRef.current) {
         titleRef.current.value = '';
       }
       setStudyAreasLoaded(false);
     } catch (error: any) {
       console.log('Erro ao criar a área de estudo', error);
+      setStudyAreasMessage({
+        message: error.message,
+        type: 'dark',
+      });
+      if (titleRef.current) {
+        titleRef.current.value = '';
+      }
     }
   }
 
