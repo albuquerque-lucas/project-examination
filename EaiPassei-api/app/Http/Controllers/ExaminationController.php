@@ -54,10 +54,14 @@ class ExaminationController extends Controller
         return $this->dataRetrievalService->getById($this->examinationService, $id);
     }
 
-    public function createMany(ExaminationFormRequest $request)
+    public function create(ExaminationFormRequest $request)
     {
         try {
             $data = $request->all();
+            // return response()->json([
+            //     'message' => 'Resposta do metodo create de ExaminationsController',
+            //     'data' => $data,
+            // ]);
             $response = $this->examinationService->create($data);
 
             return response()->json($response->data(), $response->status());

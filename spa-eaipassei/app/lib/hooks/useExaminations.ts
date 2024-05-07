@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useCreateNotices } from './useCreateNotices';
 import { ExaminationsContext } from '../context/ExaminationsContext';
 import { Examination } from '@/app/lib/types/examinationTypes';
-import { createMany } from '@/app/lib/api/examinationsAPI';
+import { createExaminations } from '@/app/lib/api/examinationsAPI';
 import { NoticeFormRequest } from '../types/noticeTypes';
 import { mimeToExtension } from '../utils/mapperFunctions';
 import { createNotice } from '../api/noticesAPI';
@@ -21,12 +21,11 @@ export const useExaminations = () => {
   const router = useRouter();
   const { setFlashMessage, setExaminationsLoaded, flashMessage } = useContext(ExaminationsContext);
 
-  const addExamination = (title: string, institution: string, educational_level_id: string, notice: File | null) => {
+  const addExamination = ({ title, institution, educational_level_id, notice }: Examination) => {
     if (!title || !institution || !educational_level_id) {
       setFlashMessage({
         message: 'Preencha todos os campos.',
         type: 'error',
-
       });
       return;
     }
@@ -52,9 +51,10 @@ export const useExaminations = () => {
       return;
     }
   
-    setFileList([...fileList, notice as File]);
+    if (notice !== null) {
+      setFileList([...fileList, notice as File]);
+    }
     setPersistenceList([...persistenceList, examination]);
-    return null;
   }
 
   const addToList = () => {
@@ -64,11 +64,19 @@ export const useExaminations = () => {
     const notice = fileRef.current?.files?.length && fileRef.current.files[0] instanceof File
     ? fileRef.current.files[0]
     : null;
-  
-    addExamination(title, institution, educational_level_id, notice);
+
+    const examination: Examination = {
+      title,
+      institution,
+      educational_level_id,
+      notice,
+    }
+    console.log('Examination a ser enviado.', examination);
+    addExamination(examination);
   }
 
   const createNoticeForExamination = async (id: number, index: number) => {
+    if (!fileList[index]) return;
     const noticeFile = fileList[index];
     const noticeFormRequest: NoticeFormRequest = {
       examination_id: id,
@@ -94,8 +102,10 @@ export const useExaminations = () => {
   
   const submitExaminations = async () => {
     try {
-      const response = await createMany(persistenceList);
+      const response = await createExaminations(persistenceList);
+      console.log('Resposta de createExaminations', response);
       if (response.status === 409) {
+        console.log('Conflito na solicitacao', response);
         setFlashMessage(response.data.message);
         return;
       };
@@ -106,7 +116,7 @@ export const useExaminations = () => {
         setExaminationsLoaded(false);
         setNoticesLoaded(false);
         setFlashMessage({
-          message: 'Concursos enviados com sucesso.',
+          message: response.data.message,
           type: 'success',
         });
         router.push('/admin/manage/examinations');

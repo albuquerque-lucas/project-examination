@@ -1,14 +1,12 @@
 import { FlashMessage } from "./messageTypes";
 
 export type Examination = {
+  id?: number;
   educational_level_id: string;
   title: string;
   institution: string;
   active?: boolean;
-  registration_start_date?: string;
-  registration_end_date?: string;
-  exams_start_date?: string;
-  exams_end_date?: string;
+  notice?: File | null;
 };
 
 export type EducationalLevel = {

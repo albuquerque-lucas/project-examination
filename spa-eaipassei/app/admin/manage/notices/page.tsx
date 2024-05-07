@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchNotices } from "@/app/lib/hooks/useFetchNotices";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
@@ -10,9 +10,10 @@ import withAuth from "@/app/lib/components/withAuth/withAuth";
 import DashboardNotices from "./dashboardNotices";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { motion } from 'framer-motion';
-import style from '@/app/ui/admin/pages/notices/notices.module.css';
 import NoticeNavigationButtons from "./NoticeNavigationButton";
 import DeleteNoticePopUp from "@/app/lib/components/ConfirmationPopUp/DeleteNoticePopUp";
+import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
+import style from '@/app/ui/admin/pages/notices/notices.module.css';
 
 function NoticesPage() {
   const { noticeDeletionMode } = useDeleteNotices();
@@ -26,13 +27,14 @@ function NoticesPage() {
     setCreationMode,
     addToSubmitList,
   } = useCreateNotices();
+  const {examinationsLoaded} = useContext(ExaminationsContext);
   const router = useRouter();
 
   useEffect(() => {
     if (noticesList.links) {
       updateNavigationLinks(noticesList.links);
     }
-  }, [noticesLoaded]);
+  }, [noticesLoaded, examinationsLoaded]);
 
   return (
     <div className="notices_content">
