@@ -117,7 +117,10 @@ export const useExaminations = () => {
       console.log('Resposta de createExaminations', response);
       if (response.status === 409) {
         console.log('Conflito na solicitacao', response);
-        setFlashMessage(response.data.message);
+        setFlashMessage({
+          message: response.data.message,
+          type: 'error',
+        });
         return;
       };
       
