@@ -29,15 +29,6 @@ export const useCreateNotices = () => {
       extension: mimeToExtension[noticeFile.type] || '',
     };
   
-
-    const formData = new FormData();
-    Object.entries(noticeFormRequest).forEach(([key, value]) => {
-      if (value instanceof Blob) {
-        formData.append(key, value);
-      } else {
-        formData.append(key, String(value));
-      }
-    });
     setNoticesList([...noticesList, noticeFormRequest]);;
   }
 

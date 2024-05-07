@@ -24,6 +24,7 @@ class UsersSeeder extends Seeder
             "first_name"=> "Lucas",
             "last_name"=> "Albuquerque",
             "username"=> "lucas.albuquerque",
+            "profile_img" => null,
             "email"=> "lucaslpra@gmail.com",
             "phone_number"=> "(32) 98867-3808",
             "password"=> Hash::make("123456"),

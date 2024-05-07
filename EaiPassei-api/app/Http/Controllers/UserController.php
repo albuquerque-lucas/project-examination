@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\InvalidDateFormatException;
 use App\Http\Requests\UserFormRequest;
 use App\Services\DataRetrievalService;
 use App\Services\UserService;
@@ -55,7 +54,26 @@ class UserController extends Controller
 
     public function update(Request $request, int $id)
     {
-        return $this->dataRetrievalService->update($this->userService, $id, $request);
+        try {
+            $data = $request->all();
+            if ($request->hasFile('profile_img')) {
+                $file = $request->file('profile_img');
+                $extension = $file->getClientOriginalExtension();
+                if ($extension !== 'jpg' && $extension !== 'jpeg' && $extension !== 'png') {
+                    throw new Exception('Extensão inválida. O arquivo deve ser uma imagem nos formados jpg, jpeg ou png.', 400);
+                }
+                $path = $file->store('profile_img', 'public');
+                $data = ['profile_img' => $path];
+                $hasFile = true;
+            } else {
+                $path = null;
+                $hasFile = false;
+            }
+            $response = $this->userService->update($id, $data, $hasFile);
+            return response()->json($response->data(), 200);
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function delete(int $id)
@@ -69,17 +87,17 @@ class UserController extends Controller
             $requestData = $request->all();
             $user = $this->userService->register($requestData);
 
-            if (get_class($user) === 'App\Models\ServiceResponse') {
-                return response()->json([
-                    'message' => 'Usuario ja registrado.'
-                ], 409);
-            }
+            // if (get_class($user) === 'App\Models\ServiceResponse') {
+            //     return response()->json([
+            //         'message' => 'Usuario ja registrado.'
+            //     ], 409);
+            // }
 
-            if (get_class($user) === 'stdClass') {
-                return response()->json([
-                    'message' => 'Usuario ja registrado.'
-                ], 409);
-            }
+            // if (get_class($user) === 'stdClass') {
+            //     return response()->json([
+            //         'message' => 'Usuario ja registrado.'
+            //     ], 409);
+            // }
             $token = $user->createToken('eaipassei-app')->plainTextToken;
             $cookie = cookie('token', $token, 60 * 24);
 
