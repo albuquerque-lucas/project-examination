@@ -10,7 +10,7 @@ import { NoticeFormRequest } from '../types/noticeTypes';
 import { mimeToExtension } from '../utils/mapperFunctions';
 import { createNotice } from '../api/noticesAPI';
 
-export const useExaminations = () => {
+export const useCreateExaminations = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const institutionRef = useRef<HTMLInputElement>(null);
   const educationalLevelRef = useRef<HTMLSelectElement>(null);
@@ -104,10 +104,13 @@ export const useExaminations = () => {
       }
     });
     try {
-      const response = await createNotice(`${process.env.NEXT_PUBLIC_API_CREATE_NOTICE}`, noticeFormRequest);
-      console.log('Resposta da criação do edital', response);
+      await createNotice(`${process.env.NEXT_PUBLIC_API_CREATE_NOTICE}`, noticeFormRequest);
     } catch (error: any) {
-      console.log('Erro ao criar os editais', error);
+      console.error('Erro ao criar o edital', error);
+      setFlashMessage({
+        message: 'Ocorreu um erro ao enviar os editais.',
+        type: 'error',
+      });
     }
   }
   

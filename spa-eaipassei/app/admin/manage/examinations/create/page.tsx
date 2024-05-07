@@ -1,16 +1,13 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
 import ExaminationSavingCard from "@/app/lib/components/ExaminationSavingCard/ExaminationSavingCard";
 import { useFetchEducationalLevels } from '@/app/lib/hooks/useFetchEducationalLevels';
 import withAuth from "@/app/lib/components/withAuth/withAuth"
-import { getAllEducationalLevels } from '@/app/lib/api/educationalLevelsAPI';
 import { motion, AnimatePresence } from 'framer-motion';
-import FlashMessage from '@/app/lib/components/Message/FlashMessage';
 import MessageBox from '@/app/lib/components/Message/MessageBox';
-import { useExaminations } from '@/app/lib/hooks/useExaminations';
+import { useCreateExaminations } from '@/app/lib/hooks/useCreateExaminations';
 import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 
 const CreateExaminationsPage = () => {
@@ -31,7 +28,7 @@ const CreateExaminationsPage = () => {
     addToList,
     submitExaminations,
     setFlashMessage,
-  } = useExaminations();
+  } = useCreateExaminations();
   
   
   useEffect(() => {
