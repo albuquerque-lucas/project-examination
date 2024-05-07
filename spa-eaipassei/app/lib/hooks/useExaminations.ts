@@ -57,6 +57,12 @@ export const useExaminations = () => {
     setPersistenceList([...persistenceList, examination]);
   }
 
+  const clearRefValue = (ref: React.RefObject<HTMLInputElement | HTMLSelectElement>, value: string) => {
+    if (ref.current) {
+      ref.current.value = value;
+    }
+  };
+
   const addToList = () => {
     const title = titleRef.current?.value ?? '';
     const institution = institutionRef.current?.value ?? '';
@@ -72,6 +78,12 @@ export const useExaminations = () => {
       notice,
     }
     addExamination(examination);
+
+    clearRefValue(titleRef, '');
+    clearRefValue(institutionRef, '');
+    clearRefValue(educationalLevelRef, '5');
+    clearRefValue(fileRef, '');
+
   }
 
   const createNoticeForExamination = async (id: number, index: number) => {
