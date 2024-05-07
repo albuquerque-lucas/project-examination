@@ -3,14 +3,14 @@
 import { useContext, useEffect } from 'react';
 import { AdminLayoutContext } from '@/app/lib/context/AdminLayoutContext';
 import { AuthContext } from '../lib/context/AuthContext';
-import colors from '@/app/ui/admin/colors.module.css';
-import navbar from '@/app/ui/admin/navbar.module.css';
 import { BiLogInCircle } from "react-icons/bi";
 import { FaBars } from "react-icons/fa6";
 import Link from 'next/link';
 import AuthenticatedOnlyLinksBundle from './manage/links/authenticatedOnlyLinksBundle';
 import NavbarItem from '../lib/components/ListItems/navbarItem';
 import { motion } from 'framer-motion';
+import colors from '@/app/ui/admin/colors.module.css';
+import navbar from '@/app/ui/admin/navbar.module.css';
 
 export default function Navbar() {
   const { sidebarOpen, setSidebarOpen } = useContext(AdminLayoutContext);
@@ -28,7 +28,7 @@ export default function Navbar() {
     <motion.nav
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-    className={`${colors.primary_bg__dark} ${navbar.admin_navbar}`}
+      className={`${colors.primary_bg__dark} ${navbar.admin_navbar}`}
     >
       <div className={ navbar.admin_navbar__container }>
         <motion.button

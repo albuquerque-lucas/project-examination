@@ -7,6 +7,7 @@ import {
   StudyAreasQueryParams,
   StudyAreasFilterList,
 } from "../types/studyAreasTypes";
+import { FlashMessage } from "../types/messageTypes";
 
 const defaultValue: StudyAreaContextType = {
   studyAreas: [],
@@ -25,6 +26,8 @@ const defaultValue: StudyAreaContextType = {
   setStudyAreaDeletionMode: () => {},
   studyAreaDeletionList: [],
   setStudyAreaDeletionList: () => {},
+  studyAreasMessage: null,
+  setStudyAreasMessage: () => {},
 };
 
 export const StudyAreasContext = createContext<StudyAreaContextType>(defaultValue);
@@ -42,6 +45,7 @@ export default function StudyAreasProvider({ children }: StudyAreasProviderProps
   const [creationMode, setCreationMode] = useState(false);
   const [studyAreaDeletionMode, setStudyAreaDeletionMode] = useState(false);
   const [studyAreaDeletionList, setStudyAreaDeletionList] = useState<number[]>([]);
+  const [studyAreasMessage, setStudyAreasMessage] = useState<FlashMessage | null>(null);
 
   const value = useMemo(() => {
     const setQueryParams = (filterList: StudyAreasFilterList[]) => {
@@ -71,6 +75,8 @@ export default function StudyAreasProvider({ children }: StudyAreasProviderProps
       setStudyAreaDeletionMode,
       studyAreaDeletionList,
       setStudyAreaDeletionList,
+      studyAreasMessage,
+      setStudyAreasMessage,
     }
   }, [
     studyAreas,
@@ -81,6 +87,7 @@ export default function StudyAreasProvider({ children }: StudyAreasProviderProps
     creationMode,
     studyAreaDeletionMode,
     studyAreaDeletionList,
+    studyAreasMessage,
   ]);
 
   return (

@@ -26,12 +26,13 @@ export const getAllAreas = async (url: string, params: any) => {
 export const createStudyArea = async (url: string, studyArea: StudyAreasFormRequest) => {
   try {
     const resp = await axios.post(url, studyArea);
-    if (resp.status >= 200 && resp.status < 300) {
-      console.log('DATA RESULT CREATE STUDY AREA', resp);
-      return resp;
-    } else {
-      console.log('Resposta nao identificada.');
-    }
+    console.log('Resposta de createStudyArea', resp);
+    // if (resp.status >= 200 && resp.status < 300) {
+    //   console.log('DATA RESULT CREATE STUDY AREA', resp);
+    //   return resp;
+    // } else {
+    //   console.log('Resposta nao identificada.');
+    // }
   } catch (error: any) {
     if (error.response && error.response.status >= 400 && error.response.status < 500) {
       console.log('Erro ao criar a area', error);

@@ -88,6 +88,13 @@ class StudyAreaController extends Controller
 
     public function create(StudyAreaFormRequest $request)
     {
-        return $this->dataRetrievalService->create($this->studyAreaService, $request);
+        try {
+            $requestData = $request->all();
+            $response = $this->studyAreaService->create($requestData);
+
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 }

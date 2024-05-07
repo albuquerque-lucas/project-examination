@@ -1,4 +1,5 @@
 import { Subject } from "./subjectTypes";
+import { FlashMessage } from "./messageTypes";
 
 export type StudyArea = {
   id: number;
@@ -23,6 +24,8 @@ export type StudyAreaContextType = {
   setStudyAreaDeletionMode: (studyAreaDeletionMode: boolean) => void;
   studyAreaDeletionList: number[];
   setStudyAreaDeletionList: (studyAreaDeletionList: number[]) => void;
+  studyAreasMessage: FlashMessage | null;
+  setStudyAreasMessage: (studyAreasMessage: FlashMessage | null) => void;
 }
 
 export type StudyAreasQueryParams = {

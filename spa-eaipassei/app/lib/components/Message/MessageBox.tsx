@@ -20,6 +20,7 @@ export default function MessageBox({ message, type, setMessage }: FlashMessage) 
     success: style.success,
     error: style.error,
     warning: style.warning,
+    dark: style.dark,
   };
   return (
       <motion.div

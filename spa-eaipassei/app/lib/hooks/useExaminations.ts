@@ -71,7 +71,6 @@ export const useExaminations = () => {
       educational_level_id,
       notice,
     }
-    console.log('Examination a ser enviado.', examination);
     addExamination(examination);
   }
 

@@ -12,19 +12,23 @@ export const useCreateStudyAreas = () => {
     setStudyAreasLoaded,
     creationMode,
     setCreationMode,
+    studyAreasMessage,
+    setStudyAreasMessage,
   } = useContext(StudyAreasContext);
 
   const submitStudyArea = async () => {
-    if (!titleRef.current) {
-      console.error('All fields are required');
-      console.log('All fields are required');
+    if (!titleRef.current?.value || titleRef.current?.value.trim() === '') {
+      setStudyAreasMessage({
+        message: 'Todos os campos devem ser preenchidos.',
+        type: 'dark',
+      });
       return;
     }
   
     const studyArea: StudyAreasFormRequest = {
       area: titleRef.current.value,
     };
-
+    console.log('Study Area', studyArea);
     try {
       const response = await createStudyArea(`${process.env.NEXT_PUBLIC_API_CREATE_STUDY_AREA}`, studyArea);
       console.log('Resposta da criação da área de estudo', response);
@@ -38,8 +42,10 @@ export const useCreateStudyAreas = () => {
     titleRef,
     studyAreasLoaded,
     creationMode,
+    studyAreasMessage,
     setStudyAreasLoaded,
     setCreationMode,
     submitStudyArea,
+    setStudyAreasMessage,
   }
 }
