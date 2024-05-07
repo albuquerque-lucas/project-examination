@@ -1,11 +1,10 @@
 'use client';
 
-import { useContext, useRef, useState, useEffect } from "react";
+import { useContext, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { UserUpdateRequest } from "../types/userTypes";
 import { update, updateImage } from "../api/userAPI";
 import { ProfileImageFormRequest } from "../types/userTypes";
-import { UpdateUserMessage } from "../types/messageTypes";
 
 export default function useUpdateUser() {
   const { user, setUser, updateMessage, setUpdateMessage } = useContext(AuthContext);
@@ -20,13 +19,19 @@ export default function useUpdateUser() {
   const updateUser = async (event: React.FormEvent, userId: string | null, ref: any, field: string) => {
     event.preventDefault();
     if (!userId) {
-      console.log('O ID do usuário é obrigatório.');
+      setUpdateMessage({
+        message: 'O ID do usuário é obrigatório.',
+        type: 'error',
+        });
       return;
     }
     const id = Number(userId);
 
     if (ref.current.value.trim() === '') {
-      console.log('Campo vazio ou apenas com espaços em branco não é permitido.');
+      setUpdateMessage({
+        message: 'O campo não pode ser vazio.',
+        type: 'error',
+        });
       return;
     }
 
@@ -39,16 +44,17 @@ export default function useUpdateUser() {
       const response = await update(`${process.env.NEXT_PUBLIC_API_UPDATE_PROFILE}/${id}`, userUpdateRequest);
 
       if (response?.status === 200) {
-        console.log('Atualização realizada com sucesso', response);
+        setUpdateMessage({
+          message: response.data.message,
+          type: 'success',
+        });
         if (response.data.user) {
-          console.log('Tem data user sim');
           setUser(response.data.user);
         }
       }
     } catch (error: any) {
-      console.log('Erro ao atualizar o usuário', error);
-      if(error.status === 400) {
-        console.log('Erro 400 identificado');
+      console.error('Erro ao atualizar o usuário', error);
+      if(error.status >= 400 && error.status < 500) {
         console.log(error.data.message);
         setUpdateMessage({
           message: error.data.message,
@@ -75,7 +81,10 @@ export default function useUpdateUser() {
       ;
   
       if (!fileRef) {
-        console.log('Nenhum arquivo foi selecionado');
+        setUpdateMessage({
+          message: 'Selecione um arquivo de imagem.',
+          type: 'error',
+        });
         return;
       }
       const fileRequest: ProfileImageFormRequest = {
@@ -88,11 +97,15 @@ export default function useUpdateUser() {
       if (response?.status === 200) {
         if (response.data.user) {
           setUser(response.data.user);
+          setUpdateMessage({
+            message: response.data.message,
+            type: 'success',
+          });
         }
       }
     } catch (error: any) {
       console.log('Erro ao atualizar o usuário', error);
-      if(error.status === 400) {
+      if(error.status >= 400 && error.status < 500) {
         console.log(error.message);
         setUpdateMessage({
           message: error.message,
@@ -101,9 +114,6 @@ export default function useUpdateUser() {
       }
     }
   }
-  useEffect(() => {
-    console.log('Identificado alteracao em UpdateMessage', updateMessage);
-  }, [updateMessage]);
 
   return {
     updateUser,

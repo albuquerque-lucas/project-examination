@@ -63,6 +63,7 @@
   border-radius: 50%;
   box-shadow: 0 0 0 0.1rem rgba(0, 0, 0, 0.1);
   margin-bottom: 3rem;
+  object-fit: contain;
 }
 
 .profile_content__messagebox {

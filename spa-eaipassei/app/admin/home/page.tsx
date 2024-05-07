@@ -10,9 +10,9 @@ import { motion } from 'framer-motion';
 import { authCodeMapper } from '@/app/lib/utils/authCodeMapper';
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa6";
-import style from '@/app/ui/admin/home/home.module.css';
 import ProfileBoard from './ProfileBoard';
 import useUpdateUser from '@/app/lib/hooks/useUpdateUser';
+import style from '@/app/ui/admin/home/home.module.css';
 
 const Home = () => {
   const { user, authMessage, setAuthMessage } = useContext(AuthContext);
@@ -22,7 +22,6 @@ const Home = () => {
   });
 
   useEffect(() => {
-    console.log('Identificado alteracao em UpdateMessage', updateMessage);
   }, [updateMessage]);
   
   return (
