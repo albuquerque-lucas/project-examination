@@ -9,15 +9,12 @@ import withAuth from "@/app/lib/components/withAuth/withAuth"
 import { getAllEducationalLevels } from '@/app/lib/api/educationalLevelsAPI';
 import { motion, AnimatePresence } from 'framer-motion';
 import FlashMessage from '@/app/lib/components/Message/FlashMessage';
+import MessageBox from '@/app/lib/components/Message/MessageBox';
 import { useExaminations } from '@/app/lib/hooks/useExaminations';
 import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 
 const CreateExaminationsPage = () => {
   const router = useRouter();
-  const {
-    flashMessage,
-    setFlashMessage,
-  } = useContext(ExaminationsContext);
 
   const {
     educationalLevelsList,
@@ -29,9 +26,11 @@ const CreateExaminationsPage = () => {
     institutionRef,
     educationalLevelRef,
     persistenceList,
+    flashMessage,
     setPersistenceList,
     addToList,
-    submitExaminations
+    submitExaminations,
+    setFlashMessage,
   } = useExaminations();
   
   
@@ -46,9 +45,10 @@ const CreateExaminationsPage = () => {
       <div className={ style.message_container }>
         <AnimatePresence>
           { flashMessage &&
-            <FlashMessage
-              message={ flashMessage }
+            <MessageBox
+              message={ flashMessage.message }
               setMessage={ setFlashMessage }
+              type={ flashMessage.type }
             />
           }
         </AnimatePresence>

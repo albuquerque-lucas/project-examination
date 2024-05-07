@@ -19,11 +19,15 @@ export const useExaminations = () => {
   const [fileList, setFileList] = useState<File[]>([]);
   const { setNoticesLoaded } = useCreateNotices();
   const router = useRouter();
-  const { setFlashMessage, setExaminationsLoaded } = useContext(ExaminationsContext);
+  const { setFlashMessage, setExaminationsLoaded, flashMessage } = useContext(ExaminationsContext);
 
   const addExamination = (title: string, institution: string, educational_level_id: string, notice: File | null) => {
     if (!title || !institution || !educational_level_id) {
-      setFlashMessage('Os campos do formulário não podem estar vazios.');
+      setFlashMessage({
+        message: 'Preencha todos os campos.',
+        type: 'error',
+
+      });
       return;
     }
   
@@ -40,7 +44,11 @@ export const useExaminations = () => {
     );
   
     if (doesItemExist) {
-      setFlashMessage('Um item com os mesmos dados já existe na lista.');
+      setFlashMessage({
+        message: 'Um item com os mesmos dados já existe na lista.',
+        type: 'error',
+      
+      });
       return;
     }
   
@@ -97,7 +105,10 @@ export const useExaminations = () => {
         await Promise.all(createNoticesPromises);
         setExaminationsLoaded(false);
         setNoticesLoaded(false);
-        setFlashMessage('Concursos enviados com sucesso.');
+        setFlashMessage({
+          message: 'Concursos enviados com sucesso.',
+          type: 'success',
+        });
         router.push('/admin/manage/examinations');
       }
     } catch (error) {
@@ -112,8 +123,10 @@ export const useExaminations = () => {
     institutionRef,
     educationalLevelRef,
     persistenceList,
+    flashMessage,
     setPersistenceList,
     addToList,
-    submitExaminations
+    submitExaminations,
+    setFlashMessage,
   }
 }

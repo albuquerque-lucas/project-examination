@@ -1,3 +1,5 @@
+import { FlashMessage } from "./messageTypes";
+
 export type Examination = {
   educational_level_id: string;
   title: string;
@@ -33,8 +35,8 @@ export type ExaminationsContextType = {
   setQueryParams: (filterList: ExaminationFilterList[]) => void;
   educationalLevels: EducationalLevel[];
   setEducationalLevels: (educationalLevels: EducationalLevel[]) => void;
-  flashMessage: string | null;
-  setFlashMessage: (flashMessage: string | null) => void;
+  flashMessage: FlashMessage | null;
+  setFlashMessage: (flashMessage: FlashMessage | null) => void;
   examinationsLoaded: boolean;
   setExaminationsLoaded: (examinationsLoaded: boolean) => void;
 };

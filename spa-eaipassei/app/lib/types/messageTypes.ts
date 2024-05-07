@@ -11,3 +11,10 @@ export type UpdateUserMessage = {
   setMessage?: (message: UpdateUserMessage | null) => void;
   code?: number;
 }
+
+export type FlashMessage = {
+  message: string;
+  type: 'success' | 'error' | 'warning' | 'default' | string | undefined;
+  setMessage?: (message: FlashMessage | null) => void;
+  code?: number;
+}

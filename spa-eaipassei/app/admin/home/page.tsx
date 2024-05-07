@@ -5,8 +5,8 @@ import withAuth from '@/app/lib/components/withAuth/withAuth';
 import { AuthContext } from '../../lib/context/AuthContext';
 import noImage from './no-image.jpg';
 import Image from 'next/image';
-import MessageBox from '../login/messageBox';
-import { motion } from 'framer-motion';
+import MessageBox from '@/app/lib/components/Message/MessageBox';
+import { motion, AnimatePresence } from 'framer-motion';
 import { authCodeMapper } from '@/app/lib/utils/authCodeMapper';
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa6";
@@ -20,6 +20,7 @@ const Home = () => {
   const [panelShow, setPanelShow] = useState({
     edit_profile: false,
   });
+  const hasValidAuthMessage = authMessage && authMessage.code !== authCodeMapper.logout;
 
   useEffect(() => {
   }, [updateMessage]);
@@ -30,24 +31,26 @@ const Home = () => {
     animate={{ opacity: 1 }}
     className={ style.home_content }>
         <div className={  style.profile_content__messagebox}>
-          {
-            authMessage && authMessage.code !== authCodeMapper.logout && (
-              <MessageBox
-                message={ authMessage.message }
-                setMessage={ setAuthMessage }
-                type={ authMessage.type }
-                />
-            )
-          }
-          {
-            updateMessage && (
-              <MessageBox
-                message={ updateMessage.message }
-                setMessage={ setUpdateMessage }
-                type={ updateMessage.type }
-                />
-            )
-          }
+          <AnimatePresence>
+            {
+              hasValidAuthMessage && (
+                <MessageBox
+                  message={ authMessage.message }
+                  setMessage={ setAuthMessage }
+                  type={ authMessage.type }
+                  />
+              )
+            }
+            {
+              updateMessage && (
+                <MessageBox
+                  message={ updateMessage.message }
+                  setMessage={ setUpdateMessage }
+                  type={ updateMessage.type }
+                  />
+              )
+            }
+          </AnimatePresence>
         </div>
         <div className={ style.profile_content__info }>
 
@@ -88,6 +91,7 @@ const Home = () => {
           </div>
 
           <div className={ style.profile_content__panel }>
+          <AnimatePresence>
             {
               panelShow.edit_profile && user && (
                 <ProfileBoard
@@ -95,6 +99,7 @@ const Home = () => {
                 />
               )
             }
+          </AnimatePresence>
           </div>
 
         </div>

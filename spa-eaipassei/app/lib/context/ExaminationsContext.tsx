@@ -2,6 +2,7 @@
 
 import { createContext, useState, useMemo } from "react";
 import { ExaminationsContextType, ExaminationFilterList, ExaminationsQueryParams, EducationalLevel } from "../types/examinationTypes";
+import { FlashMessage } from "../types/messageTypes";
 
 
 type SetFilterMessage = (value: string | null) => void;
@@ -47,7 +48,7 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   const [currentPage, setCurrentPage] = useState(1);
   const [queryParams, _setQueryParams] = useState<ExaminationsQueryParams>({});
   const [educationalLevels, setEducationalLevels] = useState<EducationalLevel[]>([]);
-  const [flashMessage, setFlashMessage] = useState<string | null>(null);
+  const [flashMessage, setFlashMessage] = useState<FlashMessage | null>(null);
   const [examinationsLoaded, setExaminationsLoaded] = useState(false);
 
   const value = useMemo(() =>{ 
