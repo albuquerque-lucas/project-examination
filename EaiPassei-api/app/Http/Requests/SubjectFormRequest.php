@@ -24,10 +24,11 @@ class SubjectFormRequest extends FormRequest
         return [
             'educational_level_id' => 'integer|required',
             'study_area_id' => 'integer|required',
-            'title' => 'string|required',
+            'title' => 'required|string|min:4',
         ];
 
     }
+
     public function attributes(): array
     {
         return [
@@ -40,12 +41,10 @@ class SubjectFormRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'educational_level_id.required' => 'O :attribute é obrigatório. Nenhum informado.',
-            'study_area_id.required' => 'O :attribute é obrigatório. Nenhum informado.',
-            'title.required' => 'O :attribute é obrigatório. Nenhum informado.',
-            'educational_level_id.integer' => 'O :attribute deve ser um número inteiro..',
-            'study_area_id.integer' => 'O :attribute deve ser um número inteiro.',
-            'title.string' => 'O :attribute deve estar em texto.'
+            'required' => 'O :attribute é obrigatório. Nenhum informado.',
+            'integer' => 'O :attribute deve ser um número inteiro.',
+            'title.string' => 'O :attribute deve estar em texto.',
+            'title.min' => "O :attribute deve ter no mínimo 4 caracteres.",
         ];
     }
 }

@@ -113,7 +113,7 @@ class SubjectService
             }
 
             $responseData = (object)[
-                'message' => $this->serviceResponse->createdSuccessfully('Subject'),
+                'message' => $this->serviceResponse->createdSuccessfully('Matéria adicionada'),
                 'id' => $subject->id,
                 'file_name' => $subject->file_name,
                 'file_path' => $subject->file,

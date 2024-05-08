@@ -41,15 +41,15 @@ export const getAllSubjects = async (url: string, params: any) => {
     try {
       const resp = await axios.post(url, subject);
       if (resp.status >= 200 && resp.status < 300) {
-        console.log('RESPOSTA', resp);
         return resp;
       } else {
         console.log('Resposta nao identificada.');
       }
     } catch (error: any) {
       if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-        console.log('Erro ao criar a disciplina', error);
-        console.log('Erro ao criar a disciplina', error.message);
+        if (error.response.status === 409) {
+          throw new HttpError('Este registro ja existe no banco de dados', 409);
+        }
         throw new HttpError(error.response.data.message, error.response.status);
       }
     }

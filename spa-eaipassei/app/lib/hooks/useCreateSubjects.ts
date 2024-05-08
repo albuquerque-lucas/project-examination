@@ -36,7 +36,10 @@ export const useCreateSubjects = () => {
 
     try {
       const response = await createSubject(`${process.env.NEXT_PUBLIC_API_CREATE_SUBJECT}`, subject);
-      console.log('Resposta da criação da disciplina', response);
+      setSubjectsMessage({
+        message: response?.data.message,
+        type: 'success',
+      });
       setSubjectsLoaded(false);
     } catch (error: any) {
       console.log('Erro ao criar a disciplina', error);
@@ -44,6 +47,12 @@ export const useCreateSubjects = () => {
         message: error.message,
         type: 'dark',
       });
+    } finally {
+      if (titleRef.current) {
+        titleRef.current.value = '';
+        educationalLevelRef.current.value = '5';
+        studyAreaRef.current.value = '1';
+      }
     }
   }
 

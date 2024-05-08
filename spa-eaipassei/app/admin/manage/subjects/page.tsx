@@ -30,7 +30,6 @@ function SubjectsPage () {
   } = useFetchSubjects();
   const { 
     notPaginatedAreasList,
-    studyAreasLoaded,
     setStudyAreasLoaded,
   } = useFetchStudyAreas();
 

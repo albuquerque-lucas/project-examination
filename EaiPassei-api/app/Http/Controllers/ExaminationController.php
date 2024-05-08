@@ -58,14 +58,9 @@ class ExaminationController extends Controller
     {
         try {
             $data = $request->all();
-            // return response()->json([
-            //     'message' => 'Resposta do metodo create de ExaminationsController',
-            //     'data' => $data,
-            // ]);
             $response = $this->examinationService->create($data);
 
             return response()->json($response->data(), $response->status());
-
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
         } catch (Exception $exception) {
