@@ -9,11 +9,12 @@ import { useCreateSubjects } from "@/app/lib/hooks/useCreateSubjects";
 import { useFetchStudyAreas } from "@/app/lib/hooks/useFetchStudyAreas";
 import { useFetchEducationalLevels } from "@/app/lib/hooks/useFetchEducationalLevels";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
-import { motion } from 'framer-motion';
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import SubjectsNavigationButtons from "./SubjectsNavigationButtons";
 import DeleteSubjectsPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteSubjectsPopUp";
 import SubjectsDashboard from "./SubjectsDashboard";
+import MessageBox from "@/app/lib/components/Message/MessageBox";
+import { motion, AnimatePresence } from 'framer-motion';
 import style from '@/app/ui/admin/pages/subjects/subjects.module.css';
 
 function SubjectsPage () {
@@ -44,6 +45,8 @@ function SubjectsPage () {
     titleRef,
     educationalLevelRef,
     studyAreaRef,
+    subjectsMessage,
+    setSubjectsMessage,
   } = useCreateSubjects();
 
   useEffect(() => {
@@ -59,7 +62,16 @@ function SubjectsPage () {
         Matérias
       </h1>
       <div className={ style.messages_messagebox}>
-
+        <AnimatePresence>
+          {
+            subjectsMessage &&
+            <MessageBox 
+              message={ subjectsMessage.message }
+              setMessage={ setSubjectsMessage }
+              type={ subjectsMessage.type }
+            />
+          }
+        </AnimatePresence>
       </div>
       <div className={ style.subjects_utilitiesbox }>
         <div className={ style.utilities_buttons }>

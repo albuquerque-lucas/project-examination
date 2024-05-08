@@ -11,6 +11,8 @@ export const useCreateSubjects = () => {
     setSubjectsLoaded,
     creationMode,
     setCreationMode,
+    subjectsMessage,
+    setSubjectsMessage,
   } = useContext(SubjectsContext);
 
   const titleRef = useRef<HTMLInputElement>(null);
@@ -19,8 +21,10 @@ export const useCreateSubjects = () => {
 
   const submitSubject = async () => {
     if (!titleRef.current || !educationalLevelRef.current || !studyAreaRef.current) {
-      console.error('All fields are required');
-      console.log('All fields are required');
+      setSubjectsMessage({
+        message: "É necessário preencher todos os campos.",
+        type: "dark",
+      });
       return;
     }
   
@@ -36,6 +40,10 @@ export const useCreateSubjects = () => {
       setSubjectsLoaded(false);
     } catch (error: any) {
       console.log('Erro ao criar a disciplina', error);
+      setSubjectsMessage({
+        message: error.message,
+        type: 'dark',
+      });
     }
   }
 
@@ -45,8 +53,10 @@ export const useCreateSubjects = () => {
     studyAreaRef,
     subjectsLoaded,
     creationMode,
+    subjectsMessage,
     setSubjectsLoaded,
     setCreationMode,
     submitSubject,
+    setSubjectsMessage,
   }
 }

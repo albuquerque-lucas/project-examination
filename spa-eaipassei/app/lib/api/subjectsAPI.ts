@@ -1,6 +1,7 @@
 'use client';
 
 import Axios from "axios";
+import HttpError from "../utils/Class/HttpError";
 import { SubjectsFormRequest } from "../types/subjectTypes";
 
 const axios = Axios.create({
@@ -49,6 +50,7 @@ export const getAllSubjects = async (url: string, params: any) => {
       if (error.response && error.response.status >= 400 && error.response.status <= 500) {
         console.log('Erro ao criar a disciplina', error);
         console.log('Erro ao criar a disciplina', error.message);
+        throw new HttpError(error.response.data.message, error.response.status);
       }
     }
   }
