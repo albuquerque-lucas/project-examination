@@ -1,3 +1,5 @@
+import { FlashMessage } from "./messageTypes";
+
 export type Notice = {
   id: number;
   file_path: string;
@@ -31,6 +33,8 @@ export type NoticeContextType = {
   setNoticeDeletionMode: (noticeDeletionMode: boolean) => void;
   noticeDeletionList: number[];
   setNoticeDeletionList: (noticeDeletionList: number[]) => void;
+  noticeMessage: FlashMessage | null;
+  setNoticeMessage: (noticeMessage: FlashMessage | null) => void;
 };
 
 export type NoticesQueryParams = {
