@@ -77,7 +77,7 @@ function NoticesPage() {
             creationMode &&
             <div className={ style.notice_creation__form }>
               <input type="file" ref={ fileRef }/>
-              <label htmlFor="examination_id">Id</label>
+              <label htmlFor="examination_id">Concurso nº :</label>
               <input type="number" name='examination_id' ref={ idExaminationRef }/>
               <motion.button
               whileTap={{ scale: 0.9 }}
