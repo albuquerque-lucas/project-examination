@@ -1,3 +1,5 @@
+import { FlashMessage } from "./messageTypes";
+
 export type Subject = {
   id: number;
   title: string;
@@ -22,6 +24,8 @@ export type SubjectContextType = {
   setSubjectDeletionMode: (subjectDeletionMode: boolean) => void;
   subjectDeletionList: number[];
   setSubjectDeletionList: (subjectDeletionList: number[]) => void;
+  subjectsMessage: FlashMessage | null;
+  setSubjectsMessage: (subjectsMessage: FlashMessage | null) => void;
 }
 
 export type SubjectsQueryParams = {
