@@ -8,6 +8,13 @@
   --primary-background-hover: #424549;
   --background-danger: #dc3545;
 
+  /* Button Colors */
+  --primary-button-color: #007bff;
+  --secondary-button-color: #36393e;
+
+  /* Text Colors */
+  --header-dashboard-color: #949191;
+
   /* Dimensions */
   --default-border-radius: 5px;
 

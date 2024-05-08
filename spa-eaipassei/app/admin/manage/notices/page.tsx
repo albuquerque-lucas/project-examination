@@ -41,7 +41,7 @@ function NoticesPage() {
   return (
     <div className="notices_content">
       <h1 className={ style.notices_headtitle }>
-        Editais
+        Dashboard Editais
       </h1>
       <div className={ style.messages_messagebox}>
         <AnimatePresence>
