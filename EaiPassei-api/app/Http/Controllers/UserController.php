@@ -60,7 +60,7 @@ class UserController extends Controller
                 $file = $request->file('profile_img');
                 $extension = $file->getClientOriginalExtension();
                 if ($extension !== 'jpg' && $extension !== 'jpeg' && $extension !== 'png') {
-                    throw new Exception('Extensão inválida. O arquivo deve ser uma imagem nos formados jpg, jpeg ou png.', 400);
+                    throw new Exception('Extensão inválida. O arquivo deve ser uma imagem nos formados jpg, jpeg ou png.', 422);
                 }
                 $path = $file->store('profile_img', 'public');
                 $data = ['profile_img' => $path];

@@ -9,7 +9,6 @@ import { mimeToExtension } from '@/app/lib/utils/mapperFunctions';
 export const useCreateNotices = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const idExaminationRef = useRef<HTMLInputElement>(null);
-  const [noticesList, setNoticesList] = useState<NoticeFormRequest[]>([]);
   const { setNoticesLoaded, creationMode, setCreationMode, noticeMessage, setNoticeMessage } = useContext(NoticesContext);
 
   const submitNotice = async () => {
@@ -42,11 +41,10 @@ export const useCreateNotices = () => {
         });
       }
       setNoticesLoaded(false);
-      setNoticesList([]);
     } catch (error: any) {
       console.error('Erro ao criar o edital', error);
       setNoticeMessage({
-        message: 'Ocorreu um erro ao enviar o edital.',
+        message: error.message,
         type: 'error',
       });
     } finally {

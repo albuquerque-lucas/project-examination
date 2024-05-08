@@ -2,6 +2,7 @@
 
 import Axios from "axios";
 import { NoticeFormRequest } from "../types/noticeTypes";
+import HttpError from "../utils/Class/HttpError";
 
 const axios = Axios.create({
 	withCredentials: true,
@@ -41,7 +42,8 @@ export const createNotice = async (url: string, notice: NoticeFormRequest) => {
   } catch (error: any) {
     if (error.response && error.response.status >= 400 && error.response.status <= 500) {
       console.log('Erro ao criar o edital', error);
-      console.log('Erro ao criar o edital', error.message);
+      console.log('Erro ao criar o edital', error.response.data.message);
+      throw new HttpError(error.response.data.message, error.response.status);
     }
   }
 }
