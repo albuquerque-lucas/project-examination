@@ -41,7 +41,7 @@ const SubjectsNavigationButtons: React.FC = () => {
       const response = await getAllSubjects(url, updatedQueryParams);
       setSubjects(response.data);
       updateNavigationLinks(response.links);
-      setSubjectsLoaded(false);
+      // setSubjectsLoaded(false);
     } catch (error) {
       console.error('Error:', error);
     }

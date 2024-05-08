@@ -25,8 +25,8 @@ function SubjectsPage () {
     subjects,
     subjectsList,
     isLoading,
-    currentPage,
     subjectsLoaded,
+    currentPage,
   } = useFetchSubjects();
   const { 
     notPaginatedAreasList,
@@ -38,12 +38,12 @@ function SubjectsPage () {
   } = useFetchEducationalLevels();
 
   const {
-    creationMode,
-    setCreationMode,
-    submitSubject,
     titleRef,
     educationalLevelRef,
     studyAreaRef,
+    creationMode,
+    setCreationMode,
+    submitSubject,
     subjectsMessage,
     setSubjectsMessage,
   } = useCreateSubjects();
@@ -53,7 +53,8 @@ function SubjectsPage () {
     if (subjectsList.links) {
       updateNavigationLinks(subjectsList.links);
     }
-  }, [subjectsLoaded]);
+    console.log('Log da page Subjects', subjectsList);
+  }, [subjectsLoaded, subjectsMessage]);
 
   return (
     <div className="subjects_content">

@@ -17,9 +17,16 @@ import style from '@/app/ui/admin/pages/notices/notices.module.css';
 import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 function NoticesPage() {
+  const router = useRouter();
   const { noticeDeletionMode } = useDeleteNotices();
-  const { notices, noticesList, isLoading, noticesLoaded, currentPage } = useFetchNotices();
   const { updateNavigationLinks } = useNavigations();
+  const {
+    notices,
+    noticesList,
+    isLoading,
+    noticesLoaded,
+    currentPage,
+  } = useFetchNotices();
   const {
     fileRef,
     idExaminationRef,
@@ -30,7 +37,6 @@ function NoticesPage() {
     setNoticeMessage,
   } = useCreateNotices();
   const {examinationsLoaded} = useContext(ExaminationsContext);
-  const router = useRouter();
 
   useEffect(() => {
     if (noticesList.links) {
