@@ -25,7 +25,7 @@ class SubjectService
     public function getAll(string $order, string $orderBy = 'id', array $params = []): ServiceResponse
     {
         try {
-            $subjects = Subject::getAllOrdered($order, $orderBy);
+            $subjects = Subject::getAllOrdered($order, $orderBy, $params);
 
             $collection = SubjectResource::collection($subjects);
             $this->serviceResponse->setAttributes(200, $collection);

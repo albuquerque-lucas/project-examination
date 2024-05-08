@@ -32,6 +32,11 @@ class SubjectController extends Controller
         ]);
         $order = $request->input('order', 'desc');
         $params = $validated;
+        // return response()->json([
+        //     'message' => 'Endpoint desativado temporariamente.',
+        //     'data' => $validated,
+        //     'order' => $order,
+        // ], 200);
         unset($params['order'], $params['page']);
         $response = $this->subjectService->getAll($order, 'id', $params);
         $data = $response->data();
