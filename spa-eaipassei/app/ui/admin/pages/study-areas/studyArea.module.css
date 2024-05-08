@@ -1,6 +1,6 @@
 .study_areas_headtitle {
-  /* margin-bottom: 3rem; */
-  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: var(--header-dashboard-color);
 }
 
 .messages_messagebox {
@@ -13,11 +13,9 @@
 }
 
 .study_areas_utilitiesbox {
-  margin-bottom: 3rem;
   border-radius: var(--default-border-radius);
   width: 100%;
-  /* margin: 1.5rem auto; */
-  margin: 0 auto 2rem;
+  margin: 0 auto 0.5rem;
   display: flex;
   min-height: 5rem;
   flex-direction: column;
@@ -36,14 +34,15 @@
 
 .study_area_creation__form {
   content: '';
-  width: 50rem;
-  height: 3rem;
+  width: 35rem;
+  height: 4rem;
   border-radius: var(--default-border-radius);
   background-color: var(--primary-background-color);
   color: white;
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  justify-content: center;
+  padding: 0 0.5rem;
 }
 
 .study_area_creation__form input,
@@ -82,15 +81,15 @@
 .study_area_creation__form button {
   background-color: var(--secondary-background-color);
   height: 2rem;
-  width: 5rem;
+  width: 10rem;
 }
 
 .new_study_area__button {
-  background-color: #007bff;
+  background-color: var(--primary-button-color);
 }
 
 .go_back__button {
-  background-color: #36393e;
+  background-color: var(--secondary-button-color);
 }
 
 @media (min-width: 510px) {

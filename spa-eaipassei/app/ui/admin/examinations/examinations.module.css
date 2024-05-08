@@ -15,7 +15,7 @@
 .examinations_utilitiesbox {
   border-radius: var(--default-border-radius);
   width: 75vw;
-  margin: 0 auto 2rem;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   padding: 0.5rem;
@@ -38,19 +38,17 @@
   border-radius: var(--default-border-radius);
   height: 2.5rem;
   width: 10rem;
-  /* margin: 1rem 0 1rem 1rem; */
-  margin: 0.2rem 0 0.2rem 0;
   font-weight: 600;
   color: white;
   cursor: pointer;
 }
 
 .new_examination__button {
-  background-color: #007bff ;
+  background-color: var(--primary-button-color);
 }
 
 .go_back__button {
-  background-color: #36393e;
+  background-color: var(--secondary-button-color);
 }
 
 .utilities_filters {
@@ -66,7 +64,6 @@
   justify-content: flex-end;
   position: relative;
   margin: 0 auto;
-  margin-top: 2rem;
   width: 78%;
   height: 3rem;
 }

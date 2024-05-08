@@ -40,7 +40,7 @@ function StudyAreasPage() {
   }, [studyAreasLoaded]);
   return (
     <div className={ style.study_area_content }>
-      <h1>
+      <h1 className={ style.study_areas_headtitle }>
         Dashboard Áreas de Estudo
       </h1>
       <div className={ style.messages_messagebox}>

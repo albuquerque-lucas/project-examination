@@ -57,8 +57,8 @@ function SubjectsPage () {
 
   return (
     <div className="subjects_content">
-      <h1>
-        Matérias
+      <h1 className={ style.subjects_headtitle }>
+        Dashboard Matérias
       </h1>
       <div className={ style.messages_messagebox}>
         <AnimatePresence>

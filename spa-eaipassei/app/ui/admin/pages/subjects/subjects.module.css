@@ -1,6 +1,6 @@
 .subjects_headtitle {
-  /* margin-bottom: 3rem; */
-  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: var(--header-dashboard-color);
 }
 
 .messages_messagebox {
@@ -13,11 +13,9 @@
 }
 
 .subjects_utilitiesbox {
-  margin-bottom: 3rem;
   border-radius: var(--default-border-radius);
   width: 100%;
-  /* margin: 1.5rem auto; */
-  margin: 0 auto 2rem;
+  margin: 0 auto 0.5rem;
   display: flex;
   min-height: 5rem;
   flex-direction: column;
@@ -35,15 +33,16 @@
 }
 
 .subject_creation__form {
-  content: '';
-  width: 50rem;
-  height: 3rem;
+  width: 60rem;
+  height: 4rem;
   border-radius: var(--default-border-radius);
   background-color: var(--primary-background-color);
   color: white;
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  justify-content: center;
+  padding: 0 0.5rem;
+  margin: 0 1rem;
 }
 
 .subject_creation__form input,
@@ -53,7 +52,8 @@
 
 .subject_creation__form input {
   height: 1.7rem;
-  padding-left: 0.5rem;
+  padding: 0 0.5rem;
+  width: 30%;
 }
 
 .subject_creation__form select {
@@ -82,39 +82,16 @@
 .subject_creation__form button {
   background-color: var(--secondary-background-color);
   height: 2rem;
-  width: 5rem;
+  width: 10rem;
 }
 
 .new_subject__button {
-  background-color: #007bff ;
+  background-color: var(--primary-button-color);
 }
 
 .go_back__button {
-  background-color: #36393e;
+  background-color: var(--secondary-button-color);
 }
-
-/* .utilities_filters {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 1rem;
-  width: 100%;
-}
-
-.selected_filters {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-  margin: 0 auto;
-  margin-top: 2rem;
-  width: 78%;
-  height: 3rem;
-}
-
-.arrow_button {
-  font-size: 1.5rem;
-} */
 
 @media (min-width: 510px) {
   .subjects_utilitiesbox {
@@ -124,7 +101,8 @@
 
 @media (min-width: 830px) {
   .subjects_utilitiesbox {
-    align-items: flex-start;
+    align-items: center;
+    height: 5rem;
   }
 
   .utilities_buttons {
@@ -133,7 +111,7 @@
   }
 
   .utilities_buttons button {
-    margin: 1rem;
+    margin: 0.5rem;
   }
 
   /* .utilities_filters {

@@ -31,7 +31,6 @@
 }
 
 .notice_creation__form {
-  content: '';
   width: 55rem;
   height: 4rem;
   border-radius: var(--default-border-radius);
