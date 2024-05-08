@@ -9,23 +9,25 @@ import { useDeleteNotices } from "@/app/lib/hooks/useDeleteNotices";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import DashboardNotices from "./dashboardNotices";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
-import { motion } from 'framer-motion';
 import NoticeNavigationButtons from "./NoticeNavigationButton";
 import DeleteNoticePopUp from "@/app/lib/components/ConfirmationPopUp/DeleteNoticePopUp";
 import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
+import { motion, AnimatePresence } from 'framer-motion';
 import style from '@/app/ui/admin/pages/notices/notices.module.css';
+import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 function NoticesPage() {
   const { noticeDeletionMode } = useDeleteNotices();
   const { notices, noticesList, isLoading, noticesLoaded, currentPage } = useFetchNotices();
   const { updateNavigationLinks } = useNavigations();
   const {
-    submitNotices,
     fileRef,
     idExaminationRef,
     creationMode,
     setCreationMode,
-    addToSubmitList,
+    submitNotice,
+    noticeMessage,
+    setNoticeMessage,
   } = useCreateNotices();
   const {examinationsLoaded} = useContext(ExaminationsContext);
   const router = useRouter();
@@ -34,7 +36,7 @@ function NoticesPage() {
     if (noticesList.links) {
       updateNavigationLinks(noticesList.links);
     }
-  }, [noticesLoaded, examinationsLoaded]);
+  }, [noticesLoaded, examinationsLoaded, noticeMessage]);
 
   return (
     <div className="notices_content">
@@ -42,7 +44,16 @@ function NoticesPage() {
         Editais
       </h1>
       <div className={ style.messages_messagebox}>
-
+        <AnimatePresence>
+          {
+            noticeMessage &&
+            <MessageBox
+              message={ noticeMessage.message }
+              type={ noticeMessage.type }
+              setMessage={ setNoticeMessage }
+            />
+          }
+        </AnimatePresence>
       </div>
       <div className={ style.notices_utilitiesbox }>
         <div className={ style.utilities_buttons }>
@@ -71,19 +82,11 @@ function NoticesPage() {
               <motion.button
               whileTap={{ scale: 0.9 }}
               whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
-              onClick={() => addToSubmitList()}
+              onClick={() => submitNotice()}
               className={ style.submit_notice__button }
               >
                 Adicionar
               </motion.button>
-              <motion.button
-              whileTap={{ scale: 0.9 }}
-              whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
-              onClick={() => submitNotices()}
-              className={ style.submit_notice__button }
-            >
-              Submit
-            </motion.button>
             </div>
           }
 
