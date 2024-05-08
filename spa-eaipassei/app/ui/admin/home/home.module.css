@@ -20,6 +20,11 @@
   height: 100%;
 }
 
+.profile_content__databox h2,
+.profile_content_databox p {
+  font-size: 1.5rem;
+}
+
 .profile_content__sideinfo {
   display: flex;
   flex-direction: column;

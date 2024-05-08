@@ -54,14 +54,13 @@ class ExaminationController extends Controller
         return $this->dataRetrievalService->getById($this->examinationService, $id);
     }
 
-    public function createMany(ExaminationFormRequest $request)
+    public function create(ExaminationFormRequest $request)
     {
         try {
             $data = $request->all();
             $response = $this->examinationService->create($data);
 
             return response()->json($response->data(), $response->status());
-
         } catch(InvalidDateFormatException $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 422);
         } catch (Exception $exception) {

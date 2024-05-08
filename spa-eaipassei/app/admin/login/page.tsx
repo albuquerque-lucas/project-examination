@@ -3,10 +3,10 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { makeLogin } from '@/app/lib/api/authenticationAPI';
-import MessageBox from './messageBox';
+import MessageBox from '@/app/lib/components/Message/MessageBox';
 import { AuthContext } from '../../lib/context/AuthContext';
 import { SpinnerCircular } from 'spinners-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { authCodeMapper } from '@/app/lib/utils/authCodeMapper';
 import style from '@/app/ui/admin/login/login.module.css';
 
@@ -58,6 +58,7 @@ export default function LoginAdmin() {
       >
       <div className={ style.login_form__container }>
         <div className={ style.message_box__container}>
+          <AnimatePresence>
           {
             authMessage && authMessage.code !== authCodeMapper.login &&
               <MessageBox
@@ -66,6 +67,7 @@ export default function LoginAdmin() {
                 type={ authMessage.type }
               /> 
             }
+          </AnimatePresence>
         </div>
         <form
           className={ style.login_form }

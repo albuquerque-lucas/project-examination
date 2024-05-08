@@ -65,10 +65,10 @@ export const getExaminationsByPage = async (url: string, params: Record<string, 
     }
   }
 
-  export const createMany = async(data: Examination[]) => {
+  export const createExaminations = async(data: Examination[]) => {
     try {
       console.log('CHEGOU NO TRY DE CREATE MANY', data);
-      const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_CREATE_MANY}`, data);
+      const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_CREATE_EXAMINATIONS}`, data);
       console.log('RESPONSE CREATE MANY', resp);
       return resp;
     } catch (error: any) {

@@ -104,7 +104,7 @@ class StudyAreaService
             }
 
             $responseData = (object)[
-                'message' => $this->serviceResponse->createdSuccessfully('Study area'),
+                'message' => $this->serviceResponse->createdSuccessfully(),
                 'id' => $studyArea->id,
                 'area' => $studyArea->area,
             ];

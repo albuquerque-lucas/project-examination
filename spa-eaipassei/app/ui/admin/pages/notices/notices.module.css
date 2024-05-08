@@ -1,6 +1,6 @@
 .notices_headtitle {
-  /* margin-bottom: 3rem; */
-  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: var(--header-dashboard-color);
 }
 
 .messages_messagebox {
@@ -13,13 +13,10 @@
 }
 
 .notices_utilitiesbox {
-  margin-bottom: 3rem;
   border-radius: var(--default-border-radius);
   width: 100%;
-  /* margin: 1.5rem auto; */
-  margin: 0 auto 2rem;
+  margin: 0 auto 0.5rem;
   display: flex;
-  min-height: 5rem;
   flex-direction: column;
   align-items: center;
   width: 70vw;
@@ -29,23 +26,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
-  padding: 1rem;
+  padding: 0.5rem;
   width: 40%;
 }
 
 .notice_creation__form {
-  content: '';
-  width: 50rem;
-  height: 2.5rem;
+  width: 55rem;
+  height: 4rem;
   border-radius: var(--default-border-radius);
   background-color: var(--primary-background-color);
   color: white;
   display: flex;
   align-items: center;
   padding: 0 1rem;
+  margin: 0 1rem;
 }
-
+.notice_creation__form input {
+  padding: 0 0.5rem;
+}
 .utilities_buttons button {
   border: 2px solid transparent;
   border-radius: var(--default-border-radius);
@@ -64,45 +62,30 @@
 }
 
 .new_examination__button {
-  background-color: #007bff ;
+  background-color: var(--primary-button-color) ;
 }
 
 .go_back__button {
-  background-color: #36393e;
+  background-color: var(--secondary-button-color);
 }
-
-/* .utilities_filters {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 1rem;
-  width: 100%;
-}
-
-.selected_filters {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-  margin: 0 auto;
-  margin-top: 2rem;
-  width: 78%;
-  height: 3rem;
-}
-
-.arrow_button {
-  font-size: 1.5rem;
-} */
 
 @media (min-width: 510px) {
   .notices_utilitiesbox {
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
 }
 
 @media (min-width: 830px) {
+  .notice_creation__form label {
+    margin-right: 0.5rem;
+    font-size: 90%;
+  }
   .notices_utilitiesbox {
     align-items: flex-start;
+    align-items: center;
+    height: 5rem;
   }
 
   .utilities_buttons {
@@ -111,11 +94,6 @@
   }
 
   .utilities_buttons button {
-    margin: 1rem;
+    margin-left: 0.5rem;
   }
-
-  /* .utilities_filters {
-    flex-direction: row;
-    width: 70%;
-  } */
 }

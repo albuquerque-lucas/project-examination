@@ -1,12 +1,12 @@
+import { FlashMessage } from "./messageTypes";
+
 export type Examination = {
+  id?: number;
   educational_level_id: string;
   title: string;
   institution: string;
   active?: boolean;
-  registration_start_date?: string;
-  registration_end_date?: string;
-  exams_start_date?: string;
-  exams_end_date?: string;
+  notice?: File | null;
 };
 
 export type EducationalLevel = {
@@ -33,8 +33,8 @@ export type ExaminationsContextType = {
   setQueryParams: (filterList: ExaminationFilterList[]) => void;
   educationalLevels: EducationalLevel[];
   setEducationalLevels: (educationalLevels: EducationalLevel[]) => void;
-  flashMessage: string | null;
-  setFlashMessage: (flashMessage: string | null) => void;
+  flashMessage: FlashMessage | null;
+  setFlashMessage: (flashMessage: FlashMessage | null) => void;
   examinationsLoaded: boolean;
   setExaminationsLoaded: (examinationsLoaded: boolean) => void;
 };

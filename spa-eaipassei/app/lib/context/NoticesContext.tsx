@@ -2,6 +2,7 @@
 
 import { createContext, useState, useMemo } from "react";
 import { NoticeContextType, Notice, NoticesQueryParams, NoticeFilterList } from "../types/noticeTypes";
+import { FlashMessage } from "../types/messageTypes";
 
 const defaultValue: NoticeContextType = {
   notices: [],
@@ -20,6 +21,8 @@ const defaultValue: NoticeContextType = {
   setNoticeDeletionMode: () => {},
   noticeDeletionList: [],
   setNoticeDeletionList: () => {},
+  noticeMessage: null,
+  setNoticeMessage: () => {},
 };
 
 export const NoticesContext = createContext<NoticeContextType>(defaultValue);
@@ -37,6 +40,7 @@ export default function NoticesProvider({ children }: NoticesProviderProps) {
   const [creationMode, setCreationMode] = useState(false);
   const [noticeDeletionMode, setNoticeDeletionMode] = useState(false);
   const [noticeDeletionList, setNoticeDeletionList] = useState<number[]>([]);
+  const [noticeMessage, setNoticeMessage] = useState<FlashMessage | null>(null);
 
   const value = useMemo(() => {
 
@@ -68,6 +72,8 @@ export default function NoticesProvider({ children }: NoticesProviderProps) {
       setNoticeDeletionMode,
       noticeDeletionList,
       setNoticeDeletionList,
+      noticeMessage,
+      setNoticeMessage,
     }
   }, [
     notices,
@@ -78,6 +84,7 @@ export default function NoticesProvider({ children }: NoticesProviderProps) {
     creationMode,
     noticeDeletionMode,
     noticeDeletionList,
+    noticeMessage,
   ]);
 
   return (

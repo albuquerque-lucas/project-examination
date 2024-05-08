@@ -7,6 +7,7 @@ import {
   SubjectsQueryParams,
   SubjectsFilterList
 } from "../types/subjectTypes";
+import { FlashMessage } from "../types/messageTypes";
 
 const defaultValue: SubjectContextType = {
   subjects: [],
@@ -25,6 +26,9 @@ const defaultValue: SubjectContextType = {
   setSubjectDeletionMode: () => {},
   subjectDeletionList: [],
   setSubjectDeletionList: () => {},
+  subjectsMessage: null,
+  setSubjectsMessage: () => {},
+
 };
 
 export const SubjectsContext = createContext<SubjectContextType>(defaultValue);
@@ -42,6 +46,7 @@ export default function SubjectsProvider({ children }: SubjectsProviderProps) {
   const [creationMode, setCreationMode] = useState(false);
   const [subjectDeletionMode, setSubjectDeletionMode] = useState(false);
   const [subjectDeletionList, setSubjectDeletionList] = useState<number[]>([]);
+  const [subjectsMessage, setSubjectsMessage] = useState<FlashMessage | null>(null);
 
   const value = useMemo(() => {
 
@@ -73,6 +78,8 @@ export default function SubjectsProvider({ children }: SubjectsProviderProps) {
       setSubjectDeletionMode,
       subjectDeletionList,
       setSubjectDeletionList,
+      subjectsMessage,
+      setSubjectsMessage,
 
     }
     }, [
@@ -84,6 +91,7 @@ export default function SubjectsProvider({ children }: SubjectsProviderProps) {
       creationMode,
       subjectDeletionMode,
       subjectDeletionList,
+      subjectsMessage,
 
     ]);
 

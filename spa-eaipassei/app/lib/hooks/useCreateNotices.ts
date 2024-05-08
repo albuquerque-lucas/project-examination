@@ -9,16 +9,18 @@ import { mimeToExtension } from '@/app/lib/utils/mapperFunctions';
 export const useCreateNotices = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const idExaminationRef = useRef<HTMLInputElement>(null);
-  const [noticesList, setNoticesList] = useState<NoticeFormRequest[]>([]);
-  const { setNoticesLoaded, creationMode, setCreationMode } = useContext(NoticesContext);
+  const { setNoticesLoaded, creationMode, setCreationMode, noticeMessage, setNoticeMessage } = useContext(NoticesContext);
 
-  const addToSubmitList = () => {
+  const submitNotice = async () => {
     const noticeFile = fileRef.current?.files?.length && fileRef.current.files[0] instanceof File
       ? fileRef.current.files[0]
       : null;
 
     if (!noticeFile) {
-      console.log('Nenhum arquivo foi selecionado');
+      setNoticeMessage({
+        message: 'Selecione um arquivo para enviar.',
+        type: 'error',
+      });
       return;
     }
 
@@ -29,30 +31,36 @@ export const useCreateNotices = () => {
       extension: mimeToExtension[noticeFile.type] || '',
     };
   
-    setNoticesList([...noticesList, noticeFormRequest]);;
-  }
-
-  const submitNotices = async () => {
-    console.log('NOTICES PARA SUBMIT', noticesList);
-    noticesList.forEach(async (notice) => {
-      try {
-        const response = await createNotice(`${process.env.NEXT_PUBLIC_API_CREATE_NOTICE}`, notice);
-        console.log('Resposta da criação do edital', response);
-        setNoticesLoaded(false);
-        setNoticesList([]);
-      } catch (error: any) {
-        console.log('Erro ao criar os editais', error);
+    try {
+      const response = await createNotice(`${process.env.NEXT_PUBLIC_API_CREATE_NOTICE}`, noticeFormRequest);
+      console.log('Resposta da criação do edital', response);
+      if (response && response.status >= 200 && response.status < 300) {
+        setNoticeMessage({
+          message: response.data.message,
+          type: 'success',
+        });
       }
-    });
+      setNoticesLoaded(false);
+    } catch (error: any) {
+      console.error('Erro ao criar o edital', error);
+      setNoticeMessage({
+        message: error.message,
+        type: 'error',
+      });
+    } finally {
+      if (fileRef.current) fileRef.current.value = '';
+      if (idExaminationRef.current) idExaminationRef.current.value = '';
+    }
   }
 
   return {
-    addToSubmitList,
-    submitNotices,
     fileRef,
     idExaminationRef,
     creationMode,
+    noticeMessage,
+    submitNotice,
     setCreationMode,
     setNoticesLoaded,
+    setNoticeMessage,
   }
 }

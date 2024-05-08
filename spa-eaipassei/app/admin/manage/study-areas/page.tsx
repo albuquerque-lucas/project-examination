@@ -7,12 +7,12 @@ import { useFetchStudyAreas } from "@/app/lib/hooks/useFetchStudyAreas";
 import { useCreateStudyAreas } from "@/app/lib/hooks/useCreateStudyAreas";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { useDeleteStudyAreas } from "@/app/lib/hooks/useDeleteStudyAreas";
-import { motion } from 'framer-motion';
-import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
+import { motion, AnimatePresence } from 'framer-motion';
 import DeleteStudyAreasPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteStudyAreasPopUp";
 import StudyAreasDashboard from "./StudyAreasDashboard";
 import StudyAreasNavigationButtons from "./StudyAreasNavigationButtons";
 import style from '@/app/ui/admin/pages/study-areas/studyArea.module.css';
+import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 function StudyAreasPage() {
   const router = useRouter();
@@ -20,8 +20,6 @@ function StudyAreasPage() {
   const { studyAreaDeletionMode } = useDeleteStudyAreas();
   const { 
     studyAreasLoaded,
-    isLoading,
-    currentPage,
     studyAreas,
     studyAreasAPIResponse,
   } = useFetchStudyAreas();
@@ -31,6 +29,8 @@ function StudyAreasPage() {
     creationMode,
     setCreationMode,
     submitStudyArea,
+    studyAreasMessage,
+    setStudyAreasMessage,
   } = useCreateStudyAreas();
 
   useEffect(() => {
@@ -40,11 +40,20 @@ function StudyAreasPage() {
   }, [studyAreasLoaded]);
   return (
     <div className={ style.study_area_content }>
-      <h1>
-        Áreas de Estudo
+      <h1 className={ style.study_areas_headtitle }>
+        Dashboard Áreas de Estudo
       </h1>
       <div className={ style.messages_messagebox}>
-
+        <AnimatePresence>
+          {
+            studyAreasMessage &&
+            <MessageBox 
+              message={ studyAreasMessage.message }
+              type={ studyAreasMessage.type }
+              setMessage={ setStudyAreasMessage }
+            />
+          }
+        </AnimatePresence>
       </div>
       <div className={ style.study_areas_utilitiesbox }>
         <div className={ style.utilities_buttons }>

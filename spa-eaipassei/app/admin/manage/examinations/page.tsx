@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useContext } from "react";
-import { getExaminationsByPage } from "@/app/lib/api/examinationsAPI";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
 import DashboardExaminations from './dashboardExaminations';
@@ -13,8 +12,8 @@ import { useFetchExaminations } from "@/app/lib/hooks/useFetchExaminations";
 import FilterBox from "@/app/lib/components/Filters/filterBox";
 import SelectedFiltersBar from "@/app/lib/components/SelectedFiltersBar/selectedFiltersBar";
 import { motion, AnimatePresence } from 'framer-motion';
-import FlashMessage from "@/app/lib/components/Message/FlashMessage";
 import style from '@/app/ui/admin/examinations/examinations.module.css';
+import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 
 function ExaminationsPage() {
@@ -44,9 +43,10 @@ function ExaminationsPage() {
         <div className={ style.messages_messagebox }>
           <AnimatePresence>
             { flashMessage && (
-              <FlashMessage
-                message={ flashMessage }
+              <MessageBox
+                message={ flashMessage.message }
                 setMessage={ setFlashMessage }
+                type={ flashMessage.type }
               />
             )  
             }

@@ -46,7 +46,6 @@ Route::get('/access-levels/all', [AccessLevelController::class, "getAll"]);
 Route::get("/examinations/all", [ExaminationController::class, 'getAll']);
 Route::get('/examinations/id/{id}', [ExaminationController::class, "getById"]);
 Route::post("/examinations/create", [ExaminationController::class, "create"]);
-Route::post('/examinations/create/many', [ExaminationController::class, "createMany"]);
 Route::patch("/examinations/update/{id}", [ExaminationController::class, "update"]);
 Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delete"]);
 Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"]);

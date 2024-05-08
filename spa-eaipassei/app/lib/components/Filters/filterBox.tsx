@@ -2,8 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
 import { BiSolidUpArrowSquare } from "react-icons/bi";
 import { motion, AnimatePresence } from 'framer-motion';
-import style from '@/app/ui/admin/filters/filterbox.module.css';
 import ExaminationsFilters from "./examinationsFilter";
+import style from '@/app/ui/admin/filters/filterbox.module.css';
 
 export default function FilterBox() {
   const [filterModeOn, setFilterModeOn] = useState(false);

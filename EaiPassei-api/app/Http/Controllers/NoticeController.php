@@ -55,7 +55,12 @@ class NoticeController extends Controller
         try {
             $requestData = $request->all();
             if ($request->hasFile('notice_file')) {
-                $filePath = $request->file('notice_file')->store('notices', 'public');
+                $file = $request->file('notice_file');
+                $extension = $file->getClientOriginalExtension();
+                if ($extension !== 'pdf') {
+                    throw new Exception('Extensão inválida. O arquivo deve ser um pdf.', 422);
+                }
+                $filePath = $file->store('notices', 'public');
             } else {
                 $filePath = null;
             }

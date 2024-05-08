@@ -2,7 +2,7 @@
 
 import { useContext } from 'react';
 import { ExaminationsContext } from '../../context/ExaminationsContext';
-import { NavigationContext } from '../../context/NavigationContext';
+import { NoticesContext } from '../../context/NoticesContext';
 import { deleteExamination, getAllExaminations } from '../../api/examinationsAPI';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
@@ -16,6 +16,8 @@ export default function ConfirmationPopUp() {
     setExaminations,
     setExaminationsLoaded,
   } = useContext(ExaminationsContext);
+
+  const { setNoticesLoaded } = useContext(NoticesContext);
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>, id: number | null) => {
     event.preventDefault();
@@ -38,6 +40,7 @@ export default function ConfirmationPopUp() {
         setExaminations(getResponse.data);
       }
       setExaminationsLoaded(false);
+      setNoticesLoaded(false);
       setDashboardDeletionMode(false);
     } catch (error: any) {
       console.log('Erro ao deletar o concurso', error);

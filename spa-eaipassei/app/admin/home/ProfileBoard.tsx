@@ -7,6 +7,7 @@ import EditProfileField from './EditProfileField';
 import ImageUploadField from './ImageUploadField';
 import ShowcaseProfileField from './ShowcaseProfileField';
 import useUpdateUser from '@/app/lib/hooks/useUpdateUser';
+import { motion } from 'framer-motion';
 
 function ProfileBoard({ user }: { user: User}) {
   const {
@@ -23,7 +24,12 @@ function ProfileBoard({ user }: { user: User}) {
   }, [user]);
 
   return (
-    <div className={`${style.panel_case} ${style.panel_case__edit_profile}`}>
+    <motion.div
+      className={`${style.panel_case} ${style.panel_case__edit_profile}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <h3>Alterar Informações de Perfil</h3>
       <div>
         <ImageUploadField
@@ -99,7 +105,7 @@ function ProfileBoard({ user }: { user: User}) {
           /> */}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

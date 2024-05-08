@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import { useCreateNotices } from './useCreateNotices';
 import { ExaminationsContext } from '../context/ExaminationsContext';
 import { Examination } from '@/app/lib/types/examinationTypes';
-import { createMany } from '@/app/lib/api/examinationsAPI';
+import { createExaminations } from '@/app/lib/api/examinationsAPI';
 import { NoticeFormRequest } from '../types/noticeTypes';
 import { mimeToExtension } from '../utils/mapperFunctions';
 import { createNotice } from '../api/noticesAPI';
 
-export const useExaminations = () => {
+export const useCreateExaminations = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const institutionRef = useRef<HTMLInputElement>(null);
   const educationalLevelRef = useRef<HTMLSelectElement>(null);
@@ -19,11 +19,14 @@ export const useExaminations = () => {
   const [fileList, setFileList] = useState<File[]>([]);
   const { setNoticesLoaded } = useCreateNotices();
   const router = useRouter();
-  const { setFlashMessage, setExaminationsLoaded } = useContext(ExaminationsContext);
+  const { setFlashMessage, setExaminationsLoaded, flashMessage } = useContext(ExaminationsContext);
 
-  const addExamination = (title: string, institution: string, educational_level_id: string, notice: File | null) => {
+  const addExamination = ({ title, institution, educational_level_id, notice }: Examination) => {
     if (!title || !institution || !educational_level_id) {
-      setFlashMessage('Os campos do formulário não podem estar vazios.');
+      setFlashMessage({
+        message: 'Preencha todos os campos.',
+        type: 'error',
+      });
       return;
     }
   
@@ -40,14 +43,25 @@ export const useExaminations = () => {
     );
   
     if (doesItemExist) {
-      setFlashMessage('Um item com os mesmos dados já existe na lista.');
+      setFlashMessage({
+        message: 'Um item com os mesmos dados já existe na lista.',
+        type: 'error',
+      
+      });
       return;
     }
   
-    setFileList([...fileList, notice as File]);
+    if (notice !== null) {
+      setFileList([...fileList, notice as File]);
+    }
     setPersistenceList([...persistenceList, examination]);
-    return null;
   }
+
+  const clearRefValue = (ref: React.RefObject<HTMLInputElement | HTMLSelectElement>, value: string) => {
+    if (ref.current) {
+      ref.current.value = value;
+    }
+  };
 
   const addToList = () => {
     const title = titleRef.current?.value ?? '';
@@ -56,11 +70,24 @@ export const useExaminations = () => {
     const notice = fileRef.current?.files?.length && fileRef.current.files[0] instanceof File
     ? fileRef.current.files[0]
     : null;
-  
-    addExamination(title, institution, educational_level_id, notice);
+
+    const examination: Examination = {
+      title,
+      institution,
+      educational_level_id,
+      notice,
+    }
+    addExamination(examination);
+
+    clearRefValue(titleRef, '');
+    clearRefValue(institutionRef, '');
+    clearRefValue(educationalLevelRef, '5');
+    clearRefValue(fileRef, '');
+
   }
 
   const createNoticeForExamination = async (id: number, index: number) => {
+    if (!fileList[index]) return;
     const noticeFile = fileList[index];
     const noticeFormRequest: NoticeFormRequest = {
       examination_id: id,
@@ -77,18 +104,26 @@ export const useExaminations = () => {
       }
     });
     try {
-      const response = await createNotice(`${process.env.NEXT_PUBLIC_API_CREATE_NOTICE}`, noticeFormRequest);
-      console.log('Resposta da criação do edital', response);
+      await createNotice(`${process.env.NEXT_PUBLIC_API_CREATE_NOTICE}`, noticeFormRequest);
     } catch (error: any) {
-      console.log('Erro ao criar os editais', error);
+      console.error('Erro ao criar o edital', error);
+      setFlashMessage({
+        message: 'Ocorreu um erro ao enviar os editais.',
+        type: 'error',
+      });
     }
   }
   
   const submitExaminations = async () => {
     try {
-      const response = await createMany(persistenceList);
+      const response = await createExaminations(persistenceList);
+      console.log('Resposta de createExaminations', response);
       if (response.status === 409) {
-        setFlashMessage(response.data.message);
+        console.log('Conflito na solicitacao', response);
+        setFlashMessage({
+          message: response.data.message,
+          type: 'error',
+        });
         return;
       };
       
@@ -97,7 +132,10 @@ export const useExaminations = () => {
         await Promise.all(createNoticesPromises);
         setExaminationsLoaded(false);
         setNoticesLoaded(false);
-        setFlashMessage('Concursos enviados com sucesso.');
+        setFlashMessage({
+          message: response.data.message,
+          type: 'success',
+        });
         router.push('/admin/manage/examinations');
       }
     } catch (error) {
@@ -112,8 +150,10 @@ export const useExaminations = () => {
     institutionRef,
     educationalLevelRef,
     persistenceList,
+    flashMessage,
     setPersistenceList,
     addToList,
-    submitExaminations
+    submitExaminations,
+    setFlashMessage,
   }
 }

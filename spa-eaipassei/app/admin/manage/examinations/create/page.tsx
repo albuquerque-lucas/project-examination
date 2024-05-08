@@ -1,23 +1,17 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
 import ExaminationSavingCard from "@/app/lib/components/ExaminationSavingCard/ExaminationSavingCard";
 import { useFetchEducationalLevels } from '@/app/lib/hooks/useFetchEducationalLevels';
 import withAuth from "@/app/lib/components/withAuth/withAuth"
-import { getAllEducationalLevels } from '@/app/lib/api/educationalLevelsAPI';
 import { motion, AnimatePresence } from 'framer-motion';
-import FlashMessage from '@/app/lib/components/Message/FlashMessage';
-import { useExaminations } from '@/app/lib/hooks/useExaminations';
+import MessageBox from '@/app/lib/components/Message/MessageBox';
+import { useCreateExaminations } from '@/app/lib/hooks/useCreateExaminations';
 import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 
 const CreateExaminationsPage = () => {
   const router = useRouter();
-  const {
-    flashMessage,
-    setFlashMessage,
-  } = useContext(ExaminationsContext);
 
   const {
     educationalLevelsList,
@@ -29,10 +23,12 @@ const CreateExaminationsPage = () => {
     institutionRef,
     educationalLevelRef,
     persistenceList,
+    flashMessage,
     setPersistenceList,
     addToList,
-    submitExaminations
-  } = useExaminations();
+    submitExaminations,
+    setFlashMessage,
+  } = useCreateExaminations();
   
   
   useEffect(() => {
@@ -46,9 +42,10 @@ const CreateExaminationsPage = () => {
       <div className={ style.message_container }>
         <AnimatePresence>
           { flashMessage &&
-            <FlashMessage
-              message={ flashMessage }
+            <MessageBox
+              message={ flashMessage.message }
               setMessage={ setFlashMessage }
+              type={ flashMessage.type }
             />
           }
         </AnimatePresence>

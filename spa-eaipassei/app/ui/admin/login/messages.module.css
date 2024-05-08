@@ -29,3 +29,9 @@
   border: rgba(40, 167, 69);
   color: white;
 }
+
+.dark {
+  background-color: var(--primary-background-color);
+  border: black;
+  color: white;
+}

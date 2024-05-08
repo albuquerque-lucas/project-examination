@@ -27,6 +27,7 @@
   background-color: black;
   border: none;
   margin: 0 0.2rem;
+  cursor: pointer;
 }
 
 .default_value_field {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchNotices } from "@/app/lib/hooks/useFetchNotices";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
@@ -9,38 +9,51 @@ import { useDeleteNotices } from "@/app/lib/hooks/useDeleteNotices";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import DashboardNotices from "./dashboardNotices";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
-import { motion } from 'framer-motion';
-import style from '@/app/ui/admin/pages/notices/notices.module.css';
 import NoticeNavigationButtons from "./NoticeNavigationButton";
 import DeleteNoticePopUp from "@/app/lib/components/ConfirmationPopUp/DeleteNoticePopUp";
+import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
+import { motion, AnimatePresence } from 'framer-motion';
+import style from '@/app/ui/admin/pages/notices/notices.module.css';
+import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 function NoticesPage() {
   const { noticeDeletionMode } = useDeleteNotices();
   const { notices, noticesList, isLoading, noticesLoaded, currentPage } = useFetchNotices();
   const { updateNavigationLinks } = useNavigations();
   const {
-    submitNotices,
     fileRef,
     idExaminationRef,
     creationMode,
     setCreationMode,
-    addToSubmitList,
+    submitNotice,
+    noticeMessage,
+    setNoticeMessage,
   } = useCreateNotices();
+  const {examinationsLoaded} = useContext(ExaminationsContext);
   const router = useRouter();
 
   useEffect(() => {
     if (noticesList.links) {
       updateNavigationLinks(noticesList.links);
     }
-  }, [noticesLoaded]);
+  }, [noticesLoaded, examinationsLoaded, noticeMessage]);
 
   return (
     <div className="notices_content">
       <h1 className={ style.notices_headtitle }>
-        Editais
+        Dashboard Editais
       </h1>
       <div className={ style.messages_messagebox}>
-
+        <AnimatePresence>
+          {
+            noticeMessage &&
+            <MessageBox
+              message={ noticeMessage.message }
+              type={ noticeMessage.type }
+              setMessage={ setNoticeMessage }
+            />
+          }
+        </AnimatePresence>
       </div>
       <div className={ style.notices_utilitiesbox }>
         <div className={ style.utilities_buttons }>
@@ -64,24 +77,16 @@ function NoticesPage() {
             creationMode &&
             <div className={ style.notice_creation__form }>
               <input type="file" ref={ fileRef }/>
-              <label htmlFor="examination_id">Id</label>
+              <label htmlFor="examination_id">Concurso nº :</label>
               <input type="number" name='examination_id' ref={ idExaminationRef }/>
               <motion.button
               whileTap={{ scale: 0.9 }}
               whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
-              onClick={() => addToSubmitList()}
+              onClick={() => submitNotice()}
               className={ style.submit_notice__button }
               >
                 Adicionar
               </motion.button>
-              <motion.button
-              whileTap={{ scale: 0.9 }}
-              whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
-              onClick={() => submitNotices()}
-              className={ style.submit_notice__button }
-            >
-              Submit
-            </motion.button>
             </div>
           }
 
