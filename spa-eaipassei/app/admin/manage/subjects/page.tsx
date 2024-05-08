@@ -53,8 +53,7 @@ function SubjectsPage () {
     if (subjectsList.links) {
       updateNavigationLinks(subjectsList.links);
     }
-    console.log('Log da page Subjects', subjectsList);
-  }, [subjectsLoaded, subjectsMessage]);
+  }, [subjectsMessage]);
 
   return (
     <div className="subjects_content">

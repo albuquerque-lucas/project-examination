@@ -4,8 +4,8 @@ import React, { useContext, useEffect } from 'react';
 import { ExaminationsContext } from '../../context/ExaminationsContext';
 import { useNavigations } from '../../hooks/useNavigations';
 import { getExaminationsByPage } from '../../api/examinationsAPI';
-import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 import { motion } from 'framer-motion';
+import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
 
 const NavigationButtons: React.FC = () => {

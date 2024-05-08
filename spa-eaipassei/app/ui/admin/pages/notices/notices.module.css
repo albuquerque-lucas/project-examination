@@ -83,7 +83,6 @@
     font-size: 90%;
   }
   .notices_utilitiesbox {
-    align-items: flex-start;
     align-items: center;
     height: 5rem;
   }
@@ -94,6 +93,6 @@
   }
 
   .utilities_buttons button {
-    margin-left: 0.5rem;
+    margin: 0.2rem 0 0.2rem 0.2rem;
   }
 }
