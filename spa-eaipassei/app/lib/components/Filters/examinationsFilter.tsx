@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { useFetchEducationalLevels } from "../../hooks/useFetchEducationalLevels";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
 import { getAllEducationalLevels } from "../../api/educationalLevelsAPI";
@@ -83,10 +83,10 @@ export default function ExaminationsFilters() {
     }
   }
 
-  const submitFilters = () => {
+  const submitFilters = useCallback(() => {
     setQueryParams(filterList);
     setExaminationsLoaded(false);
-  }
+  }, [filterList]);
 
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function ExaminationsFilters() {
   return (
     <div className={ style.filters_list }>
       <div className={ style.filter_selection_box }>
-        <select onChange={handleFilterChange} className={ style.filter_type_select } >
+        <select onChange={ handleFilterChange } className={ style.filter_type_select } >
           <option value="">Filtrar por:</option>
           <option value="title">Título</option>
           <option value="institution">Instituição</option>
@@ -132,9 +132,8 @@ export default function ExaminationsFilters() {
             className={ style.search_button }
             onClick={ addToFilterList }
             whileTap={{ scale: 0.9 }}
-            whileHover={{ backgroundColor: "#343a40", cursor: "pointer" }}
             >
-            <IoMdAddCircle />
+            Adicionar
           </motion.button>
       </div>
 

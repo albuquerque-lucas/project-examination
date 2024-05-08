@@ -1,6 +1,6 @@
 .examinations_headtitle {
-  /* margin-bottom: 3rem; */
-  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: var(--header-dashboard-color);
 }
 
 .messages_messagebox {
@@ -13,7 +13,6 @@
 }
 
 .examinations_utilitiesbox {
-  margin-bottom: 3rem;
   border-radius: var(--default-border-radius);
   width: 75vw;
   /* margin: 1.5rem auto; */
