@@ -35,7 +35,7 @@ export default function DashboardNotices({ data }: DashboardNoticesProps) {
           </thead>
           <tbody>
             {(data as Notice[]).map((item, index) => (
-              <tr key={index} onClick={ () => navigateToPage(item.id) }>
+              <tr key={index}>
                   <td className={ style.id_column }>{item.id}</td>
                   <td className={ style.title_column }>{ item.examination ? item.examination.title : 'Nenhum concurso associado'}</td>
                   <td className={ style.file_name_column }>{ item.examination?.id ?? 'Não definido' }</td>

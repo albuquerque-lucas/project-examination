@@ -17,6 +17,8 @@ import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 
 function ExaminationsPage() {
+  console.log('A pagina Examinations foi renderizada.');
+  const router = useRouter();
   const {
     examinations,
     flashMessage,
@@ -25,13 +27,19 @@ function ExaminationsPage() {
 
   const { updateNavigationLinks } = useNavigations();
 
-  const { examinationList, isLoading, examinationsLoaded, currentPage } = useFetchExaminations();
-  const router = useRouter();
+  const {
+    examinationList,
+    isLoading,
+    examinationsLoaded,
+    currentPage,
+    setExaminationsLoaded,
+  } = useFetchExaminations();
 
   useEffect(() => {
-    console.log('ExaminationList', examinationList);
     if (examinationList.links) {
       updateNavigationLinks(examinationList.links);
+    } else {
+      setExaminationsLoaded(false);
     }
   }, [examinationsLoaded]);
 

@@ -18,7 +18,7 @@ class SubjectResource extends JsonResource
             "id" => $this->id,
             "study_area_id" => $this->study_area_id,
             "educational_level_id" => $this->educational_level_id ?? null,
-            "title" => $this->title,
+            "title" => $this->title ?? "Concurso não identificado",
             "study_area" => $this->studyArea->area ?? "Não informada",
             "educational_level" => $this->educationalLevel->name ?? "Não informado",
             'exams' => ExamResource::collection($this->exams),

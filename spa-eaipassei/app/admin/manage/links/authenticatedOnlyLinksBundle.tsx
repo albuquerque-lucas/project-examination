@@ -33,7 +33,6 @@ function AuthenticatedOnlyLinksBundle() {
   return (
     user !== null ? (
       <div>
-        <UsersLink />
         <ExaminationsLink />
         <NoticesLink />
         <SubjectsLink />

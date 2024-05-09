@@ -26,21 +26,22 @@ const SubjectsNavigationButtons: React.FC = () => {
     if (typeof url === 'undefined' || url === null) return;
     try {
       const urlObj = new URL(url);
-      console.log('URL OBJECT', urlObj);
       const page = urlObj.searchParams.get('page');
       setCurrentPage(Number(page));
-  
+      
       const updatedQueryParams = {
         ...queryParams,
         page: page ? Number(page) : undefined,
       };
-
+      console.log('URL OBJECT', urlObj);
+      console.log('UPDATED QUERY PARAMS', updatedQueryParams);
+      
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
-  
+
       const response = await getAllSubjects(url, updatedQueryParams);
       setSubjects(response.data);
       updateNavigationLinks(response.links);
-      setSubjectsLoaded(false);
+      // setSubjectsLoaded(false);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -52,7 +53,7 @@ const SubjectsNavigationButtons: React.FC = () => {
         navigationLinks && navigationLinks.length > 0 ? (
           navigationLinks.map((item, index) => (
             <motion.button
-            whileTap={ item.active || item.url === null ? {} : { scale: 0.9 } }
+              whileTap={ item.active || item.url === null ? {} : { scale: 0.9 } }
               key={ index }
               className={ style.examinations_navbutton__buttons }
               onClick={ (e) => getPage(item.url, e) }

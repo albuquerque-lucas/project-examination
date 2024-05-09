@@ -1,6 +1,5 @@
 import { Subject } from "@/app/lib/types/subjectTypes";
 import { useDeleteSubjects } from "@/app/lib/hooks/useDeleteSubjects";
-import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
@@ -10,7 +9,6 @@ interface SubjectsDashboardProps {
 
 export default function SubjectsDashboard({ data }: SubjectsDashboardProps) {
   const { setSubjectDeletionMode, setSubjectDeletionList } = useDeleteSubjects();
-  const router = useRouter();
 
   return (
     <div className={ style.data_table__container }>

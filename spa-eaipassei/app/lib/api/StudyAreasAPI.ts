@@ -14,7 +14,6 @@ export const getAllAreas = async (url: string, params: any) => {
   try {
     const resp = await axios.get(url, { params });
     if (resp.status >= 200 && resp.status < 300) {
-      console.log('DATA RESULT AREAS', resp);
       return resp.data;
     }
   } catch (error: any) {

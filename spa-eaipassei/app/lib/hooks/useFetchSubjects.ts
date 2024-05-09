@@ -41,5 +41,6 @@ export const useFetchSubjects = () => {
     isLoading,
     subjectsLoaded,
     currentPage,
+    setSubjectsLoaded,
   };
 }

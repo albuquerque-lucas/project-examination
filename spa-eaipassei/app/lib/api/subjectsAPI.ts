@@ -1,6 +1,6 @@
 'use client';
 
-import Axios from "axios";
+import Axios, { AxiosResponse } from "axios";
 import HttpError from "../utils/Class/HttpError";
 import { SubjectsFormRequest } from "../types/subjectTypes";
 
@@ -14,9 +14,12 @@ const axios = Axios.create({
 
 export const getAllSubjects = async (url: string, params: any) => {
   try {
-    const resp = await axios.get(url, { params });
+    const resp = await axios.get(url, params);
     if (resp.status >= 200 && resp.status < 300) {
+      console.log('Resposta de sucesso de getAllSubjects', resp.data);
       return resp.data;
+    } else {
+      console.log('Resposta nao identificada.');
     }
   } catch (error: any) {
     if (error.response && error.response.status >= 400 && error.response.status < 500) {

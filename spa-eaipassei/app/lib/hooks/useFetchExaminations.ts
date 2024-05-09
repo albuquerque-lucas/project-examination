@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
-import { NavigationContext } from '../context/NavigationContext';
 import { getExaminationsByPage } from '@/app/lib/api/examinationsAPI';
 
 export const useFetchExaminations = () => {
@@ -40,5 +39,6 @@ export const useFetchExaminations = () => {
     isLoading,
     examinationsLoaded,
     currentPage,
+    setExaminationsLoaded,
   };
 }

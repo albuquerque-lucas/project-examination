@@ -27,8 +27,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
-  padding: 1rem;
   width: 40%;
 }
 
@@ -100,7 +98,8 @@
 
 @media (min-width: 830px) {
   .study_areas_utilitiesbox {
-    align-items: flex-start;
+    align-items: center;
+    height: 5rem;
   }
 
   .utilities_buttons {
@@ -109,11 +108,6 @@
   }
 
   .utilities_buttons button {
-    margin: 1rem;
+    margin: 0.2rem 0 0.2rem 0.2rem;
   }
-
-  /* .utilities_filters {
-    flex-direction: row;
-    width: 70%;
-  } */
 }
