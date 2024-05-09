@@ -17,6 +17,7 @@ import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 
 function ExaminationsPage() {
+  console.log('A pagina Examinations foi renderizada.');
   const router = useRouter();
   const {
     examinations,
@@ -31,11 +32,14 @@ function ExaminationsPage() {
     isLoading,
     examinationsLoaded,
     currentPage,
+    setExaminationsLoaded,
   } = useFetchExaminations();
 
   useEffect(() => {
     if (examinationList.links) {
       updateNavigationLinks(examinationList.links);
+    } else {
+      setExaminationsLoaded(false);
     }
   }, [examinationsLoaded]);
 

@@ -35,12 +35,15 @@ function NoticesPage() {
     submitNotice,
     noticeMessage,
     setNoticeMessage,
+    setNoticesLoaded,
   } = useCreateNotices();
   const {examinationsLoaded} = useContext(ExaminationsContext);
 
   useEffect(() => {
     if (noticesList.links) {
       updateNavigationLinks(noticesList.links);
+    } else {
+      setNoticesLoaded(false);
     }
   }, [noticesLoaded, examinationsLoaded, noticeMessage]);
 

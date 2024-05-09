@@ -27,6 +27,7 @@ function SubjectsPage () {
     isLoading,
     subjectsLoaded,
     currentPage,
+    setSubjectsLoaded,
   } = useFetchSubjects();
   const { 
     notPaginatedAreasList,
@@ -52,8 +53,10 @@ function SubjectsPage () {
     setStudyAreasLoaded(false);
     if (subjectsList.links) {
       updateNavigationLinks(subjectsList.links);
+    } else {
+      setSubjectsLoaded(false);
     }
-  }, [subjectsMessage]);
+  }, [subjectsMessage, subjectsLoaded]);
 
   return (
     <div className="subjects_content">

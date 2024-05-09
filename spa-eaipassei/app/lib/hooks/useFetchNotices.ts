@@ -42,6 +42,7 @@ export const useFetchNotices = () => {
     isLoading,
     noticesLoaded,
     currentPage,
+    setNoticesLoaded,
   };
 
 }
