@@ -1,0 +1,12 @@
+.display_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: red;
+}
+
+.edit_headtitle {
+  font-size: 1.3rem;
+  color: var(--header-dashboard-color);
+}
