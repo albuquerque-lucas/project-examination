@@ -50,9 +50,15 @@ function ExaminationDisplay() {
     <>
     { examination ? 
       <div className={ style.display_page }>
-        <h1 className={ style.edit_headtitle }>
+        <h1 className={ style.examination_headtitle }>
           { examination.title }
         </h1>
+        <div className={ style.examination_edit__messagebox }>
+
+        </div>
+        <div className={ style.examination_edit_preliminary__info }>
+
+        </div>
       </div>
     :
     <h1>Loading</h1>
