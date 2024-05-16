@@ -45,8 +45,6 @@ export const getExaminations = async (url: string, params: Record<string, any> =
   try {
     const resp = await axios.get(url, { params });
     if (resp.status >= 200 && resp.status < 300) {
-      console.log('RESPOSTA AXIOS GET EXAMINATIONS', resp);
-      console.log('RESPOSTA DATA GET EXAMINATIONS', resp.data);
       return resp.data;
     }
     return null;

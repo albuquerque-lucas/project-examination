@@ -5,27 +5,38 @@ import { useNavigations } from '@/app/lib/hooks/useNavigations';
 import { useNavExaminations } from '@/app/lib/hooks/useNavExaminations';
 import { getExaminations } from '@/app/lib/api/examinationsAPI';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
+import { NavigationLink } from '@/app/lib/types/responseTypes';
+import { updateLinks } from '@/app/lib/utils/updateNavLinks';
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
-import { NavigationLink } from '@/app/lib/types/responseTypes';
 
+interface ExaminationsNavButtonsProps {
+  links: NavigationLink[] | null;
+}
 
-const ExaminationsNavButtons: React.FC = () => {
-  const { examinationNavLinks, updateNavigationLinks } = useNavExaminations();
-  
+const ExaminationsNavButtons: React.FC<ExaminationsNavButtonsProps | null> = (props) => {
   const {
     currentPage,
     setCurrentPage,
     queryParams,
     filterList,
     setQueryParams,
-    setExaminationsLoaded,
     setExaminations,
   } = useContext(ExaminationsContext);
   
   useEffect(() => {
-    console.log('Examinations NavButtons mounted');
-  }, [currentPage, examinationNavLinks]);
+  }, [currentPage]);
+
+  if (!props) {
+    return (
+      <div>
+      </div>
+    );
+  }
+
+  const { links } = props;
+
+  let linksList = updateLinks(links);
 
   const getPage = async (url: any, e: React.MouseEvent) => {
     e.preventDefault();
@@ -44,8 +55,9 @@ const ExaminationsNavButtons: React.FC = () => {
   
       const response = await getExaminations(url, updatedQueryParams);
       setExaminations(response);
-      response && updateNavigationLinks(response.links);
-      setExaminationsLoaded(false);
+      if (response) {
+        linksList = updateLinks(response.links);
+      }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -54,8 +66,8 @@ const ExaminationsNavButtons: React.FC = () => {
   return (
     <div className={ style.examinations_navbuttons }>
       {
-        examinationNavLinks && examinationNavLinks.length > 0 ? (
-          examinationNavLinks.map((item, index) => (
+        linksList && linksList.length > 0 ? (
+          linksList.map((item, index) => (
             <motion.button
             whileTap={ item.active || item.url === null ? {} : { scale: 0.9 } }
               key={ index }

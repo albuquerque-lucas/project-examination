@@ -18,30 +18,17 @@ import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 
 function ExaminationsPage() {
-  console.log('A pagina Examinations foi renderizada.');
   const router = useRouter();
   const {
     flashMessage,
     setFlashMessage,
   } = useContext(ExaminationsContext);
 
-  const { updateNavigationLinks } = useNavExaminations();
-
   const {
     examinations,
     isLoading,
-    examinationsLoaded,
     currentPage,
-    setExaminationsLoaded,
   } = useFetchExaminations();
-
-  useEffect(() => {
-    if (examinations && examinations.links) {
-      updateNavigationLinks(examinations.links);
-    } else {
-      setExaminationsLoaded(false);
-    }
-  }, [examinationsLoaded]);
 
   return (
       <div className="examinations_content">
@@ -87,7 +74,9 @@ function ExaminationsPage() {
           <SpinnerLoader />
         ) : (
           <>
-            <ExaminationsNavButtons />
+            <ExaminationsNavButtons
+              links={ examinations && examinations.links }
+            />
             <div className={ style.selected_filters }>
             <SelectedFiltersBar />
             </div>
