@@ -1,6 +1,6 @@
 'use Client';
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { NavigationContext } from "../context/NavigationContext";
 
 export const useNavigations = () => {
@@ -24,6 +24,11 @@ export const useNavigations = () => {
 
     setNavigationLinks(updatedLinks);
   };
+
+  useEffect(() => {
+    console.log('Log de navigationLinks');
+    console.trace();
+  }, [navigationLinks])
 
   return { navigationLinks, updateNavigationLinks };
 }

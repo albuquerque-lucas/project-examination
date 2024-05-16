@@ -53,12 +53,14 @@ function ExaminationDisplay() {
         <h1 className={ style.examination_headtitle }>
           { examination.title }
         </h1>
-        <div className={ style.examination_edit__messagebox }>
+        <section className={ style.examination_edit__messagebox }>
 
-        </div>
-        <div className={ style.examination_edit_preliminary__info }>
+        </section>
+        <section className={ style.examination_edit__section }>
+          <div className={ style.examination_edit__info}>
 
-        </div>
+          </div>
+        </section>
       </div>
     :
     <h1>Loading</h1>

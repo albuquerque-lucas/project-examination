@@ -21,10 +21,10 @@
   margin: 0.5rem auto;
 }
 
-.examination_edit_preliminary__info {
+.examination_edit__section {
   content: '';
-  width: 99%;
-  height: 5rem;
+  width: 100%;
+  min-height: 5rem;
   background-color: var(--tertiary-background-color);
   color: white;
   margin: 1rem 0;

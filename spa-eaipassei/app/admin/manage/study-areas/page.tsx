@@ -15,7 +15,6 @@ import style from '@/app/ui/admin/pages/study-areas/studyArea.module.css';
 import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 function StudyAreasPage() {
-  console.log('A pagina Study Areas foi renderizada');
   const router = useRouter();
   const { updateNavigationLinks } = useNavigations();
   const { studyAreaDeletionMode } = useDeleteStudyAreas();
@@ -41,7 +40,7 @@ function StudyAreasPage() {
     } else {
       setStudyAreasLoaded(false);
     }
-  }, [studyAreasLoaded]);
+  }, [studyAreasLoaded, studyAreasAPIResponse.links]);
   return (
     <div className={ style.study_area_content }>
       <h1 className={ style.study_areas_headtitle }>

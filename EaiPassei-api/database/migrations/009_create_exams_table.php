@@ -20,8 +20,6 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->date('date')->nullable();
-            $table->time('start_time')->nullable();
-            $table->time('end_time')->nullable();
             $table->timestamps();
         });
     }

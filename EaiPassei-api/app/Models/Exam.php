@@ -17,14 +17,10 @@ class Exam extends Model
         'examination_id',
         'title',
         'date',
-        'start_time',
-        'end_time',
     ];
 
     protected $casts = [
         'date' => 'date',
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
     ];
 
     public function examination(): BelongsTo
