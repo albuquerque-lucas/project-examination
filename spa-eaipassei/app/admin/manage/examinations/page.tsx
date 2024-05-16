@@ -2,8 +2,8 @@
 
 import { useEffect, useContext } from "react";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
-import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
-import DashboardExaminations from './dashboardExaminations';
+import ExaminationsNavButtons from "./examinationsNavButtons";
+import ExaminationsDashboard from './examinationsDashboard';
 import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
@@ -20,7 +20,6 @@ function ExaminationsPage() {
   console.log('A pagina Examinations foi renderizada.');
   const router = useRouter();
   const {
-    examinations,
     flashMessage,
     setFlashMessage,
   } = useContext(ExaminationsContext);
@@ -28,7 +27,7 @@ function ExaminationsPage() {
   const { updateNavigationLinks } = useNavigations();
 
   const {
-    examinationList,
+    examinations,
     isLoading,
     examinationsLoaded,
     currentPage,
@@ -36,8 +35,8 @@ function ExaminationsPage() {
   } = useFetchExaminations();
 
   useEffect(() => {
-    if (examinationList.links) {
-      updateNavigationLinks(examinationList.links);
+    if (examinations && examinations.links) {
+      updateNavigationLinks(examinations.links);
     } else {
       setExaminationsLoaded(false);
     }
@@ -60,7 +59,7 @@ function ExaminationsPage() {
             }
           </AnimatePresence>
         </div>
-        <div className={ style.examinations_utilitiesbox }>
+        {/* <div className={ style.examinations_utilitiesbox }>
           <div className={ style.utilities_buttons } >
             <motion.button
               whileTap={{ scale: 0.95 }}
@@ -82,17 +81,17 @@ function ExaminationsPage() {
           <div className={ style.utilities_filters }>
             <FilterBox />
           </div>
-        </div>
+        </div> */}
         {isLoading && currentPage === 1 ? (
           <SpinnerLoader />
         ) : (
           <>
-            <NavigationButtons />
+            <ExaminationsNavButtons />
             <div className={ style.selected_filters }>
             <SelectedFiltersBar />
             </div>
-            <DashboardExaminations
-            data={ examinations }
+            <ExaminationsDashboard
+            data={ examinations && examinations.data }
             />
           </>
         )}

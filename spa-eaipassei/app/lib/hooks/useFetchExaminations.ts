@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
-import { getExaminationsByPage } from '@/app/lib/api/examinationsAPI';
+import { getExaminations } from '@/app/lib/api/examinationsAPI';
 
 export const useFetchExaminations = () => {
-  const [examinationList, setExaminationList] = useState({} as any);
   const [isLoading, setIsLoading] = useState(false);
   const {
+    examinations,
     setExaminations,
     queryParams,
     examinationsLoaded,
@@ -18,14 +18,13 @@ export const useFetchExaminations = () => {
       try {
         if (!examinationsLoaded) {
           setIsLoading(true);
-          const examinationList = await getExaminationsByPage(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`, queryParams);
-          setExaminationList(examinationList);
-          setExaminations(examinationList.data);
+          const apiResponse = await getExaminations(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`, queryParams);
+          setExaminations(apiResponse);
           setExaminationsLoaded(true);
         }
       } catch (error: any) {
         console.log('Erro ao buscar os concursos', error);
-        setExaminations({});
+        setExaminations(null);
       } finally {
         setIsLoading(false);
       }
@@ -35,7 +34,7 @@ export const useFetchExaminations = () => {
   }, [examinationsLoaded]);
 
   return {
-    examinationList,
+    examinations,
     isLoading,
     examinationsLoaded,
     currentPage,

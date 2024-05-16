@@ -27,7 +27,6 @@ export const useNavigations = () => {
 
   useEffect(() => {
     console.log('Log de navigationLinks');
-    console.trace();
   }, [navigationLinks])
 
   return { navigationLinks, updateNavigationLinks };

@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useContext, useEffect } from 'react';
-import { ExaminationsContext } from '../../context/ExaminationsContext';
-import { useNavigations } from '../../hooks/useNavigations';
-import { getExaminationsByPage } from '../../api/examinationsAPI';
+import { useNavigations } from '@/app/lib/hooks/useNavigations';
+import { getExaminations } from '@/app/lib/api/examinationsAPI';
+import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
 
-const NavigationButtons: React.FC = () => {
+const ExaminationsNavButtons: React.FC = () => {
   const { navigationLinks, updateNavigationLinks } = useNavigations();
   
   const {
@@ -39,9 +39,9 @@ const NavigationButtons: React.FC = () => {
 
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
   
-      const response = await getExaminationsByPage(url, updatedQueryParams);
-      setExaminations(response.data);
-      updateNavigationLinks(response.links);
+      const response = await getExaminations(url, updatedQueryParams);
+      setExaminations(response);
+      response && updateNavigationLinks(response.links);
       setExaminationsLoaded(false);
     } catch (error) {
       console.error('Error:', error);
@@ -71,4 +71,4 @@ const NavigationButtons: React.FC = () => {
   )
 }
 
-export default NavigationButtons;
+export default ExaminationsNavButtons;
