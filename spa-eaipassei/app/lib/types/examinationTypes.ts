@@ -1,5 +1,5 @@
 import { FlashMessage } from "./messageTypes";
-import { PaginatedAPIResponse } from "./responseTypes";
+import { PaginatedAPIResponse, NavigationLink } from "./responseTypes";
 
 export type Examination = {
   id?: number | string;
@@ -19,6 +19,8 @@ export type EducationalLevel = {
 export type ExaminationsContextType = {
   examinations: PaginatedAPIResponse<Examination> | null;
   setExaminations: (examinations: PaginatedAPIResponse<Examination> | null) => void;
+  examinationNavLinks: NavigationLink[] | null;
+  setExaminationNavLinks: (examinationNavLinks: NavigationLink[] | null) => void;
   dashboardDeletionMode: boolean;
   setDashboardDeletionMode: (dashboardDeletionMode: boolean) => void;
   examinationToDelete: number | null;

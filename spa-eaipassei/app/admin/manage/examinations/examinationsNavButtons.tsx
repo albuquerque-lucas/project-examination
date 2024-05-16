@@ -1,15 +1,17 @@
 'use client';
 
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigations } from '@/app/lib/hooks/useNavigations';
+import { useNavExaminations } from '@/app/lib/hooks/useNavExaminations';
 import { getExaminations } from '@/app/lib/api/examinationsAPI';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
+import { NavigationLink } from '@/app/lib/types/responseTypes';
 
 
 const ExaminationsNavButtons: React.FC = () => {
-  const { navigationLinks, updateNavigationLinks } = useNavigations();
+  const { examinationNavLinks, updateNavigationLinks } = useNavExaminations();
   
   const {
     currentPage,
@@ -22,7 +24,8 @@ const ExaminationsNavButtons: React.FC = () => {
   } = useContext(ExaminationsContext);
   
   useEffect(() => {
-  }, [currentPage]);
+    console.log('Examinations NavButtons mounted');
+  }, [currentPage, examinationNavLinks]);
 
   const getPage = async (url: any, e: React.MouseEvent) => {
     e.preventDefault();
@@ -51,8 +54,8 @@ const ExaminationsNavButtons: React.FC = () => {
   return (
     <div className={ style.examinations_navbuttons }>
       {
-        navigationLinks && navigationLinks.length > 0 ? (
-          navigationLinks.map((item, index) => (
+        examinationNavLinks && examinationNavLinks.length > 0 ? (
+          examinationNavLinks.map((item, index) => (
             <motion.button
             whileTap={ item.active || item.url === null ? {} : { scale: 0.9 } }
               key={ index }

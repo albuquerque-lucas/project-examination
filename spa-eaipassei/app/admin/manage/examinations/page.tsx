@@ -6,6 +6,7 @@ import ExaminationsNavButtons from "./examinationsNavButtons";
 import ExaminationsDashboard from './examinationsDashboard';
 import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { useNavigations } from "@/app/lib/hooks/useNavigations";
+import { useNavExaminations } from "@/app/lib/hooks/useNavExaminations";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { useRouter } from "next/navigation";
 import { useFetchExaminations } from "@/app/lib/hooks/useFetchExaminations";
@@ -24,7 +25,7 @@ function ExaminationsPage() {
     setFlashMessage,
   } = useContext(ExaminationsContext);
 
-  const { updateNavigationLinks } = useNavigations();
+  const { updateNavigationLinks } = useNavExaminations();
 
   const {
     examinations,
@@ -59,7 +60,7 @@ function ExaminationsPage() {
             }
           </AnimatePresence>
         </div>
-        {/* <div className={ style.examinations_utilitiesbox }>
+        <div className={ style.examinations_utilitiesbox }>
           <div className={ style.utilities_buttons } >
             <motion.button
               whileTap={{ scale: 0.95 }}
@@ -81,7 +82,7 @@ function ExaminationsPage() {
           <div className={ style.utilities_filters }>
             <FilterBox />
           </div>
-        </div> */}
+        </div>
         {isLoading && currentPage === 1 ? (
           <SpinnerLoader />
         ) : (
