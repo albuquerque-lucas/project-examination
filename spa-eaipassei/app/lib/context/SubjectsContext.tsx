@@ -7,11 +7,14 @@ import {
   SubjectsQueryParams,
   SubjectsFilterList
 } from "../types/subjectTypes";
+import { PaginatedAPIResponse, NavigationLink } from "../types/responseTypes";
 import { FlashMessage } from "../types/messageTypes";
 
 const defaultValue: SubjectContextType = {
-  subjects: [],
+  subjects: null,
   setSubjects: () => {},
+  subjectsNavLinks: null,
+  setSubjectsNavLinks: () => {},
   queryParams: {} as SubjectsQueryParams,
   setQueryParams: () => {},
   filterList: [] as SubjectsFilterList[],
@@ -38,7 +41,8 @@ interface SubjectsProviderProps {
 }
 
 export default function SubjectsProvider({ children }: SubjectsProviderProps) {
-  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [subjects, setSubjects] = useState<PaginatedAPIResponse<Subject> | null>(null);
+  const [subjectsNavLinks, setSubjectsNavLinks] = useState<NavigationLink[] | null>(null); // [1
   const [queryParams, _setQueryParams] = useState<SubjectsQueryParams>({});
   const [filterList, setFilterList] = useState<SubjectsFilterList[]>([]);
   const [subjectsLoaded, setSubjectsLoaded] = useState(false);
@@ -64,6 +68,8 @@ export default function SubjectsProvider({ children }: SubjectsProviderProps) {
     return {
       subjects,
       setSubjects,
+      subjectsNavLinks,
+      setSubjectsNavLinks,
       queryParams,
       setQueryParams,
       filterList,
@@ -85,6 +91,7 @@ export default function SubjectsProvider({ children }: SubjectsProviderProps) {
     }, [
       subjects,
       queryParams,
+      subjectsNavLinks,
       filterList,
       subjectsLoaded,
       currentPage,

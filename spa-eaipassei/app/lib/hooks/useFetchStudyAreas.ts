@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { getAllAreas } from "../api/StudyAreasAPI";
 import { StudyAreasContext } from "../context/StudyAreasContext";
-import { StudyArea } from "../types/studyAreasTypes";
 
 export const useFetchStudyAreas = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

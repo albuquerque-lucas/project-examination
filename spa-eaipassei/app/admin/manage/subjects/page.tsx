@@ -20,18 +20,13 @@ import style from '@/app/ui/admin/pages/subjects/subjects.module.css';
 function SubjectsPage () {
   const router = useRouter();
   const { subjectDeletionMode } = useDeleteSubjects();
-  const { updateNavigationLinks } = useNavigations();
   const {
     subjects,
-    subjectsList,
     isLoading,
-    subjectsLoaded,
     currentPage,
-    setSubjectsLoaded,
   } = useFetchSubjects();
   const { 
-    notPaginatedAreasList,
-    setStudyAreasLoaded,
+    notPaginatedStudyAreas,
   } = useFetchStudyAreas();
 
   const {
@@ -48,15 +43,6 @@ function SubjectsPage () {
     subjectsMessage,
     setSubjectsMessage,
   } = useCreateSubjects();
-
-  useEffect(() => {
-    setStudyAreasLoaded(false);
-    if (subjectsList.links) {
-      updateNavigationLinks(subjectsList.links);
-    } else {
-      setSubjectsLoaded(false);
-    }
-  }, [subjectsMessage, subjectsLoaded]);
 
   return (
     <div className="subjects_content">
@@ -109,7 +95,7 @@ function SubjectsPage () {
               </select>
               <select id="study_areas_select" ref={ studyAreaRef }>
                 {
-                  notPaginatedAreasList.map((area) => (
+                  notPaginatedStudyAreas && notPaginatedStudyAreas.map((area) => (
                     <option key={area.id} value={area.id}>
                       {area.area}
                     </option>
@@ -133,11 +119,13 @@ function SubjectsPage () {
           <SpinnerLoader />
         ) : (
           <>
-            <SubjectsNavigationButtons />
+            <SubjectsNavigationButtons
+              links={ subjects && subjects.links }
+            />
             <div className={ style.selected_filters }>
             </div>
             <SubjectsDashboard
-              data={subjects}
+              data={ subjects && subjects.data }
             />
             {
               subjectDeletionMode &&

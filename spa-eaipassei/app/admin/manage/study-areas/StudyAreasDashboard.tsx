@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import { useDeleteStudyAreas } from "@/app/lib/hooks/useDeleteStudyAreas";
 import { StudyArea } from "@/app/lib/types/studyAreasTypes";
 import { MdDelete } from "react-icons/md";
@@ -9,7 +8,6 @@ interface StudyAreasDashboardProps {
 }
 
 export default function StudyAreasDashboard({ data }: StudyAreasDashboardProps) {
-  const router = useRouter();
   const {
     setStudyAreaDeletionMode,
     setStudyAreaDeletionList,

@@ -1,20 +1,14 @@
 'use client';
 
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigations } from '@/app/lib/hooks/useNavigations';
-import { useNavExaminations } from '@/app/lib/hooks/useNavExaminations';
+import React, { useContext, useEffect } from 'react';
 import { getExaminations } from '@/app/lib/api/examinationsAPI';
 import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
-import { NavigationLink } from '@/app/lib/types/responseTypes';
+import { NavigationButtonsProps } from '@/app/lib/types/navigationTypes';
 import { updateLinks } from '@/app/lib/utils/updateNavLinks';
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
-interface ExaminationsNavButtonsProps {
-  links: NavigationLink[] | null;
-}
-
-const ExaminationsNavButtons: React.FC<ExaminationsNavButtonsProps | null> = (props) => {
+const ExaminationsNavButtons: React.FC<NavigationButtonsProps | null> = (props) => {
   const {
     currentPage,
     setCurrentPage,

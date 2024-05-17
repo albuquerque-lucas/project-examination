@@ -29,7 +29,6 @@ function StudyAreasPage() {
     submitStudyArea,
     studyAreasMessage,
     setStudyAreasMessage,
-    setStudyAreasLoaded,
   } = useCreateStudyAreas();
 
   // useEffect(() => {

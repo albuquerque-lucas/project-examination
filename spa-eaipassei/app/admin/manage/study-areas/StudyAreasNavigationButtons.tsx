@@ -1,19 +1,15 @@
 'use client';
 
 import React, { useContext, useEffect } from 'react';
-import { useNavigations } from '@/app/lib/hooks/useNavigations';
 import { StudyAreasContext } from '@/app/lib/context/StudyAreasContext';
 import { getAllAreas } from '@/app/lib/api/StudyAreasAPI';
-import { NavigationLink } from '@/app/lib/types/responseTypes';
+import { NavigationButtonsProps } from '@/app/lib/types/navigationTypes';
 import { updateLinks } from '@/app/lib/utils/updateNavLinks';
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
-interface StudyAreasNavigationButtonsProps {
-  links: NavigationLink[] | null;
-}
 
-const StudyAreasNavigationButtons: React.FC<StudyAreasNavigationButtonsProps | null> = (props) => {
+const StudyAreasNavigationButtons: React.FC<NavigationButtonsProps | null> = (props) => {
   const {
     currentPage,
     setCurrentPage,

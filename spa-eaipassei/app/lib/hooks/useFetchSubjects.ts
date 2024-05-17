@@ -3,7 +3,6 @@ import { SubjectsContext } from "../context/SubjectsContext";
 import { getAllSubjects } from "../api/subjectsAPI";
 
 export const useFetchSubjects = () => {
-  const [subjectsList, setSubjectsList] = useState({} as any);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     subjects,
@@ -19,14 +18,13 @@ export const useFetchSubjects = () => {
       try {
         if (!subjectsLoaded) {
           setIsLoading(true);
-          const subjectsList = await getAllSubjects(`${process.env.NEXT_PUBLIC_API_GET_SUBJECTS_LIST}`, queryParams);
-          setSubjectsList(subjectsList);
-          setSubjects(subjectsList.data);
+          const apiResponse = await getAllSubjects(`${process.env.NEXT_PUBLIC_API_GET_SUBJECTS_LIST}`, queryParams);
+          setSubjects(apiResponse);
           setSubjectsLoaded(true);
         }
       } catch (error: any) {
         console.log('Erro ao buscar as disciplinas', error);
-        setSubjects([]);
+        setSubjects(null);
       } finally {
         setIsLoading(false);
       }
@@ -37,7 +35,6 @@ export const useFetchSubjects = () => {
 
   return {
     subjects,
-    subjectsList,
     isLoading,
     subjectsLoaded,
     currentPage,

@@ -18,13 +18,13 @@ export const getAllSubjects = async (url: string, params: any) => {
     if (resp.status >= 200 && resp.status < 300) {
       console.log('Resposta de sucesso de getAllSubjects', resp.data);
       return resp.data;
-    } else {
-      console.log('Resposta nao identificada.');
     }
+    return null;
   } catch (error: any) {
     if (error.response && error.response.status >= 400 && error.response.status < 500) {
       console.log('Erro ao buscar as disciplinas', error);
     }
+    return null;
   }
 }
   export const deleteSubjects = async (url: string, data: any) => {

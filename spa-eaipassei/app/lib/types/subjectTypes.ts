@@ -1,4 +1,5 @@
 import { FlashMessage } from "./messageTypes";
+import { PaginatedAPIResponse, NavigationLink } from "./responseTypes";
 
 export type Subject = {
   id: number;
@@ -8,8 +9,10 @@ export type Subject = {
 }
 
 export type SubjectContextType = {
-  subjects: Subject[];
-  setSubjects: (subjects: Subject[]) => void;
+  subjects: PaginatedAPIResponse<Subject> | null;
+  setSubjects: (subjects: PaginatedAPIResponse<Subject> | null) => void;
+  subjectsNavLinks: NavigationLink[] | null;
+  setSubjectsNavLinks: (subjectsNavLinks: NavigationLink[] | null) => void;
   queryParams: SubjectsQueryParams;
   setQueryParams: (filterList: SubjectsFilterList[]) => void;
   filterList: SubjectsFilterList[];
