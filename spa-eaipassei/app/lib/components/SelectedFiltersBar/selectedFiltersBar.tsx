@@ -2,7 +2,6 @@
 
 import { useContext } from "react";
 import { ExaminationsContext } from "../../context/ExaminationsContext";
-import { NavigationContext } from "../../context/NavigationContext";
 import { motion } from 'framer-motion';
 import { BsFillXSquareFill } from "react-icons/bs";
 import { TiDelete } from "react-icons/ti";

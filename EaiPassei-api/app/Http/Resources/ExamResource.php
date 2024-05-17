@@ -20,8 +20,6 @@ class ExamResource extends JsonResource
             'examination' => $this->examination->title ?? "Não informado",
             'description'=> $this->description,
             'date' => $this->date,
-            'start_time' => $this->start_time,
-            'end_time' => $this->end_time,
             'subjects' => SubjectMinResource::collection($this->subjects),
             'questions_count' => count($this->examQuestions),
         ];

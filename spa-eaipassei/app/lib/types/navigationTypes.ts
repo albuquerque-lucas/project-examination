@@ -1,10 +1,5 @@
-export type NavigationLink = {
-  label: string;
-  url: string;
-  active: boolean | undefined;
-}
+import { NavigationLink } from "./responseTypes";
 
-export type NavigationContextType = {
-  navigationLinks: NavigationLink[];
-  setNavigationLinks: (navigationLinks: NavigationLink[]) => void;
+export interface NavigationButtonsProps {
+  links: NavigationLink[] | null;
 }

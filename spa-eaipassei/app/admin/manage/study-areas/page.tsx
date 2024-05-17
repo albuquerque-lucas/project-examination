@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchStudyAreas } from "@/app/lib/hooks/useFetchStudyAreas";
 import { useCreateStudyAreas } from "@/app/lib/hooks/useCreateStudyAreas";
-import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { useDeleteStudyAreas } from "@/app/lib/hooks/useDeleteStudyAreas";
 import { motion, AnimatePresence } from 'framer-motion';
 import DeleteStudyAreasPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteStudyAreasPopUp";
@@ -15,14 +14,10 @@ import style from '@/app/ui/admin/pages/study-areas/studyArea.module.css';
 import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 function StudyAreasPage() {
-  console.log('A pagina Study Areas foi renderizada');
   const router = useRouter();
-  const { updateNavigationLinks } = useNavigations();
   const { studyAreaDeletionMode } = useDeleteStudyAreas();
-  const { 
-    studyAreasLoaded,
+  const {
     studyAreas,
-    studyAreasAPIResponse,
   } = useFetchStudyAreas();
 
   const {
@@ -32,16 +27,9 @@ function StudyAreasPage() {
     submitStudyArea,
     studyAreasMessage,
     setStudyAreasMessage,
-    setStudyAreasLoaded,
   } = useCreateStudyAreas();
 
-  useEffect(() => {
-    if (studyAreasAPIResponse.links) {
-      updateNavigationLinks(studyAreasAPIResponse.links);
-    } else {
-      setStudyAreasLoaded(false);
-    }
-  }, [studyAreasLoaded]);
+
   return (
     <div className={ style.study_area_content }>
       <h1 className={ style.study_areas_headtitle }>
@@ -99,11 +87,13 @@ function StudyAreasPage() {
         </div>
       </div>
           <>
-            <StudyAreasNavigationButtons />
+            <StudyAreasNavigationButtons
+              links={ studyAreas && studyAreas.links }
+            />
             <div className={ style.selected_filters }>
             </div>
             <StudyAreasDashboard
-              data={ studyAreas }
+              data={ studyAreas && studyAreas.data }
             />
             {
               studyAreaDeletionMode &&

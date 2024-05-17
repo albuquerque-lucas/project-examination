@@ -1,15 +1,24 @@
 'use client';
 
 import { createContext, useState, useMemo } from "react";
-import { ExaminationsContextType, ExaminationFilterList, ExaminationsQueryParams, EducationalLevel } from "../types/examinationTypes";
+import {
+  Examination,
+  ExaminationsContextType,
+  ExaminationFilterList,
+  ExaminationsQueryParams,
+  EducationalLevel,
+} from "../types/examinationTypes";
+import { PaginatedAPIResponse, NavigationLink } from "../types/responseTypes";
 import { FlashMessage } from "../types/messageTypes";
 
 
 type SetFilterMessage = (value: string | null) => void;
 
 const defaultValue: ExaminationsContextType = {
-  examinations: [],
+  examinations: null,
   setExaminations: () => {},
+  examinationNavLinks: null,
+  setExaminationNavLinks: () => {},
   dashboardDeletionMode: false,
   setDashboardDeletionMode: () => {},
   examinationToDelete: null,
@@ -39,7 +48,8 @@ interface ExaminationsProviderProps {
 }
 
 export default function ExaminationsProvider({ children }: ExaminationsProviderProps) {
-  const [examinations, setExaminations] = useState([]);
+  const [examinations, setExaminations] = useState<PaginatedAPIResponse<Examination> | null>(null);
+  const [examinationNavLinks, setExaminationNavLinks] = useState<NavigationLink[] | null>(null);
   const [dashboardDeletionMode, setDashboardDeletionMode] = useState(false);
   const [examinationToDelete, setExaminationToDelete] = useState<number | null>(null);
   const [selectedOrder, setSelectedOrder] = useState('desc');
@@ -68,6 +78,8 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
     return { 
     examinations,
     setExaminations,
+    examinationNavLinks,
+    setExaminationNavLinks,
     dashboardDeletionMode,
     setDashboardDeletionMode,
     examinationToDelete,
@@ -91,6 +103,7 @@ export default function ExaminationsProvider({ children }: ExaminationsProviderP
   }
   }, [
     examinations,
+    examinationNavLinks,
     dashboardDeletionMode,
     examinationToDelete,
     currentPage,

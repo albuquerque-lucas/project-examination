@@ -2,12 +2,15 @@
 
 import { createContext, useState, useMemo } from "react";
 import { NoticeContextType, Notice, NoticesQueryParams, NoticeFilterList } from "../types/noticeTypes";
+import { PaginatedAPIResponse, NavigationLink } from "../types/responseTypes";
 import { FlashMessage } from "../types/messageTypes";
 
 const defaultValue: NoticeContextType = {
-  notices: [],
+  notices: null,
   setNotices: () => {},
   filterList: [] as NoticeFilterList[],
+  noticesNavLinks: null,
+  setNoticesNavLinks: () => {},
   setFilterList: () => {},
   queryParams: {} as NoticesQueryParams,
   setQueryParams: () => {},
@@ -32,7 +35,8 @@ interface NoticesProviderProps {
 }
 
 export default function NoticesProvider({ children }: NoticesProviderProps) {
-  const [notices, setNotices] = useState<Notice[]>([]);
+  const [notices, setNotices] = useState<PaginatedAPIResponse<Notice> | null>(null);
+  const [noticesNavLinks, setNoticesNavLinks] = useState<NavigationLink[] | null>(null);
   const [filterList, setFilterList] = useState<NoticeFilterList[]>([]);
   const [queryParams, _setQueryParams] = useState<NoticesQueryParams>({});
   const [noticesLoaded, setNoticesLoaded] = useState(false);
@@ -58,6 +62,8 @@ export default function NoticesProvider({ children }: NoticesProviderProps) {
     return {
       notices,
       setNotices,
+      noticesNavLinks,
+      setNoticesNavLinks,
       filterList,
       setFilterList,
       queryParams,
@@ -77,6 +83,8 @@ export default function NoticesProvider({ children }: NoticesProviderProps) {
     }
   }, [
     notices,
+    noticesNavLinks,
+    setNoticesNavLinks,
     filterList,
     queryParams,
     noticesLoaded,

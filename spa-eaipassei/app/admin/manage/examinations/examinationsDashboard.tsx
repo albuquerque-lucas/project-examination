@@ -3,28 +3,30 @@
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
+import { Examination } from "@/app/lib/types/examinationTypes";
 import { ExaminationsContext } from "../../../lib/context/ExaminationsContext";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
-interface Exam {
-  id: number;
-  title: string;
-  institution: string;
-  educational_level: string;
-  active: boolean;
-}
-
 interface DashboardExaminationsProps {
-  data: Exam[] | {};
+  data: Examination[] | null;
 }
 
-export default function DashboardExaminations({ data }: DashboardExaminationsProps) {
+export default function ExaminationsDashboard({ data }: DashboardExaminationsProps) {
 
   const { setDashboardDeletionMode, setExaminationToDelete } = useContext(ExaminationsContext);
   const router = useRouter();
 
-  const navigateToExamPage = (id: number) => {
-    router.push(`/admin/manage/examinations/${id}`)
+  const navigateToExamPage = (id: number | string | undefined) => {
+    if (!id) return;
+    const numberId = Number(id);
+    router.push(`/admin/manage/examinations/${numberId}`)
+  }
+
+  const handleDeleteClick = (id: number | string | undefined) => {
+    if (!id) return;
+    const numberId = Number(id);
+    setExaminationToDelete(numberId);
+    setDashboardDeletionMode(true);
   }
 
   return (
@@ -45,7 +47,7 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
             </tr>
           </thead>
           <tbody>
-            {(data as Exam[]).map((item, index) => (
+            {(data as Examination[]).map((item, index) => (
               <tr key={index} onClick={ () => navigateToExamPage(item.id) }>
                   <td className={ style.id_column }>{item.id}</td>
                   <td className={ style.title_column }>{item.title}</td>
@@ -57,8 +59,7 @@ export default function DashboardExaminations({ data }: DashboardExaminationsPro
                       className={ style.dashboard_table__delete }
                       onClick={(event) => {
                         event.stopPropagation();
-                        setExaminationToDelete(item.id);
-                        setDashboardDeletionMode(true);
+                        handleDeleteClick(item.id);
                       }}
                     >
                       <MdDelete />

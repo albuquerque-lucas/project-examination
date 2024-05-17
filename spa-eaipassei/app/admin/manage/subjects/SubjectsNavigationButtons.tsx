@@ -1,25 +1,36 @@
 'use client';
+
 import React, { useContext, useEffect } from 'react';
-import { useNavigations } from '@/app/lib/hooks/useNavigations';
 import { SubjectsContext } from '@/app/lib/context/SubjectsContext';
 import { getAllSubjects } from '@/app/lib/api/subjectsAPI';
+import { NavigationButtonsProps } from '@/app/lib/types/navigationTypes';
+import { updateLinks } from '@/app/lib/utils/updateNavLinks';
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
-const SubjectsNavigationButtons: React.FC = () => {
-  const { navigationLinks, updateNavigationLinks } = useNavigations();
+const SubjectsNavigationButtons: React.FC<NavigationButtonsProps | null> = (props) => {
   const {
     currentPage,
     setCurrentPage,
     queryParams,
     filterList,
     setQueryParams,
-    setSubjectsLoaded,
     setSubjects,
   } = useContext(SubjectsContext);
 
   useEffect(() => {
   }, [currentPage]);
+
+  if (!props) {
+    return (
+      <div>
+      </div>
+    );
+  }
+
+  const { links } = props;
+
+  let linksList = updateLinks(links);
 
   const getPage = async (url: any, e: React.MouseEvent) => {
     e.preventDefault();
@@ -33,15 +44,14 @@ const SubjectsNavigationButtons: React.FC = () => {
         ...queryParams,
         page: page ? Number(page) : undefined,
       };
-      console.log('URL OBJECT', urlObj);
-      console.log('UPDATED QUERY PARAMS', updatedQueryParams);
       
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
 
       const response = await getAllSubjects(url, updatedQueryParams);
-      setSubjects(response.data);
-      updateNavigationLinks(response.links);
-      // setSubjectsLoaded(false);
+      setSubjects(response);
+      if (response) {
+        linksList = updateLinks(response.links);
+      }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -50,8 +60,8 @@ const SubjectsNavigationButtons: React.FC = () => {
   return (
     <div className={ style.examinations_navbuttons }>
       {
-        navigationLinks && navigationLinks.length > 0 ? (
-          navigationLinks.map((item, index) => (
+        linksList && linksList.length > 0 ? (
+          linksList.map((item, index) => (
             <motion.button
               whileTap={ item.active || item.url === null ? {} : { scale: 0.9 } }
               key={ index }

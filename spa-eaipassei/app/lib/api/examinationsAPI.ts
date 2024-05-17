@@ -2,6 +2,7 @@
 
 import Axios from "axios";
 import { Examination } from "../types/examinationTypes";
+import { PaginatedAPIResponse } from "../types/responseTypes";
 
 const axios = Axios.create({
 	withCredentials: true,
@@ -40,16 +41,18 @@ export const getAllExaminations = async (params: Record<string, any> = {}) => {
   }
 }
 
-export const getExaminationsByPage = async (url: string, params: Record<string, any> = {}) => {
+export const getExaminations = async (url: string, params: Record<string, any> = {}): Promise<PaginatedAPIResponse<Examination> | null> => {
   try {
     const resp = await axios.get(url, { params });
     if (resp.status >= 200 && resp.status < 300) {
       return resp.data;
     }
+    return null;
   } catch (error: any) {
     if (error.response && error.response.status === 401) {
       console.log('Erro ao buscar os concursos', error);
     }
+    return null;
   }
 }
   export const getExaminationById = async (id: string) => {

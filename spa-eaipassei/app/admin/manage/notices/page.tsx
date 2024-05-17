@@ -1,17 +1,14 @@
 'use client';
 
-import { useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchNotices } from "@/app/lib/hooks/useFetchNotices";
-import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { useCreateNotices } from "@/app/lib/hooks/useCreateNotices";
 import { useDeleteNotices } from "@/app/lib/hooks/useDeleteNotices";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
-import DashboardNotices from "./dashboardNotices";
+import DashboardNotices from "./noticesDashboard";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import NoticeNavigationButtons from "./NoticeNavigationButton";
 import DeleteNoticePopUp from "@/app/lib/components/ConfirmationPopUp/DeleteNoticePopUp";
-import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
 import { motion, AnimatePresence } from 'framer-motion';
 import style from '@/app/ui/admin/pages/notices/notices.module.css';
 import MessageBox from "@/app/lib/components/Message/MessageBox";
@@ -19,12 +16,9 @@ import MessageBox from "@/app/lib/components/Message/MessageBox";
 function NoticesPage() {
   const router = useRouter();
   const { noticeDeletionMode } = useDeleteNotices();
-  const { updateNavigationLinks } = useNavigations();
   const {
     notices,
-    noticesList,
     isLoading,
-    noticesLoaded,
     currentPage,
   } = useFetchNotices();
   const {
@@ -35,17 +29,7 @@ function NoticesPage() {
     submitNotice,
     noticeMessage,
     setNoticeMessage,
-    setNoticesLoaded,
   } = useCreateNotices();
-  const {examinationsLoaded} = useContext(ExaminationsContext);
-
-  useEffect(() => {
-    if (noticesList.links) {
-      updateNavigationLinks(noticesList.links);
-    } else {
-      setNoticesLoaded(false);
-    }
-  }, [noticesLoaded, examinationsLoaded, noticeMessage]);
 
   return (
     <div className="notices_content">
@@ -105,11 +89,13 @@ function NoticesPage() {
           <SpinnerLoader />
         ) : (
           <>
-            <NoticeNavigationButtons />
+            <NoticeNavigationButtons
+              links={ notices && notices.links }
+            />
             <div className={ style.selected_filters }>
             </div>
             <DashboardNotices
-              data={ notices }
+              data={ notices && notices.data }
             />
             {
               noticeDeletionMode &&

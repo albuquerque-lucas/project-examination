@@ -27,8 +27,6 @@ class ExamFactory extends Factory
             'title' => $this->faker->words(2, true),
             'description' => $this->faker->text(100),
             'date' => $this->faker->date(),
-            'start_time' => $examStartTime,
-            'end_time' => Carbon::parse($examStartTime)->addHours(4),
         ];
     }
 }

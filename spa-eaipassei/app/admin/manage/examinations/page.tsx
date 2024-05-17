@@ -2,10 +2,9 @@
 
 import { useEffect, useContext } from "react";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
-import NavigationButtons from "@/app/lib/components/NavigationButtons/navigationButtons";
-import DashboardExaminations from './dashboardExaminations';
+import ExaminationsNavButtons from "./examinationsNavButtons";
+import ExaminationsDashboard from './examinationsDashboard';
 import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
-import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { useRouter } from "next/navigation";
 import { useFetchExaminations } from "@/app/lib/hooks/useFetchExaminations";
@@ -17,31 +16,17 @@ import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 
 function ExaminationsPage() {
-  console.log('A pagina Examinations foi renderizada.');
   const router = useRouter();
   const {
-    examinations,
     flashMessage,
     setFlashMessage,
   } = useContext(ExaminationsContext);
 
-  const { updateNavigationLinks } = useNavigations();
-
   const {
-    examinationList,
+    examinations,
     isLoading,
-    examinationsLoaded,
     currentPage,
-    setExaminationsLoaded,
   } = useFetchExaminations();
-
-  useEffect(() => {
-    if (examinationList.links) {
-      updateNavigationLinks(examinationList.links);
-    } else {
-      setExaminationsLoaded(false);
-    }
-  }, [examinationsLoaded]);
 
   return (
       <div className="examinations_content">
@@ -87,12 +72,14 @@ function ExaminationsPage() {
           <SpinnerLoader />
         ) : (
           <>
-            <NavigationButtons />
+            <ExaminationsNavButtons
+              links={ examinations && examinations.links }
+            />
             <div className={ style.selected_filters }>
             <SelectedFiltersBar />
             </div>
-            <DashboardExaminations
-            data={ examinations }
+            <ExaminationsDashboard
+              data={ examinations && examinations.data }
             />
           </>
         )}

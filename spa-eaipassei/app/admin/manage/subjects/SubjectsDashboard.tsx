@@ -4,7 +4,7 @@ import { MdDelete } from "react-icons/md";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
 interface SubjectsDashboardProps {
-  data: Subject[] | {};
+  data: Subject[] | null;
 }
 
 export default function SubjectsDashboard({ data }: SubjectsDashboardProps) {

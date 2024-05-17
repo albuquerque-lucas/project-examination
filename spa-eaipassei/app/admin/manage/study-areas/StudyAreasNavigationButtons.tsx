@@ -1,26 +1,37 @@
 'use client';
+
 import React, { useContext, useEffect } from 'react';
-import { useNavigations } from '@/app/lib/hooks/useNavigations';
 import { StudyAreasContext } from '@/app/lib/context/StudyAreasContext';
 import { getAllAreas } from '@/app/lib/api/StudyAreasAPI';
+import { NavigationButtonsProps } from '@/app/lib/types/navigationTypes';
+import { updateLinks } from '@/app/lib/utils/updateNavLinks';
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
-const StudyAreasNavigationButtons: React.FC = () => {
-  const { navigationLinks, updateNavigationLinks } = useNavigations();
 
+const StudyAreasNavigationButtons: React.FC<NavigationButtonsProps | null> = (props) => {
   const {
     currentPage,
     setCurrentPage,
     queryParams,
     filterList,
     setQueryParams,
-    setStudyAreasLoaded,
     setStudyAreas,
   } = useContext(StudyAreasContext);
 
   useEffect(() => {
   }, [currentPage]);
+
+  if (!props) {
+    return (
+      <div>
+      </div>
+    );
+  }
+
+  const { links } = props;
+
+  let linksList = updateLinks(links);
 
   const getPage = async (url: any, e: React.MouseEvent) => {
     e.preventDefault();
@@ -38,9 +49,10 @@ const StudyAreasNavigationButtons: React.FC = () => {
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
   
       const response = await getAllAreas(url, updatedQueryParams);
-      setStudyAreas(response.data);
-      updateNavigationLinks(response.links);
-      setStudyAreasLoaded(false);
+      setStudyAreas(response);
+      if (response) {
+        linksList = updateLinks(response.links);
+      }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -49,8 +61,8 @@ const StudyAreasNavigationButtons: React.FC = () => {
   return (
     <div className={ style.examinations_navbuttons }>
       {
-        navigationLinks && navigationLinks.length > 0 ? (
-          navigationLinks.map((item, index) => (
+        linksList && linksList.length > 0 ? (
+          linksList.map((item, index) => (
             <motion.button
             whileTap={ item.active || item.url === null ? {} : { scale: 0.9 } }
               key={ index }

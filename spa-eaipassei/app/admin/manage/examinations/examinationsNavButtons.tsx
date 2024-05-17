@@ -1,28 +1,36 @@
 'use client';
 
 import React, { useContext, useEffect } from 'react';
-import { ExaminationsContext } from '../../context/ExaminationsContext';
-import { useNavigations } from '../../hooks/useNavigations';
-import { getExaminationsByPage } from '../../api/examinationsAPI';
+import { getExaminations } from '@/app/lib/api/examinationsAPI';
+import { ExaminationsContext } from '@/app/lib/context/ExaminationsContext';
+import { NavigationButtonsProps } from '@/app/lib/types/navigationTypes';
+import { updateLinks } from '@/app/lib/utils/updateNavLinks';
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
-
-const NavigationButtons: React.FC = () => {
-  const { navigationLinks, updateNavigationLinks } = useNavigations();
-  
+const ExaminationsNavButtons: React.FC<NavigationButtonsProps | null> = (props) => {
   const {
     currentPage,
     setCurrentPage,
     queryParams,
     filterList,
     setQueryParams,
-    setExaminationsLoaded,
     setExaminations,
   } = useContext(ExaminationsContext);
   
   useEffect(() => {
   }, [currentPage]);
+
+  if (!props) {
+    return (
+      <div>
+      </div>
+    );
+  }
+
+  const { links } = props;
+
+  let linksList = updateLinks(links);
 
   const getPage = async (url: any, e: React.MouseEvent) => {
     e.preventDefault();
@@ -39,10 +47,11 @@ const NavigationButtons: React.FC = () => {
 
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
   
-      const response = await getExaminationsByPage(url, updatedQueryParams);
-      setExaminations(response.data);
-      updateNavigationLinks(response.links);
-      setExaminationsLoaded(false);
+      const response = await getExaminations(url, updatedQueryParams);
+      setExaminations(response);
+      if (response) {
+        linksList = updateLinks(response.links);
+      }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -51,8 +60,8 @@ const NavigationButtons: React.FC = () => {
   return (
     <div className={ style.examinations_navbuttons }>
       {
-        navigationLinks && navigationLinks.length > 0 ? (
-          navigationLinks.map((item, index) => (
+        linksList && linksList.length > 0 ? (
+          linksList.map((item, index) => (
             <motion.button
             whileTap={ item.active || item.url === null ? {} : { scale: 0.9 } }
               key={ index }
@@ -71,4 +80,4 @@ const NavigationButtons: React.FC = () => {
   )
 }
 
-export default NavigationButtons;
+export default ExaminationsNavButtons;

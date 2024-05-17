@@ -8,10 +8,15 @@ import {
   StudyAreasFilterList,
 } from "../types/studyAreasTypes";
 import { FlashMessage } from "../types/messageTypes";
+import { PaginatedAPIResponse, NavigationLink } from "../types/responseTypes";
 
 const defaultValue: StudyAreaContextType = {
-  studyAreas: [],
+  studyAreas: null,
   setStudyAreas: () => {},
+  notPaginatedStudyAreas: null,
+  setNotPaginatedStudyAreas: () => {},
+  studyAreasNavLinks: null,
+  setStudyAreasNavLinks: () => {},
   queryParams: {} as StudyAreasQueryParams,
   setQueryParams: () => {},
   filterList: [] as StudyAreasFilterList[],
@@ -37,7 +42,9 @@ interface StudyAreasProviderProps {
 }
 
 export default function StudyAreasProvider({ children }: StudyAreasProviderProps) {
-  const [studyAreas, setStudyAreas] = useState<StudyArea[]>([]);
+  const [studyAreas, setStudyAreas] = useState<PaginatedAPIResponse<StudyArea> | null>(null);
+  const [notPaginatedStudyAreas, setNotPaginatedStudyAreas] = useState<StudyArea[] | null>(null); // [1
+  const [studyAreasNavLinks, setStudyAreasNavLinks] = useState<NavigationLink[] | null>(null);
   const [queryParams, _setQueryParams] = useState<StudyAreasQueryParams>({});
   const [filterList, setFilterList] = useState<StudyAreasFilterList[]>([]);
   const [studyAreasLoaded, setStudyAreasLoaded] = useState(false);
@@ -61,6 +68,8 @@ export default function StudyAreasProvider({ children }: StudyAreasProviderProps
     return {
       studyAreas,
       setStudyAreas,
+      studyAreasNavLinks,
+      setStudyAreasNavLinks,
       queryParams,
       setQueryParams,
       filterList,
@@ -77,9 +86,12 @@ export default function StudyAreasProvider({ children }: StudyAreasProviderProps
       setStudyAreaDeletionList,
       studyAreasMessage,
       setStudyAreasMessage,
+      notPaginatedStudyAreas,
+      setNotPaginatedStudyAreas,
     }
   }, [
     studyAreas,
+    studyAreasNavLinks,
     queryParams,
     filterList,
     studyAreasLoaded,
@@ -88,6 +100,7 @@ export default function StudyAreasProvider({ children }: StudyAreasProviderProps
     studyAreaDeletionMode,
     studyAreaDeletionList,
     studyAreasMessage,
+    notPaginatedStudyAreas,
   ]);
 
   return (

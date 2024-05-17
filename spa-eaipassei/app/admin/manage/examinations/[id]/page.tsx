@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { getExaminationById } from "@/app/lib/api/examinationsAPI";
+import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
 
 type Examination = {
   id: number;
@@ -48,8 +49,18 @@ function ExaminationDisplay() {
   return (
     <>
     { examination ? 
-      <div>
-        <h1>{ examination.title }</h1>
+      <div className={ style.display_page }>
+        <h1 className={ style.examination_headtitle }>
+          { examination.title }
+        </h1>
+        <section className={ style.examination_edit__messagebox }>
+
+        </section>
+        <section className={ style.examination_edit__section }>
+          <div className={ style.examination_edit__info}>
+
+          </div>
+        </section>
       </div>
     :
     <h1>Loading</h1>
