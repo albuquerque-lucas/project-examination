@@ -1,26 +1,37 @@
 'use client';
+
 import React, { useContext, useEffect } from 'react';
-import { useNavigations } from '@/app/lib/hooks/useNavigations';
 import { NoticesContext } from '@/app/lib/context/NoticesContext';
+import { updateLinks } from '@/app/lib/utils/updateNavLinks';
 import { motion } from 'framer-motion';
 import { getAllNotices } from '@/app/lib/api/noticesAPI';
+import { NavigationButtonsProps } from '@/app/lib/types/navigationTypes';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
 
-const NoticeNavigationButtons: React.FC = () => {
-  const { navigationLinks, updateNavigationLinks } = useNavigations();
+const NoticeNavigationButtons: React.FC<NavigationButtonsProps | null> = (props) => {
   const {
     currentPage,
     setCurrentPage,
     queryParams,
     filterList,
     setQueryParams,
-    setNoticesLoaded,
     setNotices,
   } = useContext(NoticesContext);
 
   useEffect(() => {
   }, [currentPage]);
+
+  if (!props) {
+    return (
+      <div>
+      </div>
+    );
+  }
+
+  const { links } = props;
+
+  let linksList = updateLinks(links);
 
   const getPage = async (url: any, e: React.MouseEvent) => {
     e.preventDefault();
@@ -39,9 +50,10 @@ const NoticeNavigationButtons: React.FC = () => {
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
   
       const response = await getAllNotices(url, updatedQueryParams);
-      setNotices(response.data);
-      updateNavigationLinks(response.links);
-      setNoticesLoaded(false);
+      setNotices(response);
+      if (response) {
+        linksList = updateLinks(response.links);
+      }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -50,8 +62,8 @@ const NoticeNavigationButtons: React.FC = () => {
   return (
     <div className={ style.examinations_navbuttons }>
       {
-        navigationLinks && navigationLinks.length > 0 ? (
-          navigationLinks.map((item, index) => (
+        linksList && linksList.length > 0 ? (
+          linksList.map((item, index) => (
             <motion.button
             whileTap={ item.active || item.url === null ? {} : { scale: 0.9 } }
               key={ index }

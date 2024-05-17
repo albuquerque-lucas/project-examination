@@ -1,4 +1,5 @@
 import { FlashMessage } from "./messageTypes";
+import { PaginatedAPIResponse, NavigationLink } from "./responseTypes";
 
 export type Notice = {
   id: number;
@@ -17,8 +18,10 @@ export type NoticeFormRequest = {
 };
 
 export type NoticeContextType = {
-  notices: Notice[];
-  setNotices: (notices: Notice[]) => void;
+  notices: PaginatedAPIResponse<Notice> | null;
+  setNotices: (notices: PaginatedAPIResponse<Notice> | null) => void;
+  noticesNavLinks: NavigationLink[] | null;
+  setNoticesNavLinks: (noticesNavLinks: NavigationLink[] | null) => void;
   filterList: NoticeFilterList[];
   setFilterList: React.Dispatch<React.SetStateAction<NoticeFilterList[]>>;
   queryParams: NoticesQueryParams;

@@ -5,10 +5,10 @@ import { MdDelete } from "react-icons/md";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
 interface DashboardNoticesProps {
-  data: Notice[] | {};
+  data: Notice[] | null;
 }
 
-export default function DashboardNotices({ data }: DashboardNoticesProps) {
+export default function NoticesDashboard({ data }: DashboardNoticesProps) {
   const { setNoticeDeletionMode, setNoticeDeletionList } = useDeleteNotices();
 
   const router = useRouter();

@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchStudyAreas } from "@/app/lib/hooks/useFetchStudyAreas";
 import { useCreateStudyAreas } from "@/app/lib/hooks/useCreateStudyAreas";
-import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { useDeleteStudyAreas } from "@/app/lib/hooks/useDeleteStudyAreas";
 import { motion, AnimatePresence } from 'framer-motion';
 import DeleteStudyAreasPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteStudyAreasPopUp";
@@ -16,7 +15,6 @@ import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 function StudyAreasPage() {
   const router = useRouter();
-  // const { updateNavigationLinks } = useNavigations();
   const { studyAreaDeletionMode } = useDeleteStudyAreas();
   const {
     studyAreas,

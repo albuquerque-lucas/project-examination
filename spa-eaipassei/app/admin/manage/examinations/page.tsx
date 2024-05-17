@@ -5,8 +5,6 @@ import withAuth from "@/app/lib/components/withAuth/withAuth";
 import ExaminationsNavButtons from "./examinationsNavButtons";
 import ExaminationsDashboard from './examinationsDashboard';
 import { ExaminationsContext } from "@/app/lib/context/ExaminationsContext";
-import { useNavigations } from "@/app/lib/hooks/useNavigations";
-import { useNavExaminations } from "@/app/lib/hooks/useNavExaminations";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import { useRouter } from "next/navigation";
 import { useFetchExaminations } from "@/app/lib/hooks/useFetchExaminations";

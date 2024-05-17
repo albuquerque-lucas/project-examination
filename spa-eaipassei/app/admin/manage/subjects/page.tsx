@@ -1,14 +1,12 @@
 'use client';
 
 import withAuth from "@/app/lib/components/withAuth/withAuth";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchSubjects } from "@/app/lib/hooks/useFetchSubjects";
 import { useDeleteSubjects } from "@/app/lib/hooks/useDeleteSubjects";
 import { useCreateSubjects } from "@/app/lib/hooks/useCreateSubjects";
 import { useFetchStudyAreas } from "@/app/lib/hooks/useFetchStudyAreas";
 import { useFetchEducationalLevels } from "@/app/lib/hooks/useFetchEducationalLevels";
-import { useNavigations } from "@/app/lib/hooks/useNavigations";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import SubjectsNavigationButtons from "./SubjectsNavigationButtons";
 import DeleteSubjectsPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteSubjectsPopUp";
