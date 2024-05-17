@@ -49,7 +49,7 @@ const StudyAreasNavigationButtons: React.FC<NavigationButtonsProps | null> = (pr
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
   
       const response = await getAllAreas(url, updatedQueryParams);
-      setStudyAreas(response.data);
+      setStudyAreas(response);
       if (response) {
         linksList = updateLinks(response.links);
       }

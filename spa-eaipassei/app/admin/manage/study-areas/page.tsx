@@ -29,14 +29,6 @@ function StudyAreasPage() {
     setStudyAreasMessage,
   } = useCreateStudyAreas();
 
-  // useEffect(() => {
-  //   if (studyAreasAPIResponse.links) {
-  //     updateNavigationLinks(studyAreasAPIResponse.links);
-  //   } else {
-  //     setStudyAreasLoaded(false);
-  //   }
-  // }, [studyAreasLoaded, studyAreasAPIResponse.links]);
-
 
   return (
     <div className={ style.study_area_content }>
