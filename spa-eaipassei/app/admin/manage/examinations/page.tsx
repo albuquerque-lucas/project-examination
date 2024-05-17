@@ -81,7 +81,7 @@ function ExaminationsPage() {
             <SelectedFiltersBar />
             </div>
             <ExaminationsDashboard
-            data={ examinations && examinations.data }
+              data={ examinations && examinations.data }
             />
           </>
         )}

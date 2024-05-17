@@ -16,12 +16,10 @@ import MessageBox from "@/app/lib/components/Message/MessageBox";
 
 function StudyAreasPage() {
   const router = useRouter();
-  const { updateNavigationLinks } = useNavigations();
+  // const { updateNavigationLinks } = useNavigations();
   const { studyAreaDeletionMode } = useDeleteStudyAreas();
-  const { 
-    studyAreasLoaded,
+  const {
     studyAreas,
-    studyAreasAPIResponse,
   } = useFetchStudyAreas();
 
   const {
@@ -34,13 +32,15 @@ function StudyAreasPage() {
     setStudyAreasLoaded,
   } = useCreateStudyAreas();
 
-  useEffect(() => {
-    if (studyAreasAPIResponse.links) {
-      updateNavigationLinks(studyAreasAPIResponse.links);
-    } else {
-      setStudyAreasLoaded(false);
-    }
-  }, [studyAreasLoaded, studyAreasAPIResponse.links]);
+  // useEffect(() => {
+  //   if (studyAreasAPIResponse.links) {
+  //     updateNavigationLinks(studyAreasAPIResponse.links);
+  //   } else {
+  //     setStudyAreasLoaded(false);
+  //   }
+  // }, [studyAreasLoaded, studyAreasAPIResponse.links]);
+
+
   return (
     <div className={ style.study_area_content }>
       <h1 className={ style.study_areas_headtitle }>
@@ -98,11 +98,13 @@ function StudyAreasPage() {
         </div>
       </div>
           <>
-            <StudyAreasNavigationButtons />
+            <StudyAreasNavigationButtons
+              links={ studyAreas && studyAreas.links }
+            />
             <div className={ style.selected_filters }>
             </div>
             <StudyAreasDashboard
-              data={ studyAreas }
+              data={ studyAreas && studyAreas.data }
             />
             {
               studyAreaDeletionMode &&

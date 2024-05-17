@@ -37,7 +37,7 @@ export const useFetchExaminations = () => {
     examinations,
     isLoading,
     examinationsLoaded,
-    currentPage,
     setExaminationsLoaded,
+    currentPage,
   };
 }

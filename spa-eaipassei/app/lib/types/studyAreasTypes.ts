@@ -1,5 +1,6 @@
 import { Subject } from "./subjectTypes";
 import { FlashMessage } from "./messageTypes";
+import { PaginatedAPIResponse, NavigationLink } from "./responseTypes";
 
 export type StudyArea = {
   id: number;
@@ -8,8 +9,12 @@ export type StudyArea = {
 }
 
 export type StudyAreaContextType = {
-  studyAreas: StudyArea[];
-  setStudyAreas: (studyAreas: StudyArea[]) => void;
+  studyAreas: PaginatedAPIResponse<StudyArea> | null;
+  setStudyAreas: (studyAreas: PaginatedAPIResponse<StudyArea> | null) => void;
+  notPaginatedStudyAreas: StudyArea[] | null;
+  setNotPaginatedStudyAreas: (notPaginatedStudyAreas: StudyArea[] | null) => void;
+  studyAreasNavLinks: NavigationLink[] | null;
+  setStudyAreasNavLinks: (studyAreasNavLinks: NavigationLink[] | null) => void;
   queryParams: StudyAreasQueryParams;
   setQueryParams: (filterList: StudyAreasFilterList[]) => void;
   filterList: StudyAreasFilterList[];

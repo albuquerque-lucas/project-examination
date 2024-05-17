@@ -5,7 +5,7 @@ import { MdDelete } from "react-icons/md";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
 interface StudyAreasDashboardProps {
-  data: StudyArea[] | {};
+  data: StudyArea[] | null;
 }
 
 export default function StudyAreasDashboard({ data }: StudyAreasDashboardProps) {

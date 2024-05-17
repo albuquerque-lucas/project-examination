@@ -16,10 +16,12 @@ export const getAllAreas = async (url: string, params: any) => {
     if (resp.status >= 200 && resp.status < 300) {
       return resp.data;
     }
+    return null;
   } catch (error: any) {
     if (error.response && error.response.status >= 400 && error.response.status < 500) {
       console.log('Erro ao buscar as areas', error);
     }
+    return null;
   }
 }
 

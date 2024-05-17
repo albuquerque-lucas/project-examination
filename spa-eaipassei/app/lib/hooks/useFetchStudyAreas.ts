@@ -5,11 +5,11 @@ import { StudyArea } from "../types/studyAreasTypes";
 
 export const useFetchStudyAreas = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [studyAreasAPIResponse, setStudyAreasAPIResponse] = useState({} as any);
-  const [notPaginatedAreasList, setNotPaginatedList] = useState<StudyArea[]>([]);
   const {
     studyAreas,
     setStudyAreas,
+    notPaginatedStudyAreas,
+    setNotPaginatedStudyAreas,
     queryParams,
     studyAreasLoaded,
     setStudyAreasLoaded,
@@ -25,14 +25,13 @@ export const useFetchStudyAreas = () => {
             getAllAreas(`${process.env.NEXT_PUBLIC_API_GET_STUDY_AREAS_LIST}`, queryParams),
             getAllAreas(`${process.env.NEXT_PUBLIC_API_GET_STUDY_AREAS_LIST}`, { order: 'asc', pagination: false})
           ]);
-          setStudyAreasAPIResponse(fetchedStudyAreasList);
-          setStudyAreas(fetchedStudyAreasList.data);
-          setNotPaginatedList(fetchedNotPaginatedAreasList);
+          setStudyAreas(fetchedStudyAreasList);
+          setNotPaginatedStudyAreas(fetchedNotPaginatedAreasList);
           setStudyAreasLoaded(true);
         }
       } catch (error: any) {
         console.log('Erro ao buscar as areas', error);
-        setStudyAreas([]);
+        setStudyAreas(null);
       } finally {
         setIsLoading(false);
       }
@@ -43,12 +42,11 @@ export const useFetchStudyAreas = () => {
 
   return {
     studyAreas,
-    studyAreasAPIResponse,
     isLoading,
     studyAreasLoaded,
     setStudyAreasLoaded,
     currentPage,
     queryParams,
-    notPaginatedAreasList,
+    notPaginatedStudyAreas,
   };
 }
