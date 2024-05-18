@@ -2,7 +2,7 @@
 
 import { createContext, useState, useMemo } from "react";
 import { NoticeContextType, Notice, NoticesQueryParams, NoticeFilterList } from "../types/noticeTypes";
-import { PaginatedAPIResponse, NavigationLink } from "../types/responseTypes";
+import { PaginatedAPIResponse, NavigationLink } from "../types/entityContextTypes";
 import { FlashMessage } from "../types/messageTypes";
 
 const defaultValue: NoticeContextType = {

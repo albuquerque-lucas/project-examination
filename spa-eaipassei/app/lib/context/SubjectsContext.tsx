@@ -7,7 +7,7 @@ import {
   SubjectsQueryParams,
   SubjectsFilterList
 } from "../types/subjectTypes";
-import { PaginatedAPIResponse, NavigationLink } from "../types/responseTypes";
+import { PaginatedAPIResponse, NavigationLink } from "../types/entityContextTypes";
 import { FlashMessage } from "../types/messageTypes";
 
 const defaultValue: SubjectContextType = {

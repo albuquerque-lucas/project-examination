@@ -8,7 +8,7 @@ import {
   ExaminationsQueryParams,
   EducationalLevel,
 } from "../types/examinationTypes";
-import { PaginatedAPIResponse, NavigationLink } from "../types/responseTypes";
+import { PaginatedAPIResponse, NavigationLink } from "../types/entityContextTypes";
 import { FlashMessage } from "../types/messageTypes";
 
 

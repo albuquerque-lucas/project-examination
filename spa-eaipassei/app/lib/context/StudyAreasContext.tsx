@@ -8,7 +8,7 @@ import {
   StudyAreasFilterList,
 } from "../types/studyAreasTypes";
 import { FlashMessage } from "../types/messageTypes";
-import { PaginatedAPIResponse, NavigationLink } from "../types/responseTypes";
+import { PaginatedAPIResponse, NavigationLink } from "../types/entityContextTypes";
 
 const defaultValue: StudyAreaContextType = {
   studyAreas: null,

@@ -2,7 +2,7 @@
 
 import Axios from "axios";
 import { Examination } from "../types/examinationTypes";
-import { PaginatedAPIResponse } from "../types/responseTypes";
+import { PaginatedAPIResponse } from "../types/entityContextTypes";
 
 const axios = Axios.create({
 	withCredentials: true,

@@ -1,4 +1,4 @@
-import { NavigationLink } from "../types/responseTypes";
+import { NavigationLink } from "../types/entityContextTypes";
 
 export function updateLinks(links: NavigationLink[] | null): NavigationLink[] | null {
   if (!links) return null;
