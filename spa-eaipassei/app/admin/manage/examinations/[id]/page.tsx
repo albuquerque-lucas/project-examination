@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { getExaminationById } from "@/app/lib/api/examinationsAPI";
 import { DetailedExamination } from "@/app/lib/types/examinationTypes";
+import { FaEye, FaTrashAlt } from "react-icons/fa";
+import { BiSolidDownArrowSquare } from "react-icons/bi";
+import { motion } from "framer-motion";
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
 
 function ExaminationDisplay() {
@@ -30,8 +33,6 @@ function ExaminationDisplay() {
       fetchExamination();
     }
   }, []);
-
-  console.log(id);
   return (
     <>
     { examination ? 
@@ -52,12 +53,23 @@ function ExaminationDisplay() {
                   examination.exam_list.map((exam, index) => {
                     return (
                       <div key={ index } className={ style.examination_edit_exam }>
-                        <div className={ style.examination_edit_exam__title }>
+                        <div className={ style.examination_edit_exam__info }>
                           <h4>{ exam.title }</h4>
+                          <p>Questoes: { exam.questions_count }</p>
                         </div>
                         <div className={ style.examination_edit_exam__actions }>
-                          <button>Ver</button>
-                          <button>Remover</button>
+                          <motion.button
+                          className={ style.exam_actions_visualize }
+                            whileTap={ { scale: 0.9 } }
+                          >
+                            <FaEye />
+                          </motion.button>
+                          <motion.button
+                            className={ style.exam_actions__view_more }
+                            whileTap={ { scale: 0.9 } }
+                          >
+                            <BiSolidDownArrowSquare />
+                          </motion.button>
                         </div>
                       </div>
                     )

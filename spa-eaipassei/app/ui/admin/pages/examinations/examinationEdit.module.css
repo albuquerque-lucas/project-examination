@@ -31,7 +31,6 @@
   margin: 7rem 0 3rem;
   display: flex;
   color: black;
-  background-color: red;
   text-align: start;
 }
 
@@ -46,10 +45,10 @@
 }
 
 .examination_edit_exams_list {
-  background-color: blue;
   content: '';
   width: 100%;
   padding: 0 1rem;
+  margin: 1rem 0;
 
 }
 
@@ -58,4 +57,53 @@
   width: 60%;
   min-height: 5rem;
   border: 2px solid black;
+}
+
+.examination_edit_exam {
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+  min-height: 3rem;
+  align-items: center;
+  padding: 0 0.5rem;
+  cursor: pointer;
+}
+
+.examination_edit_exam:hover {
+  background-color: var(--background-list-hover);
+}
+
+.examination_edit_exam__info {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  padding: 0 1rem;
+}
+
+.examination_edit_exam__actions {
+  height: 3rem;
+  width: 30%;
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+}
+
+.exam_actions_visualize {
+  background-color: var(--primary-button-color);
+}
+
+.exam_actions__view_more {
+  background-color: var(--secondary-button-color);
+}
+
+.examination_edit_exam__actions button {
+  color: white;
+  margin: 0 0.2rem;
+  padding: 0.3rem;
+  border-radius: var(--default-border-radius);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.1rem;
 }
