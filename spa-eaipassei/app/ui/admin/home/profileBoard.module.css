@@ -4,10 +4,11 @@
   margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  /* background-color: red; */
 }
 
-.panel_case h3 {
-  margin: 3rem 0 5rem 0;
+.panel_case h2 {
+  align-self: flex-start;
+  margin: 3rem 0 5rem 1rem;
+  color: var(--secondary-text-color);
+  font-weight: var(--font-light);
 }

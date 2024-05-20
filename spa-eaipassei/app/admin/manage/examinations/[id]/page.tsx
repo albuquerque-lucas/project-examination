@@ -3,26 +3,12 @@
 import { useState, useEffect } from "react";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { getExaminationById } from "@/app/lib/api/examinationsAPI";
+import { DetailedExamination } from "@/app/lib/types/examinationTypes";
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
-
-type Examination = {
-  id: number;
-  title: string;
-  institution: string;
-  educational_level: string;
-  active: boolean;
-  exams_count: number;
-  exams_start_date: string;
-  exams_end_date: string;
-  registration_start_date: string;
-  registration_end_date: string;
-  study_areas: Array<{ id: number; area: string }>;
-  exam_list: Array<any>; 
-}
 
 function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
-  const [examination, setExamination] = useState<Examination | null>(null);
+  const [examination, setExamination] = useState<DetailedExamination | null>(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -36,8 +22,8 @@ function ExaminationDisplay() {
           const result = await getExaminationById(id);
           setExamination(result);
           console.log('RESULTADO', result);
-        } catch (err: any) {
-          setError(err);
+        } catch (error: any) {
+          setError(error);
         }
       }
 
@@ -57,7 +43,30 @@ function ExaminationDisplay() {
 
         </section>
         <section className={ style.examination_edit__section }>
-          <div className={ style.examination_edit__info}>
+          <div className={ style.examination_edit__exams_list__container }>
+            <h3>Provas</h3>
+            <div className={ style.examination_edit_exams_list }>
+              {
+                examination &&
+                (
+                  examination.exam_list.map((exam, index) => {
+                    return (
+                      <div key={ index } className={ style.examination_edit_exam }>
+                        <div className={ style.examination_edit_exam__title }>
+                          <h4>{ exam.title }</h4>
+                        </div>
+                        <div className={ style.examination_edit_exam__actions }>
+                          <button>Ver</button>
+                          <button>Remover</button>
+                        </div>
+                      </div>
+                    )
+                  })
+                )
+              }
+            </div>
+          </div>
+          <div className={ style.examination_edit_exam_display }>
 
           </div>
         </section>

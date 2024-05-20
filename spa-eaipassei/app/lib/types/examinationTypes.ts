@@ -11,6 +11,21 @@ export type Examination = {
   notice?: File | null;
 };
 
+export type DetailedExamination = {
+  id: number;
+  title: string;
+  institution: string;
+  educational_level: string;
+  active: boolean;
+  exams_count: number;
+  exams_start_date: string;
+  exams_end_date: string;
+  registration_start_date: string;
+  registration_end_date: string;
+  study_areas: Array<{ id: number; area: string }>;
+  exam_list: Array<any>;
+}
+
 export type EducationalLevel = {
   id: number;
   name: string;

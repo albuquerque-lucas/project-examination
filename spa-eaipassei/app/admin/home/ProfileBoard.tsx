@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { User } from '@/app/lib/types/userTypes';
-import style from '@/app/ui/admin/home/profileBoard.module.css';
 import EditProfileField from './EditProfileField';
 import ImageUploadField from './ImageUploadField';
-import ShowcaseProfileField from './ShowcaseProfileField';
 import useUpdateUser from '@/app/lib/hooks/useUpdateUser';
 import { motion } from 'framer-motion';
+import style from '@/app/ui/admin/home/profileBoard.module.css';
 
 function ProfileBoard({ user }: { user: User}) {
   const {
@@ -30,7 +29,7 @@ function ProfileBoard({ user }: { user: User}) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <h3>Alterar Informações de Perfil</h3>
+      <h2>Perfil</h2>
       <div>
         <ImageUploadField
           label="Imagem"

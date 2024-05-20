@@ -22,6 +22,15 @@
   /* Font families */
   --primary-font-family: 'Poppins', sans-serif;
   --secondary-font-family: 'Crimson Text', serif;
+
+  /** FONTS **/
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-bold: 700;
+
+  --primary-text-color: #fff;
+  --secondary-text-color: rgb(211, 211, 211);
 }
 
 * {
