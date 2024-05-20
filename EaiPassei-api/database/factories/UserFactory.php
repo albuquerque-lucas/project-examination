@@ -32,7 +32,12 @@ class UserFactory extends Factory
             "profile_img" => null,
             'email' => $this->faker->unique()->safeEmail,
             'phone_number' => $this->faker->unique()->phoneNumber,
-            'password' => Hash::make('senha'),
+            'password' => Hash::make('123456'),
+            'sex' => $this->faker->randomElement(['Masculino', 'Feminino']),
+            'sexual_orientation' => $this->faker->randomElement(['Heterossexual', 'Homossexual', 'Bissexual', 'Assexual']),
+            'gender' => $this->faker->randomElement(['Cisgênero', 'Transgênero', 'Não-binário', 'Gênero fluido']),
+            'race' => $this->faker->randomElement(['Branco', 'Negro', 'Pardo', 'Indígena', 'Asiático']),
+            'disability' => $this->faker->word,
         ];
     }
 

@@ -28,6 +28,11 @@ class UserResource extends JsonResource
             'subscription_date' => null,
             'subscription_missing_days' => null, 
             'phone_number' => $this->phone_number,
+            'sex' => $this->sex,
+            'sexual_orientation' => $this->sexual_orientation,
+            'gender' => $this->gender,
+            'race' => $this->race,
+            'disatility' => $this->disability,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
