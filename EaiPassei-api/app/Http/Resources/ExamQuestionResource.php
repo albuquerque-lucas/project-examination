@@ -14,6 +14,17 @@ class ExamQuestionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'exam_id' => $this->exam_id,
+            'subject_id' => $this->subject_id,
+            'topic_id' => $this->topic_id,
+            // 'exam' => $this->exam->title,
+            'subject' => $this->subject->name,
+            'topic' => $this->topic->name,
+            'statement' => $this->statement,
+            'alternatives' => ExamQuestionAlternativeResource::collection($this->alternatives),
+            // 'images' => ExamQuestionImageResource::collection($this->images),
+        ];
     }
 }

@@ -18,7 +18,7 @@ export const getExams = async (url: string, params: Record<string, any> = {}): P
 export const getExamById = async (url: string, params: Record<string, any> = {}): Promise<Exam | null> => {
   try {
     const response: AxiosResponse<Exam> = await axios.get(url, { params});
-    console.log('RESPOSTA API', response);
+    
     if (response.status >= 200 && response.status < 300) {
       return response.data;
     }

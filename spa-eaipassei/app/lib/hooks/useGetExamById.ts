@@ -10,13 +10,13 @@ export const useGetExamById = () => {
     queryParams,
     setDataLoaded,
     dataLoaded,
-    setCurrentPage,
   } = useContext(ExamsContext);
     const fetchExam = async (id: number) => {
       console.log('Chegou em fetchExam, e aqui esta o id', id);
       try {
         setIsLoading(true);
-        const apiResponse = await getExamById(`${process.env.NEXT_PUBLIC_API_GET_EXAM_BY_ID}/${id}`, queryParams);
+        const apiResponse = await getExamById(`${process.env.NEXT_PUBLIC_API_EXAM_BY_ID}/${id}`, queryParams);
+        console.log('Result do hook useGetExamById', apiResponse);
         setEntity(apiResponse);
         setDataLoaded(true);
       } catch (error: any) {
@@ -33,7 +33,6 @@ export const useGetExamById = () => {
     dataLoaded,
     setEntity,
     setDataLoaded,
-    setCurrentPage,
     fetchExam,
   };
 }

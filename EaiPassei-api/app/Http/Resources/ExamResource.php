@@ -22,6 +22,7 @@ class ExamResource extends JsonResource
             'date' => $this->date,
             'subjects' => SubjectMinResource::collection($this->subjects),
             'questions_count' => count($this->examQuestions),
+            'questions' => ExamQuestionResource::collection($this->examQuestions),
         ];
     }
 }
