@@ -2,11 +2,11 @@
 
 import { createContext, useMemo, useState } from "react";
 import { defaultValue, EntityContext, FilterList } from "../types/entityContextTypes";
-import { Exam, ExamQueryParams } from "../types/examTypes";
+import { Exam, ExamQueryParams, ExamQuestion } from "../types/examTypes";
 import { PaginatedAPIResponse, NavigationLink } from "../types/entityContextTypes";
 import { FlashMessage } from "../types/messageTypes";
 
-export const ExamsContext = createContext<EntityContext<Exam, ExamQueryParams>>(defaultValue);
+export const ExamsContext = createContext<EntityContext<Exam, ExamQuestion, ExamQueryParams>>(defaultValue);
 
 interface ExamsProviderProps {
   children: React.ReactNode;
@@ -14,6 +14,7 @@ interface ExamsProviderProps {
 
 export default function ExamsProvider({ children }: ExamsProviderProps) {
   const [data, setData] = useState<PaginatedAPIResponse<Exam> | null>(null);
+  const [secondaryData, setSecondaryData] = useState<PaginatedAPIResponse<ExamQuestion> | ExamQuestion[] | null>(null);
   const [entity, setEntity] = useState<Exam | null>(null);
   const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(null);
   const [deletionMode, setDeletionMode] = useState(false);
@@ -42,9 +43,10 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
     return {
       data,
       setData,
-      entity
-,
-setEntity,
+      secondaryData,
+      setSecondaryData,
+      entity,
+      setEntity,
       navLinks,
       setNavLinks,
       deletionMode,
@@ -68,6 +70,7 @@ setEntity,
     };
   }, [
     data,
+    secondaryData,
     entity,
     navLinks,
     deletionMode,

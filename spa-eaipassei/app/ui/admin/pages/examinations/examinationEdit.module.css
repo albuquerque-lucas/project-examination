@@ -36,10 +36,18 @@
   content: '';
   width: 40%;
   min-height: 5rem;
-  border: 2px solid black;
-  padding: 0 1rem;
+  border-right: 2px solid black;
   display: flex;
   flex-direction: column;
+}
+
+.examination_edit__exams_list__container h3 {
+  background-color: var(--primary-background-color);
+  font-weight: 400;
+  color: white;
+  border-radius: 5px 5px 0 0;
+  padding: 0.5rem 2rem;
+  width: 100%;
 }
 
 .examination_edit_exams_list {
@@ -48,6 +56,38 @@
   padding: 0 1rem;
   margin: 1rem 0;
 
+}
+
+.exams_select {
+  background-color: var(--primary-background-color);
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 2rem;
+}
+
+.exams_select select {
+  width: 50%;
+  margin-right: 0.5rem;
+  padding: 0.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.exams_select button {
+  background-color: var(--primary-button-color);
+  color: white;
+  padding: 0.5rem 0.2rem;
+  border-radius: var(--default-border-radius);
+  border: none;
+  cursor: pointer;
+  width: 8rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.exams_select button:hover {
+  background-color: var(--primary-button-hover-color);
 }
 
 .examination_edit_exam_display {

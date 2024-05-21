@@ -12,17 +12,31 @@ import { getExamById } from "@/app/lib/api/examsAPI";
 import QuestionCard from "./QuestionCard";
 import { motion } from "framer-motion";
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
+import { ExamQuestion } from "@/app/lib/types/examTypes";
 
 function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
   const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
+  const [questionList, setQuestionList] = useState<ExamQuestion[] | null>(null);
   const [error, setError] = useState(null);
 
   const {
     entity,
     fetchExam,
+    fetchExamQuestions,
   } = useGetExamById();
+
+  const fetchData = async (id: number | null) => {
+    try {
+      const exam = await fetchExam(id);
+      console.log('Exam', exam);
+      const questions = await fetchExamQuestions(id);
+      console.log('Questions', questions);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -55,12 +69,12 @@ function ExaminationDisplay() {
         </section>
         <section className={ style.examination_edit__section }>
           <div className={ style.examination_edit__exams_list__container }>
-            <h3>Provas</h3>
+            <h3>Provas Cadastradas</h3>
             <div className={ style.examination_edit_exams_list }>
               {
                 examination &&
                 (
-                  <div>
+                  <div className={ style.exams_select }>
                     <select onChange={ (e) => setSelectedExamId(Number(e.target.value)) }>
                       {
                         examination.exam_list.map((exam, index) => {
@@ -75,7 +89,7 @@ function ExaminationDisplay() {
                     <motion.button
                       className={ style.search_exam__btn }
                       whileTap={ { scale: 0.9 } }
-                      onClick={ () => fetchExam(selectedExamId) }
+                      onClick={ () => fetchData(selectedExamId) }
                     >
                       Buscar
                     </motion.button>

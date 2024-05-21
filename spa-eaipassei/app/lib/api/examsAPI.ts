@@ -1,6 +1,6 @@
 import { fetchData } from "./apiManagement";
 import { PaginatedAPIResponse } from "../types/entityContextTypes";
-import { Exam } from "../types/examTypes";
+import { Exam, ExamQuestion } from "../types/examTypes";
 import Axios, { AxiosResponse } from "axios";
 
 const axios = Axios.create({
@@ -27,4 +27,8 @@ export const getExamById = async (url: string, params: Record<string, any> = {})
     console.log('Erro ao buscar o exame', error);
     return null;
   }
+}
+
+export const getQuestionsByExam = async (url: string, params: Record<string, any> = {}): Promise<PaginatedAPIResponse<ExamQuestion> | null> => {
+  return fetchData<PaginatedAPIResponse<ExamQuestion>>(url, params);
 }

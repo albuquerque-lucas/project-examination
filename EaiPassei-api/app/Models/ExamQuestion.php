@@ -51,7 +51,7 @@ class ExamQuestion extends Model
 
     public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
     {
-        return self::orderBy($orderBy, $order)->paginate();
+        return self::orderBy($orderBy, $order)->paginate(5);
     }
 
     public static function getById(int $id): self | null
