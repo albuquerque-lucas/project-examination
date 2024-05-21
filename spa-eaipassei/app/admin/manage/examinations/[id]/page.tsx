@@ -1,21 +1,57 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { ExamsContext} from '@/app/lib/context/ExamsContext';
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { getExaminationById } from "@/app/lib/api/examinationsAPI";
 import { DetailedExamination } from "@/app/lib/types/examinationTypes";
 import { FaEye, FaTrashAlt, FaPlusCircle } from "react-icons/fa";
 import { BiSolidDownArrowSquare } from "react-icons/bi";
+import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
+import { getExamById } from "@/app/lib/api/examsAPI";
 import { motion } from "framer-motion";
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
 
 function ExaminationDisplay() {
+  const [isLoading, setIsLoading] = useState(false);
+  const {
+    entity,
+    setEntity,
+    queryParams,
+    setDataLoaded,
+    dataLoaded,
+    setCurrentPage,
+  } = useContext(ExamsContext);
   const [id, setId] = useState<string | null>(null);
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
   const [error, setError] = useState(null);
 
-  const callExamInfo = (id: number) => {
+  // const {
+  //   entity,
+  // } = useGetExamById();
+
+  const fetchExam = async (id: number) => {
+    console.log('Chegou em fetchExam, e aqui esta o id', id);
+    try {
+      if (!dataLoaded) {
+        setIsLoading(true);
+        const apiResponse = await getExamById(`${process.env.NEXT_PUBLIC_API_GET_EXAM_BY_ID}`, queryParams);
+        setEntity(apiResponse);
+        setDataLoaded(true);
+      }
+    } catch (error: any) {
+      console.log('Erro ao buscar o exame', error);
+      setEntity(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const callExamInfo = async (id: number) => {
     console.log('clicked', id);
+    const response = await fetchExam(id);
+    console.log('Resposta de calExamInfo', response);
+    console.log('Entity', entity);
   }
 
   useEffect(() => {

@@ -5,7 +5,8 @@ import AuthProvider from "@/app/lib/context/AuthContext";
 import ExaminationsProvider from "@/app/lib/context/ExaminationsContext";
 import NoticesProvider from "@/app/lib/context/NoticesContext";
 import SubjectsProvider from "@/app/lib/context/SubjectsContext";
-import StudyAreasProvider from "@/app/lib/context/StudyAreasContext"; // Import missing
+import StudyAreasProvider from "@/app/lib/context/StudyAreasContext";
+import ExamsProvider from "./lib/context/ExamsContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,17 +23,19 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AdminLayoutProvider>
-            <AuthProvider>
-              <StudyAreasProvider>
-                <SubjectsProvider>
-                  <ExaminationsProvider>
+          <AuthProvider>
+            <StudyAreasProvider>
+              <SubjectsProvider>
+                <ExaminationsProvider>
+                  <ExamsProvider>
                     <NoticesProvider>
-                        {children}
+                      {children}
                     </NoticesProvider>
-                  </ExaminationsProvider>
-                </SubjectsProvider>
-              </StudyAreasProvider>
-            </AuthProvider>
+                  </ExamsProvider>
+                </ExaminationsProvider>
+              </SubjectsProvider>
+            </StudyAreasProvider>
+          </AuthProvider>
         </AdminLayoutProvider>
       </body>
     </html>

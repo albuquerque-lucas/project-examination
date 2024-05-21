@@ -32,6 +32,8 @@ type SetFilterMessage = (value: string | null) => void;
 export type EntityContext<Entity, EntityQueryParams> = {
   data: PaginatedAPIResponse<Entity> | null;
   setData: (data: PaginatedAPIResponse<Entity> | null) => void;
+  entity: Entity | null;
+  setEntity: (entity: Entity | null) => void;
   navLinks: NavigationLink[] | null;
   setNavLinks: (navLinks: NavigationLink[] | null) => void;
   deletionMode: boolean;
@@ -57,6 +59,8 @@ export type EntityContext<Entity, EntityQueryParams> = {
 export const defaultValue = {
   data: null,
   setData: () => {},
+  entity: null,
+  setEntity: () => {},
   navLinks: null,
   setNavLinks: () => {},
   deletionMode: false,

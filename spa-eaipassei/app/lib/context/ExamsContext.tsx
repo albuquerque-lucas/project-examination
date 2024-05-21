@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, useMemo, useState } from "react";
 import { defaultValue, EntityContext, FilterList } from "../types/entityContextTypes";
 import { Exam, ExamQueryParams } from "../types/examTypes";
@@ -12,6 +14,7 @@ interface ExamsProviderProps {
 
 export default function ExamsProvider({ children }: ExamsProviderProps) {
   const [data, setData] = useState<PaginatedAPIResponse<Exam> | null>(null);
+  const [entity, setEntity] = useState<Exam | null>(null);
   const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(null);
   const [deletionMode, setDeletionMode] = useState(false);
   const [entityToDelete, setEntityToDelete] = useState<number | null>(null);
@@ -39,6 +42,9 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
     return {
       data,
       setData,
+      entity
+,
+setEntity,
       navLinks,
       setNavLinks,
       deletionMode,
@@ -62,6 +68,7 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
     };
   }, [
     data,
+    entity,
     navLinks,
     deletionMode,
     entityToDelete,
