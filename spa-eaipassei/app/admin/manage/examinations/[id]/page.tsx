@@ -33,12 +33,11 @@ function ExaminationDisplay() {
   const fetchExam = async (id: number) => {
     console.log('Chegou em fetchExam, e aqui esta o id', id);
     try {
-      if (!dataLoaded) {
         setIsLoading(true);
-        const apiResponse = await getExamById(`${process.env.NEXT_PUBLIC_API_GET_EXAM_BY_ID}`, queryParams);
+        const apiResponse = await getExamById(`${process.env.NEXT_PUBLIC_API_EXAM_BY_ID}/${id}`, queryParams);
+        console.log('API RESPONSE', apiResponse);
         setEntity(apiResponse);
         setDataLoaded(true);
-      }
     } catch (error: any) {
       console.log('Erro ao buscar o exame', error);
       setEntity(null);
@@ -46,13 +45,6 @@ function ExaminationDisplay() {
       setIsLoading(false);
     }
   };
-
-  const callExamInfo = async (id: number) => {
-    console.log('clicked', id);
-    const response = await fetchExam(id);
-    console.log('Resposta de calExamInfo', response);
-    console.log('Entity', entity);
-  }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -101,7 +93,7 @@ function ExaminationDisplay() {
                           <motion.button
                             className={ style.exam_actions_visualize }
                             whileTap={ { scale: 0.9 } }
-                            onClick={ () => callExamInfo( exam.id ) }
+                            onClick={ () => fetchExam(exam.id) }
                           >
                             <FaEye />
                           </motion.button>

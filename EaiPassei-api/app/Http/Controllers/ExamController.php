@@ -6,6 +6,8 @@ use App\Http\Requests\ExamFormRequest;
 use App\Services\DataRetrievalService;
 use App\Services\ExamService;
 use Illuminate\Http\Request;
+use Exception;
+use Error;
 
 class ExamController extends Controller
 {
@@ -27,7 +29,17 @@ class ExamController extends Controller
 
     public function getById(int $id)
     {
-        return $this->dataRetrievalService->getById($this->examService, $id);
+        try {
+            $response = $this->examService->getById($id);
+    
+            return response()->json($response->data(), $response->status());
+        } catch (Exception | Error $exception) {
+            return response()->json([
+                'error' => 'An unexpected error occurred.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ], 500);
+        }
     }
 
     public function update(Request $request, int $id)
