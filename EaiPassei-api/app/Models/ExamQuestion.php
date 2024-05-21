@@ -16,6 +16,7 @@ class ExamQuestion extends Model
         'exam_id',
         'subject_id',
         'topic_id',
+        'question_number',
         'statement',
     ];
 

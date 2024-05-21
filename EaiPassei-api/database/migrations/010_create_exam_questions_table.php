@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Exam::class);
             $table->foreignIdFor(Subject::class);
             $table->foreignIdFor(Topic::class);
+            $table->integer('question_number');
             $table->text('statement');
             $table->timestamps();
         });

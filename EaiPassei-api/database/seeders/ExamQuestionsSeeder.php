@@ -15,9 +15,12 @@ class ExamQuestionsSeeder extends Seeder
     public function run(): void
     {
         Exam::all()->each(function (Exam $exam) {
-            ExamQuestion::factory(20)->create([
-                'exam_id' => $exam->id,
-            ]);
+            foreach (range(1, 20) as $questionNumber) {
+                ExamQuestion::factory()->create([
+                    'exam_id' => $exam->id,
+                    'question_number' => $questionNumber,
+                ]);
+            }
         });
     }
 }

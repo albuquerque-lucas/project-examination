@@ -19,3 +19,12 @@ export type ExamQueryParams = {
   order?: string;
   search?: string;
 }
+
+export type ExamQuestion = {
+  id: number;
+  exam_id: number;
+  subject_id: number;
+  topic_id: number;
+  alternatives: string[];
+  question_number: number;
+}

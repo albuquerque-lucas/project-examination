@@ -20,6 +20,7 @@ class ExamQuestionFactory extends Factory
     {
         $subjectIdList = range(1, 40);
         $topicIdList = range(1, 160);
+        $questionNumbers = range(1, 20);
         return [
             'statement' => $this->faker->paragraph(3, true),
             'subject_id' => $this->faker->randomElement($subjectIdList),

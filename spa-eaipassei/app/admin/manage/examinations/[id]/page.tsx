@@ -9,11 +9,13 @@ import { FaEye, FaTrashAlt, FaPlusCircle } from "react-icons/fa";
 import { BiSolidDownArrowSquare } from "react-icons/bi";
 import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
 import { getExamById } from "@/app/lib/api/examsAPI";
+import QuestionCard from "./QuestionCard";
 import { motion } from "framer-motion";
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
 
 function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
+  const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
   const [error, setError] = useState(null);
 
@@ -58,171 +60,47 @@ function ExaminationDisplay() {
               {
                 examination &&
                 (
-                  examination.exam_list.map((exam, index) => {
-                    return (
-                      <div key={ index } className={ style.examination_edit_exam }>
-                        <div className={ style.examination_edit_exam__info }>
-                          <h4>{ exam.title }</h4>
-                          <p>Questoes: { exam.questions_count }</p>
-                        </div>
-                        <div className={ style.examination_edit_exam__actions }>
-                          <motion.button
-                            className={ style.exam_actions_visualize }
-                            whileTap={ { scale: 0.9 } }
-                            onClick={ () => fetchExam(exam.id) }
-                          >
-                            <FaEye />
-                          </motion.button>
-                          <motion.button
-                            className={ style.exam_actions__view_more }
-                            whileTap={ { scale: 0.9 } }
-                          >
-                            <BiSolidDownArrowSquare />
-                          </motion.button>
-                        </div>
-                      </div>
-                    )
-                  })
+                  <div>
+                    <select onChange={ (e) => setSelectedExamId(Number(e.target.value)) }>
+                      {
+                        examination.exam_list.map((exam, index) => {
+                          return (
+                            <option key={ index } value={ exam.id }>
+                              { exam.title }
+                            </option>
+                          )
+                        })
+                      }
+                    </select>
+                    <motion.button
+                      className={ style.search_exam__btn }
+                      whileTap={ { scale: 0.9 } }
+                      onClick={ () => fetchExam(selectedExamId) }
+                    >
+                      Buscar
+                    </motion.button>
+                  </div>
+                  
                 )
               }
             </div>
           </div>
           <div className={ style.examination_edit_exam_display }>
-            <div className={ style.exam_display__card }>
-              <h3>Prova 1</h3>
-              <p>
-                <span>1 - </span>
-                A Constituição Federal de 1988 estabelece diversos direitos fundamentais. Com base nesse contexto, assinale a alternativa correta:
-              </p>
-              <p>
-                <span>A - </span>
-                O direito à vida é absoluto, não admitindo qualquer forma de restrição ou limitação.
-              </p>
-              <p>
-                <span>B - </span>
-                A liberdade de expressão é garantida, mas não pode ser exercida de forma a prejudicar a honra ou a imagem das pessoas.
-              </p>
-              <p>
-                <span>C - </span>
-                O direito de reunião não necessita de prévio aviso às autoridades competentes, podendo ser exercido livremente em qualquer local público.
-              </p>
-              <p>
-                <span>D - </span>
-                O direito de propriedade é garantido, mas não pode ser exercido de forma a prejudicar o meio ambiente.
-              </p>
-              <p>
-                <span>E - </span>
-                A liberdade de crença é garantida, mas não pode ser exercida de forma a prejudicar a ordem pública.
-              </p>
-            </div>
-            <div className={ style.exam_display__card }>
-              <h3>Prova 1</h3>
-              <p>
-                <span>1 - </span>
-                A Constituição Federal de 1988 estabelece diversos direitos fundamentais. Com base nesse contexto, assinale a alternativa correta:
-              </p>
-              <p>
-                <span>A - </span>
-                O direito à vida é absoluto, não admitindo qualquer forma de restrição ou limitação.
-              </p>
-              <p>
-                <span>B - </span>
-                A liberdade de expressão é garantida, mas não pode ser exercida de forma a prejudicar a honra ou a imagem das pessoas.
-              </p>
-              <p>
-                <span>C - </span>
-                O direito de reunião não necessita de prévio aviso às autoridades competentes, podendo ser exercido livremente em qualquer local público.
-              </p>
-              <p>
-                <span>D - </span>
-                O direito de propriedade é garantido, mas não pode ser exercido de forma a prejudicar o meio ambiente.
-              </p>
-              <p>
-                <span>E - </span>
-                A liberdade de crença é garantida, mas não pode ser exercida de forma a prejudicar a ordem pública.
-              </p>
-            </div>
-            <div className={ style.exam_display__card }>
-              <h3>Prova 1</h3>
-              <p>
-                <span>1 - </span>
-                A Constituição Federal de 1988 estabelece diversos direitos fundamentais. Com base nesse contexto, assinale a alternativa correta:
-              </p>
-              <p>
-                <span>A - </span>
-                O direito à vida é absoluto, não admitindo qualquer forma de restrição ou limitação.
-              </p>
-              <p>
-                <span>B - </span>
-                A liberdade de expressão é garantida, mas não pode ser exercida de forma a prejudicar a honra ou a imagem das pessoas.
-              </p>
-              <p>
-                <span>C - </span>
-                O direito de reunião não necessita de prévio aviso às autoridades competentes, podendo ser exercido livremente em qualquer local público.
-              </p>
-              <p>
-                <span>D - </span>
-                O direito de propriedade é garantido, mas não pode ser exercido de forma a prejudicar o meio ambiente.
-              </p>
-              <p>
-                <span>E - </span>
-                A liberdade de crença é garantida, mas não pode ser exercida de forma a prejudicar a ordem pública.
-              </p>
-            </div>
-            <div className={ style.exam_display__card }>
-              <h3>Prova 1</h3>
-              <p>
-                <span>1 - </span>
-                A Constituição Federal de 1988 estabelece diversos direitos fundamentais. Com base nesse contexto, assinale a alternativa correta:
-              </p>
-              <p>
-                <span>A - </span>
-                O direito à vida é absoluto, não admitindo qualquer forma de restrição ou limitação.
-              </p>
-              <p>
-                <span>B - </span>
-                A liberdade de expressão é garantida, mas não pode ser exercida de forma a prejudicar a honra ou a imagem das pessoas.
-              </p>
-              <p>
-                <span>C - </span>
-                O direito de reunião não necessita de prévio aviso às autoridades competentes, podendo ser exercido livremente em qualquer local público.
-              </p>
-              <p>
-                <span>D - </span>
-                O direito de propriedade é garantido, mas não pode ser exercido de forma a prejudicar o meio ambiente.
-              </p>
-              <p>
-                <span>E - </span>
-                A liberdade de crença é garantida, mas não pode ser exercida de forma a prejudicar a ordem pública.
-              </p>
-            </div>
-                        <div className={ style.exam_display__card }>
-              <h3>Prova 1</h3>
-              <p>
-                <span>1 - </span>
-                A Constituição Federal de 1988 estabelece diversos direitos fundamentais. Com base nesse contexto, assinale a alternativa correta:
-              </p>
-              <p>
-                <span>A - </span>
-                O direito à vida é absoluto, não admitindo qualquer forma de restrição ou limitação.
-              </p>
-              <p>
-                <span>B - </span>
-                A liberdade de expressão é garantida, mas não pode ser exercida de forma a prejudicar a honra ou a imagem das pessoas.
-              </p>
-              <p>
-                <span>C - </span>
-                O direito de reunião não necessita de prévio aviso às autoridades competentes, podendo ser exercido livremente em qualquer local público.
-              </p>
-              <p>
-                <span>D - </span>
-                O direito de propriedade é garantido, mas não pode ser exercido de forma a prejudicar o meio ambiente.
-              </p>
-              <p>
-                <span>E - </span>
-                A liberdade de crença é garantida, mas não pode ser exercida de forma a prejudicar a ordem pública.
-              </p>
-            </div>
+            <QuestionCard
+
+            />
+            <QuestionCard
+
+            />
+            <QuestionCard
+
+            />
+            <QuestionCard
+
+            />
+            <QuestionCard
+
+            />
           </div>
           
         </section>

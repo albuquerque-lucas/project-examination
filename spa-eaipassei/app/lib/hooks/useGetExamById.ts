@@ -11,7 +11,8 @@ export const useGetExamById = () => {
     setDataLoaded,
     dataLoaded,
   } = useContext(ExamsContext);
-    const fetchExam = async (id: number) => {
+    const fetchExam = async (id: number | null) => {
+      if (!id) return;
       console.log('Chegou em fetchExam, e aqui esta o id', id);
       try {
         setIsLoading(true);
