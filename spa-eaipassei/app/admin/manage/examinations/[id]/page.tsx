@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { getExaminationById } from "@/app/lib/api/examinationsAPI";
 import { DetailedExamination } from "@/app/lib/types/examinationTypes";
-import { FaEye, FaTrashAlt } from "react-icons/fa";
+import { FaEye, FaTrashAlt, FaPlusCircle } from "react-icons/fa";
 import { BiSolidDownArrowSquare } from "react-icons/bi";
 import { motion } from "framer-motion";
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
@@ -13,6 +13,10 @@ function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
   const [error, setError] = useState(null);
+
+  const callExamInfo = (id: number) => {
+    console.log('clicked', id);
+  }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -59,8 +63,9 @@ function ExaminationDisplay() {
                         </div>
                         <div className={ style.examination_edit_exam__actions }>
                           <motion.button
-                          className={ style.exam_actions_visualize }
+                            className={ style.exam_actions_visualize }
                             whileTap={ { scale: 0.9 } }
+                            onClick={ () => callExamInfo( exam.id ) }
                           >
                             <FaEye />
                           </motion.button>
@@ -82,6 +87,15 @@ function ExaminationDisplay() {
 
           </div>
         </section>
+        {/* <section className={ style.examination_exams_utilities }>
+          <motion.button
+            whileTap={ { scale: 0.9 } }
+            className={ style.examination_exams_utilities__button }
+          >
+            Adicionar prova
+            <FaPlusCircle />
+          </motion.button>
+        </section> */}
       </div>
     :
     <h1>Loading</h1>

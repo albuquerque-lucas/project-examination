@@ -27,6 +27,8 @@ export type FilterList = {
   value?: string | null;
 }
 
+type SetFilterMessage = (value: string | null) => void;
+
 export type EntityContext<Entity, EntityQueryParams> = {
   data: PaginatedAPIResponse<Entity> | null;
   setData: (data: PaginatedAPIResponse<Entity> | null) => void;
@@ -50,4 +52,29 @@ export type EntityContext<Entity, EntityQueryParams> = {
   setFlashMessage: (flashMessage: FlashMessage | null) => void;
   dataLoaded: boolean;
   setDataLoaded: (dataLoaded: boolean) => void;
+}
+
+export const defaultValue = {
+  data: null,
+  setData: () => {},
+  navLinks: null,
+  setNavLinks: () => {},
+  deletionMode: false,
+  setDeletionMode: () => {},
+  entityToDelete: null,
+  setEntityToDelete: () => {},
+  currentPage: 1,
+  setCurrentPage: () => {},
+  selectedOrder: 'asc',
+  setSelectedOrder: () => {},
+  filterList: [] as FilterList[],
+  setFilterList: () => {},
+  filterMessage: null,
+  setFilterMessage: (() => {}) as SetFilterMessage,
+  queryParams: {} as Record<string, any>,
+  setQueryParams: () => {},
+  flashMessage: null,
+  setFlashMessage: () => {},
+  dataLoaded: false,
+  setDataLoaded: () => {},
 }

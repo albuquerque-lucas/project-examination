@@ -3,6 +3,7 @@
 import Axios from "axios";
 import { Examination } from "../types/examinationTypes";
 import { PaginatedAPIResponse } from "../types/entityContextTypes";
+import { fetchData } from "./apiManagement";
 
 const axios = Axios.create({
 	withCredentials: true,
@@ -12,49 +13,10 @@ const axios = Axios.create({
 	},
 });
 
-axios.interceptors.response.use(
-response => {
-  // Any status code that lie within the range of 2xx cause this function to trigger
-  // Do something with response data
-  return response;
-},
-error => {
-  // Any status codes that falls outside the range of 2xx cause this function to trigger
-  // Do something with response error
-  if (error.response && error.response.status === 401) {
-    localStorage.removeItem('user');
-  }
-  return Promise.reject(error);
-}
-);
-
-export const getAllExaminations = async (params: Record<string, any> = {}) => {
-  try {
-    const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`);
-    if (resp.status >= 200 && resp.status < 300) {
-      return resp;
-    }
-  } catch (error: any) {
-    if (error.response && error.response.status >= 400 && error.response.status < 500) {
-      console.log('Erro ao buscar os concursos', error);
-    }
-  }
-}
-
 export const getExaminations = async (url: string, params: Record<string, any> = {}): Promise<PaginatedAPIResponse<Examination> | null> => {
-  try {
-    const resp = await axios.get(url, { params });
-    if (resp.status >= 200 && resp.status < 300) {
-      return resp.data;
-    }
-    return null;
-  } catch (error: any) {
-    if (error.response && error.response.status === 401) {
-      console.log('Erro ao buscar os concursos', error);
-    }
-    return null;
-  }
+  return fetchData<PaginatedAPIResponse<Examination>>(url, params);
 }
+
   export const getExaminationById = async (id: string) => {
     try {
       const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATION_BY_ID}${id}`);
