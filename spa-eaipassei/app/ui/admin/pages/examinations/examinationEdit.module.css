@@ -36,7 +36,6 @@
   content: '';
   width: 40%;
   min-height: 5rem;
-  border-right: 2px solid black;
   display: flex;
   flex-direction: column;
 }
@@ -103,7 +102,28 @@
   content: '';
   width: 60%;
   min-height: 5rem;
-  padding: 1rem 3rem;
+  max-height: 50rem;
+  padding: 0 3rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.examination_edit_exam_display h3 {
+  background-color: var(--primary-background-color);
+  font-weight: 400;
+  color: white;
+  border-radius: 5px 5px 0 0;
+  padding: 0.5rem 2rem;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.navbutton_container {
+  margin-bottom: 1rem;
 }
 
 .examination_edit_exam:hover {

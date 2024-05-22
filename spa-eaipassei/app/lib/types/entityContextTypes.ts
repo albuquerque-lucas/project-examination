@@ -32,6 +32,8 @@ type SetFilterMessage = (value: string | null) => void;
 export type EntityContext<Entity, SecondaryEntity, EntityQueryParams> = {
   data: PaginatedAPIResponse<Entity> | null;
   setData: (data: PaginatedAPIResponse<Entity> | null) => void;
+  dataList: Entity[] | null;
+  setDataList: (data: Entity[] | null) => void;
   secondaryData: PaginatedAPIResponse<SecondaryEntity> | SecondaryEntity[] | null;
   setSecondaryData: (data: PaginatedAPIResponse<SecondaryEntity> | SecondaryEntity[] | null) => void;
   entity: Entity | null;
@@ -61,6 +63,8 @@ export type EntityContext<Entity, SecondaryEntity, EntityQueryParams> = {
 export const defaultValue = {
   data: null,
   setData: () => {},
+  dataList: null,
+  setDataList: () => {},
   secondaryData: null,
   setSecondaryData: () => {},
   entity: null,

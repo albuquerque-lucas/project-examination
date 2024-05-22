@@ -14,6 +14,7 @@ interface ExamsProviderProps {
 
 export default function ExamsProvider({ children }: ExamsProviderProps) {
   const [data, setData] = useState<PaginatedAPIResponse<Exam> | null>(null);
+  const [dataList, setDataList] = useState<Exam[] | null>(null);
   const [secondaryData, setSecondaryData] = useState<PaginatedAPIResponse<ExamQuestion> | ExamQuestion[] | null>(null);
   const [entity, setEntity] = useState<Exam | null>(null);
   const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(null);
@@ -43,6 +44,8 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
     return {
       data,
       setData,
+      dataList,
+      setDataList,
       secondaryData,
       setSecondaryData,
       entity,
@@ -70,6 +73,7 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
     };
   }, [
     data,
+    dataList,
     secondaryData,
     entity,
     navLinks,

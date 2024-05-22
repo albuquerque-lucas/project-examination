@@ -13,13 +13,16 @@ import QuestionCard from "./QuestionCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExamQuestion } from "@/app/lib/types/examTypes";
 import EntityInfoBoard from "./EntityInfoBoard";
+import ExamNavButtons from "./ExamNavButtons";
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
+import { NavigationLink } from "@/app/lib/types/entityContextTypes";
 
 function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
   const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
   const [questionList, setQuestionList] = useState<ExamQuestion[] | null>(null);
+  const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(null);
   const [error, setError] = useState(null);
 
   const {
@@ -32,7 +35,9 @@ function ExaminationDisplay() {
     try {
       const [exam, questions] = await Promise.all([fetchExam(id), fetchExamQuestions(id)]);
       const data = questions?.data;
+      const links = questions?.links;
       data && setQuestionList(data);
+      links && setNavLinks(links);
       console.log('Exam', exam);
       console.log('Questions', questions);
       console.log('Data', data);
@@ -59,10 +64,11 @@ function ExaminationDisplay() {
 
       fetchExamination();
     }
-  }, [questionList]);
+  }, [navLinks, questionList]);
   return (
     <>
-    { examination ? 
+    {
+      examination ? 
       <div className={ style.display_page }>
         <h1 className={ style.examination_headtitle }>
           { examination.title }
@@ -107,15 +113,29 @@ function ExaminationDisplay() {
               </AnimatePresence>
             </div>
           </div>
+              {
+                entity &&
           <div className={ style.examination_edit_exam_display }>
             <AnimatePresence>
+                <motion.h3
+                  initial={ { opacity: 0 } }
+                  animate={ { opacity: 1 } }
+                  exit={ { opacity: 0 } }
+                  transition={ { duration: 0.1 } }
+                >
+                  { entity.title }
+                </motion.h3>
+
+                <ExamNavButtons
+                links={ navLinks }
+                />
               {
-                (entity && questionList) &&
+                questionList &&
                   questionList.map((question, index) => {
                     return (
                       <QuestionCard
-                        key={ index }
-                        question={ question }
+                      key={ index }
+                      question={ question }
                       />
                     )
                   }
@@ -124,6 +144,7 @@ function ExaminationDisplay() {
 
             </AnimatePresence>
           </div>
+              }
           
         </section>
         {/* <section className={ style.examination_exams_utilities }>
