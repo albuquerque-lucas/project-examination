@@ -2,6 +2,7 @@ import React from 'react';
 import { Exam } from '@/app/lib/types/examTypes';
 import { IoCloseSharp } from "react-icons/io5";
 import { useGetExamById } from '@/app/lib/hooks/useGetExamById';
+import { formatDate } from '@/app/lib/utils/formatDate';
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/cards/entityInfoBoard.module.css';
 
@@ -12,12 +13,13 @@ interface EntityInfoBoardProps {
 export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
   const { setEntity } = useGetExamById();
   const { id, date, description, questions_count, subjects } = exam;
+  const formattedDate = date && formatDate(date);
   const showCase = {
     "Id": id,
-    "Data": date,
+    "Data": formattedDate,
     "Descrição": description,
     "Questões": questions_count,
-  }
+  };
   return (
     <motion.div
       className={ style.exam_details }
@@ -35,14 +37,14 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
     {
       Object.entries(showCase).map(([key, value]) => (
         <p key={key}>
-          <span>{key}: </span>
-          <span>{value}</span>
+          <span className={ style.detail_key }>{key}: </span>
+          <span className={ style.detail_value }>{value}</span>
         </p>
       ))
     }
     <p>
-      <span>Matérias: </span>
-      <span>
+      <span className={ style.detail_key }>Matérias: </span>
+      <span className={ style.detail_value }>
         {
           subjects &&
           subjects
