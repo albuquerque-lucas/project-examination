@@ -11,6 +11,13 @@ interface EntityInfoBoardProps {
 
 export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
   const { setEntity } = useGetExamById();
+  const { id, date, description, questions_count, subjects } = exam;
+  const showCase = {
+    "Id": id,
+    "Data": date,
+    "Descrição": description,
+    "Questões": questions_count,
+  }
   return (
     <motion.div
       className={ style.exam_details }
@@ -25,30 +32,24 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
     >
       <IoCloseSharp />
     </motion.button>
-    <p>
-      <span>Id: </span>
-      { exam.id }
-    </p>
-    <p>
-      <span>Data: </span>
-      { exam.date }
-    </p>
-    <p>
-      <span>Descrição: </span>
-      { exam.description }
-    </p>
-    <p>
-      <span>Questões: </span>
-      { exam.questions_count }
-    </p>
+    {
+      Object.entries(showCase).map(([key, value]) => (
+        <p key={key}>
+          <span>{key}: </span>
+          <span>{value}</span>
+        </p>
+      ))
+    }
     <p>
       <span>Matérias: </span>
-      {
-        exam.subjects &&
-        exam.subjects
-          .map(subject => subject.title)
-          .join(', ')
-      }
+      <span>
+        {
+          subjects &&
+          subjects
+            .map(subject => subject.title)
+            .join(', ')
+        }
+      </span>
     </p>
   </motion.div>
   )

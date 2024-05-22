@@ -3,7 +3,7 @@
   color: white;
   width: 100%;
   margin: 2rem 0;
-  padding: 2rem 3rem;
+  padding: 2rem 0;
   position: relative;
   border-radius: var(--default-border-radius);
 }
@@ -34,4 +34,14 @@
 
 .exam_details p {
   margin: 1rem 0;
+  padding: 0 1rem;
+  /* background-color: red; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.exam_details span {
+  font-weight: 700;
 }
