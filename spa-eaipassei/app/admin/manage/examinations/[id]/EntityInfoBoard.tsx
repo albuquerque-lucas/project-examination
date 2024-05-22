@@ -26,6 +26,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.1 }}
     >
     <motion.button
       className={ style.details_close__btn }

@@ -25,7 +25,31 @@ class ExamQuestionController extends Controller
 
     public function getAll(Request $request)
     {
-        return $this->dataRetrievalService->getAll($this->examQuestionService, $request);
+        try {
+            $validated = $request->validate([
+                'order' => 'nullable|string|in:asc,desc',
+                'page' => 'nullable|integer',
+                'exam_id' => 'nullable|integer',
+                'topic_id' => 'nullable|integer',
+                'exam' => 'nullable|string',
+                'topic' => 'nullable|string',
+                'question_number' => 'nullable|integer',
+                'educational_level_id' => 'nullable|string',
+            ]);
+            $order = $request->input('order', 'asc');
+            $params = $validated;
+            unset($params['order'], $params['page']);
+            $response = $this->examQuestionService->getAll($order, 'id', $params);
+            $data = $response->data();
+            $dataArray = (array)$data;
+            return response()->json($dataArray['resource'], $response->status());
+        } catch (Exception | Error $exception) {
+            return response()->json([
+                'error' => 'An unexpected error occurred.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ], 400);
+        }
     }
 
     public function getById(int $id)

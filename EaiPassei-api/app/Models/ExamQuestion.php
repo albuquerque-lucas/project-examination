@@ -49,9 +49,16 @@ class ExamQuestion extends Model
         return $this->belongsTo(Topic::class);
     }
 
-    public static function getAllOrdered(string $order, string $orderBy = 'id'): LengthAwarePaginator
+    public static function getAllOrdered(string $order, string $orderBy = 'id', $params = []): LengthAwarePaginator
     {
-        return self::orderBy($orderBy, $order)->paginate(5);
+        // dd($params);
+        $query = self::orderBy($orderBy, $order);
+        foreach ($params as $key => $value) {
+            if (!is_null($value)) {
+                $query = $query->where($key, 'like', "%$value%");
+            }
+        }
+        return $query->paginate(5);
     }
 
     public static function getById(int $id): self | null

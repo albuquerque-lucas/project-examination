@@ -12,8 +12,8 @@ import { getExamById } from "@/app/lib/api/examsAPI";
 import QuestionCard from "./QuestionCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExamQuestion } from "@/app/lib/types/examTypes";
-import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
 import EntityInfoBoard from "./EntityInfoBoard";
+import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
 
 function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
@@ -31,8 +31,11 @@ function ExaminationDisplay() {
   const fetchData = async (id: number | null) => {
     try {
       const [exam, questions] = await Promise.all([fetchExam(id), fetchExamQuestions(id)]);
+      const data = questions?.data;
+      data && setQuestionList(data);
       console.log('Exam', exam);
       console.log('Questions', questions);
+      console.log('Data', data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -56,7 +59,7 @@ function ExaminationDisplay() {
 
       fetchExamination();
     }
-  }, []);
+  }, [questionList]);
   return (
     <>
     { examination ? 
@@ -105,21 +108,21 @@ function ExaminationDisplay() {
             </div>
           </div>
           <div className={ style.examination_edit_exam_display }>
-            <QuestionCard
+            <AnimatePresence>
+              {
+                (entity && questionList) &&
+                  questionList.map((question, index) => {
+                    return (
+                      <QuestionCard
+                        key={ index }
+                        question={ question }
+                      />
+                    )
+                  }
+                )
+              }
 
-            />
-            <QuestionCard
-
-            />
-            <QuestionCard
-
-            />
-            <QuestionCard
-
-            />
-            <QuestionCard
-
-            />
+            </AnimatePresence>
           </div>
           
         </section>

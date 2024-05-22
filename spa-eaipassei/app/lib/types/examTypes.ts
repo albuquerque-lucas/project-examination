@@ -25,6 +25,13 @@ export type ExamQuestion = {
   exam_id: number;
   subject_id: number;
   topic_id: number;
-  alternatives: string[];
+  statement: string;
+  alternatives: QuestionAlternative[];
   question_number: number;
 }
+
+export type QuestionAlternative = {
+  letter: string;
+  text: string;
+  is_answer: boolean;
+};
