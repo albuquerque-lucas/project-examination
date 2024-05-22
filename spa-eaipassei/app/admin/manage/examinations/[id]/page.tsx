@@ -10,9 +10,10 @@ import { BiSolidDownArrowSquare } from "react-icons/bi";
 import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
 import { getExamById } from "@/app/lib/api/examsAPI";
 import QuestionCard from "./QuestionCard";
-import { motion } from "framer-motion";
-import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
+import { motion, AnimatePresence } from "framer-motion";
 import { ExamQuestion } from "@/app/lib/types/examTypes";
+import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
+import EntityInfoBoard from "./EntityInfoBoard";
 
 function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
@@ -29,9 +30,8 @@ function ExaminationDisplay() {
 
   const fetchData = async (id: number | null) => {
     try {
-      const exam = await fetchExam(id);
+      const [exam, questions] = await Promise.all([fetchExam(id), fetchExamQuestions(id)]);
       console.log('Exam', exam);
-      const questions = await fetchExamQuestions(id);
       console.log('Questions', questions);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -71,32 +71,37 @@ function ExaminationDisplay() {
           <div className={ style.examination_edit__exams_list__container }>
             <h3>Provas Cadastradas</h3>
             <div className={ style.examination_edit_exams_list }>
-              {
-                examination &&
-                (
-                  <div className={ style.exams_select }>
-                    <select onChange={ (e) => setSelectedExamId(Number(e.target.value)) }>
-                      {
-                        examination.exam_list.map((exam, index) => {
-                          return (
-                            <option key={ index } value={ exam.id }>
-                              { exam.title }
-                            </option>
-                          )
-                        })
-                      }
-                    </select>
-                    <motion.button
-                      className={ style.search_exam__btn }
-                      whileTap={ { scale: 0.9 } }
-                      onClick={ () => fetchData(selectedExamId) }
-                    >
-                      Buscar
-                    </motion.button>
-                  </div>
-                  
-                )
-              }
+              <div className={ style.exams_select }>
+                <select onChange={ (e) => setSelectedExamId(Number(e.target.value)) }>
+                    <option>
+                      Selecione uma prova
+                    </option>
+                  {
+                    examination.exam_list.map((exam, index) => {
+                      return (
+                        <option key={ index } value={ exam.id }>
+                          { exam.title }
+                        </option>
+                      )
+                    })
+                  }
+                </select>
+                <motion.button
+                  className={ style.search_exam__btn }
+                  whileTap={ { scale: 0.9 } }
+                  onClick={ () => fetchData(selectedExamId) }
+                >
+                  Buscar
+                </motion.button>
+              </div>
+              <AnimatePresence>
+                {
+                  entity &&
+                  <EntityInfoBoard 
+                  exam={ entity }
+                  />
+                }
+              </AnimatePresence>
             </div>
           </div>
           <div className={ style.examination_edit_exam_display }>

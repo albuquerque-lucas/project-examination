@@ -55,6 +55,10 @@
   width: 100%;
   padding: 0 1rem;
   margin: 1rem 0;
+  /* background-color: blue; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
 }
 
@@ -63,7 +67,10 @@
   height: 4rem;
   display: flex;
   align-items: center;
-  padding: 0 0 0 2rem;
+  padding: 0 0 0 3rem;
+  margin: 0 auto;
+  width: 100%;
+  border-radius: var(--default-border-radius);
 }
 
 .exams_select select {
@@ -89,6 +96,8 @@
 .exams_select button:hover {
   background-color: var(--primary-button-hover-color);
 }
+
+
 
 .examination_edit_exam_display {
   content: '';
