@@ -1,12 +1,12 @@
 import { useEffect, useContext } from 'react';
 import { ExamsContext } from '@/app/lib/context/ExamsContext';
-import { NavigationButtonsProps } from "@/app/lib/types/navigationTypes";
+import { DirectedNavigationProps } from "@/app/lib/types/navigationTypes";
 import { motion } from 'framer-motion';
 import { updateLinks } from '@/app/lib/utils/updateNavLinks';
 import { getExams, getQuestionsByExam } from '@/app/lib/api/examsAPI';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
-const ExamNavButtons: React.FC<NavigationButtonsProps | null> = (props) => {
+const ExamNavButtons: React.FC<DirectedNavigationProps | null> = (props) => {
   const {
     currentPage,
     setCurrentPage,
@@ -28,7 +28,7 @@ const ExamNavButtons: React.FC<NavigationButtonsProps | null> = (props) => {
     );
   }
 
-  const { links } = props;
+  const { links, id } = props;
 
   let linksList = updateLinks(links);
 
@@ -47,7 +47,7 @@ const ExamNavButtons: React.FC<NavigationButtonsProps | null> = (props) => {
 
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
   
-      const response = await getQuestionsByExam(url, updatedQueryParams);
+      const response = await getQuestionsByExam(url, { exam_id: id });
       setSecondaryData(response);
       response && setSecondaryDataList(response.data);
       response && setSecondaryNavLinks(response.links);

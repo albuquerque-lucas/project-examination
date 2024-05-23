@@ -45,7 +45,7 @@ export const useGetExamById = () => {
       console.log('Chegou em fetchExamQuestions, e aqui esta o id', id);
       try {
         setQuestionsLoading(true);
-        const apiResponse = await getQuestionsByExam(`${process.env.NEXT_PUBLIC_API_GET_QUESTION_BY_EXAM}`, { exam_id: id, order: 'asc' });
+        const apiResponse = await getQuestionsByExam(`${process.env.NEXT_PUBLIC_API_GET_QUESTION_BY_EXAM}`, { exam_id: id });
         console.log('Result do hook useGetExamById', apiResponse);
         setSecondaryData(apiResponse);
         return apiResponse;

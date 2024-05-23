@@ -133,6 +133,7 @@ function ExaminationDisplay() {
 
                 <ExamNavButtons
                 links={ secondaryNavLinks }
+                id={ selectedExamId }
                 />
               {
                 secondaryDataList &&
