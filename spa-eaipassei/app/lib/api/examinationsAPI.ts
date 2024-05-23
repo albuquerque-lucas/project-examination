@@ -49,11 +49,13 @@ export const getExaminations = async (url: string, params: Record<string, any> =
     try {
       const resp = await axios.delete(`${process.env.NEXT_PUBLIC_API_DELETE_EXAMINATION}${id}`);
       if (resp.status >= 200 && resp.status < 300) {
-        return resp;
+        return resp.data;
       }
+      return null;
     } catch (error: any) {
       if (error.response >= 400 && error.response.status < 500) {
         console.log('Erro ao buscar os concursos', error);
       }
     }
+    return null;
   }

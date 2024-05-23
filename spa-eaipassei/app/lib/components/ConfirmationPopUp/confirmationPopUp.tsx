@@ -26,7 +26,10 @@ export default function ConfirmationPopUp() {
       return;
     }
     try {
-      console.log(examinationToDelete);
+      console.log('Examination To Delete', examinationToDelete);
+      const deleteResponse = examinationToDelete && await deleteExamination(examinationToDelete);
+      deleteResponse && console.log('Delete Response', deleteResponse);
+      deleteResponse && console.log('Delete Response Message', deleteResponse.message);
       const apiResponse = await getExaminations(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`, queryParams);
       if (apiResponse) {
         setExaminations(apiResponse);
