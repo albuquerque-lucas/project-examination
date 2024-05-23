@@ -21,14 +21,18 @@ function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
   const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
-  const [questionList, setQuestionList] = useState<ExamQuestion[] | null>(null);
-  const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(null);
+  // const [questionList, setQuestionList] = useState<ExamQuestion[] | null>(null);
+  // const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(null);
   const [error, setError] = useState(null);
 
   const {
     entity,
+    secondaryDataList,
+    secondaryNavLinks,
     fetchExam,
     fetchExamQuestions,
+    setSecondaryDataList,
+    setSecondaryNavLinks,
   } = useGetExamById();
 
   const fetchData = async (id: number | null) => {
@@ -36,8 +40,8 @@ function ExaminationDisplay() {
       const [exam, questions] = await Promise.all([fetchExam(id), fetchExamQuestions(id)]);
       const data = questions?.data;
       const links = questions?.links;
-      data && setQuestionList(data);
-      links && setNavLinks(links);
+      data && setSecondaryDataList(data);
+      links && setSecondaryNavLinks(links);
       console.log('Exam', exam);
       console.log('Questions', questions);
       console.log('Data', data);
@@ -64,7 +68,7 @@ function ExaminationDisplay() {
 
       fetchExamination();
     }
-  }, [navLinks, questionList]);
+  }, [secondaryNavLinks, secondaryDataList]);
   return (
     <>
     {
@@ -106,7 +110,8 @@ function ExaminationDisplay() {
               <AnimatePresence>
                 {
                   entity &&
-                  <EntityInfoBoard 
+                  <EntityInfoBoard
+                  key={ entity.id }
                   exam={ entity }
                   />
                 }
@@ -121,17 +126,17 @@ function ExaminationDisplay() {
                   initial={ { opacity: 0 } }
                   animate={ { opacity: 1 } }
                   exit={ { opacity: 0 } }
-                  transition={ { duration: 0.1 } }
+                  transition={ { duration: 0.4 } }
                 >
                   { entity.title }
                 </motion.h3>
 
                 <ExamNavButtons
-                links={ navLinks }
+                links={ secondaryNavLinks }
                 />
               {
-                questionList &&
-                  questionList.map((question, index) => {
+                secondaryDataList &&
+                  secondaryDataList.map((question, index) => {
                     return (
                       <QuestionCard
                       key={ index }

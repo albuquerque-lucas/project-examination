@@ -27,7 +27,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    transition={{ duration: 0.1 }}
+    transition={{ duration: 0.4 }}
     >
       <p className={style.question_card__sentence}>
         <span>{question_number} - </span>

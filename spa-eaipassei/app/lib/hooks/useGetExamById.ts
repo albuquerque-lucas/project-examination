@@ -16,6 +16,10 @@ export const useGetExamById = () => {
     dataLoaded,
     secondaryData,
     setSecondaryData,
+    secondaryDataList,
+    setSecondaryDataList,
+    secondaryNavLinks,
+    setSecondaryNavLinks,
   } = useContext(ExamsContext);
     const fetchExam = async (id: number | null): Promise<Exam | null> => {
       if (!id) return null;
@@ -59,10 +63,14 @@ export const useGetExamById = () => {
     secondaryData,
     isLoading,
     dataLoaded,
+    secondaryDataList,
+    secondaryNavLinks,
     setEntity,
     setSecondaryData,
     setDataLoaded,
     fetchExam,
     fetchExamQuestions,
+    setSecondaryDataList,
+    setSecondaryNavLinks,
   };
 }

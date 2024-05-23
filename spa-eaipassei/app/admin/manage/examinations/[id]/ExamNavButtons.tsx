@@ -3,7 +3,7 @@ import { ExamsContext } from '@/app/lib/context/ExamsContext';
 import { NavigationButtonsProps } from "@/app/lib/types/navigationTypes";
 import { motion } from 'framer-motion';
 import { updateLinks } from '@/app/lib/utils/updateNavLinks';
-import { getExams } from '@/app/lib/api/examsAPI';
+import { getExams, getQuestionsByExam } from '@/app/lib/api/examsAPI';
 import style from '@/app/ui/admin/navigationButtons/navigationButtons.module.css';
 
 const ExamNavButtons: React.FC<NavigationButtonsProps | null> = (props) => {
@@ -14,6 +14,9 @@ const ExamNavButtons: React.FC<NavigationButtonsProps | null> = (props) => {
     setQueryParams,
     filterList,
     setData,
+    setSecondaryData,
+    setSecondaryDataList,
+    setSecondaryNavLinks,
   } = useContext(ExamsContext);
   useEffect(() => {
   }, [currentPage]);
@@ -44,8 +47,10 @@ const ExamNavButtons: React.FC<NavigationButtonsProps | null> = (props) => {
 
       setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
   
-      const response = await getExams(url, updatedQueryParams);
-      setData(response);
+      const response = await getQuestionsByExam(url, updatedQueryParams);
+      setSecondaryData(response);
+      response && setSecondaryDataList(response.data);
+      response && setSecondaryNavLinks(response.links);
       if (response) {
         linksList = updateLinks(response.links);
       }
@@ -55,7 +60,13 @@ const ExamNavButtons: React.FC<NavigationButtonsProps | null> = (props) => {
   }
 
   return (
-    <div className={ style.examinations_navbuttons }>
+    <motion.div
+      className={ style.examinations_navbuttons }
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      >
       {
         linksList && linksList.length > 0 ? (
           linksList.map((item, index) => (
@@ -73,7 +84,7 @@ const ExamNavButtons: React.FC<NavigationButtonsProps | null> = (props) => {
           <div></div>
         )
       }
-    </div>
+    </motion.div>
   )
 }
 

@@ -16,8 +16,10 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
   const [data, setData] = useState<PaginatedAPIResponse<Exam> | null>(null);
   const [dataList, setDataList] = useState<Exam[] | null>(null);
   const [secondaryData, setSecondaryData] = useState<PaginatedAPIResponse<ExamQuestion> | ExamQuestion[] | null>(null);
+  const [secondaryDataList, setSecondaryDataList] = useState<ExamQuestion[] | null>(null);
   const [entity, setEntity] = useState<Exam | null>(null);
   const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(null);
+  const [secondaryNavLinks, setSecondaryNavLinks] = useState<NavigationLink[] | null>(null);
   const [deletionMode, setDeletionMode] = useState(false);
   const [entityToDelete, setEntityToDelete] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,10 +50,14 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
       setDataList,
       secondaryData,
       setSecondaryData,
+      secondaryDataList,
+      setSecondaryDataList,
       entity,
       setEntity,
       navLinks,
       setNavLinks,
+      secondaryNavLinks,
+      setSecondaryNavLinks,
       deletionMode,
       setDeletionMode,
       entityToDelete,
@@ -75,8 +81,10 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
     data,
     dataList,
     secondaryData,
+    secondaryDataList,
     entity,
     navLinks,
+    secondaryNavLinks,
     deletionMode,
     entityToDelete,
     currentPage,

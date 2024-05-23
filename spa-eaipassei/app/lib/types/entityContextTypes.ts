@@ -36,10 +36,14 @@ export type EntityContext<Entity, SecondaryEntity, EntityQueryParams> = {
   setDataList: (data: Entity[] | null) => void;
   secondaryData: PaginatedAPIResponse<SecondaryEntity> | SecondaryEntity[] | null;
   setSecondaryData: (data: PaginatedAPIResponse<SecondaryEntity> | SecondaryEntity[] | null) => void;
+  secondaryDataList: SecondaryEntity[] | null;
+  setSecondaryDataList: (data: SecondaryEntity[] | null) => void;
   entity: Entity | null;
   setEntity: (entity: Entity | null) => void;
   navLinks: NavigationLink[] | null;
   setNavLinks: (navLinks: NavigationLink[] | null) => void;
+  secondaryNavLinks: NavigationLink[] | null;
+  setSecondaryNavLinks: (navLinks: NavigationLink[] | null) => void;
   deletionMode: boolean;
   setDeletionMode: (deletionMode: boolean) => void;
   entityToDelete: number | null;
@@ -67,10 +71,14 @@ export const defaultValue = {
   setDataList: () => {},
   secondaryData: null,
   setSecondaryData: () => {},
+  secondaryDataList: null,
+  setSecondaryDataList: () => {},
   entity: null,
   setEntity: () => {},
   navLinks: null,
   setNavLinks: () => {},
+  secondaryNavLinks: null,
+  setSecondaryNavLinks: () => {},
   deletionMode: false,
   setDeletionMode: () => {},
   entityToDelete: null,
