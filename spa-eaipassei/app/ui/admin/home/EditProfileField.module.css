@@ -10,6 +10,10 @@
   padding: 0.5rem 1rem;
 }
 
+.edit_field label {
+  font-weight: 700;
+}
+
 .panel_case__edit_profile_field input,
 .edit_field input {
   height: 2rem;
@@ -38,6 +42,8 @@
   margin-left: 1rem;
   padding: 0.5rem;
 }
+
+
 
 .default_value_field p {
   padding: 1rem;

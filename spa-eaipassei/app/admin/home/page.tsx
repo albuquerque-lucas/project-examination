@@ -63,9 +63,9 @@ const Home = () => {
             </div>
 
             <div className={ style.profile_content__databox }>
-              <h2>
+              <h3>
                 { user?.full_name }
-              </h2>
+              </h3>
               <p>
                 { user?.email }
               </p>

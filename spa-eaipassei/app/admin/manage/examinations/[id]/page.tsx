@@ -14,8 +14,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ExamQuestion } from "@/app/lib/types/examTypes";
 import EntityInfoBoard from "./EntityInfoBoard";
 import ExamNavButtons from "./ExamNavButtons";
-import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
 import { NavigationLink } from "@/app/lib/types/entityContextTypes";
+import layout from '@/app/ui/admin/layout.module.css';
+import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
 
 function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
@@ -74,7 +75,7 @@ function ExaminationDisplay() {
     {
       examination ? 
       <div className={ style.display_page }>
-        <h1 className={ style.examination_headtitle }>
+        <h1 className={ layout.admin_content__title  }>
           { examination.title }
         </h1>
         <section className={ style.examination_edit__messagebox }>

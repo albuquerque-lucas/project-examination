@@ -12,3 +12,11 @@
   color: var(--secondary-text-color);
   font-weight: var(--font-light);
 }
+
+.panel_case__edit_profile__data {
+  min-height: 70%;
+  max-height: 60rem;
+  background-color: var(--secondary-background-color);
+  border-radius: 5px 0 0 5px;
+  padding: 0 0 0 1rem;
+}

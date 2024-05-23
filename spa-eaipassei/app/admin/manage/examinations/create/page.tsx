@@ -8,6 +8,7 @@ import withAuth from "@/app/lib/components/withAuth/withAuth"
 import { motion, AnimatePresence } from 'framer-motion';
 import MessageBox from '@/app/lib/components/Message/MessageBox';
 import { useCreateExaminations } from '@/app/lib/hooks/useCreateExaminations';
+import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 
 const CreateExaminationsPage = () => {
@@ -38,7 +39,7 @@ const CreateExaminationsPage = () => {
 
   return (
     <div className={ style.examination_creation__content  }>
-      <h1>Formulário</h1>
+      <h1 className={ layout.admin_content__title }>Formulário</h1>
       <div className={ style.message_container }>
         <AnimatePresence>
           { flashMessage &&

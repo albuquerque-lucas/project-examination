@@ -10,8 +10,9 @@ import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import NoticeNavigationButtons from "./NoticeNavigationButton";
 import DeleteNoticePopUp from "@/app/lib/components/ConfirmationPopUp/DeleteNoticePopUp";
 import { motion, AnimatePresence } from 'framer-motion';
-import style from '@/app/ui/admin/pages/notices/notices.module.css';
 import MessageBox from "@/app/lib/components/Message/MessageBox";
+import layout from '@/app/ui/admin/layout.module.css';
+import style from '@/app/ui/admin/pages/notices/notices.module.css';
 
 function NoticesPage() {
   const router = useRouter();
@@ -33,7 +34,7 @@ function NoticesPage() {
 
   return (
     <div className="notices_content">
-      <h1 className={ style.notices_headtitle }>
+      <h1 className={ layout.admin_content__title }>
         Dashboard Editais
       </h1>
       <div className={ style.messages_messagebox}>

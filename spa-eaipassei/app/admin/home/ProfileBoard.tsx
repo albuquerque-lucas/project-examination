@@ -30,15 +30,15 @@ function ProfileBoard({ user }: { user: User}) {
       exit={{ opacity: 0 }}
     >
       <h2>Perfil</h2>
-      <div>
+      <div className={ style.panel_case__edit_profile__data }>
         <ImageUploadField
-          label="Imagem"
+          label="Imagem:"
           ref={ imageRef }
           userId={ user.id }
         />
-        <div className={style.panel_case__edit_profile__data}>
+        <div>
           <EditProfileField
-            label="Nome"
+            label="Nome:"
             type="text"
             ref={firstNameRef}
             defaultValue={user?.first_name || ''}
@@ -46,7 +46,7 @@ function ProfileBoard({ user }: { user: User}) {
             field="first_name"
           />
           <EditProfileField
-            label="Sobrenome"
+            label="Sobrenome:"
             type="text"
             ref={lastNameRef}
             defaultValue={user?.last_name || ''}
@@ -54,7 +54,7 @@ function ProfileBoard({ user }: { user: User}) {
             field="last_name"
           />
           <EditProfileField
-            label="Email"
+            label="Email:"
             type="email"
             ref={emailRef}
             defaultValue={user?.email || ''}
@@ -62,7 +62,7 @@ function ProfileBoard({ user }: { user: User}) {
             field="email"
           />
           <EditProfileField
-            label="Telefone"
+            label="Telefone:"
             type="text"
             ref={phoneNumberRef}
             defaultValue={user?.phone_number || ''}
@@ -70,7 +70,7 @@ function ProfileBoard({ user }: { user: User}) {
             field="phone_number"
           />
           <EditProfileField
-            label="Nome de Usuário"
+            label="Username:"
             type="text"
             ref={usernameRef}
             defaultValue={user?.username || ''}

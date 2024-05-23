@@ -13,6 +13,7 @@ import DeleteSubjectsPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteSu
 import SubjectsDashboard from "./SubjectsDashboard";
 import MessageBox from "@/app/lib/components/Message/MessageBox";
 import { motion, AnimatePresence } from 'framer-motion';
+import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/pages/subjects/subjects.module.css';
 
 function SubjectsPage () {
@@ -44,7 +45,7 @@ function SubjectsPage () {
 
   return (
     <div className="subjects_content">
-      <h1 className={ style.subjects_headtitle }>
+      <h1 className={ layout.admin_content__title }>
         Dashboard Matérias
       </h1>
       <div className={ style.messages_messagebox}>

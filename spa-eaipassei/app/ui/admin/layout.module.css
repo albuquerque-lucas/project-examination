@@ -1,17 +1,17 @@
 .admin_layout__content {
   position: relative;
-  top: 10rem;
+  top: 5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0;
   text-align: center;
   z-index: 1;
   min-height: 100vh;
 }
 
 .admin_content__title {
-  font-size: 1.5rem;
-  margin: 2rem 0;
-
+  margin: 3rem 0 0 0;
+  font-size: 1.3rem;
+  color: var(--header-dashboard-color);
 }
