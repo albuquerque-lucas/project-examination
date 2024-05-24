@@ -19,6 +19,18 @@ const axiosWithImage = Axios.create({
   },
 });
 
+axios.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('user');
+    }
+    return Promise.reject(error);
+  }
+  );
+
 export const update = async (url: string, userUpdateRequest: UserUpdateRequest) => {
   try {
 
