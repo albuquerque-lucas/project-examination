@@ -72,7 +72,7 @@
 }
 
 .presaved_examinations_screen {
-  background-color: var(--primary-background-color);
+  background-color: var(--quaternary-background-color);
   border-radius: var(--default-border-radius);
   color: white;
   content: '';
@@ -81,11 +81,15 @@
   position: absolute;
   right: 0;
   z-index: 3;
-  top: 5%;
+  top: 10%;
   height: 70%;
   overflow: visible;
   position: fixed;
   width: 70%;
+}
+
+.presaved_examinations_screen h3 {
+  border-radius: var(--default-border-radius);
 }
 
 .presaved_screen__control {
@@ -114,6 +118,7 @@
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
+  outline: none;
 }
 
 .presaved_screen__control span{
