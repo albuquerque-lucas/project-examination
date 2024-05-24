@@ -9,7 +9,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import MessageBox from '@/app/lib/components/Message/MessageBox';
 import { useCreateExaminations } from '@/app/lib/hooks/useCreateExaminations';
 import { BiSolidLeftArrow } from "react-icons/bi";
-import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/examinations/examinationsCreate.module.css';
 
 const CreateExaminationsPage = () => {
@@ -70,7 +69,7 @@ const CreateExaminationsPage = () => {
             </div>
             <div className={ style.form_inputs__container }>
               <h3 className={ style.form_title }>
-                Formulário de adição
+                Formulário de cadastro
               </h3>
               <input
                 type="text"
@@ -95,6 +94,7 @@ const CreateExaminationsPage = () => {
                 type="file"
                 name="file_path"
                 ref={ fileRef }
+                accept=".pdf"
               />
 
               <motion.button
