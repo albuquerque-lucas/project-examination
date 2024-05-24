@@ -11,8 +11,9 @@ import { useFetchExaminations } from "@/app/lib/hooks/useFetchExaminations";
 import FilterBox from "@/app/lib/components/Filters/filterBox";
 import SelectedFiltersBar from "@/app/lib/components/SelectedFiltersBar/selectedFiltersBar";
 import { motion, AnimatePresence } from 'framer-motion';
-import style from '@/app/ui/admin/examinations/examinations.module.css';
 import MessageBox from "@/app/lib/components/Message/MessageBox";
+import layout from '@/app/ui/admin/layout.module.css';
+import style from '@/app/ui/admin/examinations/examinations.module.css';
 
 
 function ExaminationsPage() {
@@ -30,7 +31,7 @@ function ExaminationsPage() {
 
   return (
       <div className="examinations_content">
-        <h1 className={ style.examinations_headtitle }>
+        <h1 className={ layout.admin_content__title }>
           Dashboard Concursos
         </h1>
         <div className={ style.messages_messagebox }>

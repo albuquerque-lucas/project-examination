@@ -2,7 +2,7 @@
 
 import { useContext, useEffect } from "react";
 import { ExaminationsContext } from "../context/ExaminationsContext";
-import { NavigationLink } from "../types/responseTypes";
+import { NavigationLink } from "../types/entityContextTypes";
 
 export const useNavExaminations = () => {
   const { examinationNavLinks, setExaminationNavLinks } = useContext(ExaminationsContext);

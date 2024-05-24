@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import withAuth from '@/app/lib/components/withAuth/withAuth';
 import { AuthContext } from '../../lib/context/AuthContext';
 import noImage from './no-image.jpg';
@@ -9,17 +9,13 @@ import MessageBox from '@/app/lib/components/Message/MessageBox';
 import { motion, AnimatePresence } from 'framer-motion';
 import { authCodeMapper } from '@/app/lib/utils/authCodeMapper';
 import { CgProfile } from "react-icons/cg";
-import { FaUsers } from "react-icons/fa6";
 import ProfileBoard from './ProfileBoard';
 import useUpdateUser from '@/app/lib/hooks/useUpdateUser';
 import style from '@/app/ui/admin/home/home.module.css';
 
 const Home = () => {
   const { user, authMessage, setAuthMessage } = useContext(AuthContext);
-  const { updateMessage, setUpdateMessage } = useUpdateUser()
-  const [panelShow, setPanelShow] = useState({
-    edit_profile: false,
-  });
+  const { updateMessage, setUpdateMessage } = useUpdateUser();
   const hasValidAuthMessage = authMessage && authMessage.code !== authCodeMapper.logout;
 
   useEffect(() => {
@@ -67,9 +63,9 @@ const Home = () => {
             </div>
 
             <div className={ style.profile_content__databox }>
-              <h2>
+              <h3>
                 { user?.full_name }
-              </h2>
+              </h3>
               <p>
                 { user?.email }
               </p>
@@ -79,27 +75,14 @@ const Home = () => {
             </div>
           </div>
 
-          <div className={ style.profile_buttons__panel } >
-              <motion.button
-              onClick={ () => setPanelShow({ edit_profile: !panelShow.edit_profile }) }
-              >
-                <CgProfile />
-              </motion.button>
-              <motion.button>
-                <FaUsers />
-              </motion.button>
-          </div>
-
           <div className={ style.profile_content__panel }>
-          <AnimatePresence>
             {
-              panelShow.edit_profile && user && (
+            user && (
                 <ProfileBoard
                   user={ user }
                 />
               )
             }
-          </AnimatePresence>
           </div>
 
         </div>

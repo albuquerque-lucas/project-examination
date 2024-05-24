@@ -28,6 +28,11 @@ class UsersSeeder extends Seeder
             "email"=> "lucaslpra@gmail.com",
             "phone_number"=> "(32) 98867-3808",
             "password"=> Hash::make("123456"),
+            "sex" => "Masculino",
+            "sexual_orientation" => "Heterossexual",
+            "gender" => "Cisgênero",
+            "race" => "Branco",
+            "disability" => null,
         ]);
     }
 }

@@ -2,14 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 1rem;
   text-align: center;
   background-color: var(--primary-background-color);
   color: white;
   width: 100%;
-  padding: 1rem;
-  border-radius: var(--default-border-radius);
-  min-height: 95vh;
+  padding: 1rem 0;
+  min-height: 64rem;
 }
 
 .profile_content__info {
@@ -17,51 +15,25 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
-.profile_content__databox h2,
-.profile_content_databox p {
-  font-size: 1.5rem;
+.profile_content__databox h3 {
+  font-size: 1.3rem;
 }
 
+.profile_content__databox p {
+  font-size: 1rem;
+
+}
 .profile_content__sideinfo {
   display: flex;
   flex-direction: column;
   border-radius: var(--default-border-radius);
-  border: 1px solid rgb(151, 151, 151);
   width: 90%;
   max-width: 30rem;
   padding: 1rem;
   min-height: 30rem;
-}
-
-.profile_buttons__panel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  height: inherit;
-  border: 1px solid rgb(151, 151, 151);
-  margin-left: 0.5rem;
-  border-radius: var(--default-border-radius);
-  padding: 1rem;
-  width: 90%;
-  margin-top: 0.5rem;
-}
-
-.profile_buttons__panel button {
-  outline: none;
-  border: none;
-  color: white;
-  font-weight: 600;
-  font-size: 1.5rem;
-  background-color: transparent;
-  width: 2rem;
-  height: 2rem;
-  margin: 0.3rem 0;
-  border-radius: 50%;
-  cursor: pointer;
 }
 
 .profile_content__image {
@@ -89,6 +61,10 @@
 }
 
 @media(min-width: 923px) {
+
+  .home_content {
+    height: 100vh;
+  }
   .profile_content__info {
     align-items: flex-start;
     flex-direction: row;

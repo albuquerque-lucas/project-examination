@@ -20,16 +20,23 @@ export const useCreateExaminations = () => {
   const { setNoticesLoaded } = useCreateNotices();
   const router = useRouter();
   const { setFlashMessage, setExaminationsLoaded, flashMessage } = useContext(ExaminationsContext);
+  
+  const clearValues = () => {
+    clearRefValue(titleRef, '');
+    clearRefValue(institutionRef, '');
+    clearRefValue(educationalLevelRef, '5');
+    clearRefValue(fileRef, '');
+  }
 
   const addExamination = ({ title, institution, educational_level_id, notice }: Examination) => {
     if (!title || !institution || !educational_level_id) {
       setFlashMessage({
-        message: 'Preencha todos os campos.',
+        message: 'Todos os campos devem ser preenchidos.',
         type: 'error',
       });
       return;
     }
-  
+    
     const examination: Examination = {
       title,
       institution,
@@ -70,6 +77,15 @@ export const useCreateExaminations = () => {
     const notice = fileRef.current?.files?.length && fileRef.current.files[0] instanceof File
     ? fileRef.current.files[0]
     : null;
+    
+    if (notice !== null && notice?.type !== 'application/pdf') {
+      setFlashMessage({
+        message: 'O arquivo deve estar no formato PDF.',
+        type: 'error',
+      });
+      clearRefValue(fileRef, '');
+      return;
+    }
 
     const examination: Examination = {
       title,
@@ -79,10 +95,7 @@ export const useCreateExaminations = () => {
     }
     addExamination(examination);
 
-    clearRefValue(titleRef, '');
-    clearRefValue(institutionRef, '');
-    clearRefValue(educationalLevelRef, '5');
-    clearRefValue(fileRef, '');
+    clearValues();
 
   }
 
@@ -136,7 +149,7 @@ export const useCreateExaminations = () => {
           message: response.data.message,
           type: 'success',
         });
-        router.push('/admin/manage/examinations');
+        setPersistenceList([]);
       }
     } catch (error) {
       console.error('ERROR', error);

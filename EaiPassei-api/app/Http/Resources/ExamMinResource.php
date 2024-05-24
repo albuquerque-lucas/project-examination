@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ExamResource extends JsonResource
+class ExamMinResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,7 +22,6 @@ class ExamResource extends JsonResource
             'date' => $this->date,
             'subjects' => SubjectMinResource::collection($this->subjects),
             'questions_count' => count($this->examQuestions),
-            // 'questions' => ExamQuestionResource::collection($this->examQuestions),
         ];
     }
 }

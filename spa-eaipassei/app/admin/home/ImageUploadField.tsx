@@ -39,7 +39,7 @@ const ImageUploadField = forwardRef<HTMLInputElement, ImageUploadFieldProps>(fun
         :
 
         <div className={ style.default_value_field }>
-          <p>Editar { label }</p>
+          <p>Image</p>
           <div className={ style.buttons_box }>
             <motion.button
                 whileTap={{ scale: 0.9, backgroundColor: '#36393e'}}

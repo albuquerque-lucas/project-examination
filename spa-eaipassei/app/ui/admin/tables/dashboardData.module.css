@@ -29,7 +29,7 @@
 }
 
 .data_table tbody tr:hover{
-  background-color: #fcf2ec;
+  background-color: var(--background-list-hover);
 }
 
 .data_table tbody tr td{

@@ -18,12 +18,9 @@ class ExaminationService implements IService
 {
     private $serviceResponse;
 
-    private Examination $model;
-
-    public function __construct(ServiceResponse $serviceResponse, Examination $model)
+    public function __construct(ServiceResponse $serviceResponse)
     {
         $this->serviceResponse = $serviceResponse;
-        $this->model = $model;
     }
 
     public function getAll(string $order, string $orderBy = 'id', array $params = []): ServiceResponse
@@ -201,7 +198,7 @@ class ExaminationService implements IService
             }
 
             $this->serviceResponse->setAttributes(200, (object)[
-                'message' => $this->serviceResponse->deletedSuccessfully('Examination'),
+                'message' => $this->serviceResponse->deletedSuccessfully(),
                 'deleted' => true,
             ]);
             return $this->serviceResponse;

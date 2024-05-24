@@ -1,5 +1,5 @@
 import { FlashMessage } from "./messageTypes";
-import { PaginatedAPIResponse, NavigationLink } from "./responseTypes";
+import { PaginatedAPIResponse, NavigationLink } from "./entityContextTypes";
 
 export type Subject = {
   id: number;

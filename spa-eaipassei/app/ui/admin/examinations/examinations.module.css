@@ -1,4 +1,5 @@
 .examinations_headtitle {
+  margin: 3rem 0 0 0;
   font-size: 1.3rem;
   color: var(--header-dashboard-color);
 }

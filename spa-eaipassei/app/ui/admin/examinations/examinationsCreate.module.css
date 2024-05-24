@@ -2,80 +2,69 @@
   display: flex;
   flex-direction: column;
   min-height: 90vh;
-  width: 90vw;
-}
-
-.examination_creation__content h1 {
-  display: flex;
-  height: 7rem;
-  justify-content: center;
+  width: 100%;
 }
 
 .message_container {
   padding: 0.5rem;
   content: '';
+  background-color: transparent;
   width: 50vw;
   height: 3rem;
+  width: 100%;
   align-self: center;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.creation_form__box {
-  display: flex;
-  flex-direction: column;
-  height: 90%;
-  padding: 1rem;
+  margin-top: 2rem;
 }
 
 .creation_form__box form {
-  border-radius: var(--default-border-radius);
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100%;
   width: 100%;
 }
 
 .creation_screen {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
   width: 100%;
 }
 
-.form_inputs {
+.form_inputs__container {
   align-items: center;
-  border: 2px solid var(--primary-background-color);
-  border-radius: var(--default-border-radius);
   display: flex;
   flex-direction: column;
-  max-width: 650px;
   min-height: 25rem;
-  width: 90%;
 }
 
 .form_title {
   align-items: center;
   background-color: var(--primary-background-color);
-  border-radius: 5px 5px 0 0;
   color: white;
   display: flex;
-  height: 3rem;
-  justify-content: center;
-  margin: 0 0 2rem 0;
+  height: 2rem;
+  font-weight: 300;
   width: calc(100% + 3px);
+  margin-bottom: 1rem;
+  padding: 2rem 0;
+  padding-left: 10%;
 }
 
-.form_inputs input,
-.form_inputs select,
-.form_inputs button {
+.form_inputs__container input,
+.form_inputs__container select,
+.form_inputs__container button {
   margin: 0.5rem 0;
   padding: 0.5rem;
   width: 80%;
 }
+.form_inputs__container select {
+  align-self: flex-start;
+  margin-left: 10%;
+  max-width: 400px;
+}
 
-.form_inputs button {
+.form_inputs__container button {
   background-color: var(--primary-background-color);
   border: none;
   border-radius: var(--default-border-radius);
@@ -85,69 +74,189 @@
   font-weight: 600;
   height: 3rem;
   outline:none;
+  max-width: 500px;
 }
 
-.presaved_examinations_screen {
-  background-color: var(--primary-background-color);
-  border: 2px solid var(--primary-background-color);
-  border-radius: var(--default-border-radius);
-  color: white;
-  content: '';
-  max-height: 20rem;
-  min-height: 15rem;
-  overflow: scroll;
-  margin: 1rem 0;
-  max-width: 650px;
-  width: 90%;
+.form_inputs__container button:hover {
+  background-color: var(--secondary-background-color);
 }
+
+.form_inputs__container button:disabled {
+  background-color: var(--header-dashboard-color);
+  cursor: not-allowed;
+}
+
+.utilities_buttons__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 8rem;
+  margin-bottom: 1rem;
+}
+
+.utilities_buttons__container button {
+  height: 3rem;
+  border: none;
+  outline: none;
+  background-color: var(--secondary-background-color);
+  color: white;
+  font-weight: 700;
+  margin: 0.2rem 0;
+  width: 90%;
+  cursor: pointer;
+}
+
+.utilities_buttons__container button:hover {
+  background-color: var(--primary-button-hover-color);
+}
+
 
 .list_display {
   align-items: center;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  justify-content: flex-start;
   position: relative;
+  height: 100%;
+  background-color: var(--quaternary-background-color);
 }
 
-.form_button_box {
-  align-items: center;
-  background-color: var(--primary-background-color);
-  border-radius: 5px;
-  bottom: 0;
-  display: flex;
-  height: 5rem;
-  justify-content: center;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, 50%);
-  width: 77%;
+.list_display h4 {
+  margin: 5rem 0 0 0;
+  font-weight: 300;
+  font-size: 1.2rem;
+  width: 80%;
 }
 
-.form_button_box button {
+.presaved_examinations_screen {
+  background-color: var(--quaternary-background-color);
   border-radius: var(--default-border-radius);
-  border: none;
+  color: white;
+  content: '';
+  overflow: scroll;
+  margin: 1rem 0 0 0;
+  position: absolute;
+  right: 0;
+  z-index: 3;
+  top: 10%;
+  height: 70%;
+  max-height: 550px;
+  overflow: visible;
+  position: fixed;
+  width: 70%;
+}
+
+.presaved_examinations_screen h3 {
+  border-radius: var(--default-border-radius);
+}
+
+.presaved_screen__control {
+  position: absolute;
+  left: -1.9rem;
+  top: 4.5rem;
+  border-radius: 15px 0 0 15px;
   background-color: var(--secondary-background-color);
   color: white;
-  font-size: 1.1rem;
-  font-weight: bold;
-  height: 3rem;
-  margin: 0 1rem;
-  outline:none;
-  width: 9rem;
+  height: 10rem;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 20;
+}
+
+.presaved_screen__control:hover {
+  background-color: var(--primary-background-hover);
+
+}
+
+.presaved_screen__control button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  outline: none;
   cursor: pointer;
 }
 
-.form_button_box button:hover {
-  background-color: var(--primary-background-hover);
+.presaved_screen__control span{
+  background-color: var(--background-danger);
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 700;
+  position: absolute;
+  top: 1rem;
+  left: -1rem;
 }
 
 
 
+
+.form_button__box {
+  background-color: var(--quaternary-background-color);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form_button__box> :first-child {
+  margin-bottom: 0.2rem;
+}
+
+.form_button__box button {
+  height: 3rem;
+  font-weight: 700;
+  background-color: var(--secondary-background-color);
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.form_button__box button:hover {
+  background-color: var(--primary-background-hover);
+}
+
+@media(min-width: 530px) {
+  .utilities_buttons__container button {
+    margin: 0.2rem;
+    max-width: 10rem;
+  }
+}
+
 @media (min-width: 850px) {
+  
+  .utilities_buttons__container {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+
   .creation_screen {
     flex-direction: row;
     justify-content: center;
     width: 100%;
+    max-width: 1010px;
+    position: relative;
+  }
+  .presaved_examinations_screen {
+    max-height: 40rem;
+    max-width: 25rem;
+  }
+
+  .list_display {
+    height: 40rem;
   }
 
   .list_display h3 {
@@ -157,18 +266,9 @@
     width: 40%;
   }
 
-  .presaved_examinations_screen {
-    max-height: 25rem;
-    height: 25rem;
-    position: relative;
-    margin-left: 2rem;
-    width: 40%;
-  }
 
-  .form_button_box {
-    bottom: 25%;
-    transform: translate(-50%, 0);
-    width: 71%;
+  .form_button__box {
+    height: 5rem;
   }
 
   .form_button_box button {
@@ -179,12 +279,21 @@
     outline:none;
     width: 9rem;
   }
+
+  .presaved_examinations_screen {
+    width: 50%;
+    height: 50rem;
+    max-height: 50rem;
+  }
+
+  .presaved_examinations_screen button {
+    height: 100%;
+    font-size: 102%;
+  }
 }
 
 @media (min-width: 1600px) {
-  .list_display {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+  .creation_screen {
+    max-width: 1300px;
   }
 }

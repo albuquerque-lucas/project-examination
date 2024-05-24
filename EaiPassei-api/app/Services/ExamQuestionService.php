@@ -20,10 +20,10 @@ class ExamQuestionService implements IService
         $this->serviceResponse = $serviceResponse;
     }
 
-    public function getAll(string $order, string $orderBy = 'id'): ServiceResponse
+    public function getAll(string $order, string $orderBy = 'id', array $params = []): ServiceResponse
     {
         try {
-            $examQuestions = ExamQuestion::getAllOrdered($order, $orderBy);
+            $examQuestions = ExamQuestion::getAllOrdered($order, $orderBy, $params);
 
             $collection = ExamQuestionResource::collection($examQuestions);
             $this->serviceResponse->setAttributes(200, $collection);

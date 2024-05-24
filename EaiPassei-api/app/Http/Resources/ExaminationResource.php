@@ -21,7 +21,7 @@ class ExaminationResource extends JsonResource
             'institution' => $this->institution,
             'active' => $this->active,
             'exams_count' => count($this->exams),
-            'exam_list' => ExamResource::collection($this->exams),
+            'exam_list' => ExamMinResource::collection($this->exams),
             'study_areas' => StudyAreaMinResource::collection($this->studyAreas),
         ];
     }

@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\ExamQuestion;
+use App\Models\Booklet;
+use App\Models\Examination;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,12 +13,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exam_question_alternatives', function (Blueprint $table) {
+        Schema::create('exams', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(ExamQuestion::class)->cascadeOnDelete();
-            $table->char('letter')->nullable()->default(null);
-            $table->text('text');
-            $table->boolean('is_answer')->default(false);
+            $table->foreignIdFor(Examination::class)->nullable();
+            $table->foreignIdFor(Booklet::class)->nullable();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exam_questions_alternatives');
+        Schema::dropIfExists('exams');
     }
 };

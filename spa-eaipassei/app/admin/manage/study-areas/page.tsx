@@ -10,8 +10,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import DeleteStudyAreasPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteStudyAreasPopUp";
 import StudyAreasDashboard from "./StudyAreasDashboard";
 import StudyAreasNavigationButtons from "./StudyAreasNavigationButtons";
-import style from '@/app/ui/admin/pages/study-areas/studyArea.module.css';
 import MessageBox from "@/app/lib/components/Message/MessageBox";
+import layout from '@/app/ui/admin/layout.module.css';
+import style from '@/app/ui/admin/pages/study-areas/studyArea.module.css';
 
 function StudyAreasPage() {
   const router = useRouter();
@@ -32,14 +33,14 @@ function StudyAreasPage() {
 
   return (
     <div className={ style.study_area_content }>
-      <h1 className={ style.study_areas_headtitle }>
+      <h1 className={ layout.admin_content__title }>
         Dashboard Áreas de Estudo
       </h1>
       <div className={ style.messages_messagebox}>
         <AnimatePresence>
           {
             studyAreasMessage &&
-            <MessageBox 
+            <MessageBox
               message={ studyAreasMessage.message }
               type={ studyAreasMessage.type }
               setMessage={ setStudyAreasMessage }

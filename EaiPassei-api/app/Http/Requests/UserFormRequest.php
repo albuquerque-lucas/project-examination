@@ -30,6 +30,11 @@ class UserFormRequest extends FormRequest
             'email' => 'required|email',
             'phone_number' => 'required|string',
             'password' => 'required|string',
+            'sex' => 'nullable|string',
+            'sexual_orientation' => 'nullable|string',
+            'gender' => 'nullable|string',
+            'race' => 'nullable|string',
+            'disability' => 'nullable|string',
         ];
     }
 }

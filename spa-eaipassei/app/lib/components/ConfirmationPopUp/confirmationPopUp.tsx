@@ -3,8 +3,7 @@
 import { useContext } from 'react';
 import { ExaminationsContext } from '../../context/ExaminationsContext';
 import { NoticesContext } from '../../context/NoticesContext';
-import { deleteExamination, getAllExaminations } from '../../api/examinationsAPI';
-import { toast } from 'react-toastify';
+import { deleteExamination, getExaminations } from '../../api/examinationsAPI';
 import { motion } from 'framer-motion';
 import popUp from '@/app/ui/admin/cards/popUp.module.css';
 
@@ -15,6 +14,7 @@ export default function ConfirmationPopUp() {
     examinationToDelete,
     setExaminations,
     setExaminationsLoaded,
+    queryParams,
   } = useContext(ExaminationsContext);
 
   const { setNoticesLoaded } = useContext(NoticesContext);
@@ -26,18 +26,10 @@ export default function ConfirmationPopUp() {
       return;
     }
     try {
-      console.log(examinationToDelete);
-      await toast.promise(
-        deleteExamination(id),
-        {
-          pending: 'Deletando concurso...',
-          success: `Concurso ${id} deletado com sucesso.`,
-          error: 'Falha ao deletar o concurso.'
-        }
-      );
-      const getResponse = await getAllExaminations();
-      if (getResponse) {
-        setExaminations(getResponse.data);
+      examinationToDelete && await deleteExamination(examinationToDelete);
+      const apiResponse = await getExaminations(`${process.env.NEXT_PUBLIC_API_GET_EXAMINATIONS_LIST}`, queryParams);
+      if (apiResponse) {
+        setExaminations(apiResponse);
       }
       setExaminationsLoaded(false);
       setNoticesLoaded(false);

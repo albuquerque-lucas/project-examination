@@ -1,0 +1,23 @@
+.question_card__container {
+  border-radius: var(--default-border-radius);
+  border: 1px solid gray;
+  margin: 0 0 1rem 0;
+  padding: 1rem;
+  width: 100%;
+}
+
+.question_card__sentence {
+  font-weight: var(--font-bold);
+  margin-bottom: 1rem;
+  /* background-color: lightcoral; */
+}
+
+.question_card__alternative {
+  /* background-color: lightyellow; */
+  margin: 0.1rem 0;
+  cursor: pointer;
+}
+
+.question_card__alternative span {
+  font-weight: var(--font-bold);
+}

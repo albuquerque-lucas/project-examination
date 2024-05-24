@@ -1,14 +1,14 @@
 .saving_card__container {
   position: relative;
-  background-color: white;
-  color: black;
-  border-radius: var(--default-border-radius);
-  padding: 0.5rem;
   display: flex;
   flex-direction: column;
+  background-color: white;
+  color: black;
   text-align: start;
   margin: 0.5rem;
-  width: 100%;
+  width: 98%;
+  height: 5rem;
+  padding: 0.5rem;
 }
 
 .saving_card__container span {
@@ -17,14 +17,18 @@
 }
 
 .delete_item__button {
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  right: 0.5rem;
-  background-color: transparent;
+  right: 0;
+  top: 0;
+  background-color: var(--primary-background-color);
+  color: white;
+  padding: 0 0.4rem;
   border: none;
   outline: none;
   font-size: 1.3rem;
+  height: 1.5rem;
   cursor: pointer;
 }
