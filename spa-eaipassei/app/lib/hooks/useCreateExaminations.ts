@@ -136,7 +136,7 @@ export const useCreateExaminations = () => {
           message: response.data.message,
           type: 'success',
         });
-        router.push('/admin/manage/examinations');
+        setPersistenceList([]);
       }
     } catch (error) {
       console.error('ERROR', error);

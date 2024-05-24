@@ -4,10 +4,9 @@
   flex-direction: column;
   background-color: white;
   color: black;
-  border-radius: var(--default-border-radius);
   text-align: start;
   margin: 0.5rem;
-  width: 100%;
+  width: 98%;
   height: 5rem;
   padding: 0.5rem;
 }
@@ -22,8 +21,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  right: 0;
-  top: 0;
+  right: 2%;
+  top: 10%;
+  transform: translate(50%, -50%);
   background-color: transparent;
   border: none;
   outline: none;

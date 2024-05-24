@@ -56,8 +56,22 @@ const CreateExaminationsPage = () => {
       <div className={ style.creation_form__box }>
         <form action="" onSubmit={(e) => e.preventDefault() }>
           <section className={ style.creation_screen}>
+            <div className={ style.utilities_buttons__container }>
+                <button
+                  onClick={() => router.push('/admin/manage/examinations')}
+                >
+                  Concursos
+                </button>
+                <button
+                  onClick={() => router.push('/admin/manage/notices')}
+                >
+                  Editais
+                </button>
+            </div>
             <div className={ style.form_inputs__container }>
-              <h3 className={ style.form_title }>Formulário de adição</h3>
+              <h3 className={ style.form_title }>
+                Formulário de adição
+              </h3>
               <input
                 type="text"
                 placeholder='Título do concurso'
@@ -97,7 +111,7 @@ const CreateExaminationsPage = () => {
         className={ style.presaved_examinations_screen }
         initial={{ x: '100%' }}
         animate={{ x: persistenceListOpen ? '0%' : '100%' }}
-        transition={{ type: 'spring', stiffness: 30 }} 
+        transition={{ type: 'spring', stiffness: 50 }} 
       >
         <div className={ style.presaved_screen__control }>
           <motion.button
@@ -128,7 +142,7 @@ const CreateExaminationsPage = () => {
             : <h4>Nenhum concurso adicionado</h4>
         }
         </div>
-        <div className={ style.button_container }>
+        <div className={ style.form_button__box }>
           <motion.button
             whileTap={{scale:0.9}}
             onClick={ submitExaminations }
@@ -137,10 +151,7 @@ const CreateExaminationsPage = () => {
           </motion.button>
           <motion.button
             whileTap={{scale:0.9}}
-            onClick={() => {
-              setPersistenceList([]);
-              router.push('/admin/manage/examinations');
-            }}
+            onClick={() => { setPersistenceList([]) }}
           >
             Cancelar
           </motion.button>
