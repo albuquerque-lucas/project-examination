@@ -61,9 +61,16 @@ function NoticesPage() {
           <motion.button
             whileTap={{ scale: 0.9 }}
             className={ style.new_examination__button }
+            onClick={() => router.push('/admin/manage/examinations')}
+          >
+            Concursos
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            className={ style.new_examination__button }
             onClick={() => setCreationMode(!creationMode)}
           >
-            Adicionar Edital
+            Cadastrar
           </motion.button>
           {
             creationMode &&

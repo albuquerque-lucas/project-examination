@@ -28,7 +28,7 @@
   height: 2rem;
   width: 2rem;
   color: white;
-  background-color: transparent;
+  background-color: var(--quaternary-background-color);
   border: none;
   margin: 0 0.2rem;
   cursor: pointer;

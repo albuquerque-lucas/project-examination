@@ -44,7 +44,7 @@
 }
 
 .new_examination__button {
-  background-color: var(--secondary-button-color);
+  background-color: var(--primary-background-color);
 }
 
 .new_examination__button:hover {
@@ -53,7 +53,7 @@
 }
 
 .go_back__button {
-  background-color: var(--secondary-button-color);
+  background-color: var(--primary-background-color);
 }
 
 .go_back__button:hover {

@@ -57,10 +57,17 @@ function ExaminationsPage() {
             </motion.button>
             <motion.button
               whileTap={{ scale: 0.95 }}
+              onClick={() => router.push('/admin/manage/notices')}
+              className={ style.new_examination__button }
+            >
+              Editais
+            </motion.button>
+            <motion.button
+              whileTap={{ scale: 0.95 }}
               onClick={() => router.push('/admin/manage/examinations/create')}
               className={ style.new_examination__button }
             >
-              Adicionar Concurso
+              Cadastrar
             </motion.button>
           </div>
           <div className={ style.utilities_filters }>

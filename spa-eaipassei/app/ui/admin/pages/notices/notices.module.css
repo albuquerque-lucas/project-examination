@@ -31,18 +31,27 @@
 }
 
 .notice_creation__form {
-  width: 55rem;
-  height: 4rem;
+  height: 3rem;
   border-radius: var(--default-border-radius);
   background-color: var(--primary-background-color);
   color: white;
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
   padding: 0 1rem;
   margin: 0 1rem;
 }
-.notice_creation__form input {
+
+.notice_creation__form label {
+  font-weight: 700;
+}
+.notice_creation__form input[type="file"] {
+  width: 35%;
+}
+.notice_creation__form input[type="number"] {
   padding: 0 0.5rem;
+  width: 5rem;
+  height: 2rem;
 }
 .utilities_buttons button {
   border: 2px solid transparent;
@@ -61,7 +70,7 @@
 }
 
 .new_examination__button {
-  background-color: var(--secondary-button-color);
+  background-color: var(--primary-background-color);
 }
 
 .new_examination__button:hover {
@@ -70,7 +79,7 @@
 }
 
 .go_back__button {
-  background-color: var(--secondary-button-color);
+  background-color: var(--primary-background-color);
 }
 
 .go_back__button:hover {
@@ -86,9 +95,12 @@
 }
 
 @media (min-width: 830px) {
+  .notice_creation__form {
+    width: 50%;
+  }
   .notice_creation__form label {
-    margin-right: 0.5rem;
     font-size: 90%;
+    margin-right: 0.5rem;
   }
   .notices_utilitiesbox {
     align-items: center;
