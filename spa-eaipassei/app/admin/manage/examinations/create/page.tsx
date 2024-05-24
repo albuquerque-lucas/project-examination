@@ -42,7 +42,6 @@ const CreateExaminationsPage = () => {
 
   return (
     <div className={ style.examination_creation__content  }>
-      <h1 className={ layout.admin_content__title }>Formulário</h1>
       <div className={ style.message_container }>
         <AnimatePresence>
           { flashMessage &&
@@ -58,7 +57,7 @@ const CreateExaminationsPage = () => {
         <form action="" onSubmit={(e) => e.preventDefault() }>
           <section className={ style.creation_screen}>
             <div className={ style.form_inputs__container }>
-              {/* <h3 className={ style.form_title }>Formulário de adição</h3> */}
+              <h3 className={ style.form_title }>Formulário de adição</h3>
               <input
                 type="text"
                 placeholder='Título do concurso'
@@ -96,8 +95,8 @@ const CreateExaminationsPage = () => {
       </div>
       <motion.div
         className={ style.presaved_examinations_screen }
-        initial={{ x: '100%' }}  // Início fora da tela à direita
-        animate={{ x: persistenceListOpen ? '0%' : '100%' }}  // Move para dentro ou para fora
+        initial={{ x: '100%' }}
+        animate={{ x: persistenceListOpen ? '0%' : '100%' }}
         transition={{ type: 'spring', stiffness: 30 }} 
       >
         <div className={ style.presaved_screen__control }>

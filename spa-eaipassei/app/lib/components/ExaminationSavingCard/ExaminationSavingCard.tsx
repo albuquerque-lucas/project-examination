@@ -30,7 +30,7 @@ const ExaminationSavingCard: React.FC<ExaminationSavingCardProps> = ({
   }
   return (
     <div className={ style.saving_card__container }>
-      <h4>{title}</h4>
+      <h5>{title}</h5>
       <p><span>Instituição:</span> {institution}</p>
       <motion.button
         className={ style.delete_item__button }
