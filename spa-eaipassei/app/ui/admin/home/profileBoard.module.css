@@ -4,6 +4,7 @@
   margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
+  padding: 0 4rem;
 }
 
 .panel_case h2 {

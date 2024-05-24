@@ -36,7 +36,6 @@
 
 .utilities_buttons button {
   border: 2px solid transparent;
-  border-radius: var(--default-border-radius);
   height: 2.5rem;
   width: 10rem;
   font-weight: 600;
@@ -45,11 +44,20 @@
 }
 
 .new_examination__button {
-  background-color: var(--primary-button-color);
+  background-color: var(--secondary-button-color);
+}
+
+.new_examination__button:hover {
+  background-color: var(--primary-button-hover-color);
+
 }
 
 .go_back__button {
   background-color: var(--secondary-button-color);
+}
+
+.go_back__button:hover {
+  background-color: var(--primary-background-hover);
 }
 
 .utilities_filters {

@@ -82,12 +82,21 @@
   width: 10rem;
 }
 
-.new_study_area__button {
-  background-color: var(--primary-button-color);
+.new_studty_area__button {
+  background-color: var(--secondary-button-color);
+}
+
+.new_studty_area__button:hover {
+  background-color: var(--primary-button-hover-color);
+
 }
 
 .go_back__button {
   background-color: var(--secondary-button-color);
+}
+
+.go_back__button:hover {
+  background-color: var(--primary-background-hover);
 }
 
 @media (min-width: 510px) {
