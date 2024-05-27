@@ -32,3 +32,17 @@ export const getExamById = async (url: string, params: Record<string, any> = {})
 export const getQuestionsByExam = async (url: string, params: Record<string, any> = {}): Promise<PaginatedAPIResponse<ExamQuestion> | null> => {
   return fetchData<PaginatedAPIResponse<ExamQuestion>>(url, params);
 }
+
+export const createExam = async (url: string, data: Record<string, any>): Promise<Exam | null> => {
+  try {
+    const response: AxiosResponse<Exam> = await axios.post(url, data);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    return null;
+  } catch (error: any) {
+    console.log('Erro ao criar o exame', error);
+    return null;
+  }
+}

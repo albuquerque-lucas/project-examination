@@ -60,7 +60,7 @@ export default function Navbar() {
         </motion.button>
         <Link href="/admin/home">
           <h3 className={navbar.navbar_brand}>
-              EaiPassei Admin
+              IaiPassei Admin
           </h3>
         </Link>
         <div ref={menuRef} className={`${navbar.admin_navbar__menu} ${sidebarOpen ? navbar.menu_open : ''}`}>

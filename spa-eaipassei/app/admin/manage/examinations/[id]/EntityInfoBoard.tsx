@@ -49,6 +49,14 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
         }
       </span>
     </p>
+    <div className={ style.see_exam__container }>
+      <motion.button 
+        className={ style.see_exam__btn }
+        whileTap={ { scale: 0.99 } }
+      >
+        Ver Prova
+      </motion.button>
+    </div>
   </div>
   )
 }

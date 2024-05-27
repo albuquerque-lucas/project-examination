@@ -1,11 +1,8 @@
 .exam_details {
-  background-color: var(--primary-background-color);
   color: white;
-  width: 38%;
-  padding: 2rem 0;
+  width: 100%;
   position: relative;
-  height: 22rem;
-  border-radius: var(--default-border-radius);
+  padding: 3rem 2rem 0;
 }
 
 .exam_details button.details_close__btn {
@@ -14,8 +11,8 @@
   border: 2px solid transparent;
   color: white;
   font-size: 1.1rem;
-  width: 2rem;
-  height: 2rem;
+  width: 1.8rem;
+  height: 1.8rem;
   border: none;
   outline: none;
   position: absolute;
@@ -25,7 +22,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border-radius: 50%;
 }
 
 .exam_details button.details_close__btn:hover {
@@ -33,23 +29,66 @@
 }
 
 .exam_details p {
-  margin: 1rem 0;
+  margin: 0.2rem 0;
   padding: 0 1rem;
   /* background-color: red; */
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
+}
+
+.exam_details p:hover {
+  background-color: var(--light-dark-background-hover);
+  cursor: pointer;
 }
 
 .detail_key {
   font-weight: 700;
+  text-align: start;
 }
 
 .detail_value {
   padding: 0.2rem;
   width: 40%;
   display: flex;
+  width: 100%;
+  text-align: start;
+}
+
+.see_exam__container {
+  width: 100%;
+  display: flex;
   align-items: center;
-  justify-content: flex-end;
+}
+
+
+.see_exam__btn {
+  align-self: flex-start;
+  background-color: var(--primary-button-color);
+  color: white;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  width: 15rem;
+  height: 3rem;
+
+}
+
+.see_exam__btn:hover {
+  background-color: var(--primary-button-hover-color);
+}
+
+@media(min-width: 560px) {
+  .exam_details p {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .detail_value {
+    width: 50%;
+    justify-content: flex-end;
+  }
 }
