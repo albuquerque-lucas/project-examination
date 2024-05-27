@@ -39,9 +39,8 @@ export default function FilterBox() {
     if (filterMessage) {
       const timer = setTimeout(() => {
         setFilterMessage('');
-      }, 3500); // 1 second
+      }, 3500);
 
-      // Limpar o timer quando o componente for desmontado
       return () => clearTimeout(timer);
     }
   }, [filterMessage, setFilterMessage]);

@@ -1,20 +1,14 @@
 'use client';
 
-import { useState, useEffect, useContext } from "react";
-import { ExamsContext} from '@/app/lib/context/ExamsContext';
+import { useState, useEffect } from "react";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { getExaminationById } from "@/app/lib/api/examinationsAPI";
 import { DetailedExamination } from "@/app/lib/types/examinationTypes";
-import { FaEye, FaTrashAlt, FaPlusCircle } from "react-icons/fa";
-import { BiSolidDownArrowSquare } from "react-icons/bi";
 import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
-import { getExamById } from "@/app/lib/api/examsAPI";
 import QuestionCard from "./QuestionCard";
-import { motion, AnimatePresence } from "framer-motion";
-import { ExamQuestion } from "@/app/lib/types/examTypes";
 import EntityInfoBoard from "./EntityInfoBoard";
 import ExamNavButtons from "./ExamNavButtons";
-import { NavigationLink } from "@/app/lib/types/entityContextTypes";
+import { motion, AnimatePresence } from "framer-motion";
 import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
 
@@ -22,8 +16,6 @@ function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
   const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
-  // const [questionList, setQuestionList] = useState<ExamQuestion[] | null>(null);
-  // const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(null);
   const [error, setError] = useState(null);
 
   const {
@@ -102,67 +94,81 @@ function ExaminationDisplay() {
                 </select>
                 <motion.button
                   className={ style.search_exam__btn }
-                  whileTap={ { scale: 0.9 } }
+                  whileTap={ { scale: 0.99 } }
                   onClick={ () => fetchData(selectedExamId) }
                 >
                   Buscar
                 </motion.button>
               </div>
-              <AnimatePresence>
-                {
-                  entity &&
-                  <EntityInfoBoard
-                  key={ entity.id }
-                  exam={ entity }
-                  />
-                }
-              </AnimatePresence>
             </div>
           </div>
-              {
-                entity &&
-          <div className={ style.examination_edit_exam_display }>
-            <AnimatePresence>
-                <motion.h3
-                  initial={ { opacity: 0 } }
-                  animate={ { opacity: 1 } }
-                  exit={ { opacity: 0 } }
-                  transition={ { duration: 0.4 } }
-                >
-                  { entity.title }
-                </motion.h3>
-
-                <ExamNavButtons
-                links={ secondaryNavLinks }
-                id={ selectedExamId }
-                />
-              {
-                secondaryDataList &&
-                  secondaryDataList.map((question, index) => {
-                    return (
-                      <QuestionCard
-                      key={ index }
-                      question={ question }
-                      />
-                    )
-                  }
-                )
-              }
-
-            </AnimatePresence>
+          <div className={ style.examination_edit__info_board }>
+            <div className={ style.info_board__card }>
+                <h4>Instituicao</h4>
+                <span>
+                  Governo Federal
+                </span>
+            </div>
+            <div className={ style.info_board__card }>
+                <h4>Provas</h4>
+                <span>
+                  3
+                </span>
+            </div>
+            <div className={ style.info_board__card }>
+                <h4>Nivel de Escolaridade</h4>
+                <span>
+                  Ensino Superior
+                </span>
+            </div>
           </div>
-              }
           
         </section>
-        {/* <section className={ style.examination_exams_utilities }>
-          <motion.button
-            whileTap={ { scale: 0.9 } }
-            className={ style.examination_exams_utilities__button }
-          >
-            Adicionar prova
-            <FaPlusCircle />
-          </motion.button>
-        </section> */}
+          {
+            entity &&
+              <section className={ style.exams_info__section }>
+                <EntityInfoBoard
+                key={ entity.id }
+                exam={ entity }
+                />
+                <div className={ style.examination_edit_exam_display }>
+                      <h3>
+                        { entity.title }
+                      </h3>
+                      <div className={ style.navbutton_container}>
+                        <ExamNavButtons
+                        links={ secondaryNavLinks }
+                        id={ selectedExamId }
+                        />
+                      </div>
+                    {
+                      secondaryDataList &&
+                        secondaryDataList.map((question, index) => {
+                          return (
+                            <QuestionCard
+                            key={ index }
+                            question={ question }
+                            />
+                          )
+                        }
+                      )
+                    }
+                </div>
+              </section>
+        }
+        {
+          /*
+            <section className={ style.examination_exams_utilities }>
+              <motion.button
+                whileTap={ { scale: 0.9 } }
+                className={ style.examination_exams_utilities__button }
+              >
+                Adicionar prova
+                <FaPlusCircle />
+              </motion.button>
+            </section>
+          */
+        }
       </div>
     :
     <h1>Loading</h1>

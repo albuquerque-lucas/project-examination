@@ -21,12 +21,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
     "Questões": questions_count,
   };
   return (
-    <motion.div
-      className={ style.exam_details }
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+    <div className={ style.exam_details }
     >
     <motion.button
       className={ style.details_close__btn }
@@ -54,6 +49,6 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
         }
       </span>
     </p>
-  </motion.div>
+  </div>
   )
 }

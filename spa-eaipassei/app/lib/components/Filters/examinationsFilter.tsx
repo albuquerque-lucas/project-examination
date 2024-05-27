@@ -39,8 +39,7 @@ export default function ExaminationsFilters() {
     } else {
       filterValue = textInputRef.current?.value || "";
     }
-  
-    // Se filterValue é nulo ou uma string vazia, retorna e não adiciona o novo filtro
+
     if (!filterValue) {
       setFilterMessage("O valor do filtro não pode ser vazio");
       return;
@@ -84,6 +83,7 @@ export default function ExaminationsFilters() {
   }
 
   const submitFilters = useCallback(() => {
+    // addToFilterList();
     setQueryParams(filterList);
     setExaminationsLoaded(false);
   }, [filterList]);
@@ -96,7 +96,7 @@ export default function ExaminationsFilters() {
     <div className={ style.filters_list }>
       <div className={ style.filter_selection_box }>
         <select onChange={ handleFilterChange } className={ style.filter_type_select } >
-          <option value="">Filtrar por:</option>
+          <option value="">Selecionar filtro:</option>
           <option value="title">Título</option>
           <option value="institution">Instituição</option>
           <option value="educational_level_id">Nível Educacional</option>
@@ -123,18 +123,17 @@ export default function ExaminationsFilters() {
         )}
         { filterBy === "order" && (
           <select ref={ selectInputRef } className={ style.filter_type_select } >
-            <option value="">Ordenar por:</option>
             <option value="desc">Mais recentes</option>
             <option value="asc">Mais antigos</option>
           </select>
         )}
-          <motion.button
+          {/* <motion.button
             className={ style.search_button }
             onClick={ addToFilterList }
             whileTap={{ scale: 0.9 }}
             >
             Adicionar
-          </motion.button>
+          </motion.button> */}
       </div>
 
       <motion.button
