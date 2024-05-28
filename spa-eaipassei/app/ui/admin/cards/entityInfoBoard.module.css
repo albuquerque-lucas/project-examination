@@ -63,7 +63,7 @@
 }
 
 
-.see_exam__btn {
+.see_exam__btn, .delete_exam__btn {
   align-self: flex-start;
   background-color: var(--primary-button-color);
   color: white;
@@ -72,14 +72,25 @@
   outline: none;
   cursor: pointer;
   padding: 0.5rem 1rem;
-  margin: 1rem 0;
+  margin: 1rem 0.25rem;
   width: 15rem;
   height: 3rem;
+}
 
+.see_exam__btn {
+  background-color: var(--primary-button-color);
 }
 
 .see_exam__btn:hover {
   background-color: var(--primary-button-hover-color);
+}
+
+.delete_exam__btn {
+  background-color: var(--danger-button-color);
+}
+
+.delete_exam__btn:hover {
+  background-color: var(--danger-button-hover-color);
 }
 
 @media(min-width: 560px) {
@@ -87,6 +98,7 @@
     flex-direction: row;
     justify-content: space-between;
   }
+
   .detail_value {
     width: 50%;
     justify-content: flex-end;

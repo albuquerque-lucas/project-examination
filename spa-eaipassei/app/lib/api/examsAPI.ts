@@ -40,9 +40,8 @@ export const createExam = async (url: string, data: Record<string, any>): Promis
     if (response.status >= 200 && response.status < 300) {
       return response.data;
     }
-    return null;
+    throw new Error('Erro ao criar o exame');
   } catch (error: any) {
-    console.log('Erro ao criar o exame', error);
-    return null;
+    throw new Error('Erro ao criar o exame', error);
   }
 }

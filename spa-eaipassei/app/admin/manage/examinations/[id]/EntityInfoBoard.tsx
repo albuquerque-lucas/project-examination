@@ -56,6 +56,12 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
       >
         Ver Prova
       </motion.button>
+      <motion.button 
+        className={ style.delete_exam__btn }
+        whileTap={ { scale: 0.99 } }
+      >
+        Deletar
+      </motion.button>
     </div>
   </div>
   )

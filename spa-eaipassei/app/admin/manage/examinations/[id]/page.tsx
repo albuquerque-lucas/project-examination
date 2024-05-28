@@ -7,14 +7,18 @@ import { DetailedExamination } from "@/app/lib/types/examinationTypes";
 import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
 import { createExam } from "@/app/lib/api/examsAPI";
 import EntityInfoBoard from "./EntityInfoBoard";
-import { motion } from "framer-motion";
+import MessageBox from "@/app/lib/components/Message/MessageBox";
+import { motion, AnimatePresence } from "framer-motion";
 import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
+import { FlashMessage } from "@/app/lib/types/messageTypes";
 
 function ExaminationDisplay() {
   const [id, setId] = useState<string | null>(null);
   const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
+  const [newExamAdded, setNewExamAdded] = useState<boolean>(false);
+  const [flashMessage, setFlashMessage] = useState<FlashMessage | null>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const questionsRef = useRef<HTMLInputElement>(null);
   const alternativesRef = useRef<HTMLInputElement>(null);
@@ -42,6 +46,19 @@ function ExaminationDisplay() {
         examination_id: id,
         title: title,
       });
+      if (response === null) {
+        console.log('Nao obteve resposta.');
+        return;
+      }
+      setNewExamAdded(true);
+      setFlashMessage({
+        message: 'Prova adicionada com sucesso.',
+        type: 'success',
+      });
+      
+      titleRef.current.value = '';
+      questionsRef.current.value = '';
+      alternativesRef.current.value = '';
 
       console.log('Response:', response);
     } catch (error) {
@@ -82,7 +99,7 @@ function ExaminationDisplay() {
 
       fetchExamination();
     }
-  }, [secondaryNavLinks, secondaryDataList]);
+  }, [secondaryNavLinks, secondaryDataList, newExamAdded]);
 
   if (!examination) return <h1>Loading...</h1>;
   return (
@@ -95,7 +112,16 @@ function ExaminationDisplay() {
 
         </div>
         <div className={ style.header_message__box }>
-
+          <AnimatePresence>
+            { flashMessage && (
+              <MessageBox
+                message={ flashMessage.message }
+                setMessage={ setFlashMessage }
+                type={ flashMessage.type }
+              />
+            )
+            }
+          </AnimatePresence>
         </div>
       </section>
 

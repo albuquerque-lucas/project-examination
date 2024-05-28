@@ -27,7 +27,7 @@ class AuthController extends Controller
                 throw new AuthenticationException('Usuário ou senha incorretos.');
             }
 
-            $token = $user->createToken('eaipassei-app')->plainTextToken;
+            $token = $user->createToken('iaipassei-app')->plainTextToken;
 
             $cookie = cookie('token', $token, 60 * 24);
 

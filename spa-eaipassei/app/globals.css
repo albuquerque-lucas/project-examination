@@ -17,6 +17,8 @@
   /* Button Colors */
   --primary-button-color: #007bff;
   --primary-button-hover-color: #3399ff;
+  --danger-button-color: #dc3545;
+  --danger-button-hover-color: #ff4d5a;
   --secondary-button-color: #36393e;
 
   /* Text Colors */
