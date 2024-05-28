@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { FlashMessage } from "@/app/lib/types/messageTypes";
 import { MdError } from "react-icons/md";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/login/messages.module.css';
 
 

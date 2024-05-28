@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import { ExamsContext } from "@/app/lib/context/ExamsContext";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { getExaminationById } from "@/app/lib/api/examinationsAPI";
 import { DetailedExamination } from "@/app/lib/types/examinationTypes";
@@ -8,21 +9,28 @@ import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
 import { createExam } from "@/app/lib/api/examsAPI";
 import EntityInfoBoard from "./EntityInfoBoard";
 import MessageBox from "@/app/lib/components/Message/MessageBox";
+import DeleteExamPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteExamPopUp";
+import { FlashMessage } from "@/app/lib/types/messageTypes";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
-import { FlashMessage } from "@/app/lib/types/messageTypes";
 
 function ExaminationDisplay() {
+  const router = useRouter();
   const [id, setId] = useState<string | null>(null);
   const [selectedExamId, setSelectedExamId] = useState<number | null>(null);
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
-  const [newExamAdded, setNewExamAdded] = useState<boolean>(false);
   const [flashMessage, setFlashMessage] = useState<FlashMessage | null>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const questionsRef = useRef<HTMLInputElement>(null);
   const alternativesRef = useRef<HTMLInputElement>(null);
 
+  const {
+    dataLoaded,
+    setDataLoaded,
+    deletionMode,
+  } = useContext(ExamsContext);
 
   const {
     entity,
@@ -39,30 +47,39 @@ function ExaminationDisplay() {
     const questions = questionsRef.current?.value;
     const alternatives = alternativesRef.current?.value;
 
-    if (!title || !questions || !alternatives) return;
+    if (!title || !questions || !alternatives) {
+      setFlashMessage({
+        message: 'Todos os campos devem estar preenchidos.',
+        type: 'error',
+      });
+      return;
+
+    };
 
     try {
       const response = await createExam(process.env.NEXT_PUBLIC_API_CREATE_EXAM as string, {
         examination_id: id,
         title: title,
       });
+
       if (response === null) {
         console.log('Nao obteve resposta.');
         return;
-      }
-      setNewExamAdded(true);
+      };
+
+      setDataLoaded(true);
       setFlashMessage({
         message: 'Prova adicionada com sucesso.',
         type: 'success',
       });
-      
+
       titleRef.current.value = '';
       questionsRef.current.value = '';
       alternativesRef.current.value = '';
 
       console.log('Response:', response);
     } catch (error) {
-      console.error('Error submitting exam:', error);
+      console.error(error);
     }
   }
 
@@ -73,9 +90,6 @@ function ExaminationDisplay() {
       const links = questions?.links;
       data && setSecondaryDataList(data);
       links && setSecondaryNavLinks(links);
-      console.log('Exam', exam);
-      console.log('Questions', questions);
-      console.log('Data', data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -86,12 +100,12 @@ function ExaminationDisplay() {
       const pathSegments = window.location.pathname.split('/');
       const id = pathSegments[pathSegments.length - 1];
       setId(id);
-
+      
       const fetchExamination = async () => {
         try {
           const result = await getExaminationById(id);
           setExamination(result);
-          console.log('RESULTADO', result);
+          setDataLoaded(false);
         } catch (error: any) {
           console.error('Error fetching examination:', error);
         }
@@ -99,7 +113,7 @@ function ExaminationDisplay() {
 
       fetchExamination();
     }
-  }, [secondaryNavLinks, secondaryDataList, newExamAdded]);
+  }, [secondaryNavLinks, secondaryDataList, dataLoaded]);
 
   if (!examination) return <h1>Loading...</h1>;
   return (
@@ -112,16 +126,23 @@ function ExaminationDisplay() {
 
         </div>
         <div className={ style.header_message__box }>
-          <AnimatePresence>
-            { flashMessage && (
-              <MessageBox
-                message={ flashMessage.message }
-                setMessage={ setFlashMessage }
-                type={ flashMessage.type }
-              />
-            )
-            }
-          </AnimatePresence>
+          <button
+            onClick={ () => router.push('/admin/manage/examinations') }
+          >
+            Concursos
+          </button>
+          <div className={ style.message_container }>
+            <AnimatePresence>
+              { flashMessage && (
+                <MessageBox
+                  message={ flashMessage.message }
+                  setMessage={ setFlashMessage }
+                  type={ flashMessage.type }
+                />
+              )
+              }
+            </AnimatePresence>
+          </div>
         </div>
       </section>
 
@@ -202,7 +223,12 @@ function ExaminationDisplay() {
               />
         }
       </section>
-
+        <div className={ style.deletion_pop__up }>
+          {
+            deletionMode &&
+            <DeleteExamPopUp />
+          }
+        </div>
     </div>
   )
 }

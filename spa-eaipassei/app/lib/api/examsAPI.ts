@@ -45,3 +45,17 @@ export const createExam = async (url: string, data: Record<string, any>): Promis
     throw new Error('Erro ao criar o exame', error);
   }
 }
+
+export const deleteExam = async (url: string): Promise<boolean> => {
+  try {
+    const response: AxiosResponse = await axios.delete(url);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    
+    throw new Error('Erro ao deletar o exame');
+  } catch (error: any) {
+    throw new Error('Erro ao deletar o exame', error);
+  }
+}
