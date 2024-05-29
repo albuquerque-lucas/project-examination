@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('exam_question_alternatives', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(ExamQuestion::class)->cascadeOnDelete();
-            $table->char('letter')->nullable()->default(null);
-            $table->text('text');
+            $table->char('letter');
+            $table->text('text')->nullable();
             $table->boolean('is_answer')->default(false);
             $table->timestamps();
         });

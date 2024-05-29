@@ -6,6 +6,7 @@ use App\Http\Requests\ExamQuestionAlternativeRequest;
 use Illuminate\Http\Request;
 use App\Services\ExamQuestionAlternativeService;
 use App\Services\DataRetrievalService;
+use Exception;
 
 class ExamQuestionAlternativeController extends Controller
 {
@@ -42,6 +43,13 @@ class ExamQuestionAlternativeController extends Controller
 
     public function create(ExamQuestionAlternativeRequest $request)
     {
-        return $this->dataRetrievalService->create($this->examQuestionAlternativeService, $request);
+        try {
+            $requestData = $request->all();
+            $response = $this->examQuestionAlternativeService->create($requestData);
+
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 }

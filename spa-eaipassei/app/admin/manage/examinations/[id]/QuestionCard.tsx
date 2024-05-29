@@ -25,14 +25,16 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
         <span>{question_number} - </span>
         {statement}
       </p>
-      {alternatives.map((alternative: QuestionAlternative, index) => {
-        return (
-          <p key={index} className={style.question_card__alternative}>
-            <span>{alternative.letter} - </span>
-            {alternative.text}
-          </p>
-        );
-      })}
+      {
+        alternatives && alternatives.map((alternative: QuestionAlternative, index) => {
+          return (
+            <p key={index} className={style.question_card__alternative}>
+              <span>{alternative.letter} - </span>
+              {alternative.text}
+            </p>
+          );
+        })
+      }
     </div>
   );
 };

@@ -46,6 +46,19 @@ export const createExam = async (url: string, data: Record<string, any>): Promis
   }
 }
 
+export const createQuestion = async (url: string, data: Record<string, any>): Promise<ExamQuestion | null> => {
+  try {
+    const response: AxiosResponse<ExamQuestion> = await axios.post(url, data);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    throw new Error('Erro ao criar a questão');
+  } catch (error: any) {
+    throw new Error('Erro ao criar a questão', error);
+  }
+}
+
 export const deleteExam = async (url: string): Promise<boolean> => {
   try {
     const response: AxiosResponse = await axios.delete(url);

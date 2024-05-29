@@ -17,10 +17,10 @@ return new class extends Migration
         Schema::create('exam_questions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Exam::class);
-            $table->foreignIdFor(Subject::class);
-            $table->foreignIdFor(Topic::class);
+            $table->foreignIdFor(Subject::class)->nullable();
+            $table->foreignIdFor(Topic::class)->nullable();
             $table->integer('question_number');
-            $table->text('statement');
+            $table->text('statement')->nullable();
             $table->timestamps();
         });
     }

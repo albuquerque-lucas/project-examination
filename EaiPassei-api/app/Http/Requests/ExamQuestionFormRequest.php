@@ -23,9 +23,10 @@ class ExamQuestionFormRequest extends FormRequest
     {
         return [
             "exam_id" => "required|integer",
-            "subject_id" => "required|integer",
-            "topic_id" => "required|integer",
-            "statement" => "required|string",
+            "subject_id" => "nullable|integer",
+            "topic_id" => "nullable|integer",
+            "question_number" => "required|integer",
+            "statement" => "nullable|string",
         ];
     }
 }

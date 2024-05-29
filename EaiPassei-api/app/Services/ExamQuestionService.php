@@ -135,10 +135,8 @@ class ExamQuestionService implements IService
             }
 
             $responseData = (object)[
-                'message' => $this->serviceResponse->createdSuccessfully('Question'),
+                'message' => $this->serviceResponse->createdSuccessfully('Questção'),
                 'id' => $examQuestion->id,
-                'file_name' => $examQuestion->file_name,
-                'file_path' => $examQuestion->file,
             ];
 
             $this->serviceResponse->setAttributes(201, $responseData);

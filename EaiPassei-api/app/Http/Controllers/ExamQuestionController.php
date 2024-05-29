@@ -92,6 +92,13 @@ class ExamQuestionController extends Controller
 
     public function create(ExamQuestionFormRequest $request)
     {
-        return $this->dataRetrievalService->create($this->examQuestionService, $request);
+        try {
+            $requestData = $request->all();
+            $response = $this->examQuestionService->create($requestData);
+
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 }

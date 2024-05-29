@@ -84,6 +84,8 @@
 
 .exams_form label {
   margin-top: 1rem;
+  width: 600px;
+  text-align: start;
 }
 
 .exams_form button {
