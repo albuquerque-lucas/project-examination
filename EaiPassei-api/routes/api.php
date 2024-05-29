@@ -35,6 +35,7 @@ Route::patch('/users/update/{id}', [UserController::class, "update"]);
 Route::delete('/users/delete/{id}', [UserController::class, "delete"]);
 
 // ROTAS LOGIN
+Route::post('/login', [AuthController::class, "login"]);
 Route::post('/admin/login', [AuthController::class, "login"]);
 Route::post('/admin/logout', [AuthController::class, "logout"]);
 Route::get('/admin/user', [AuthController::class, "user"]);

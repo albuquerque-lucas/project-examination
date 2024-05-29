@@ -59,6 +59,19 @@ export const createQuestion = async (url: string, data: Record<string, any>): Pr
   }
 }
 
+export const createQuestionAlternative = async (url: string, data: Record<string, any>): Promise<boolean> => {
+  try {
+    const response: AxiosResponse = await axios.post(url, data);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    throw new Error('Erro ao criar a alternativa');
+  } catch (error: any) {
+    throw new Error('Erro ao criar a alternativa', error);
+  }
+}
+
 export const deleteExam = async (url: string): Promise<boolean> => {
   try {
     const response: AxiosResponse = await axios.delete(url);

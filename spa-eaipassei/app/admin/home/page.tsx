@@ -55,8 +55,8 @@ const Home = () => {
               <Image
                 src={ user?.profile_img ? `http://localhost/storage/${user.profile_img}` : noImage }
                 alt='Imagem de perfil do usuario autenticado'
-                width={ 250 }
-                height={ 250 }
+                width={ 210 }
+                height={ 210 }
                 className={ style.profile_content__image }
                 priority
                 />

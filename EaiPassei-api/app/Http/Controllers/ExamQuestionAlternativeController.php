@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ExamQuestionAlternativeRequest;
+use ForbiddenException;
 use Illuminate\Http\Request;
 use App\Services\ExamQuestionAlternativeService;
 use App\Services\DataRetrievalService;
@@ -18,7 +19,7 @@ class ExamQuestionAlternativeController extends Controller
         $this->examQuestionAlternativeService = $examQuestionAlternativeService;
         $this->dataRetrievalService = $dataRetrievalService;
 
-        $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById']]);
+        // $this->middleware('auth:sanctum', ['except' => ['getById']]);
     }
 
     public function getAll(Request $request)
@@ -48,6 +49,8 @@ class ExamQuestionAlternativeController extends Controller
             $response = $this->examQuestionAlternativeService->create($requestData);
 
             return response()->json($response->data(), $response->status());
+        } catch (ForbiddenException $exception){
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }

@@ -6,7 +6,7 @@ import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { getExaminationById } from "@/app/lib/api/examinationsAPI";
 import { DetailedExamination } from "@/app/lib/types/examinationTypes";
 import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
-import { createExam, createQuestion } from "@/app/lib/api/examsAPI";
+import { createExam, createQuestion, createQuestionAlternative } from "@/app/lib/api/examsAPI";
 import EntityInfoBoard from "./EntityInfoBoard";
 import MessageBox from "@/app/lib/components/Message/MessageBox";
 import DeleteExamPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteExamPopUp";
@@ -96,17 +96,19 @@ function ExaminationDisplay() {
   
         const questionId = questionResponse.id;
   
-        // for (let j = 0; j < Number(alternatives); j++) {
-        //   const newAlternative = {
-        //     question_id: questionId,
-        //     letter: String.fromCharCode(65 + j),
-        //   };
+        for (let j = 0; j < Number(alternatives); j++) {
+          const newAlternative = {
+            exam_question_id: questionId,
+            letter: String.fromCharCode(65 + j),
+          };
   
-        //   alternativePromises.push(createQuestion(process.env.NEXT_PUBLIC_API_CREATE_ALTERNATIVE as string, newAlternative));
-        // }
+          alternativePromises.push(createQuestionAlternative(process.env.NEXT_PUBLIC_API_CREATE_ALTERNATIVE as string, newAlternative));
+
+        }
       });
-  
-      // await Promise.all(alternativePromises);
+      
+      const alternativesResponse = await Promise.all(alternativePromises);
+      console.log('Alternative Promise Response:', alternativesResponse);
   
       setDataLoaded(true);
       setFlashMessage({

@@ -49,12 +49,12 @@ class ExamQuestionAlternativeService implements IService
     function getById(int $id)
     {
         try {
-            $topic = ExamQuestionAlternative::getById($id);
-            if ($topic === null) {
+            $alternative = ExamQuestionAlternative::getById($id);
+            if ($alternative === null) {
                 $this->serviceResponse->setAttributes(204, (object)['code' => 204]);
                 return $this->serviceResponse;
             }
-            $resource = new ExamQuestionAlternativeResource($topic);
+            $resource = new ExamQuestionAlternativeResource($alternative);
             $this->serviceResponse->setAttributes(200, $resource);
             return $this->serviceResponse;
         } catch(NotFound $exception) {
@@ -77,9 +77,9 @@ class ExamQuestionAlternativeService implements IService
     function create(array $data): ServiceResponse
     {
         try {
-            $topic = ExamQuestionAlternative::create($data);
+            $alternative = ExamQuestionAlternative::create($data);
 
-            if (!$topic) {
+            if (!$alternative) {
                 $this->serviceResponse->setAttributes(422, (object)[
                     'message' => $this->serviceResponse->failedToCreateRecord()
                 ]);
@@ -87,9 +87,9 @@ class ExamQuestionAlternativeService implements IService
             }
 
             $responseData = (object)[
-                'message' => $this->serviceResponse->createdSuccessfully('Alternative'),
-                'id' => $topic->id,
-                'title' => $topic->title
+                'message' => $this->serviceResponse->createdSuccessfully('Alternativa'),
+                'id' => $alternative->id,
+                'title' => $alternative->title
             ];
 
             $this->serviceResponse->setAttributes(201, $responseData);
@@ -108,6 +108,13 @@ class ExamQuestionAlternativeService implements IService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
+        } catch(\ForbiddenException $exception) {
+            $this->serviceResponse->setAttributes(403, (object)[
+                'message' => 'You do not have permission to create a new exam question alternative.',
+                'info' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
                 'message' => $this->serviceResponse->badRequest(),
@@ -122,28 +129,28 @@ class ExamQuestionAlternativeService implements IService
     function update(int $id, array $data, bool $hasFile): ServiceResponse
     {
         try {
-            $topic = ExamQuestionAlternative::find($id);
-            if (!$topic) {
-                $topic->serviceResponse->setAttributes(404, (object)[
+            $alternative = ExamQuestionAlternative::find($id);
+            if (!$alternative) {
+                $alternative->serviceResponse->setAttributes(404, (object)[
                     'message' => $this->serviceResponse->recordsNotFound('Alternative'),
                 ]);
                 return $this->serviceResponse;
             }
 
-            $topic->fill($data);
+            $alternative->fill($data);
 
             $responseModel = (object)[
                 'message' => $this->serviceResponse->changesSaved(),
-                'id' => $topic->id,
+                'id' => $alternative->id,
             ];
 
-            if ($topic->isDirty()) {
-                $topic->save();
+            if ($alternative->isDirty()) {
+                $alternative->save();
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
                     'message' => $this->serviceResponse->noChangesToBeMade(),
-                    'topic' => $topic
+                    'alternative' => $alternative
                 ]);
             }
             return $this->serviceResponse;
@@ -167,9 +174,9 @@ class ExamQuestionAlternativeService implements IService
     function delete(int $id): ServiceResponse
     {
         try {
-            $topic = ExamQuestionAlternative::findOrFail($id);
+            $alternative = ExamQuestionAlternative::findOrFail($id);
 
-            if (!$topic) {
+            if (!$alternative) {
                 $this->serviceResponse->setAttributes(404, (object)[
                     'message' => $this->serviceResponse->recordsNotFound('Alternative'),
                     'deleted' => false,
@@ -177,7 +184,7 @@ class ExamQuestionAlternativeService implements IService
                 return $this->serviceResponse;
             }
     
-            $isDeleted = $topic->delete();
+            $isDeleted = $alternative->delete();
     
             if (!$isDeleted) {
                 $this->serviceResponse->setAttributes(400, (object)[
