@@ -10,6 +10,7 @@ use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Nette\Schema\ValidationException;
 use PDOException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 
 class ExamQuestionService implements IService
 {
@@ -122,50 +123,55 @@ class ExamQuestionService implements IService
         }
     }
 
-    public function create(array $data): ServiceResponse
+    public function create(array $examQuestions): ServiceResponse
     {
         try {
-            $examQuestion = ExamQuestion::create($data);
-
-            if (!$examQuestion) {
-                $this->serviceResponse->setAttributes(422, (object)[
-                    'message' => $this->serviceResponse->failedToCreateRecord()
-                ]);
-                return $this->serviceResponse;
-            }
-
+            $createdExamQuestionsIds = [];
+    
+            DB::transaction(function () use ($examQuestions, &$createdExamQuestionsIds) {
+                foreach ($examQuestions as $examQuestion) {
+                    $createdExamQuestion = ExamQuestion::create($examQuestion);
+    
+                    if (!$createdExamQuestion) {
+                        throw new Exception('Failed to create exam question');
+                    }
+    
+                    $createdExamQuestionsIds[] = $createdExamQuestion->id;
+                }
+            });
+    
             $responseData = (object)[
-                'message' => $this->serviceResponse->createdSuccessfully('Question'),
-                'id' => $examQuestion->id,
-                'file_name' => $examQuestion->file_name,
-                'file_path' => $examQuestion->file,
+                'message' => $this->serviceResponse->createdManySuccessfully(),
+                'count' => count($examQuestions),
+                'ids' => $createdExamQuestionsIds,
             ];
-
+    
             $this->serviceResponse->setAttributes(201, $responseData);
             return $this->serviceResponse;
         } catch (ValidationException $exception) {
             $this->serviceResponse->setAttributes(422, (object)[
-                'info' => $this->serviceResponse->validationFailed(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->validationFailed(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (PDOException $exception) {
             $this->serviceResponse->setAttributes(409, (object)[
-                'info' => $this->serviceResponse->failedToCreateRecord(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->failedToCreateRecord(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
-                'info' => $this->serviceResponse->badRequest(),
-                'message' => $exception->getMessage(),
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         }
     }
+
     public function update(int $id, array $data, bool $hasFile = false): ServiceResponse 
     {
         try {
@@ -255,4 +261,33 @@ class ExamQuestionService implements IService
             return $this->serviceResponse;
         }
     }
+
+    public function createMany(int $examId, int $numberOfQuestions) {
+        try {
+            $questionsIds = [];
+            DB::transaction(function () use ($examId, $numberOfQuestions, &$questionsIds) {
+                for ($i = 0; $i < $numberOfQuestions; $i++) {
+                    $examQuestion = ExamQuestion::create([
+                        'exam_id' => $examId,
+                        'question_number' => $i + 1,
+                    ]);
+                    $questionsIds[] = $examQuestion->id;
+                }
+            });
+    
+            $this->serviceResponse->setAttributes(201, (object)[
+                'message' => 'As questões foram criadas com sucesso.',
+                'ids' => $questionsIds
+            ]);
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => 'Ocorreu um erro ao tentar criar as questões no Service.',
+                'info' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        }
+    }
+    
 }

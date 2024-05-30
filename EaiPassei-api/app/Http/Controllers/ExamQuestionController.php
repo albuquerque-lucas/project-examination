@@ -90,8 +90,16 @@ class ExamQuestionController extends Controller
         return $this->dataRetrievalService->delete($this->examQuestionService, $id);
     }
 
-    public function create(ExamQuestionFormRequest $request)
+    public function create(Request $request)
     {
-        return $this->dataRetrievalService->create($this->examQuestionService, $request);
+        // return response()->json(['message' => 'This feature is disabled.'], 200);
+        try {
+            $requestData = $request->all();
+            $response = $this->examQuestionService->create($requestData);
+
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 }

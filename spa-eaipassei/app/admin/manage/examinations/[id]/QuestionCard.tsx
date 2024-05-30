@@ -12,36 +12,30 @@ interface QuestionCardProps {
 
 const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
   const {
-    id,
-    exam_id,
-    subject_id,
-    topic_id,
     statement,
     alternatives,
     question_number,
   } = question;
 
   return (
-    <motion.div
+    <div
     className={style.question_card__container}
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.4 }}
     >
       <p className={style.question_card__sentence}>
         <span>{question_number} - </span>
         {statement}
       </p>
-      {alternatives.map((alternative: QuestionAlternative, index) => {
-        return (
-          <p key={index} className={style.question_card__alternative}>
-            <span>{alternative.letter} - </span>
-            {alternative.text}
-          </p>
-        );
-      })}
-    </motion.div>
+      {
+        alternatives && alternatives.map((alternative: QuestionAlternative, index) => {
+          return (
+            <p key={index} className={style.question_card__alternative}>
+              <span>{alternative.letter} - </span>
+              {alternative.text}
+            </p>
+          );
+        })
+      }
+    </div>
   );
 };
 

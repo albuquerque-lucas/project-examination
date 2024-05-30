@@ -11,7 +11,7 @@ class ExamQuestionAlternativeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class ExamQuestionAlternativeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'exam_question_id' => 'required|integer',
+            'letter' => 'required|string',
+            'text' => 'nullable|string',
+            'is_answer' => 'nullable|boolean',
         ];
     }
 }

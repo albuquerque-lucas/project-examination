@@ -15,6 +15,7 @@
 }
 
 .admin_navbar__toggler {
+  border: 2px solid transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,12 +31,15 @@
   cursor: pointer;
 }
 
+.admin_navbar__toggler:hover {
+  border: 2px solid white;
+}
+
 .navbar_brand {
   position: absolute;
   font-size: 1.3rem;
   left: 50%;
-  padding: 0.5rem;
-  bottom: 1.3rem;
+  bottom: 1.5rem;
   transform: translateX(-50%);
 }
 
@@ -74,6 +78,10 @@
   margin: 0.5rem 0;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+.admin_navbar__menu ul li:hover {
+  background-color: #343a40;
 }
 
 .admin_navbar__menu ul li > :first-child {

@@ -28,10 +28,13 @@
   height: 2rem;
   width: 2rem;
   color: white;
-  background-color: black;
+  background-color: var(--quaternary-background-color);
   border: none;
   margin: 0 0.2rem;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .default_value_field {

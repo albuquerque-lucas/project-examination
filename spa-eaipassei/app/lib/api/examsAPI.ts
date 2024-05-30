@@ -32,3 +32,70 @@ export const getExamById = async (url: string, params: Record<string, any> = {})
 export const getQuestionsByExam = async (url: string, params: Record<string, any> = {}): Promise<PaginatedAPIResponse<ExamQuestion> | null> => {
   return fetchData<PaginatedAPIResponse<ExamQuestion>>(url, params);
 }
+
+export const createExam = async (url: string, data: Record<string, any>): Promise<Exam | null> => {
+  try {
+    const response: AxiosResponse<Exam> = await axios.post(url, data);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    throw new Error('Erro ao criar o exame');
+  } catch (error: any) {
+    throw new Error('Erro ao criar o exame', error);
+  }
+}
+
+export const createQuestion = async (url: string, data: Record<string, any>): Promise<ExamQuestion | null> => {
+  console.log('DATA', data);
+  try {
+    const response: AxiosResponse<ExamQuestion> = await axios.post(url, data);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    throw new Error('Erro ao criar a questão');
+  } catch (error: any) {
+    throw new Error('Erro ao criar', error.message);
+  }
+}
+
+export const createQuestionAlternative = async (url: string, data: Record<string, any>): Promise<boolean> => {
+  try {
+    const response: AxiosResponse = await axios.post(url, data);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    throw new Error('Erro ao criar a alternativa');
+  } catch (error: any) {
+    throw new Error('Erro ao criar a alternativa', error);
+  }
+}
+
+export const deleteExam = async (url: string): Promise<boolean> => {
+  try {
+    const response: AxiosResponse = await axios.delete(url);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    
+    throw new Error('Erro ao deletar o exame');
+  } catch (error: any) {
+    throw new Error('Erro ao deletar o exame', error);
+  }
+}
+
+export const createExamFull = async (url: string, data: Record<string, any>): Promise<Exam | null> => {
+  try {
+    const response: AxiosResponse<Exam> = await axios.post(url, data);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    throw new Error('Erro ao criar o exame');
+  } catch (error: any) {
+    throw new Error('Erro ao criar o exame', error);
+  }
+}

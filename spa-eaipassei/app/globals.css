@@ -8,6 +8,7 @@
   --tertiary-background-color: #495057;
   --quaternary-background-color: #17171a;
   --primary-background-hover: #424549;
+  --light-dark-background-hover: #595d63;
 
 
   --background-danger: #dc3545;
@@ -16,6 +17,8 @@
   /* Button Colors */
   --primary-button-color: #007bff;
   --primary-button-hover-color: #3399ff;
+  --danger-button-color: #dc3545;
+  --danger-button-hover-color: #ff4d5a;
   --secondary-button-color: #36393e;
 
   /* Text Colors */

@@ -64,15 +64,13 @@ function SubjectsPage () {
         <div className={ style.utilities_buttons }>
           <motion.button
             whileTap={{ scale: 0.9 }}
-            whileHover={{color: '#fff', backgroundColor: '#4F525A'}}
             className={ style.go_back__button }
-            onClick={() => router.back()}
+            onClick={() => router.push('/admin/home')}
           >
             Voltar
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.9 }}
-            whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
             className={ style.new_subject__button }
             onClick={() => setCreationMode(!creationMode)}
           >

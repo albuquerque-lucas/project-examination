@@ -60,12 +60,8 @@ const ExamNavButtons: React.FC<DirectedNavigationProps | null> = (props) => {
   }
 
   return (
-    <motion.div
+    <div
       className={ style.examinations_navbuttons }
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
       >
       {
         linksList && linksList.length > 0 ? (
@@ -84,7 +80,7 @@ const ExamNavButtons: React.FC<DirectedNavigationProps | null> = (props) => {
           <div></div>
         )
       }
-    </motion.div>
+    </div>
   )
 }
 

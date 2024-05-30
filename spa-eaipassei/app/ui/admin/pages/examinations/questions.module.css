@@ -1,0 +1,6 @@
+.questions_page {
+  content: '';
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--secondary-background-color);
+}

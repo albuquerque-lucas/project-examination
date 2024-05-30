@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   border-radius: var(--default-border-radius);
-  min-height: 25rem;
   padding: 1rem;
   margin-bottom: 5rem;
 }

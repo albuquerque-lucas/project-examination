@@ -29,7 +29,7 @@ class ServiceResponse extends Model
     public function createdSuccessfully(string $field = null): string
     {
         if ($field) {
-            return "$field com sucesso.";
+            return "$field criado(a) com sucesso.";
         }
         return "Registro criado com sucesso.";
     }

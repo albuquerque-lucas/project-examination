@@ -2,6 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import { motion } from "framer-motion";
 import { IoCheckbox } from "react-icons/io5";
 import { MdCancelPresentation } from "react-icons/md";
+import { FiEdit } from "react-icons/fi";
 import useUpdateUser from '@/app/lib/hooks/useUpdateUser';
 import style from '@/app/ui/admin/home/EditProfileField.module.css';
 
@@ -45,7 +46,7 @@ const ImageUploadField = forwardRef<HTMLInputElement, ImageUploadFieldProps>(fun
                 whileTap={{ scale: 0.9, backgroundColor: '#36393e'}}
                 onClick={() => setEditMode(true)}
               >
-                <IoCheckbox />
+                <FiEdit />
             </motion.button>
           </div>
         </div>

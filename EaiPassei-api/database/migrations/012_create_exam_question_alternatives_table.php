@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Subject;
+use App\Models\ExamQuestion;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('topics', function (Blueprint $table) {
+        Schema::create('exam_question_alternatives', function (Blueprint $table) {
             $table->id();
-            $table
-            ->foreignIdFor(Subject::class);
-            $table->string('title');
-            $table->text('description');
+            $table->foreignIdFor(ExamQuestion::class)->constrained()->onDelete('cascade');
+            $table->char('letter');
+            $table->text('text')->nullable();
+            $table->boolean('is_answer')->default(false);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('topics');
+        Schema::dropIfExists('exam_questions_alternatives');
     }
 };

@@ -1,6 +1,7 @@
 import React, { RefObject, InputHTMLAttributes, useState, forwardRef } from 'react';
 import { MdCancelPresentation } from "react-icons/md";
 import { IoCheckbox } from "react-icons/io5";
+import { FiEdit } from "react-icons/fi";
 import { motion } from 'framer-motion';
 import useUpdateUser from '@/app/lib/hooks/useUpdateUser';
 import style from '@/app/ui/admin/home/EditProfileField.module.css';
@@ -48,7 +49,7 @@ const EditProfileField = forwardRef<HTMLInputElement, EditProfileFieldProps>(fun
                 whileTap={{ scale: 0.9, backgroundColor: '#36393e'}}
                 onClick={() => setEditMode(true)}
               >
-                <IoCheckbox />
+                <FiEdit />
               </motion.button>
             </div>
           </div>

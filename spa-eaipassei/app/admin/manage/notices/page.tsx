@@ -53,19 +53,24 @@ function NoticesPage() {
         <div className={ style.utilities_buttons }>
           <motion.button
             whileTap={{ scale: 0.9 }}
-            whileHover={{color: '#fff', backgroundColor: '#4F525A'}}
             className={ style.go_back__button }
-            onClick={() => router.back()}
+            onClick={() => router.push('/admin/home')}
           >
             Voltar
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.9 }}
-            whileHover={{color: '#fff', backgroundColor: '#3393FF'}}
+            className={ style.new_examination__button }
+            onClick={() => router.push('/admin/manage/examinations')}
+          >
+            Concursos
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.9 }}
             className={ style.new_examination__button }
             onClick={() => setCreationMode(!creationMode)}
           >
-            Adicionar Edital
+            Cadastrar
           </motion.button>
           {
             creationMode &&

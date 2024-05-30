@@ -86,7 +86,7 @@ class ExamService implements IService
             }
 
             $responseData = (object)[
-                'message' => $this->serviceResponse->createdSuccessfully('Exam'),
+                'message' => $this->serviceResponse->createdSuccessfully(),
                 'id' => $exam->id,
                 'title' => $exam->title,
             ];

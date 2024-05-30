@@ -83,11 +83,20 @@
 }
 
 .new_study_area__button {
-  background-color: var(--primary-button-color);
+  background-color: var(--primary-background-color);
+}
+
+.new_study_area__button:hover {
+  background-color: var(--primary-button-hover-color);
+
 }
 
 .go_back__button {
-  background-color: var(--secondary-button-color);
+  background-color: var(--primary-background-color);
+}
+
+.go_back__button:hover {
+  background-color: var(--primary-background-hover);
 }
 
 @media (min-width: 510px) {
