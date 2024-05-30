@@ -22,11 +22,12 @@ class ExamQuestionFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "exam_id" => "required|integer",
-            "subject_id" => "nullable|integer",
-            "topic_id" => "nullable|integer",
-            "question_number" => "required|integer",
-            "statement" => "nullable|string",
+            'questions' => 'required|array',
+            'questions.*.exam_id' => 'required|integer',
+            'questions.*.subject_id' => 'nullable|integer',
+            'questions.*.topic_id' => 'nullable|integer',
+            'questions.*.question_number' => 'required|integer',
+            'questions.*.statement' => 'nullable|string',
         ];
     }
 }

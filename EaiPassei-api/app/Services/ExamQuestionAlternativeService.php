@@ -11,6 +11,7 @@ use PDOException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\ExamQuestionAlternative;
 use App\Http\Resources\ExamQuestionAlternativeResource;
+use Illuminate\Support\Facades\DB;
 
 class ExamQuestionAlternativeService implements IService
 {
@@ -211,6 +212,40 @@ class ExamQuestionAlternativeService implements IService
                 'message' => $this->serviceResponse->badRequest(),
                 'deleted' => false,
                 'info' => $exception->getMessage(),
+            ]);
+            return $this->serviceResponse;
+        }
+    }
+
+
+    public function createMany(array $questionIds, int $alternativeNumber)
+    {
+        try {
+            $alternatives = range('a', 'z');
+            $createdAlternatives = [];
+    
+            DB::transaction(function () use ($questionIds, $alternativeNumber, $alternatives, &$createdAlternatives) {
+                foreach ($questionIds as $questionId) {
+                    for ($i = 0; $i < $alternativeNumber; $i++) {
+                        $alternative = ExamQuestionAlternative::create([
+                            'exam_question_id' => $questionId,
+                            'letter' => $alternatives[$i % count($alternatives)],
+                        ]);
+                        $createdAlternatives[] = $alternative->id;
+                    }
+                }
+            });
+    
+            $this->serviceResponse->setAttributes(201, (object)[
+                'message' => 'As alternativas foram criadas com sucesso.',
+                'ids' => $createdAlternatives
+            ]);
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => 'Ocorreu um erro ao tentar criar as alternativas no Service.',
+                'info' => $exception->getMessage(),
+                'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
         }

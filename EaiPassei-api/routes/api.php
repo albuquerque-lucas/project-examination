@@ -96,6 +96,7 @@ Route::delete('/topics/delete/{id}', [TopicController::class,'delete']);
 Route::get('/exams/all', [ExamController::class,'getAll']);
 Route::get('/exams/id/{id}', [ExamController::class,'getById']);
 Route::post('/exams/create', [ExamController::class,'create']);
+Route::post('/exams/create/full', [ExamController::class,'createFull']);
 Route::patch('/exams/update/{id}', [ExamController::class,'update']);
 Route::delete('/exams/delete/{id}', [ExamController::class,'delete']);
 

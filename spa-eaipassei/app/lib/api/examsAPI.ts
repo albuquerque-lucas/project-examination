@@ -47,6 +47,7 @@ export const createExam = async (url: string, data: Record<string, any>): Promis
 }
 
 export const createQuestion = async (url: string, data: Record<string, any>): Promise<ExamQuestion | null> => {
+  console.log('DATA', data);
   try {
     const response: AxiosResponse<ExamQuestion> = await axios.post(url, data);
     
@@ -55,7 +56,7 @@ export const createQuestion = async (url: string, data: Record<string, any>): Pr
     }
     throw new Error('Erro ao criar a questão');
   } catch (error: any) {
-    throw new Error('Erro ao criar a questão', error);
+    throw new Error('Erro ao criar', error.message);
   }
 }
 
@@ -83,5 +84,18 @@ export const deleteExam = async (url: string): Promise<boolean> => {
     throw new Error('Erro ao deletar o exame');
   } catch (error: any) {
     throw new Error('Erro ao deletar o exame', error);
+  }
+}
+
+export const createExamFull = async (url: string, data: Record<string, any>): Promise<Exam | null> => {
+  try {
+    const response: AxiosResponse<Exam> = await axios.post(url, data);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    throw new Error('Erro ao criar o exame');
+  } catch (error: any) {
+    throw new Error('Erro ao criar o exame', error);
   }
 }

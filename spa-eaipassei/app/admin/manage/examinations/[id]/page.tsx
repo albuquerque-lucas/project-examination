@@ -6,7 +6,7 @@ import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { getExaminationById } from "@/app/lib/api/examinationsAPI";
 import { DetailedExamination } from "@/app/lib/types/examinationTypes";
 import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
-import { createExam, createQuestion, createQuestionAlternative } from "@/app/lib/api/examsAPI";
+import { createExamFull } from "@/app/lib/api/examsAPI";
 import EntityInfoBoard from "./EntityInfoBoard";
 import MessageBox from "@/app/lib/components/Message/MessageBox";
 import DeleteExamPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteExamPopUp";
@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
-import { ExamQuestion } from "@/app/lib/types/examTypes";
 
 function ExaminationDisplay() {
   const router = useRouter();
@@ -59,68 +58,35 @@ function ExaminationDisplay() {
     setFlashMessage({ message: 'Processando...', type: 'info' });
   
     try {
-      // Cria o exame
-      const examResponse = await createExam(process.env.NEXT_PUBLIC_API_CREATE_EXAM as string, {
+
+      const examCompleteRequest = {
         examination_id: id,
         title: title,
-      });
-  
-      if (!examResponse) {
-        throw new Error('Falha ao criar o exame.');
+        questions: questions,
+        alternatives: alternatives,
       }
-  
-      const newExamId = examResponse.id;
-      const questionPromises = [];
-  
-      // Cria questões para o exame
-      for (let i = 0; i < Number(questions); i++) {
-        const newQuestion = {
-          exam_id: newExamId,
-          question_number: i + 1,
-        };
-  
-        questionPromises.push(createQuestion(process.env.NEXT_PUBLIC_API_CREATE_QUESTION as string, newQuestion));
+
+      const createResponse = await createExamFull(`${process.env.NEXT_PUBLIC_API_CREATE_EXAM_FULL}`, examCompleteRequest);
+
+      console.log('CREATE RESPONSE', createResponse);
+
+      if (!createResponse) {
+        setFlashMessage({
+          message: 'Ocorreu um erro ao criar a prova. Por favor, tente novamente.',
+          type: 'error',
+        });
       }
-  
-      const questionResponses = await Promise.all(questionPromises);
 
-      console.log('questionResponses:', questionResponses);
-  
-      const alternativePromises:any = [];
-  
-      // Cria alternativas para cada questão
-      questionResponses.forEach((questionResponse, index) => {
-        if (!questionResponse) {
-          throw new Error(`Falha ao criar a questão ${index + 1}.`);
-        }
-  
-        const questionId = questionResponse.id;
-  
-        for (let j = 0; j < Number(alternatives); j++) {
-          const newAlternative = {
-            exam_question_id: questionId,
-            letter: String.fromCharCode(65 + j),
-          };
-  
-          alternativePromises.push(createQuestionAlternative(process.env.NEXT_PUBLIC_API_CREATE_ALTERNATIVE as string, newAlternative));
-
-        }
-      });
-      
-      const alternativesResponse = await Promise.all(alternativePromises);
-      console.log('Alternative Promise Response:', alternativesResponse);
-  
-      setDataLoaded(true);
       setFlashMessage({
-        message: 'Prova adicionada com sucesso.',
+        message: 'Prova criada com sucesso!',
         type: 'success',
       });
-  
-      // Limpa o formulário
+
+      setDataLoaded(true);
       titleRef.current.value = '';
       questionsRef.current.value = '';
       alternativesRef.current.value = '';
-  
+
     } catch (error) {
       console.error(error);
       setFlashMessage({
