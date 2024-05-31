@@ -6,6 +6,7 @@
   align-items: center;
   background-color: var(--secondary-background-color);
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .page_header__section {
@@ -19,11 +20,12 @@
 .header_message__box {
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
   position: relative;
-  height: 5rem;
+  height: 7rem;
   padding: 0 2.3rem;
 }
 
@@ -40,6 +42,32 @@
 .header_message__box button:hover {
   background-color: var(--primary-button-hover-color);
 
+}
+
+.form_toggler__box {
+  content: '';
+  width: 100%;
+  height: 3rem;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.form_toggler__box:hover {
+  border: 1px solid rgb(192, 192, 192);
+}
+
+.toggler_container {
+  width: 3rem;
+  height: 100%;
+  max-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: white;
 }
 
 .message_container {
@@ -128,7 +156,7 @@
 }
 
 .exam_search__container {
-  padding: 0 3.5rem;
+  padding: 0 2.5rem;
 }
 
 .exam_search__select select {
@@ -166,5 +194,15 @@
 @media(min-width:980px) {
   .header_message__box {
     justify-content: flex-start;
-}
+    flex-direction: row;
+  }
+
+  .form_toggler__box {
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 1010px;
+    justify-content: flex-end;
+  }
 }

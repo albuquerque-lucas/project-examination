@@ -78,6 +78,10 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
       >
         <IoCloseSharp />
       </motion.button>
+      <motion.p whileTap={{ scale: tapScale }}>
+        <span className={style.detail_key}>Id: </span>
+        <span className={style.detail_value}>{ id }</span>
+      </motion.p>
       <motion.p whileTap={{ scale: tapScale }} onClick={(event) => handleEditClick('date', event)}>
         <span className={style.detail_key}>Data: </span>
         {editMode.date ? (
