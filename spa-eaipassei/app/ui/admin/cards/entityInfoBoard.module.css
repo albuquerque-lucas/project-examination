@@ -41,7 +41,7 @@
 }
 
 .exam_details p:hover {
-  background-color: var(--light-dark-background-hover);
+  background-color: var(--dashboard-hover-background);
   color: white;
   cursor: pointer;
   border: 2px solid white;

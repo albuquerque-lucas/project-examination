@@ -3,8 +3,15 @@ import { MdCancelPresentation } from "react-icons/md";
 import { IoCheckbox } from "react-icons/io5";
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/cards/examinationEditCell.module.css';
+import { StudyArea } from '@/app/lib/types/studyAreasTypes';
 
-export default function ExaminationEditCell() {
+interface ExaminationEditCellProps {
+  title: string;
+  value: string | number | StudyArea[];
+  type: 'text' | 'number' | 'date' | 'select' | 'not-editable';
+}
+
+export default function ExaminationEditCell({ title, value, type }: ExaminationEditCellProps) {
   const [editMode, setEditMode] = useState<boolean>(false);
 
   const handleDivClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -26,18 +33,25 @@ export default function ExaminationEditCell() {
     e.stopPropagation();
   };
 
+  const renderValue = () => {
+    if (Array.isArray(value)) {
+      return value.map((item: StudyArea) => item.area).join(', ');
+    }
+    return value;
+  };
+
   return (
     <div
       className={ style.detail_section__card }
       onClick={ handleDivClick }
     >
-      <h4>Item: </h4>
+      <h4>{ `${title}:` }</h4>
       {
         editMode ? (
           <div className={ style.examination_input__container }>
             <input 
               type="text" 
-              placeholder='Digite a alteração aqui...' 
+              placeholder={ `${value}...` } 
               onClick={stopPropagation} 
             />
             <motion.button 
@@ -57,7 +71,7 @@ export default function ExaminationEditCell() {
           </div>
         ) : (
           <p>
-            Result
+            { renderValue() }
           </p>
         )
       }
