@@ -12,7 +12,7 @@ import MessageBox from "@/app/lib/components/Message/MessageBox";
 import DeleteExamPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteExamPopUp";
 import { FlashMessage } from "@/app/lib/types/messageTypes";
 import { useRouter } from "next/navigation";
-import { BiSolidUpArrow } from "react-icons/bi";
+import { BiSolidDownArrow } from "react-icons/bi";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import ExaminationEditCell from "./ExaminationEditCell";
 import { motion, AnimatePresence } from "framer-motion";
@@ -153,18 +153,21 @@ function ExaminationDisplay() {
           >
             Concursos
           </button>
-          <div
-            className={ style.form_toggler__box }
+          <button
+            className={ style.toggler_container }
             onClick={ () => setCreationMode(!creationMode) }
-          >
-            <motion.div
-              className={ style.toggler_container }
-              animate={{ rotate: creationMode ? 180 : 0 }}
-              transition={{ duration: 0.5 }}
             >
-              <BiSolidUpArrow />
-            </motion.div>
-          </div>
+            <span>
+              Adicionar Prova
+            </span>
+            <motion.span
+              animate={{ rotate: creationMode ? 0 : 180 }}
+              transition={{ duration: 0.5 }}
+              className={ style.toggler_icon }
+            >
+              <BiSolidDownArrow />
+            </motion.span>
+          </button>
           <div className={ style.message_container }>
             <AnimatePresence>
               { flashMessage && (
@@ -189,7 +192,7 @@ function ExaminationDisplay() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.2 }}
           >
-            <h4>Formulario de Provas</h4>
+            <h4>Formulário</h4>
             <input
               type="text"
               id="new_exam"
@@ -248,7 +251,7 @@ function ExaminationDisplay() {
           value={ examination.exams_count }
           type="not-editable"
         />
-                <ExaminationEditCell
+        <ExaminationEditCell
           title="Áreas abordadas"
           value={ examination.study_areas }
           type="not-editable"

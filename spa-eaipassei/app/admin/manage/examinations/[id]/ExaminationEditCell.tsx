@@ -15,7 +15,9 @@ export default function ExaminationEditCell({ title, value, type }: ExaminationE
   const [editMode, setEditMode] = useState<boolean>(false);
 
   const handleDivClick = (e: MouseEvent<HTMLDivElement>) => {
-    setEditMode(!editMode);
+    if (type !== 'not-editable') {
+      setEditMode(!editMode);
+    }
   };
 
   const confirmEdit = (e: MouseEvent<HTMLButtonElement>) => {
@@ -25,7 +27,7 @@ export default function ExaminationEditCell({ title, value, type }: ExaminationE
 
   const cancelEdit = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    if (editMode) setEditMode(false);
+    setEditMode(false);
     // Implementar lógica de cancelamento aqui
   };
 
@@ -49,11 +51,21 @@ export default function ExaminationEditCell({ title, value, type }: ExaminationE
       {
         editMode ? (
           <div className={ style.examination_input__container }>
-            <input 
-              type="text" 
-              placeholder={ `${value}...` } 
-              onClick={stopPropagation} 
-            />
+            {
+              type === 'select' ? (
+                <select onClick={ () =>stopPropagation }>
+                  <option>
+                    Selecione uma opção
+                  </option>
+                </select>
+              ) : (
+                <input
+                  type={ type }
+                  defaultValue={ renderValue() as string }
+                  onClick={ stopPropagation }
+                />
+              )
+            }
             <motion.button 
               className={ style.confirm_edit__btn } 
               whileTap={{ scale: 0.9 }} 
@@ -76,5 +88,5 @@ export default function ExaminationEditCell({ title, value, type }: ExaminationE
         )
       }
     </div>
-  )
+  );
 }
