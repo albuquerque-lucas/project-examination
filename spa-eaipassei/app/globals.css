@@ -39,6 +39,7 @@
 
   --primary-text-color: #fff;
   --secondary-text-color: rgb(211, 211, 211);
+  --dashboard-hover-background: #feefd4;
 }
 
 * {

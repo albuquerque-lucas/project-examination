@@ -1,5 +1,5 @@
 .exam_details {
-  color: white;
+  color: black;
   width: 100%;
   position: relative;
   padding: 3rem 2rem 0;
@@ -42,6 +42,7 @@
 
 .exam_details p:hover {
   background-color: var(--light-dark-background-hover);
+  color: white;
   cursor: pointer;
   border: 2px solid white;
 }

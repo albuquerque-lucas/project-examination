@@ -4,9 +4,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--secondary-background-color);
+  /* background-color: var(--secondary-background-color); */
   min-height: 100vh;
   overflow-x: hidden;
+  font-weight: 400;
 }
 
 .page_header__section {
@@ -26,7 +27,7 @@
   height: 100%;
   position: relative;
   height: 7rem;
-  padding: 0 2.3rem;
+  padding: 0 2rem;
 }
 
 .header_message__box button {
@@ -53,6 +54,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin-bottom: 0.5rem;
 }
 
 .form_toggler__box:hover {
@@ -67,7 +69,7 @@
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  color: white;
+  color: black;
 }
 
 .message_container {
@@ -77,14 +79,14 @@
   transform: translateX(-50%);
 }
 
-.page_info__section {
-  background-color: var(--secondary-background-color);
-  color: white;
+.page_form__section {
+  /* background-color: var(--secondary-background-color); */
+  color: black;
   width: 100%;
   min-height: 30rem;
 }
 
-.page_info__section .exams_form {
+.page_form__section .exams_form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,6 +96,7 @@
 
 .exams_form h4 {
   margin-bottom: 0.5rem;
+  font-weight: 300;
 }
 
 .exams_form input {
@@ -101,9 +104,10 @@
   border: none;
   border-bottom: 2px solid var(--tertiary-background-color);
   outline: none;
-  color: white;
+  color: black;
   height: 3rem;
-  width: 600px;
+  width: 90%;
+  max-width: 600px;
 }
 
 .exams_form input[type='number'] {
@@ -112,8 +116,10 @@
 
 .exams_form label {
   margin-top: 1rem;
-  width: 600px;
+  width: 90%;
+  max-width: 600px;
   text-align: start;
+  font-weight: 300;
 }
 
 .exams_form button {
@@ -136,17 +142,27 @@
   background-color: var(--primary-button-hover-color);
 }
 
+.examination_details__section {
+  content: '';
+  width: 100%;
+  min-height: 25rem;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
 .exam_search__container {
   display: flex;
-  background-color: var(--secondary-background-color);
+  /* background-color: var(--secondary-background-color); */
   flex-direction: column;
   width: 100vw;
 }
 
 .exam_search__container h3 {
-  color: white;
+  color: black;
   height: 2rem;
   text-align: start;
+  font-weight: 400;
 }
 
 .exam_search__container .exam_search__select {
@@ -184,10 +200,11 @@
 
 
 .exams_info_section {
+  color: black;
   content: '';
   min-height: 31vh;
   width: 100%;
-  background-color: var(--secondary-background-color);
+  /* background-color: var(--secondary-background-color); */
 } 
 
 

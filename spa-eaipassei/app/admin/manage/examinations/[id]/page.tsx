@@ -13,6 +13,8 @@ import DeleteExamPopUp from "@/app/lib/components/ConfirmationPopUp/DeleteExamPo
 import { FlashMessage } from "@/app/lib/types/messageTypes";
 import { useRouter } from "next/navigation";
 import { BiSolidUpArrow } from "react-icons/bi";
+import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
+import ExaminationEditCell from "./ExaminationEditCell";
 import { motion, AnimatePresence } from "framer-motion";
 import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
@@ -24,6 +26,7 @@ function ExaminationDisplay() {
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
   const [flashMessage, setFlashMessage] = useState<FlashMessage | null>(null);
   const [creationMode, setCreationMode] = useState<boolean>(false);
+  const [examinationEditionMode, setExaminationEditionMode] = useState<boolean>(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const questionsRef = useRef<HTMLInputElement>(null);
   const alternativesRef = useRef<HTMLInputElement>(null);
@@ -130,7 +133,11 @@ function ExaminationDisplay() {
     }
   }, [secondaryNavLinks, secondaryDataList, dataLoaded]);
 
-  if (!examination) return <h1>Loading...</h1>;
+  if (!examination) return <SpinnerLoader />;
+
+
+  console.log('Current Examination', examination);
+
   return (
     <div className={ style.examination_page }>
       <section className={ style.page_header__section }>
@@ -175,7 +182,7 @@ function ExaminationDisplay() {
 
       {
         creationMode &&
-        <section className={ style.page_info__section }>
+        <section className={ style.page_form__section }>
           <motion.div
             className={ style.exams_form }
             initial={{ opacity: 0 }}
@@ -215,6 +222,12 @@ function ExaminationDisplay() {
         </section>
       }
 
+      <section className={ style.examination_details__section }>
+        <ExaminationEditCell />
+        <ExaminationEditCell />
+        <ExaminationEditCell />
+        <ExaminationEditCell />
+      </section>
 
       <section  className={ style.exams_info__section }>
         <div className={ style.exam_search__container }>

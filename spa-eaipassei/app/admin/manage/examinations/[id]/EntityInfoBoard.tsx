@@ -70,20 +70,20 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
   };
 
   return (
-    <div className={style.exam_details}>
+    <div className={ style.exam_details }>
       <motion.button
-        className={style.details_close__btn}
+        className={ style.details_close__btn }
         whileTap={{ scale: 0.9 }}
-        onClick={() => setEntity(null)}
+        onClick={ () => setEntity(null) }
       >
         <IoCloseSharp />
       </motion.button>
       <motion.p whileTap={{ scale: tapScale }}>
-        <span className={style.detail_key}>Id: </span>
-        <span className={style.detail_value}>{ id }</span>
+        <span className={ style.detail_key }>Id: </span>
+        <span className={ style.detail_value }>{ id }</span>
       </motion.p>
-      <motion.p whileTap={{ scale: tapScale }} onClick={(event) => handleEditClick('date', event)}>
-        <span className={style.detail_key}>Data: </span>
+      <motion.p whileTap={{ scale: tapScale }} onClick={ (event) => handleEditClick('date', event) }>
+        <span className={ style.detail_key }>Data: </span>
         {editMode.date ? (
           <span className={style.detail_input_span}>
             <input
