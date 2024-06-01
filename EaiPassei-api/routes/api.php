@@ -48,6 +48,7 @@ Route::get("/examinations/all", [ExaminationController::class, 'getAll']);
 Route::get('/examinations/id/{id}', [ExaminationController::class, "getById"]);
 Route::post("/examinations/create", [ExaminationController::class, "create"]);
 Route::post('/examinations/associate/study-area', [ExaminationController::class, 'associateStudyArea']);
+Route::delete('/examinations/dissociate/study-area', [ExaminationController::class, 'dissociateStudyArea']);
 Route::patch("/examinations/update/{id}", [ExaminationController::class, "update"]);
 Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delete"]);
 

@@ -1,6 +1,8 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useContext } from 'react';
 import { MdCancelPresentation } from "react-icons/md";
 import { IoCheckbox } from "react-icons/io5";
+import { deleteStudyAreaFromExamination } from '@/app/lib/api/StudyAreasAPI';
+import { ExamsContext } from '@/app/lib/context/ExamsContext';
 import { motion } from 'framer-motion';
 import { StudyArea } from '@/app/lib/types/studyAreasTypes';
 import style from '@/app/ui/admin/cards/examinationEditCell.module.css';
@@ -9,10 +11,12 @@ interface ExaminationEditCellProps {
   title: string;
   value: string | number | StudyArea[];
   type: 'text' | 'number' | 'date' | 'select' | 'not-editable' | 'list';
+  examinationId: number;
 }
 
-export default function ExaminationEditCell({ title, value, type }: ExaminationEditCellProps) {
+export default function ExaminationEditCell({ title, value, type, examinationId }: ExaminationEditCellProps) {
   const [editMode, setEditMode] = useState<boolean>(false);
+  const { setDataLoaded } = useContext(ExamsContext);
 
   const handleDivClick = (e: MouseEvent<HTMLDivElement>) => {
     if (type !== 'not-editable') {
@@ -20,9 +24,13 @@ export default function ExaminationEditCell({ title, value, type }: ExaminationE
     }
   };
 
-  const dissociateStudyArea = (e: MouseEvent<HTMLButtonElement>) => {
+  const dissociateStudyArea = async (e: MouseEvent<HTMLButtonElement>, areaId: number) => {
     e.stopPropagation();
-    // Implementar lógica de desassociação aqui
+    const result = await deleteStudyAreaFromExamination({ study_area_id: areaId, examination_id: examinationId });
+    console.log('RESULT de dissociacao de dados.', result);
+    if (result) {
+      setDataLoaded(true);
+    }
   }
 
   const confirmEdit = (e: MouseEvent<HTMLButtonElement>) => {
@@ -61,13 +69,9 @@ export default function ExaminationEditCell({ title, value, type }: ExaminationE
           {value.map((item: StudyArea) => (
             <li key={item.id}>
               {item.area}
-              <motion.button 
-                className={style.confirm_edit__btn} 
+              <motion.button
                 whileTap={{ scale: 0.9 }} 
-                onClick={(e) => {
-                  stopPropagation(e);
-                  dissociateStudyArea(e);
-                }}
+                onClick={(e) => dissociateStudyArea(e, item.id)}
               >
                 <MdCancelPresentation />
               </motion.button>

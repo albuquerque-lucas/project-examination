@@ -299,7 +299,7 @@ span.toggler_icon {
   }
 
   .study_areas__input button.study_areas__cancel_btn:hover {
-    background-color: var(--danger-button-color);
+    background-color: var(--danger-button-hover-color);
   }
 
   .study_areas__result_board  {

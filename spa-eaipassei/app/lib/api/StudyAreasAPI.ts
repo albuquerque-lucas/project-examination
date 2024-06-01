@@ -75,3 +75,17 @@ export const studyAreaToExamination = async (data: AssociateStudyArea) => {
     }
   }
 }
+
+export const deleteStudyAreaFromExamination = async (data: AssociateStudyArea) => {
+  try {
+    const resp = await axios.delete(`${process.env.NEXT_PUBLIC_API_DISSOCIATE_STUDYAREA}`, { data });
+    if (resp.status >= 200 && resp.status < 300) {
+      console.log('DATA RESULT DISSOCIATE STUDY AREA', resp);
+      return resp.data;
+    }
+  } catch (error: any) {
+    if (error.response && error.response.status >= 400 && error.response.status < 500) {
+      console.log('Erro ao desassociar tabelas', error);
+    }
+  }
+}

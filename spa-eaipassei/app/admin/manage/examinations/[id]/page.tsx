@@ -282,31 +282,37 @@ function ExaminationDisplay() {
             title="Id"
             value={ examination.id }
             type="not-editable"
+            examinationId={Number(id)}
           />
           <ExaminationEditCell
             title="Título"
             value={ examination.title }
             type="text"
+            examinationId={Number(id)}
           />
           <ExaminationEditCell
             title="Instituição"
             value={ examination.institution }
             type="text"
+            examinationId={Number(id)}
           />
           <ExaminationEditCell
             title="Nível de Escolaridade"
             value={ examination.educational_level }
             type="select"
+            examinationId={Number(id)}
           />
           <ExaminationEditCell
             title="Quantidade de provas"
             value={ examination.exams_count }
             type="not-editable"
+            examinationId={Number(id)}
           />
           <ExaminationEditCell
             title="Áreas abordadas"
             value={ examination.study_areas }
             type="list"
+            examinationId={Number(id)}
           />
         </div>
         <div className={ style.details_edit__section }>
