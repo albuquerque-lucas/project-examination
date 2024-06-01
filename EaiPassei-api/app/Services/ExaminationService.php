@@ -218,4 +218,49 @@ class ExaminationService implements IService
             return $this->serviceResponse;
         }
     }
+
+    public function associateStudyArea(int $examinationId, int $studyAreaId): ServiceResponse
+    {
+        \Log::info("Iniciando associação: Examination ID = $examinationId, Study Area ID = $studyAreaId");
+    
+        try {
+            $examination = Examination::findOrFail($examinationId);
+            \Log::info("Examination encontrado: ID = $examinationId");
+    
+            if ($examination->studyAreas()->where('study_area_id', $studyAreaId)->exists()) {
+                \Log::info("Associação já existe: Examination ID = $examinationId, Study Area ID = $studyAreaId");
+                $this->serviceResponse->setAttributes(409, (object)[
+                    'message' => 'Associação já existente.',
+                    'examination_id' => $examinationId,
+                    'study_area_id' => $studyAreaId,
+                ]);
+                return $this->serviceResponse;
+            }
+    
+            $examination->studyAreas()->attach($studyAreaId);
+            \Log::info("Associação realizada com sucesso: Examination ID = $examinationId, Study Area ID = $studyAreaId");
+    
+            $this->serviceResponse->setAttributes(200, (object)[
+                'message' => 'Associação realizada com sucesso.',
+                'examination_id' => $examinationId,
+                'study_area_id' => $studyAreaId,
+            ]);
+            return $this->serviceResponse;
+        } catch (ModelNotFoundException $exception) {
+            \Log::error("ModelNotFoundException: " . $exception->getMessage());
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $this->serviceResponse->recordsNotFound(),
+                'info' => $exception->getMessage(),
+            ]);
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            \Log::error("Exception: " . $exception->getMessage());
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => $this->serviceResponse->badRequest(),
+                'info' => $exception->getMessage(),
+            ]);
+            return $this->serviceResponse;
+        }
+    }
+    
 }

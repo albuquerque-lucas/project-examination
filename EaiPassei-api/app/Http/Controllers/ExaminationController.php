@@ -79,5 +79,20 @@ class ExaminationController extends Controller
         $this->authorize('manage', $request->user());
         return $this->dataRetrievalService->delete($this->examinationService, $id);
     }
+
+    public function associateStudyArea(Request $request)
+    {
+        try {
+            $this->authorize('manage', $request->user());
+            $validated = $request->validate([
+                'examination_id' => 'required|integer',
+                'study_area_id' => 'required|integer',
+            ]);
+            $response = $this->examinationService->associateStudyArea($validated['examination_id'], $validated['study_area_id']);
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
     
 }

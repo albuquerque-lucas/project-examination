@@ -19,7 +19,7 @@ import { IoMdAddCircle } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 import ExaminationEditCell from "./ExaminationEditCell";
 import { StudyArea } from "@/app/lib/types/studyAreasTypes";
-import { getAllAreas } from "@/app/lib/api/StudyAreasAPI";
+import { getAllAreas, studyAreaToExamination } from "@/app/lib/api/StudyAreasAPI";
 import { motion, AnimatePresence } from "framer-motion";
 import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
@@ -53,12 +53,24 @@ function ExaminationDisplay() {
     setSecondaryNavLinks,
   } = useGetExamById();
 
-  const removeStudyAreaFromList = (id: number) => {
-    setStudyAreaList((prevList) => prevList?.filter(area => area.id !== id) || null);
+  const removeStudyAreaFromList = (areaId: number) => {
+    setStudyAreaList((prevList) => prevList?.filter(area => area.id !== areaId) || null);
   }
 
-  const addStudyAreaToExamination = async (id: number) => {
-    console.log('Adicionando área de estudo', id);
+  const addStudyAreaToExamination = async (areaId: number, examinationId: number) => {
+    console.log('Adicionando área de estudo', areaId);
+    console.log('Examination ID', examinationId);
+    const data = {
+      study_area_id: areaId,
+      examination_id: examinationId,
+    }
+    try {
+      const result = await studyAreaToExamination(data);
+      console.log('Resultado da associação', result);
+      setDataLoaded(true);
+    } catch (error) {
+      console.error('Erro ao associar a área de estudo', error);
+    }
   }
 
   const cancelStudyAreaSearch = () => {
@@ -328,7 +340,7 @@ function ExaminationDisplay() {
                       </span>
                       <motion.button 
                         whileTap={ { scale: 0.9 } }
-                        onClick={ () => addStudyAreaToExamination(area.id) }
+                        onClick={ () => addStudyAreaToExamination(area.id, Number(id)) }
                         >
                         <IoMdAddCircle />
                       </motion.button>
