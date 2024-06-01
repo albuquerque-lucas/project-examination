@@ -1,17 +1,18 @@
 .detail_section__card {
   content: '';
   width: 100%;
-  height: 5rem;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
+  /* background-color: lightgreen; */
+  margin: 0.25rem 0;
 }
 
 .detail_section__card:hover {
   background-color: var(--light-dark-background-hover);
-  color: white;
+  /* color: white; */
 }
 
 .detail_section__card h4 {
@@ -29,6 +30,37 @@
   justify-content: center;
   width: 100%;
   height: 3rem;
+}
+
+.items_list {
+  overflow: scroll;
+  list-style: none;
+  height: 10rem;
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.items_list:hover {
+  background-color: white;
+}
+
+.items_list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3rem;
+  margin: 0.25rem 0;
+  width: 60%;
+}
+
+.items_list button {
+  background-color: var(--primary-background-color);
+}
+
+.items_list button:hover {
+  background-color: var(--secondary-button-color);
 }
 
 .examination_input__container input,
@@ -62,9 +94,12 @@
 
 }
 
+/* .detail_section__card {
+  position: relative;
+} */
+
 .detail_section__card p {
   width: 100%;
-  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,13 +110,11 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 3rem;
   }
 
   .detail_section__card  h4 {
     width: 33%;
     justify-content: flex-start;
-    height: 100%;
   }
 
   .examination_input__container {
@@ -99,7 +132,6 @@
 
   .detail_section__card p{
     width: 66%;
-    height: 3rem;
     justify-content: flex-end;
     padding: 0 5rem;
     

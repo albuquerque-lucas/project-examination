@@ -148,11 +148,17 @@ span.toggler_icon {
   /* background-color: red; */
   content: '';
   width: 100%;
-  min-height: 25rem;
+  height: 30rem;
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
   max-width: 950px;
+  justify-content: space-between;
+}
+
+.examination_details__section > :last-child {
+  /* background-color: lightblue; */
+  height: 15rem;
 }
 
 .details_edit__section {

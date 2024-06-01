@@ -306,7 +306,7 @@ function ExaminationDisplay() {
           <ExaminationEditCell
             title="Áreas abordadas"
             value={ examination.study_areas }
-            type="not-editable"
+            type="list"
           />
         </div>
         <div className={ style.details_edit__section }>
