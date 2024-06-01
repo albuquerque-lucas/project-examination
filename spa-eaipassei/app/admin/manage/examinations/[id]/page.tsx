@@ -14,7 +14,12 @@ import { FlashMessage } from "@/app/lib/types/messageTypes";
 import { useRouter } from "next/navigation";
 import { BiSolidDownArrow } from "react-icons/bi";
 import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { IoMdAddCircle } from "react-icons/io";
+import { MdCancel } from "react-icons/md";
 import ExaminationEditCell from "./ExaminationEditCell";
+import { StudyArea } from "@/app/lib/types/studyAreasTypes";
+import { getAllAreas } from "@/app/lib/api/StudyAreasAPI";
 import { motion, AnimatePresence } from "framer-motion";
 import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
@@ -26,10 +31,11 @@ function ExaminationDisplay() {
   const [examination, setExamination] = useState<DetailedExamination | null>(null);
   const [flashMessage, setFlashMessage] = useState<FlashMessage | null>(null);
   const [creationMode, setCreationMode] = useState<boolean>(false);
-  const [examinationEditionMode, setExaminationEditionMode] = useState<boolean>(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const questionsRef = useRef<HTMLInputElement>(null);
   const alternativesRef = useRef<HTMLInputElement>(null);
+  const [studyAreaList, setStudyAreaList] = useState<StudyArea[] | null>(null);
+  const searchStudyAreaRef = useRef<HTMLInputElement>(null);
 
   const {
     dataLoaded,
@@ -46,6 +52,32 @@ function ExaminationDisplay() {
     setSecondaryDataList,
     setSecondaryNavLinks,
   } = useGetExamById();
+
+  const cancelStudyAreaSearch = () => {
+    searchStudyAreaRef.current && (searchStudyAreaRef.current.value = '');
+    setStudyAreaList(null);
+  }
+
+  const submitStudyAreaSearch = async () => {
+    if (!searchStudyAreaRef.current?.value) {
+      setStudyAreaList(null);
+      return;
+    };
+    const pagination = false;
+    const area = searchStudyAreaRef.current?.value;
+  
+    try {
+      const result = await getAllAreas(`${process.env.NEXT_PUBLIC_API_GET_STUDY_AREAS_LIST}`, { 
+        area: area,
+        pagination: pagination,
+      });
+      setStudyAreaList(result);
+      console.log('Resultado da pesquisa por áreas de estudo', result);
+    } catch (error) {
+      console.error('Erro ao buscar áreas de estudo:', error);
+    }
+  }
+  
 
   const submitExam = async () => {
     const title = titleRef.current?.value;
@@ -226,7 +258,7 @@ function ExaminationDisplay() {
       }
       <section className={ style.examination_utilities }>
         <div className={ style.examination_details__section }>
-        <ExaminationEditCell
+          <ExaminationEditCell
             title="Id"
             value={ examination.id }
             type="not-editable"
@@ -258,7 +290,46 @@ function ExaminationDisplay() {
           />
         </div>
         <div className={ style.details_edit__section }>
-
+          <div className={ style.study_areas__input }>
+            <input type="text" placeholder="Pesquisar area de estudo..." ref={ searchStudyAreaRef }/>
+            <motion.button
+            className={ style.study_areas__search_btn }
+            whileTap={ { scale: 0.99 } }
+            onClick={ submitStudyAreaSearch }
+            >
+              <FaMagnifyingGlass />
+            </motion.button>
+            <motion.button
+              className={ style.study_areas__cancel_btn }
+              whileTap={ { scale: 0.99 } }
+              onClick={ cancelStudyAreaSearch }
+            >
+              <MdCancel />
+            </motion.button>
+          </div>
+          <div className={ style.study_areas__result_board }>
+            <ul>
+              {
+                studyAreaList &&
+                studyAreaList.length > 0 &&
+                studyAreaList.map((area, index) => {
+                  return (
+                    <li key={ index }>
+                      <span>
+                        { area.area }
+                      </span>
+                      <motion.button whileTap={ { scale: 0.95 } }>
+                        <IoMdAddCircle />
+                      </motion.button>
+                      <motion.button whileTap={ { scale: 0.95 } }>
+                        <MdCancel />
+                      </motion.button>
+                    </li>
+                  )
+                })
+              }
+            </ul>
+          </div>
         </div>
       </section>
 

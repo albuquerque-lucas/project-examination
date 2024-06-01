@@ -138,14 +138,14 @@ span.toggler_icon {
 }
 
 .examination_utilities {
-  background-color: blue;
+  /* background-color: blue; */
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .examination_details__section {
-  background-color: red;
+  /* background-color: red; */
   content: '';
   width: 100%;
   min-height: 25rem;
@@ -156,7 +156,7 @@ span.toggler_icon {
 }
 
 .details_edit__section {
-  background-color: lightgreen;
+  /* background-color: lightgreen; */
   content: '';
   width: 100%;
   min-height: 25rem;
@@ -234,15 +234,120 @@ span.toggler_icon {
   }
 
   .examination_details__section {
-    background-color: red;
+    /* background-color: red; */
     content: '';
     width: 50%;
   }
   
   .details_edit__section {
-    background-color: lightgreen;
+    /* background-color: lightgreen; */
     content: '';
     width: 50%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .study_areas__input {
+    width: 100%;
+    /* background-color: lightcoral; */
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .study_areas__input input {
+    height: 3rem;
+    width: 50%;
+    max-width: 600px;
+    padding: 0 0.5rem;
+
+  }
+
+  .study_areas__input button {
+    color: white;
+    border: none;
+    outline: none;
+    height: 3rem;
+    width: 5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.25rem;
+  }
+  
+  .study_areas__input button.study_areas__search_btn {
+    background-color: var(--primary-button-color);
+  }
+
+  .study_areas__input button.study_areas__search_btn:hover {
+    background-color: var(--primary-button-hover-color);
+  }
+
+  .study_areas__input button.study_areas__cancel_btn {
+    background-color: var(--danger-button-color);
+  }
+
+  .study_areas__input button.study_areas__cancel_btn:hover {
+    background-color: var(--danger-button-color);
+  }
+
+  .study_areas__result_board  {
+    /* background-color: lightblue; */
+    width: 100%;
+    height: 100%;
+    max-height: 20rem;
+  }
+
+  .study_areas__result_board ul {
+    list-style: none;
+  }
+  
+  .study_areas__result_board ul li {
+    /* background-color: lightsalmon; */
+    margin: 0.25rem 0;
+    height: 2.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .study_areas__result_board ul li:hover {
+    color: white;
+    background-color: var(--tertiary-background-color);
+  }
+
+  .study_areas__result_board span {
+    margin-right: 1rem;
+    width: 20rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .study_areas__result_board button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-background-color);
+    color: white;
+    border: none;
+    outline: none;
+    height: 2.5rem;
+    width: 2.5rem;
+    margin: 0 0.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .study_areas__result_board button:hover {
+    background-color: var(--primary-background-hover);
   }
 
   button.toggler_container {
