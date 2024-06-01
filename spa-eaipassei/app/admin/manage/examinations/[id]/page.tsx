@@ -53,6 +53,14 @@ function ExaminationDisplay() {
     setSecondaryNavLinks,
   } = useGetExamById();
 
+  const removeStudyAreaFromList = (id: number) => {
+    setStudyAreaList((prevList) => prevList?.filter(area => area.id !== id) || null);
+  }
+
+  const addStudyAreaToExamination = async (id: number) => {
+    console.log('Adicionando área de estudo', id);
+  }
+
   const cancelStudyAreaSearch = () => {
     searchStudyAreaRef.current && (searchStudyAreaRef.current.value = '');
     setStudyAreaList(null);
@@ -318,10 +326,16 @@ function ExaminationDisplay() {
                       <span>
                         { area.area }
                       </span>
-                      <motion.button whileTap={ { scale: 0.95 } }>
+                      <motion.button 
+                        whileTap={ { scale: 0.9 } }
+                        onClick={ () => addStudyAreaToExamination(area.id) }
+                        >
                         <IoMdAddCircle />
                       </motion.button>
-                      <motion.button whileTap={ { scale: 0.95 } }>
+                      <motion.button
+                        whileTap={ { scale: 0.9 } }
+                        onClick={() => removeStudyAreaFromList(area.id)}
+                      >
                         <MdCancel />
                       </motion.button>
                     </li>
