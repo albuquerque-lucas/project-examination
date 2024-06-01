@@ -224,38 +224,42 @@ function ExaminationDisplay() {
           </motion.div>
         </section>
       }
+      <section className={ style.examination_utilities }>
+        <div className={ style.examination_details__section }>
+        <ExaminationEditCell
+            title="Id"
+            value={ examination.id }
+            type="not-editable"
+          />
+          <ExaminationEditCell
+            title="Título"
+            value={ examination.title }
+            type="text"
+          />
+          <ExaminationEditCell
+            title="Instituição"
+            value={ examination.institution }
+            type="text"
+          />
+          <ExaminationEditCell
+            title="Nível de Escolaridade"
+            value={ examination.educational_level }
+            type="select"
+          />
+          <ExaminationEditCell
+            title="Quantidade de provas"
+            value={ examination.exams_count }
+            type="not-editable"
+          />
+          <ExaminationEditCell
+            title="Áreas abordadas"
+            value={ examination.study_areas }
+            type="not-editable"
+          />
+        </div>
+        <div className={ style.details_edit__section }>
 
-      <section className={ style.examination_details__section }>
-      <ExaminationEditCell
-          title="Id"
-          value={ examination.id }
-          type="not-editable"
-        />
-        <ExaminationEditCell
-          title="Título"
-          value={ examination.title }
-          type="text"
-        />
-        <ExaminationEditCell
-          title="Instituição"
-          value={ examination.institution }
-          type="text"
-        />
-        <ExaminationEditCell
-          title="Nível de Escolaridade"
-          value={ examination.educational_level }
-          type="select"
-        />
-        <ExaminationEditCell
-          title="Quantidade de provas"
-          value={ examination.exams_count }
-          type="not-editable"
-        />
-        <ExaminationEditCell
-          title="Áreas abordadas"
-          value={ examination.study_areas }
-          type="not-editable"
-        />
+        </div>
       </section>
 
       <section  className={ style.exams_info__section }>

@@ -137,13 +137,30 @@ span.toggler_icon {
   background-color: var(--primary-button-hover-color);
 }
 
+.examination_utilities {
+  background-color: blue;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .examination_details__section {
+  background-color: red;
   content: '';
   width: 100%;
   min-height: 25rem;
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
+  max-width: 950px;
+}
+
+.details_edit__section {
+  background-color: lightgreen;
+  content: '';
+  width: 100%;
+  min-height: 25rem;
+  max-width: 950px;
 }
 
 .exam_search__container {
@@ -204,10 +221,28 @@ span.toggler_icon {
 
 
 @media(min-width:980px) {
+  .examination_utilities {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+  }
   .header_message__box {
     justify-content: flex-start;
     flex-direction: row;
     align-items: center;
+  }
+
+  .examination_details__section {
+    background-color: red;
+    content: '';
+    width: 50%;
+  }
+  
+  .details_edit__section {
+    background-color: lightgreen;
+    content: '';
+    width: 50%;
   }
 
   button.toggler_container {

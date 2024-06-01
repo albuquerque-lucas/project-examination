@@ -61,7 +61,8 @@ export default function ExaminationEditCell({ title, value, type }: ExaminationE
               ) : (
                 <input
                   type={ type }
-                  defaultValue={ renderValue() as string }
+                  placeholder={ renderValue() as string }
+                  defaultValue=''
                   onClick={ stopPropagation }
                 />
               )
