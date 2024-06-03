@@ -32,7 +32,6 @@ export const getExaminations = async (url: string, params: Record<string, any> =
 
   export const createExaminations = async(data: Examination[]) => {
     try {
-      console.log('CHEGOU NO TRY DE CREATE MANY', data);
       const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_CREATE_EXAMINATIONS}`, data);
       console.log('RESPONSE CREATE MANY', resp);
       return resp;
@@ -58,4 +57,17 @@ export const getExaminations = async (url: string, params: Record<string, any> =
       }
     }
     return null;
+  }
+
+  export const updateExamination = async (data: Examination) => {
+    try {
+      const resp = await axios.patch(`${process.env.NEXT_PUBLIC_API_UPDATE_EXAMINATION}`, data);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao buscar os concursos', error);
+      }
+    }
   }

@@ -2,6 +2,7 @@ import { useState, MouseEvent, useContext } from 'react';
 import { MdCancelPresentation } from "react-icons/md";
 import { IoCheckbox } from "react-icons/io5";
 import { deleteStudyAreaFromExamination } from '@/app/lib/api/StudyAreasAPI';
+import { updateExamination } from '@/app/lib/api/examinationsAPI';
 import { ExamsContext } from '@/app/lib/context/ExamsContext';
 import { motion } from 'framer-motion';
 import { StudyArea } from '@/app/lib/types/studyAreasTypes';
@@ -104,14 +105,14 @@ export default function ExaminationEditCell({ title, value, type, examinationId 
                 <motion.button
                   className={style.confirm_edit__btn}
                   whileTap={{ scale: 0.9 }}
-                  onClick={confirmEdit}
+                  onClick={ confirmEdit }
                 >
                   <IoCheckbox />
                 </motion.button>
                 <motion.button
                   className={style.cancel_edit__btn}
                   whileTap={{ scale: 0.9 }}
-                  onClick={cancelEdit}
+                  onClick={ cancelEdit }
                 >
                   <MdCancelPresentation />
                 </motion.button>
