@@ -40,7 +40,6 @@ export default function ExaminationEditCell({
   const dissociateStudyArea = async (e: MouseEvent<HTMLButtonElement>, areaId: number) => {
     e.stopPropagation();
     const result = await deleteStudyAreaFromExamination({ study_area_id: areaId, examination_id: examinationId });
-    console.log('RESULT de dissociacao de dados.', result);
     if (result) {
       setDataLoaded(true);
     }
@@ -53,7 +52,6 @@ export default function ExaminationEditCell({
     };
     const result = await updateExamination({ id: examinationId, ...updatedData });
     if (result) {
-      console.log('RESULT de atualizacao de dados.', result);
       setEditMode(false);
       setDataLoaded(true);
     }

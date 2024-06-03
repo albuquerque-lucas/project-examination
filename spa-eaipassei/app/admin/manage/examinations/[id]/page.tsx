@@ -67,15 +67,12 @@ function ExaminationDisplay() {
   }
 
   const addStudyAreaToExamination = async (areaId: number, examinationId: number) => {
-    console.log('Adicionando área de estudo', areaId);
-    console.log('Examination ID', examinationId);
     const data = {
       study_area_id: areaId,
       examination_id: examinationId,
     }
     try {
       const result = await studyAreaToExamination(data);
-      console.log('Resultado da associação', result);
       setDataLoaded(true);
     } catch (error) {
       console.error('Erro ao associar a área de estudo', error);
@@ -101,7 +98,6 @@ function ExaminationDisplay() {
         pagination: pagination,
       });
       setStudyAreaList(result);
-      console.log('Resultado da pesquisa por áreas de estudo', result);
     } catch (error) {
       console.error('Erro ao buscar áreas de estudo:', error);
     }
@@ -133,8 +129,6 @@ function ExaminationDisplay() {
       }
 
       const createResponse = await createExamFull(`${process.env.NEXT_PUBLIC_API_CREATE_EXAM_FULL}`, examCompleteRequest);
-
-      console.log('CREATE RESPONSE', createResponse);
 
       if (!createResponse) {
         setFlashMessage({
@@ -189,7 +183,6 @@ function ExaminationDisplay() {
           console.error('Error fetching examination:', error);
         }
       }
-      console.log('EducationalLevelsList', educationalLevelsList);
       fetchExamination();
     }
   }, [secondaryNavLinks, secondaryDataList, dataLoaded, educationalLevelsList]);
