@@ -3,7 +3,9 @@ import { MdCancelPresentation } from "react-icons/md";
 import { IoCheckbox } from "react-icons/io5";
 import { deleteStudyAreaFromExamination } from '@/app/lib/api/StudyAreasAPI';
 import { updateExamination } from '@/app/lib/api/examinationsAPI';
+import { EducationalLevel } from '@/app/lib/types/examinationTypes';
 import { ExamsContext } from '@/app/lib/context/ExamsContext';
+import { EditCellOptions } from '@/app/lib/types/componentsTypes';
 import { motion } from 'framer-motion';
 import { StudyArea } from '@/app/lib/types/studyAreasTypes';
 import style from '@/app/ui/admin/cards/examinationEditCell.module.css';
@@ -13,10 +15,20 @@ interface ExaminationEditCellProps {
   value: string | number | StudyArea[];
   type: 'text' | 'number' | 'date' | 'select' | 'not-editable' | 'list';
   examinationId: number;
+  fieldName: string;
+  options?: EditCellOptions;
 }
 
-export default function ExaminationEditCell({ title, value, type, examinationId }: ExaminationEditCellProps) {
+export default function ExaminationEditCell({
+  title,
+  value,
+  type,
+  examinationId,
+  fieldName,
+  options,
+}: ExaminationEditCellProps) {
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [editedValue, setEditedValue] = useState<string | number | StudyArea[]>(value);
   const { setDataLoaded } = useContext(ExamsContext);
 
   const handleDivClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -32,17 +44,24 @@ export default function ExaminationEditCell({ title, value, type, examinationId 
     if (result) {
       setDataLoaded(true);
     }
-  }
+  };
 
-  const confirmEdit = (e: MouseEvent<HTMLButtonElement>) => {
+  const confirmEdit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    // Implementar lógica de confirmação aqui
+    const updatedData = {
+      [fieldName]: editedValue,
+    };
+    const result = await updateExamination({ id: examinationId, ...updatedData });
+    if (result) {
+      console.log('RESULT de atualizacao de dados.', result);
+      // setEditMode(false);
+      // setDataLoaded(true);
+    }
   };
 
   const cancelEdit = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setEditMode(false);
-    // Implementar lógica de cancelamento aqui
   };
 
   const stopPropagation = (e: MouseEvent<HTMLDivElement | HTMLInputElement | HTMLButtonElement>) => {
@@ -58,20 +77,28 @@ export default function ExaminationEditCell({ title, value, type, examinationId 
   };
 
   const renderEditableInput = () => {
-    if (type === 'select') {
+    if (type === 'select' && options?.educationalLevels) {
       return (
-        <select onClick={() => stopPropagation}>
-          <option>Selecione uma opção</option>
+        <select
+          defaultValue={value as string}
+          onChange={(e) => setEditedValue(e.target.value)}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {options.educationalLevels.map((level: EducationalLevel) => (
+            <option key={level.id} value={level.id}>
+              {level.name}
+            </option>
+          ))}
         </select>
       );
     } else if (type === 'list' && Array.isArray(value)) {
       return (
-        <ul className={ style.items_list }>
+        <ul className={style.items_list}>
           {value.map((item: StudyArea) => (
             <li key={item.id}>
               {item.area}
               <motion.button
-                whileTap={{ scale: 0.9 }} 
+                whileTap={{ scale: 0.9 }}
                 onClick={(e) => dissociateStudyArea(e, item.id)}
               >
                 <MdCancelPresentation />
@@ -85,7 +112,8 @@ export default function ExaminationEditCell({ title, value, type, examinationId 
         <input
           type={type}
           placeholder={renderValue() as string}
-          defaultValue=""
+          defaultValue={typeof value === 'string' ? value : ''}
+          onChange={(e) => setEditedValue(e.target.value)}
           onClick={stopPropagation}
         />
       );
@@ -98,27 +126,24 @@ export default function ExaminationEditCell({ title, value, type, examinationId 
       {editMode ? (
         <div className={style.examination_input__container}>
           {renderEditableInput()}
-
-          {
-            type !== 'list' && (
-              <>
-                <motion.button
-                  className={style.confirm_edit__btn}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={ confirmEdit }
-                >
-                  <IoCheckbox />
-                </motion.button>
-                <motion.button
-                  className={style.cancel_edit__btn}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={ cancelEdit }
-                >
-                  <MdCancelPresentation />
-                </motion.button>
-              </>
-            )
-          }
+          {type !== 'list' && (
+            <>
+              <motion.button
+                className={style.confirm_edit__btn}
+                whileTap={{ scale: 0.9 }}
+                onClick={confirmEdit}
+              >
+                <IoCheckbox />
+              </motion.button>
+              <motion.button
+                className={style.cancel_edit__btn}
+                whileTap={{ scale: 0.9 }}
+                onClick={cancelEdit}
+              >
+                <MdCancelPresentation />
+              </motion.button>
+            </>
+          )}
         </div>
       ) : (
         <p>{renderValue()}</p>

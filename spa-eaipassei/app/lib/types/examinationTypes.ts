@@ -26,6 +26,15 @@ export type DetailedExamination = {
   exam_list: Array<any>;
 }
 
+export type ExaminationUpdateRequest = {
+  id: number | string;
+  educational_level_id?: string;
+  title?: string;
+  institution?: string;
+  active?: boolean;
+  notice?: File | null;
+}
+
 export type EducationalLevel = {
   id: number;
   name: string;

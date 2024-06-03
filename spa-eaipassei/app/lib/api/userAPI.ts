@@ -1,4 +1,4 @@
-import Axios from "axios";
+ import Axios from "axios";
 import { UserUpdateRequest, ProfileImageFormRequest } from "../types/userTypes";
 import { Profile } from "next-auth";
 import HttpError from "../utils/Class/HttpError";

@@ -20,6 +20,8 @@ import { MdCancel } from "react-icons/md";
 import ExaminationEditCell from "./ExaminationEditCell";
 import { StudyArea } from "@/app/lib/types/studyAreasTypes";
 import { getAllAreas, studyAreaToExamination } from "@/app/lib/api/StudyAreasAPI";
+import { useFetchEducationalLevels } from '@/app/lib/hooks/useFetchEducationalLevels';
+import { EditCellOptions } from '@/app/lib/types/componentsTypes';
 import { motion, AnimatePresence } from "framer-motion";
 import layout from '@/app/ui/admin/layout.module.css';
 import style from '@/app/ui/admin/pages/examinations/examinationEdit.module.css';
@@ -36,6 +38,13 @@ function ExaminationDisplay() {
   const alternativesRef = useRef<HTMLInputElement>(null);
   const [studyAreaList, setStudyAreaList] = useState<StudyArea[] | null>(null);
   const searchStudyAreaRef = useRef<HTMLInputElement>(null);
+
+  const {
+    educationalLevelsList,
+  } = useFetchEducationalLevels();
+  const options: EditCellOptions = {
+    educationalLevels: educationalLevelsList,
+  };
 
   const {
     dataLoaded,
@@ -180,10 +189,10 @@ function ExaminationDisplay() {
           console.error('Error fetching examination:', error);
         }
       }
-
+      console.log('EducationalLevelsList', educationalLevelsList);
       fetchExamination();
     }
-  }, [secondaryNavLinks, secondaryDataList, dataLoaded]);
+  }, [secondaryNavLinks, secondaryDataList, dataLoaded, educationalLevelsList]);
 
   if (!examination) return <SpinnerLoader />;
 
@@ -283,36 +292,43 @@ function ExaminationDisplay() {
             value={ examination.id }
             type="not-editable"
             examinationId={Number(id)}
+            fieldName="id"
           />
           <ExaminationEditCell
             title="Título"
             value={ examination.title }
             type="text"
             examinationId={Number(id)}
+            fieldName="title"
           />
           <ExaminationEditCell
             title="Instituição"
             value={ examination.institution }
             type="text"
             examinationId={Number(id)}
+            fieldName="institution"
           />
           <ExaminationEditCell
             title="Nível de Escolaridade"
             value={ examination.educational_level }
             type="select"
             examinationId={Number(id)}
+            fieldName="educational_level"
+            options={ options }
           />
           <ExaminationEditCell
             title="Quantidade de provas"
             value={ examination.exams_count }
             type="not-editable"
             examinationId={Number(id)}
+            fieldName="exams_count"
           />
           <ExaminationEditCell
             title="Áreas abordadas"
             value={ examination.study_areas }
             type="list"
             examinationId={Number(id)}
+            fieldName="study_areas"
           />
         </div>
         <div className={ style.details_edit__section }>

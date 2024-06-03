@@ -1,7 +1,7 @@
 'use client';
 
 import Axios from "axios";
-import { Examination } from "../types/examinationTypes";
+import { Examination, ExaminationUpdateRequest } from "../types/examinationTypes";
 import { PaginatedAPIResponse } from "../types/entityContextTypes";
 import { fetchData } from "./apiManagement";
 
@@ -59,9 +59,9 @@ export const getExaminations = async (url: string, params: Record<string, any> =
     return null;
   }
 
-  export const updateExamination = async (data: Examination) => {
+  export const updateExamination = async (data: ExaminationUpdateRequest) => {
     try {
-      const resp = await axios.patch(`${process.env.NEXT_PUBLIC_API_UPDATE_EXAMINATION}`, data);
+      const resp = await axios.patch(`${process.env.NEXT_PUBLIC_API_UPDATE_EXAMINATION}/${data.id}`, data);
       if (resp.status >= 200 && resp.status < 300) {
         return resp.data;
       }
