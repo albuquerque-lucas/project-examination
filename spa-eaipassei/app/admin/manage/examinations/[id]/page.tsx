@@ -313,7 +313,7 @@ function ExaminationDisplay() {
             value={ examination.educational_level }
             type="select"
             examinationId={Number(id)}
-            fieldName="educational_level"
+            fieldName="educational_level_id"
             options={ options }
           />
           <ExaminationEditCell

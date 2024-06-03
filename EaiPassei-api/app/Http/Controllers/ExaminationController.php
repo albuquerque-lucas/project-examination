@@ -71,6 +71,10 @@ class ExaminationController extends Controller
     public function update(Request $request, int $id)
     {
         $this->authorize('manage', $request->user());
+        // return response()->json([
+        //     'message' => 'Not implemented yet',
+        //     'data' => $request->all(),
+        // ], 200);
         try {
             $data = $request->all();
             $hasFile = false;

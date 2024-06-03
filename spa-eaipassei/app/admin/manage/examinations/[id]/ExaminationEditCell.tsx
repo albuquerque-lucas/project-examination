@@ -54,8 +54,8 @@ export default function ExaminationEditCell({
     const result = await updateExamination({ id: examinationId, ...updatedData });
     if (result) {
       console.log('RESULT de atualizacao de dados.', result);
-      // setEditMode(false);
-      // setDataLoaded(true);
+      setEditMode(false);
+      setDataLoaded(true);
     }
   };
 
