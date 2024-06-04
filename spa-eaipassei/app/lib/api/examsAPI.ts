@@ -42,7 +42,7 @@ export const createExam = async (url: string, data: Record<string, any>): Promis
     }
     throw new Error('Erro ao criar o exame');
   } catch (error: any) {
-    throw new Error('Erro ao criar o exame', error);
+    return error;
   }
 }
 

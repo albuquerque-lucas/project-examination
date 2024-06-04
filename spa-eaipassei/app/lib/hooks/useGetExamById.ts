@@ -50,7 +50,7 @@ export const useGetExamById = () => {
         setSecondaryData(apiResponse);
         return apiResponse;
       } catch (error: any) {
-        console.log('Erro ao buscar o exame', error);
+        console.log('Erro ao buscar as questões', error);
         setEntity(null);
         return null;
       } finally {

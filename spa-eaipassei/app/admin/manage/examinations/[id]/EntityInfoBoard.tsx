@@ -199,7 +199,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
         <motion.button
           className={style.see_exam__btn}
           whileTap={{ scale: 0.99 }}
-          onClick={() => router.push(`/admin/manage/examinations/${id}/questions`)}
+          onClick={() => router.push(`/admin/manage/examinations/${id}/exam`)}
         >
           Ver Prova
         </motion.button>

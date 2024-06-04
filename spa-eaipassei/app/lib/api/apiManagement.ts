@@ -34,7 +34,7 @@ async function fetchData<T>(url: string, params: Record<string, any> = {}): Prom
     if (error.response && error.response.status >= 400 && error.response.status < 500) {
       console.log(`Erro ao buscar os dados de ${url}`, error);
     }
-    return null;
+    return error;
   }
 }
 
