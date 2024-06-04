@@ -190,7 +190,7 @@ function ExaminationDisplay() {
   if (!examination) return <SpinnerLoader />;
 
 
-  console.log('Current Examination', examination);
+  // console.log('Current Examination', examination);
 
   return (
     <div className={ style.examination_page }>

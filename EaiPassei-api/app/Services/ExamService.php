@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Storage;
 use App\Models\Exam;
 
-class ExamService implements IService
+class ExamService
 {
     private ServiceResponse $serviceResponse;
 
@@ -114,11 +114,17 @@ class ExamService implements IService
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        }
+        }   
     }
     
-    function update(int $id, array $data, bool $hasFile): ServiceResponse
+    function update(int $id, array $data, bool $hasFile)
     {
+        // $this->serviceResponse->setAttributes(200, (object)[
+        //     'message' => 'Chegou no Service',
+        //     'data' => $data,
+        //     'id' => $id,
+        // ]);
+        // return $this->serviceResponse;
         try {
             $exam = Exam::find($id);
             if (!$exam) {
@@ -129,7 +135,7 @@ class ExamService implements IService
             }
 
             if ($hasFile && Storage::disk('public')->exists($exam->notice()->file_name)) {
-                dd("Parando aplicação antes de deletar do Storage");
+                // dd("Parando aplicação antes de deletar do Storage");
                 Storage::disk('public')->delete($exam->notice()->file_name);
             }
 

@@ -1,15 +1,16 @@
 'use client';
 
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ExamsContext } from '@/app/lib/context/ExamsContext';
 import { Exam } from '@/app/lib/types/examTypes';
 import { IoCloseSharp } from "react-icons/io5";
 import { useGetExamById } from '@/app/lib/hooks/useGetExamById';
 import { formatDate } from '@/app/lib/utils/formatDate';
-import { motion } from 'framer-motion';
 import { MdCancelPresentation } from "react-icons/md";
 import { IoCheckbox } from "react-icons/io5";
+import { updateExam } from '@/app/lib/api/examsAPI';
+import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/cards/entityInfoBoard.module.css';
 
 interface EntityInfoBoardProps {
@@ -18,16 +19,19 @@ interface EntityInfoBoardProps {
 
 export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
   const [editMode, setEditMode] = useState({
+    title: false,
     date: false,
     description: false,
   });
+
+  const [examState, setExamState] = useState(exam);
 
   const dateRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
 
   const tapScale = 0.997;
   const router = useRouter();
-  const { id, date, description, questions_count, subjects } = exam;
+  const { id, date, description, questions_count, subjects } = examState;
   const formattedDate = date && formatDate(date);
 
   const { setEntity } = useGetExamById();
@@ -60,14 +64,55 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
     }
   };
 
-  const handleSaveClick = (field: 'date' | 'description', event: React.MouseEvent) => {
+  const handleSaveClick = async (field: 'date' | 'description', event: React.MouseEvent) => {
     event.stopPropagation();
-    // Implement saving logic here if needed
-    setEditMode(prevState => ({
-      ...prevState,
-      [field]: false
-    }));
+  
+    const inputRef = field === 'date' ? dateRef.current : descriptionRef.current;
+    const updatedValue = inputRef ? inputRef.value : '';
+  
+    // let formattedValue = updatedValue;
+    // if (field === 'date') {
+    //   const [day, month, year] = updatedValue.split('/');
+    //   // Formatar a data manualmente como YYYY-MM-DD
+    //   formattedValue = `${year}-${month}-${day}`;
+    // }
+  
+    const updatedData = {
+      id,
+      [field]: updatedValue,
+    };
+  
+    try {
+      const result = await updateExam(updatedData);
+      if (result) {
+        console.log('Submitted Field:', field, 'Updated Value:', updatedValue);
+        console.log('Exam updated:', result);
+        setExamState(prevState => ({
+          ...prevState,
+          [field]: updatedValue,
+        }));
+        setEditMode(prevState => ({
+          ...prevState,
+          [field]: false,
+        }));
+      } else {
+        console.error('Failed to update exam:', updatedData);
+      }
+    } catch (error) {
+      console.error('Error updating exam:', error);
+    }
   };
+  
+  
+  
+
+  useEffect(() => {
+    if (editMode.date) {
+      dateRef.current?.focus();
+    } else if (editMode.description) {
+      descriptionRef.current?.focus();
+    }
+  }, [editMode]);
 
   return (
     <div className={ style.exam_details }>
@@ -87,7 +132,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
         {editMode.date ? (
           <span className={style.detail_input_span}>
             <input
-              type="text"
+              type="date"
               ref={dateRef}
               defaultValue=''
               placeholder={formattedDate ? formattedDate : 'Digite uma data...'}
