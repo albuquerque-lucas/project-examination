@@ -5,9 +5,42 @@
 }
 
 .page_header {
+  background-color: var(--quaternary-background-color);
   content: '';
   width: 100%;
   height: 20vh;
-  background-color: black;
   display: flex;
+}
+
+.header_control {
+  content: '';
+  width: 50%;
+  height: 100%;
+  padding: 0.5rem;
+}
+
+.page_body {
+  /* background-color: blue; */
+  content: '';
+  min-height: 80vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page_navbuttons__container {
+  /* background-color: lightgreen; */
+  content: '';
+  width: 100%;
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page_questions__container {
+  /* background-color: lightcoral; */
+  content: '';
+  width: 100%;
+  min-height: 30rem;
 }

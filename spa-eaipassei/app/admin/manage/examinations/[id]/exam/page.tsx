@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import withAuth from "@/app/lib/components/withAuth/withAuth"
-import style from '@/app/ui/admin/pages/examinations/questions.module.css';
 import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
-import { useRouter } from "next/navigation";
+import QuestionCard from "./QuestionCard";
+import ExamNavButtons from "./ExamNavButtons";
+import style from '@/app/ui/admin/pages/examinations/questions.module.css';
 
 function ExamDisplay() {
   const id = window.location.pathname.split('/')[4];
-
-
+  const [questions, setQuestions] = useState([]);
   const {
     entity,
     secondaryData,
@@ -23,19 +23,16 @@ function ExamDisplay() {
     fetchExamQuestions,
   } = useGetExamById();
 
-  // console.log('router', id);
-  // console.log('entity', entity);
-
   useEffect(() => {
     const fetchLocalData = async () => {
-      const result = await Promise.all([fetchExam(Number(id)), fetchExamQuestions(Number(id))]);
-      console.log('result', result);
+      await Promise.all([fetchExam(Number(id)), fetchExamQuestions(Number(id))]);
     }
 
     fetchLocalData();
   }, []);
-  // console.log('entity', entity);
-  // console.log('secondaryData', secondaryData);
+  console.log('entity', entity);
+  console.log('secondaryData', secondaryData);
+  console.log('secondaryDataList', secondaryDataList);
 
   return (
     <div className={ style.questions_page }>
@@ -46,6 +43,20 @@ function ExamDisplay() {
         <div className={ style.header_edit }>
 
         </div>
+      </section>
+      <section className={ style.page_body }>
+      <div className={ style.page_navbuttons__container }>
+        <ExamNavButtons links={secondaryNavLinks} id={Number(id)} />
+      </div>
+      <div className={ style.page_questions__container }>
+        {
+          secondaryDataList && secondaryDataList.map((question, index) => {
+            return (
+              <QuestionCard key={index} question={question} />
+            );
+          })
+        }
+      </div>
       </section>
     </div>
   )

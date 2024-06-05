@@ -21,7 +21,6 @@ export default function DeleteExamPopUp() {
     event.preventDefault();
 
     if (deleteFieldRef.current?.value === 'DELETAR') {
-      console.log('Exame deletado');
       const result = await deleteExam(`${process.env.NEXT_PUBLIC_API_DELETE_EXAM as string}/${entityToDelete}`);
       console.log('Resultado do delete', result);
       setEntity(null);

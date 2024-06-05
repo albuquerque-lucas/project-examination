@@ -73,7 +73,7 @@ export const createQuestionAlternative = async (url: string, data: Record<string
   }
 }
 
-export const deleteExam = async (url: string): Promise<boolean> => {
+export const deleteExam = async (url: string): Promise<boolean | null> => {
   try {
     const response: AxiosResponse = await axios.delete(url);
     
@@ -83,7 +83,8 @@ export const deleteExam = async (url: string): Promise<boolean> => {
     
     throw new Error('Erro ao deletar o exame');
   } catch (error: any) {
-    throw new Error('Erro ao deletar o exame', error);
+    console.log('Ocorreu um erro ao deletar a prova', error);
+    return null;
   }
 }
 
