@@ -40,10 +40,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
     return `${day}/${month}/${year}`;
   };
 
-  console.log('FIRST DATE', date);
   const formattedDate = date ? formatDateForDisplay(date) : '';
-  console.log('SECOND DATE', date);
-  console.log('FORMATTEDDATE', formattedDate)
 
   const { setEntity } = useGetExamById();
 
