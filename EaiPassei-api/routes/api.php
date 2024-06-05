@@ -47,13 +47,10 @@ Route::get('/access-levels/all', [AccessLevelController::class, "getAll"]);
 Route::get("/examinations/all", [ExaminationController::class, 'getAll']);
 Route::get('/examinations/id/{id}', [ExaminationController::class, "getById"]);
 Route::post("/examinations/create", [ExaminationController::class, "create"]);
+Route::post('/examinations/associate/study-area', [ExaminationController::class, 'associateStudyArea']);
+Route::delete('/examinations/dissociate/study-area', [ExaminationController::class, 'dissociateStudyArea']);
 Route::patch("/examinations/update/{id}", [ExaminationController::class, "update"]);
 Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delete"]);
-Route::get('/examinations/registration-date', [ExaminationController::class, "getByRegistrationDate"]);
-Route::get('/examinations/institution', [ExaminationController::class, "getByInstitution"]);
-Route::get('/examinations/title', [ExaminationController::class, "getByTitle"]);
-Route::get('/examinations/educational-level/{id}', [ExaminationController::class, 'getByEducationalLevel']);
-Route::get('/examinations/activity-status', [ExaminationController::class, 'getByActivityStatus']);
 
 
   // ROTAS DE NOTICES

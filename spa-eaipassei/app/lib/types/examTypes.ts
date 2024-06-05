@@ -15,6 +15,14 @@ export type Exam = {
   subjects?: Subject[];
 }
 
+export type ExamUpdateRequest = {
+  id: number;
+  title?: string | null;
+  description?: string | null;
+  date?: string | null;
+  subjects?: Subject[];
+}
+
 export type ExamQueryParams = {
   examination_id?: number;
   title?: string;

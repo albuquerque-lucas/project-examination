@@ -34,8 +34,9 @@ class ExamQuestionController extends Controller
                 'exam' => 'nullable|string',
                 'topic' => 'nullable|string',
                 'question_number' => 'nullable|integer',
-                'educational_level_id' => 'nullable|string',
+                'educational_level_id' => 'nullable|integer',
             ]);
+            $validated['exam_id'] = isset($validated['exam_id']) ? (int)$validated['exam_id'] : null;
             $order = $request->input('order', 'asc');
             $params = $validated;
             unset($params['order'], $params['page']);

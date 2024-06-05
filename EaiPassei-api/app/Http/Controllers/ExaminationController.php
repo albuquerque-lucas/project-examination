@@ -71,13 +71,62 @@ class ExaminationController extends Controller
     public function update(Request $request, int $id)
     {
         $this->authorize('manage', $request->user());
-        return $this->dataRetrievalService->update($this->examinationService, $id, $request, 'notice_file');
+        // return response()->json([
+        //     'message' => 'Not implemented yet',
+        //     'data' => $request->all(),
+        // ], 200);
+        try {
+            $data = $request->all();
+            $hasFile = false;
+
+            if ($request->hasFile('notice_file')) {
+                $noticePath = '';
+                $data['notice_file'] = $noticePath;
+                $hasFile = true;
+            }
+
+            $response = $this->examinationService->update($id, $data, $hasFile);
+    
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function delete(Request $request, int $id)
     {
         $this->authorize('manage', $request->user());
         return $this->dataRetrievalService->delete($this->examinationService, $id);
+    }
+
+    public function associateStudyArea(Request $request)
+    {
+        try {
+            $this->authorize('manage', $request->user());
+            $validated = $request->validate([
+                'examination_id' => 'required|integer',
+                'study_area_id' => 'required|integer',
+            ]);
+            $response = $this->examinationService->associateStudyArea($validated['examination_id'], $validated['study_area_id']);
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
+
+    public function dissociateStudyArea(Request $request)
+    {
+        try {
+            $this->authorize('manage', $request->user());
+            $validated = $request->validate([
+                'examination_id' => 'required|integer',
+                'study_area_id' => 'required|integer',
+            ]);
+            $response = $this->examinationService->dissociateStudyArea($validated['examination_id'], $validated['study_area_id']);
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
     
 }

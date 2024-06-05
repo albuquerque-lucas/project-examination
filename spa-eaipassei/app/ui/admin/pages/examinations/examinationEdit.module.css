@@ -4,8 +4,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--secondary-background-color);
+  /* background-color: var(--secondary-background-color); */
   min-height: 100vh;
+  overflow-x: hidden;
+  font-weight: 400;
 }
 
 .page_header__section {
@@ -14,17 +16,19 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }
 
 .header_message__box {
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
   position: relative;
-  height: 5rem;
-  padding: 0 2.3rem;
+  height: 7rem;
+  padding: 0 2rem;
 }
 
 .header_message__box button {
@@ -35,11 +39,32 @@
   height: 3rem;
   width: 10rem;
   cursor: pointer;
+  margin-right: 1rem;
+  font-size: 1rem;
 }
 
 .header_message__box button:hover {
   background-color: var(--primary-button-hover-color);
 
+}
+
+button.toggler_container {
+  background-color: var(--primary-button-color);
+  color: white;
+  width: 100%;
+  max-width: 295px;
+  height: 100%;
+  max-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+span.toggler_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .message_container {
@@ -49,14 +74,14 @@
   transform: translateX(-50%);
 }
 
-.page_info__section {
-  background-color: var(--secondary-background-color);
-  color: white;
+.page_form__section {
+  /* background-color: var(--secondary-background-color); */
+  color: black;
   width: 100%;
   min-height: 30rem;
 }
 
-.page_info__section .exams_form {
+.page_form__section .exams_form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,6 +91,7 @@
 
 .exams_form h4 {
   margin-bottom: 0.5rem;
+  font-weight: 300;
 }
 
 .exams_form input {
@@ -73,9 +99,10 @@
   border: none;
   border-bottom: 2px solid var(--tertiary-background-color);
   outline: none;
-  color: white;
+  color: black;
   height: 3rem;
-  width: 600px;
+  width: 90%;
+  max-width: 600px;
 }
 
 .exams_form input[type='number'] {
@@ -84,8 +111,10 @@
 
 .exams_form label {
   margin-top: 1rem;
-  width: 600px;
+  width: 90%;
+  max-width: 600px;
   text-align: start;
+  font-weight: 300;
 }
 
 .exams_form button {
@@ -108,17 +137,50 @@
   background-color: var(--primary-button-hover-color);
 }
 
+.examination_utilities {
+  /* background-color: blue; */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.examination_details__section {
+  /* background-color: red; */
+  content: '';
+  width: 100%;
+  height: 30rem;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  max-width: 950px;
+  justify-content: space-between;
+}
+
+.examination_details__section > :last-child {
+  /* background-color: lightblue; */
+  height: 15rem;
+}
+
+.details_edit__section {
+  /* background-color: lightgreen; */
+  content: '';
+  width: 100%;
+  min-height: 25rem;
+  max-width: 950px;
+}
+
 .exam_search__container {
   display: flex;
-  background-color: var(--secondary-background-color);
+  /* background-color: var(--secondary-background-color); */
   flex-direction: column;
   width: 100vw;
 }
 
 .exam_search__container h3 {
-  color: white;
+  color: black;
   height: 2rem;
   text-align: start;
+  font-weight: 400;
 }
 
 .exam_search__container .exam_search__select {
@@ -128,7 +190,7 @@
 }
 
 .exam_search__container {
-  padding: 0 3.5rem;
+  padding: 0 2.5rem;
 }
 
 .exam_search__select select {
@@ -156,15 +218,149 @@
 
 
 .exams_info_section {
+  color: black;
   content: '';
   min-height: 31vh;
   width: 100%;
-  background-color: var(--secondary-background-color);
+  /* background-color: var(--secondary-background-color); */
 } 
 
 
 @media(min-width:980px) {
+  .examination_utilities {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+  }
   .header_message__box {
     justify-content: flex-start;
-}
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .examination_details__section {
+    /* background-color: red; */
+    content: '';
+    width: 50%;
+  }
+  
+  .details_edit__section {
+    /* background-color: lightgreen; */
+    content: '';
+    width: 50%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .study_areas__input {
+    width: 100%;
+    /* background-color: lightcoral; */
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .study_areas__input input {
+    height: 3rem;
+    width: 50%;
+    max-width: 600px;
+    padding: 0 0.5rem;
+
+  }
+
+  .study_areas__input button {
+    color: white;
+    border: none;
+    outline: none;
+    height: 3rem;
+    width: 5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.25rem;
+  }
+  
+  .study_areas__input button.study_areas__search_btn {
+    background-color: var(--primary-button-color);
+  }
+
+  .study_areas__input button.study_areas__search_btn:hover {
+    background-color: var(--primary-button-hover-color);
+  }
+
+  .study_areas__input button.study_areas__cancel_btn {
+    background-color: var(--danger-button-color);
+  }
+
+  .study_areas__input button.study_areas__cancel_btn:hover {
+    background-color: var(--danger-button-hover-color);
+  }
+
+  .study_areas__result_board  {
+    /* background-color: lightblue; */
+    width: 100%;
+    height: 100%;
+    max-height: 20rem;
+  }
+
+  .study_areas__result_board ul {
+    list-style: none;
+  }
+  
+  .study_areas__result_board ul li {
+    /* background-color: lightsalmon; */
+    margin: 0.25rem 0;
+    height: 2.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .study_areas__result_board ul li:hover {
+    color: white;
+    background-color: var(--tertiary-background-color);
+  }
+
+  .study_areas__result_board span {
+    margin-right: 1rem;
+    width: 20rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .study_areas__result_board button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-background-color);
+    color: white;
+    border: none;
+    outline: none;
+    height: 2.5rem;
+    width: 2.5rem;
+    margin: 0 0.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .study_areas__result_board button:hover {
+    background-color: var(--primary-background-hover);
+  }
+
+  button.toggler_container {
+    width: 13rem;
+  }
+
+  button.toggler_container > :first-child {
+    margin-right: 0.5rem;
+  }
 }

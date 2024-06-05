@@ -1,6 +1,6 @@
 import { fetchData } from "./apiManagement";
 import { PaginatedAPIResponse } from "../types/entityContextTypes";
-import { Exam, ExamQuestion } from "../types/examTypes";
+import { Exam, ExamQuestion, ExamUpdateRequest } from "../types/examTypes";
 import Axios, { AxiosResponse } from "axios";
 
 const axios = Axios.create({
@@ -42,7 +42,7 @@ export const createExam = async (url: string, data: Record<string, any>): Promis
     }
     throw new Error('Erro ao criar o exame');
   } catch (error: any) {
-    throw new Error('Erro ao criar o exame', error);
+    return error;
   }
 }
 
@@ -97,5 +97,18 @@ export const createExamFull = async (url: string, data: Record<string, any>): Pr
     throw new Error('Erro ao criar o exame');
   } catch (error: any) {
     throw new Error('Erro ao criar o exame', error);
+  }
+}
+
+export const updateExam = async (data: ExamUpdateRequest) => {
+  try {
+    const resp = await axios.patch(`${process.env.NEXT_PUBLIC_API_UPDATE_EXAM}/${data.id}`, data);
+    if (resp.status >= 200 && resp.status < 300) {
+      return resp.data;
+    }
+  } catch (error: any) {
+    if (error.response >= 400 && error.response.status < 500) {
+      console.log('Erro ao buscar os concursos', error);
+    }
   }
 }

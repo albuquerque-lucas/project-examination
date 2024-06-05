@@ -25,8 +25,14 @@ class ExamQuestionService implements IService
     {
         try {
             $examQuestions = ExamQuestion::getAllOrdered($order, $orderBy, $params);
-
+            
             $collection = ExamQuestionResource::collection($examQuestions);
+            // $this->serviceResponse->setAttributes(200, (object)[
+            //     'params' => $params,
+            //     'questions' => $examQuestions,
+            //     'collection' => $collection,
+            // ]);
+            // return $this->serviceResponse;
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
         } catch(NotFound $exception) {

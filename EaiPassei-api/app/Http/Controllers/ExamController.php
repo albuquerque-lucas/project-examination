@@ -56,9 +56,30 @@ class ExamController extends Controller
         }
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request)
     {
-        return $this->dataRetrievalService->update($this->examService, $id, $request);
+        try {
+            $data = $request->all();
+            $id = $data['id'];
+            unset($data['id']);
+            $hasFile = false;
+            if ($request->hasFile('exam_image')) {
+                $noticePath = '';
+                $data['exam_image'] = $noticePath;
+                $hasFile = true;
+            }
+
+            // return response()->json([
+            //     'message' => 'Chegou no controller',
+            //     'data' => $data,
+            // ]);
+
+            $response = $this->examService->update($id, $data, $hasFile);
+    
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function delete(int $id)

@@ -56,3 +56,36 @@ export const deleteAreas = async (url: string, data: any) => {
     }
   }
 }
+
+type AssociateStudyArea = {
+  study_area_id: number;
+  examination_id: number;
+}
+
+export const studyAreaToExamination = async (data: AssociateStudyArea) => {
+  try {
+    const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_ASSOCIATE_STUDYAREA}`, data);
+    if (resp.status >= 200 && resp.status < 300) {
+      console.log('DATA RESULT STUDY AREA TO EXAMINATION', resp);
+      return resp.data;
+    }
+  } catch (error: any) {
+    if (error.response && error.response.status >= 400 && error.response.status < 500) {
+      console.log('Erro ao associar tabelas', error);
+    }
+  }
+}
+
+export const deleteStudyAreaFromExamination = async (data: AssociateStudyArea) => {
+  try {
+    const resp = await axios.delete(`${process.env.NEXT_PUBLIC_API_DISSOCIATE_STUDYAREA}`, { data });
+    if (resp.status >= 200 && resp.status < 300) {
+      console.log('DATA RESULT DISSOCIATE STUDY AREA', resp);
+      return resp.data;
+    }
+  } catch (error: any) {
+    if (error.response && error.response.status >= 400 && error.response.status < 500) {
+      console.log('Erro ao desassociar tabelas', error);
+    }
+  }
+}
