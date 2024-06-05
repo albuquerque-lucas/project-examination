@@ -46,7 +46,7 @@ function ExamDisplay() {
       </section>
       <section className={ style.page_body }>
       <div className={ style.page_navbuttons__container }>
-        <ExamNavButtons links={secondaryNavLinks} id={Number(id)} />
+        <ExamNavButtons links={ secondaryNavLinks } id={Number(id)} />
       </div>
       <div className={ style.page_questions__container }>
         {
