@@ -28,7 +28,7 @@ function ExamDisplay() {
 
   useEffect(() => {
     const fetchLocalData = async () => {
-      const result = await fetchExamQuestions(Number(id));
+      const result = await Promise.all([fetchExam(Number(id)), fetchExamQuestions(Number(id))]);
       console.log('result', result);
     }
 

@@ -32,7 +32,18 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
   const tapScale = 0.997;
   const router = useRouter();
   const { id, date, description, questions_count, subjects } = examState;
-  const formattedDate = date && formatDate(date);
+
+
+  const formatDateForDisplay = (date: string) => {
+    const [datePart] = date.split('T');
+    const [year, month, day] = datePart.split('-');
+    return `${day}/${month}/${year}`;
+  };
+
+  console.log('FIRST DATE', date);
+  const formattedDate = date ? formatDateForDisplay(date) : '';
+  console.log('SECOND DATE', date);
+  console.log('FORMATTEDDATE', formattedDate)
 
   const { setEntity } = useGetExamById();
 
@@ -70,26 +81,26 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
     const inputRef = field === 'date' ? dateRef.current : descriptionRef.current;
     const updatedValue = inputRef ? inputRef.value : '';
   
-    // let formattedValue = updatedValue;
-    // if (field === 'date') {
-    //   const [day, month, year] = updatedValue.split('/');
-    //   // Formatar a data manualmente como YYYY-MM-DD
-    //   formattedValue = `${year}-${month}-${day}`;
-    // }
+    let formattedValue = updatedValue;
+    if (field === 'date') {
+      formattedValue = updatedValue;
+    }
   
     const updatedData = {
       id,
-      [field]: updatedValue,
+      [field]: formattedValue,
     };
+
+    console.log('Data to Update', updatedData);
   
     try {
       const result = await updateExam(updatedData);
       if (result) {
-        console.log('Submitted Field:', field, 'Updated Value:', updatedValue);
+        console.log('Submitted Field:', field, 'Updated Value:', formattedValue);
         console.log('Exam updated:', result);
         setExamState(prevState => ({
           ...prevState,
-          [field]: updatedValue,
+          [field]: formattedValue,
         }));
         setEditMode(prevState => ({
           ...prevState,
@@ -102,11 +113,9 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
       console.error('Error updating exam:', error);
     }
   };
-  
-  
-  
 
   useEffect(() => {
+    console.log('Data ao carregar', date);
     if (editMode.date) {
       dateRef.current?.focus();
     } else if (editMode.description) {
@@ -133,9 +142,9 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
           <span className={style.detail_input_span}>
             <input
               type="date"
-              ref={dateRef}
-              defaultValue=''
-              placeholder={formattedDate ? formattedDate : 'Digite uma data...'}
+              ref={ dateRef }
+              defaultValue={date ? formattedDate : ''}
+              placeholder="Digite uma data..."
             />
             <motion.button 
               className={style.edit_exam__btn} 
@@ -153,7 +162,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
             </motion.button>
           </span>
         ) : (
-          <span className={style.detail_value}>{formattedDate}</span>
+          <span className={style.detail_value}>{ formattedDate }</span>
         )}
       </motion.p>
       <motion.p whileTap={{ scale: tapScale }} onClick={(event) => handleEditClick('description', event)}>

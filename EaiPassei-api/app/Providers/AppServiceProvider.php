@@ -25,5 +25,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         JsonResource::withoutWrapping();
+        date_default_timezone_set('America/Sao_Paulo');
     }
 }

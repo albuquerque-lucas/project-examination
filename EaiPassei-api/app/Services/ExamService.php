@@ -11,6 +11,7 @@ use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Storage;
 use App\Models\Exam;
+use Carbon\Carbon;
 
 class ExamService
 {
@@ -119,12 +120,6 @@ class ExamService
     
     function update(int $id, array $data, bool $hasFile)
     {
-        // $this->serviceResponse->setAttributes(200, (object)[
-        //     'message' => 'Chegou no Service',
-        //     'data' => $data,
-        //     'id' => $id,
-        // ]);
-        // return $this->serviceResponse;
         try {
             $exam = Exam::find($id);
             if (!$exam) {
@@ -133,19 +128,23 @@ class ExamService
                 ]);
                 return $this->serviceResponse;
             }
-
+    
             if ($hasFile && Storage::disk('public')->exists($exam->notice()->file_name)) {
-                // dd("Parando aplicação antes de deletar do Storage");
                 Storage::disk('public')->delete($exam->notice()->file_name);
             }
-
+    
+            // Verificar e converter a data
+            if (isset($data['date'])) {
+                $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->format('Y-m-d');
+            }
+    
             $exam->fill($data);
-
+    
             $responseModel = (object)[
                 'message' => $this->serviceResponse->changesSaved(),
                 'id' => $exam->id,
             ];
-
+    
             if ($exam->isDirty()) {
                 $exam->save();
                 $this->serviceResponse->setAttributes(200, $responseModel);
@@ -172,6 +171,7 @@ class ExamService
             return $this->serviceResponse;
         }
     }
+    
 
     function delete(int $id): ServiceResponse
     {

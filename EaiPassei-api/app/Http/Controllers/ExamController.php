@@ -69,6 +69,11 @@ class ExamController extends Controller
                 $hasFile = true;
             }
 
+            // return response()->json([
+            //     'message' => 'Chegou no controller',
+            //     'data' => $data,
+            // ]);
+
             $response = $this->examService->update($id, $data, $hasFile);
     
             return response()->json($response->data(), $response->status());
