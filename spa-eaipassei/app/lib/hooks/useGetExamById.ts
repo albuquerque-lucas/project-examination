@@ -25,15 +25,16 @@ export const useGetExamById = () => {
   const fetchExam = useCallback(async (id: number | null): Promise<Exam | null> => {
     if (!id) return null;
     console.log('Chegou em fetchExam, e aqui esta o id', id);
+    console.log('QueryParams', queryParams);
     try {
       setIsLoading(true);
       const apiResponse = await getExamById(`${process.env.NEXT_PUBLIC_API_EXAM_BY_ID}/${id}`, queryParams);
-      console.log('Result do hook useGetExamById', apiResponse);
+      // console.log('Result do hook useGetExamById', apiResponse);
       setEntity(apiResponse);
       setDataLoaded(true);
       return apiResponse;
     } catch (error: any) {
-      console.log('Erro ao buscar o exame', error);
+      // console.log('Erro ao buscar o exame', error);
       setEntity(null);
       return null;
     } finally {
@@ -59,7 +60,7 @@ export const useGetExamById = () => {
     } finally {
       setQuestionsLoading(false);
     }
-  }, [setEntity, setSecondaryData]);
+  }, [setEntity, setSecondaryData, setSecondaryData]);
 
   return {
     entity,
@@ -68,6 +69,7 @@ export const useGetExamById = () => {
     dataLoaded,
     secondaryDataList,
     secondaryNavLinks,
+    queryParams,
     setEntity,
     setSecondaryData,
     setDataLoaded,

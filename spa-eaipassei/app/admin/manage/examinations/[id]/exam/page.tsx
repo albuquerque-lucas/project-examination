@@ -6,6 +6,7 @@ import withAuth from "@/app/lib/components/withAuth/withAuth";
 import QuestionCard from "./QuestionCard";
 import ExamNavButtons from "./ExamNavButtons";
 import { ExamQuestion } from "@/app/lib/types/examTypes";
+import { getQuestionsByExam } from "@/app/lib/api/examsAPI";
 import style from '@/app/ui/admin/pages/examinations/questions.module.css';
 
 function ExamDisplay() {
@@ -19,6 +20,7 @@ function ExamDisplay() {
     setSecondaryNavLinks,
     fetchExam,
     fetchExamQuestions,
+    queryParams,
   } = useGetExamById();
 
   useEffect(() => {
