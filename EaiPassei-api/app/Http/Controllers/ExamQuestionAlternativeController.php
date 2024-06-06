@@ -34,7 +34,19 @@ class ExamQuestionAlternativeController extends Controller
 
     public function update(Request $request, int $id)
     {
-        return $this->dataRetrievalService->update($this->examQuestionAlternativeService, $id, $request);
+        try {
+            $data = $request->all();
+            // return response()->json([
+            //     'message' => 'Chegou no Controller das alternativas',
+            //     'data' => $data,
+            // ], 200);
+
+            $response = $this->examQuestionAlternativeService->update($id, $data);
+    
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function delete(int $id)

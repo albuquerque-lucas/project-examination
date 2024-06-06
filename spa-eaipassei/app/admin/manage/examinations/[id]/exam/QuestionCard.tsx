@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ExamQuestion, QuestionAlternative } from "@/app/lib/types/examTypes";
 import { FaEdit } from "react-icons/fa";
 import { IoCloseSharp, IoCheckbox } from "react-icons/io5";
-import { updateQuestion } from "@/app/lib/api/examsAPI";
+import { updateQuestion, updateAlternative } from "@/app/lib/api/examsAPI";
 import style from "@/app/ui/admin/cards/questionCard.module.css";
 
 interface QuestionCardProps {
@@ -38,7 +38,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
     setDataUpdated(true);
   }
 
-  const submitAlternativeEdit = (index: number) => {
+  const submitAlternativeEdit = async (index: number) => {
     const updatedAlternativesCopy = [...updatedAlternatives];
     if (newAlternativeLetter !== null && newAlternativeText !== null) {
       updatedAlternativesCopy[index] = {
@@ -47,6 +47,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
         text: newAlternativeText,
       };
     }
+    const result = await updateAlternative(updatedAlternativesCopy[index]);
+    console.log('Result de updateAlternative em QuestionCard', result);
     setUpdatedAlternatives(updatedAlternativesCopy);
     setAlternativeEditMode(null);
   }
