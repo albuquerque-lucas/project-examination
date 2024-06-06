@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import withAuth from "@/app/lib/components/withAuth/withAuth";
 import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
+import withAuth from "@/app/lib/components/withAuth/withAuth";
 import QuestionCard from "./QuestionCard";
 import ExamNavButtons from "./ExamNavButtons";
 import { ExamQuestion } from "@/app/lib/types/examTypes";

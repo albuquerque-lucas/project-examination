@@ -83,7 +83,21 @@ class ExamQuestionController extends Controller
 
     public function update(Request $request, int $id)
     {
-        return $this->dataRetrievalService->update($this->examQuestionService, $id, $request);
+        try {
+            $data = $request->all();
+            $hasFile = false;
+            if ($request->hasFile('question_image')) {
+                $noticePath = '';
+                $data['question_image'] = $noticePath;
+                $hasFile = true;
+            }
+
+            $response = $this->examQuestionService->update($id, $data, $hasFile);
+
+            return response()->json($response->data(), $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function delete(int $id)

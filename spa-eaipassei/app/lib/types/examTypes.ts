@@ -33,12 +33,12 @@ export type ExamQueryParams = {
 
 export type ExamQuestion = {
   id?: number;
-  exam_id: number;
+  exam_id?: number;
   subject_id?: number;
   topic_id?: number;
   statement?: string;
   alternatives?: QuestionAlternative[];
-  question_number: number;
+  question_number?: number;
 }
 
 export type QuestionAlternative = {

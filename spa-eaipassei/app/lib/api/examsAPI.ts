@@ -112,4 +112,18 @@ export const updateExam = async (data: ExamUpdateRequest) => {
       console.log('Erro ao buscar os concursos', error);
     }
   }
-}
+
+  }
+
+  export const updateQuestion = async (data: ExamQuestion) => {
+    try {
+      const resp = await axios.patch(`${process.env.NEXT_PUBLIC_API_UPDATE_QUESTION}/${data.id}`, data);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao buscar os concursos', error);
+      }
+    }
+  }
