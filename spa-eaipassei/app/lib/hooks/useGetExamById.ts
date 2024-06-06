@@ -50,6 +50,7 @@ export const useGetExamById = () => {
       console.log('Result do hook useGetExamById', apiResponse);
       setSecondaryData(apiResponse);
       apiResponse && setSecondaryDataList(apiResponse.data);
+      apiResponse && setSecondaryNavLinks(apiResponse.links);
       return apiResponse;
     } catch (error: any) {
       console.log('Erro ao buscar as questões', error);

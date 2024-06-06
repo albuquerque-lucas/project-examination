@@ -1,6 +1,7 @@
 import { useDeleteStudyAreas } from "@/app/lib/hooks/useDeleteStudyAreas";
 import { StudyArea } from "@/app/lib/types/studyAreasTypes";
 import { MdDelete } from "react-icons/md";
+import { SpinnerLoader } from "@/app/lib/components/Loaders/Loader";
 import style from '@/app/ui/admin/tables/dashboardData.module.css';
 
 interface StudyAreasDashboardProps {
@@ -12,11 +13,11 @@ export default function StudyAreasDashboard({ data }: StudyAreasDashboardProps) 
     setStudyAreaDeletionMode,
     setStudyAreaDeletionList,
   } = useDeleteStudyAreas();
+
+  if (!Array.isArray(data)) return <SpinnerLoader />;
+
   return (
     <div className={ style.data_table__container }>
-      {!Array.isArray(data) ? (
-        <h1>Não há dados disponíveis</h1>
-      ) : (
         <table
           className={ style.data_table }>
           <thead>
@@ -33,11 +34,11 @@ export default function StudyAreasDashboard({ data }: StudyAreasDashboardProps) 
                   <td className={ style.title_column }>{ item.area ? item.area : 'Nome indisponivel'}</td>
                   <td className={ style.dashboard_delete__buttons }>
                     <button
-                    className={ style.dashboard_table__delete }
-                        onClick={(event) => {
-                        event.stopPropagation();
-                        setStudyAreaDeletionMode(true);
-                        setStudyAreaDeletionList([item.id]);
+                      className={ style.dashboard_table__delete }
+                      onClick={(event) => {
+                      event.stopPropagation();
+                      setStudyAreaDeletionMode(true);
+                      setStudyAreaDeletionList([item.id]);
                       }}
                     >
                       <MdDelete />
@@ -47,7 +48,6 @@ export default function StudyAreasDashboard({ data }: StudyAreasDashboardProps) 
             ))}
           </tbody>
         </table>
-      )}
     </div>
   )
 }

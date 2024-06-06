@@ -170,7 +170,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
               type="text"
               ref={descriptionRef}
               defaultValue=''
-              placeholder={description ? `${description.substring(0, 7)}...` : 'Digite uma descrição...'}
+              placeholder={description ? description : 'Digite uma descrição...'}
             />
             <motion.button 
               className={style.edit_exam__btn} 
