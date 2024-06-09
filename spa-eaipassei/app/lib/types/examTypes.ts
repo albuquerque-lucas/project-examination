@@ -50,35 +50,74 @@ export type QuestionAlternative = {
 
 export type ExamContext = {
   exams: PaginatedAPIResponse<Exam> | null;
-  setExams: (value: PaginatedAPIResponse<Exam>) => void;
+  setExams: (exams: PaginatedAPIResponse<Exam> | null) => void;
   examList: Exam[] | null;
-  setExamList: (value: Exam[]) => void;
-  questions: PaginatedAPIResponse<ExamQuestion> | null;
-  setQuestions: (value: PaginatedAPIResponse<ExamQuestion>) => void;
+  setExamList: (examList: Exam[] | null) => void;
+  questions: PaginatedAPIResponse<ExamQuestion> | ExamQuestion[] | null;
+  setQuestions: (questions: PaginatedAPIResponse<ExamQuestion> | ExamQuestion[] | null) => void;
   questionList: ExamQuestion[] | null;
-  setQuestionList: (value: ExamQuestion[]) => void;
+  setQuestionList: (questionList: ExamQuestion[] | null) => void;
   exam: Exam | null;
-  setExam: (value: Exam) => void;
+  setExam: (exam: Exam | null) => void;
   navLinks: NavigationLink[] | null;
-  setNavLinks: (value: NavigationLink[]) => void;
-  secondaryNavLinks: NavigationLink[] | null;
-  setSecondaryNavLinks: (value: NavigationLink[]) => void;
+  setNavLinks: (navLinks: NavigationLink[] | null) => void;
+  questionsNavLinks: NavigationLink[] | null;
+  setQuestionsNavLinks: (questionNavLinks: NavigationLink[] | null) => void;
   examDeletionMode: boolean;
-  setExamDeletionMode: (value: boolean) => void;
+  setExamDeletionMode: (examDeletionMode: boolean) => void;
   examToDelete: number | null;
-  setExamToDelete: (value: number) => void;
+  setExamToDelete: (examToDelete: number | null) => void;
   currentPage: number;
-  setCurrentPage: (value: number) => void;
-  selectedOrder: string;
-  setSelectedOrder: (value: string) => void;
+  setCurrentPage: (page: number) => void;
+  questionsCurrentPage: number;
+  setQuestionsCurrentPage: (page: number) => void;
+  selectedOrder: string | null;
+  setSelectedOrder: (order: string | null) => void;
   filterList: FilterList[];
-  setFilterList: (value: FilterList[]) => void;
+  setFilterList: React.Dispatch<React.SetStateAction<FilterList[]>>;
   filterMessage: string | null;
-  setFilterMessage: (value: string | null) => void;
+  setFilterMessage: (message: string | null) => void;
   queryParams: ExamQueryParams;
-  setQueryParams: (value: ExamQueryParams) => void;
+  setQueryParams: (filterList: FilterList[]) => void;
   flashMessage: FlashMessage | null;
-  setFlashMessage: (value: FlashMessage | null) => void;
+  setFlashMessage: (message: FlashMessage | null) => void;
   dataLoaded: boolean;
-  setDataLoaded: (value: boolean) => void;
+  setDataLoaded: (dataLoaded: boolean) => void;
+};
+
+export const defaultExamContextValue: ExamContext = {
+  exams: null,
+  setExams: () => {},
+  examList: null,
+  setExamList: () => {},
+  questions: null,
+  setQuestions: () => {},
+  questionList: null,
+  setQuestionList: () => {},
+  exam: null,
+  setExam: () => {},
+  navLinks: null,
+  setNavLinks: () => {},
+  questionsNavLinks: null,
+  setQuestionsNavLinks: () => {},
+  examDeletionMode: false,
+  setExamDeletionMode: () => {},
+  examToDelete: null,
+  setExamToDelete: () => {},
+  currentPage: 1,
+  setCurrentPage: () => {},
+  questionsCurrentPage: 1,
+  setQuestionsCurrentPage: () => {},
+  selectedOrder: 'desc',
+  setSelectedOrder: () => {},
+  filterList: [] as FilterList[],
+  setFilterList: () => {},
+  filterMessage: null,
+  setFilterMessage: () => {},
+  queryParams: {} as ExamQueryParams,
+  setQueryParams: () => {},
+  flashMessage: null,
+  setFlashMessage: () => {},
+  dataLoaded: false,
+  setDataLoaded: () => {},
 };

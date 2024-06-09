@@ -11,25 +11,28 @@ import style from '@/app/ui/admin/pages/examinations/questions.module.css';
 
 function ExamDisplay() {
   const id = window.location.pathname.split('/')[4];
-  const [questions, setQuestions] = useState<ExamQuestion[]>([]);
+  // const [questions, setQuestions] = useState<ExamQuestion[]>([]);
   const {
-    entity,
-    secondaryData,
-    secondaryDataList,
-    secondaryNavLinks,
-    setSecondaryNavLinks,
+    exam,
+    questions,
+    questionList,
+    questionsNavLinks,
+    setQuestionsNavLinks,
+    setQueryParams,
     fetchExam,
     fetchExamQuestions,
     queryParams,
+    questionsCurrentPage,
   } = useGetExamById();
 
   useEffect(() => {
+    console.log('EXAM DISPLAY - QueryParams', queryParams);
     const fetchLocalData = async () => {
       const [exam, questions] = await Promise.all([fetchExam(Number(id)), fetchExamQuestions(Number(id))]);
     }
 
     fetchLocalData();
-  }, []);
+  }, [questionsCurrentPage]);
 
   return (
     <div className={style.questions_page}>
@@ -41,11 +44,11 @@ function ExamDisplay() {
         <div className={style.page_navbuttons__container}>
           <ExamNavButtons
             id={Number(id)}
-            links={secondaryNavLinks}
+            links={ questionsNavLinks }
           />
         </div>
         <div className={style.page_questions__container}>
-          {secondaryDataList && secondaryDataList.map((question, index) => {
+          {questionList && questionList.map((question, index) => {
             return (
               <QuestionCard key={index} question={question} />
             );

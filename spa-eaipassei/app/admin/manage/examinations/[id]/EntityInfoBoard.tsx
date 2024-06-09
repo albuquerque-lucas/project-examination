@@ -42,11 +42,11 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
 
   const formattedDate = date ? formatDateForDisplay(date) : '';
 
-  const { setEntity } = useGetExamById();
+  const { setExam } = useGetExamById();
 
   const {
-    setDeletionMode,
-    setEntityToDelete,
+    setExamDeletionMode,
+    setExamToDelete,
   } = useContext(ExamsContext);
 
   const handleEditClick = (field: 'date' | 'description', event: React.MouseEvent) => {
@@ -125,7 +125,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
       <motion.button
         className={ style.details_close__btn }
         whileTap={{ scale: 0.9 }}
-        onClick={ () => setEntity(null) }
+        onClick={ () => setExam(null) }
       >
         <IoCloseSharp />
       </motion.button>
@@ -213,8 +213,8 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
           className={style.delete_exam__btn}
           whileTap={{ scale: 0.99 }}
           onClick={() => {
-            setEntityToDelete(exam.id);
-            setDeletionMode(true);
+            setExamToDelete(exam.id);
+            setExamDeletionMode(true);
           }}
         >
           Deletar

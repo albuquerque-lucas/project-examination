@@ -1,35 +1,34 @@
 'use client';
 
 import { createContext, useMemo, useState } from "react";
-import { defaultValue, EntityContext, FilterList } from "../types/entityContextTypes";
-import { Exam, ExamQueryParams, ExamQuestion } from "../types/examTypes";
-import { PaginatedAPIResponse, NavigationLink } from "../types/entityContextTypes";
+import { defaultValue, FilterList, NavigationLink, PaginatedAPIResponse } from "../types/entityContextTypes";
+import { Exam, ExamQueryParams, ExamQuestion, ExamContext, defaultExamContextValue } from "../types/examTypes";
 import { FlashMessage } from "../types/messageTypes";
 
-export const ExamsContext = createContext<EntityContext<Exam, ExamQuestion, ExamQueryParams>>(defaultValue);
+export const ExamsContext = createContext<ExamContext>(defaultExamContextValue);
 
 interface ExamsProviderProps {
   children: React.ReactNode;
 }
 
 export default function ExamsProvider({ children }: ExamsProviderProps) {
-  const [data, setData] = useState<PaginatedAPIResponse<Exam> | null>(null);
-  const [dataList, setDataList] = useState<Exam[] | null>(null);
-  const [secondaryData, setSecondaryData] = useState<PaginatedAPIResponse<ExamQuestion> | ExamQuestion[] | null>(null);
-  const [secondaryDataList, setSecondaryDataList] = useState<ExamQuestion[] | null>(null);
-  const [entity, setEntity] = useState<Exam | null>(null);
-  const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(null);
-  const [secondaryNavLinks, setSecondaryNavLinks] = useState<NavigationLink[] | null>(null);
-  const [deletionMode, setDeletionMode] = useState(false);
-  const [entityToDelete, setEntityToDelete] = useState<number | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedOrder, setSelectedOrder] = useState('asc');
-  const [filterList, setFilterList] = useState<FilterList[]>([]);
-  const [filterMessage, setFilterMessage] = useState<string | null>(null);
-  const [queryParams, _setQueryParams] = useState<ExamQueryParams>({});
-  const [flashMessage, setFlashMessage] = useState<FlashMessage | null>(null);
-  const [dataLoaded, setDataLoaded] = useState(false);
-
+  const [exams, setExams] = useState<PaginatedAPIResponse<Exam> | null>(defaultExamContextValue.exams);
+  const [examList, setExamList] = useState<Exam[] | null>(defaultExamContextValue.examList);
+  const [questions, setQuestions] = useState<PaginatedAPIResponse<ExamQuestion> | ExamQuestion[] | null>(defaultExamContextValue.questions);
+  const [questionList, setQuestionList] = useState<ExamQuestion[] | null>(defaultExamContextValue.questionList);
+  const [exam, setExam] = useState<Exam | null>(defaultExamContextValue.exam);
+  const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(defaultExamContextValue.navLinks);
+  const [questionsNavLinks, setQuestionsNavLinks] = useState<NavigationLink[] | null>(defaultExamContextValue.questionsNavLinks);
+  const [examDeletionMode, setExamDeletionMode] = useState<boolean>(defaultExamContextValue.examDeletionMode);
+  const [examToDelete, setExamToDelete] = useState<number | null>(defaultExamContextValue.examToDelete);
+  const [currentPage, setCurrentPage] = useState<number>(defaultExamContextValue.currentPage);
+  const [questionsCurrentPage, setQuestionsCurrentPage] = useState<number>(defaultExamContextValue.questionsCurrentPage);
+  const [selectedOrder, setSelectedOrder] = useState<string | null>(defaultExamContextValue.selectedOrder);
+  const [filterList, setFilterList] = useState<FilterList[]>(defaultExamContextValue.filterList);
+  const [filterMessage, setFilterMessage] = useState<string | null>(defaultExamContextValue.filterMessage);
+  const [queryParams, _setQueryParams] = useState<ExamQueryParams>(defaultExamContextValue.queryParams);
+  const [flashMessage, setFlashMessage] = useState<FlashMessage | null>(defaultExamContextValue.flashMessage);
+  const [dataLoaded, setDataLoaded] = useState<boolean>(defaultExamContextValue.dataLoaded);
 
   const value = useMemo(() => {
     const setQueryParams = (filterList: FilterList[]) => {
@@ -44,26 +43,28 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
     }
 
     return {
-      data,
-      setData,
-      dataList,
-      setDataList,
-      secondaryData,
-      setSecondaryData,
-      secondaryDataList,
-      setSecondaryDataList,
-      entity,
-      setEntity,
+      exams,
+      setExams,
+      examList,
+      setExamList,
+      questions,
+      setQuestions,
+      questionList,
+      setQuestionList,
+      exam,
+      setExam,
       navLinks,
       setNavLinks,
-      secondaryNavLinks,
-      setSecondaryNavLinks,
-      deletionMode,
-      setDeletionMode,
-      entityToDelete,
-      setEntityToDelete,
+      questionsNavLinks,
+      setQuestionsNavLinks,
+      examDeletionMode,
+      setExamDeletionMode,
+      examToDelete,
+      setExamToDelete,
       currentPage,
       setCurrentPage,
+      questionsCurrentPage,
+      setQuestionsCurrentPage,
       selectedOrder,
       setSelectedOrder,
       filterList,
@@ -78,23 +79,25 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
       setDataLoaded,
     };
   }, [
-    data,
-    dataList,
-    secondaryData,
-    secondaryDataList,
-    entity,
+    exams,
+    examList,
+    questions,
+    questionList,
+    exam,
     navLinks,
-    secondaryNavLinks,
-    deletionMode,
-    entityToDelete,
+    questionsNavLinks,
+    examDeletionMode,
+    examToDelete,
     currentPage,
+    questionsCurrentPage,
     selectedOrder,
     filterList,
     filterMessage,
     queryParams,
     flashMessage,
     dataLoaded,
-  ])
+  ]);
+
   return (
     <ExamsContext.Provider value={value}>
       {children}

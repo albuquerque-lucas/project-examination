@@ -5,8 +5,8 @@ import { ExamsContext } from '@/app/lib/context/ExamsContext';
 export const useFetchExams = () => {
   const [isLoading, setIsLoading] = useState(false);
   const {
-    data,
-    setData,
+    exams,
+    setExams,
     queryParams,
     setDataLoaded,
     dataLoaded,
@@ -19,12 +19,12 @@ export const useFetchExams = () => {
         if (!dataLoaded) {
           setIsLoading(true);
           const apiResponse = await getExams(`${process.env.NEXT_PUBLIC_API_GET_EXAMS_LIST}`, queryParams);
-          setData(apiResponse);
+          setExams(apiResponse);
           setDataLoaded(true);
         }
       } catch (error: any) {
         console.log('Erro ao buscar os exames', error);
-        setData(null);
+        setExams(null);
       } finally {
         setIsLoading(false);
       }
@@ -34,7 +34,7 @@ export const useFetchExams = () => {
   }, [dataLoaded]);
 
   return {
-    data,
+    exams,
     isLoading,
     dataLoaded,
     setDataLoaded,

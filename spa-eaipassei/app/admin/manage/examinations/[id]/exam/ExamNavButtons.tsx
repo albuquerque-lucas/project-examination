@@ -13,9 +13,11 @@ const ExamNavButtons: React.FC<DirectedNavigationProps> = (props) => {
     queryParams,
     setQueryParams,
     filterList,
-    setSecondaryData,
-    setSecondaryDataList,
-    setSecondaryNavLinks,
+    setQuestions,
+    setQuestionList,
+    setQuestionsNavLinks,
+    questionsCurrentPage,
+    setQuestionsCurrentPage,
   } = useContext(ExamsContext);
 
   const { links, id } = props;
@@ -28,12 +30,16 @@ const ExamNavButtons: React.FC<DirectedNavigationProps> = (props) => {
       const urlObj = new URL(url);
       const page = urlObj.searchParams.get('page');
       setCurrentPage(Number(page));
-      setQueryParams([...filterList, { filter: 'page', value: page ? page : '' }]);
+      setQueryParams([...filterList, { filter: 'page', value: page ? page : ''}]);
+      console.log('GET PAGE - URL PASSADA', url);
+      console.log('GET PAGE - PAGE', page);
+      console.log('GET PAGE - QueryParams', queryParams);
 
-      const response = await getQuestionsByExam(url, { exam_id: id });
-      setSecondaryData(response);
-      response && setSecondaryDataList(response.data);
-      response && setSecondaryNavLinks(response.links);
+
+      const response = await getQuestionsByExam(url, { exam_id: id , page: page ? page : '' });
+      setQuestions(response);
+      response && setQuestionList(response.data);
+      response && setQuestionsNavLinks(response.links);
       if (response) {
         linksList = updateLinks(response.links);
       }

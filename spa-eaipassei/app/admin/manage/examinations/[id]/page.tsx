@@ -49,17 +49,17 @@ function ExaminationDisplay() {
   const {
     dataLoaded,
     setDataLoaded,
-    deletionMode,
+    examDeletionMode,
   } = useContext(ExamsContext);
 
   const {
-    entity,
-    secondaryDataList,
-    secondaryNavLinks,
+    exam,
+    questionList,
+    questionsNavLinks,
     fetchExam,
     fetchExamQuestions,
-    setSecondaryDataList,
-    setSecondaryNavLinks,
+    setQuestionList,
+    setQuestionsNavLinks,
   } = useGetExamById();
 
   const removeStudyAreaFromList = (areaId: number) => {
@@ -161,8 +161,8 @@ function ExaminationDisplay() {
       const [exam, questions] = await Promise.all([fetchExam(id), fetchExamQuestions(id)]);
       const data = questions?.data;
       const links = questions?.links;
-      data && setSecondaryDataList(data);
-      links && setSecondaryNavLinks(links);
+      data && setQuestionList(data);
+      links && setQuestionsNavLinks(links);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -185,7 +185,7 @@ function ExaminationDisplay() {
       }
       fetchExamination();
     }
-  }, [secondaryNavLinks, secondaryDataList, dataLoaded, educationalLevelsList]);
+  }, [questionsNavLinks, questionList, dataLoaded, educationalLevelsList]);
 
   if (!examination) return <SpinnerLoader />;
 
@@ -408,16 +408,16 @@ function ExaminationDisplay() {
       </section>
       <section className={ style.exams_info_section }>
         {
-          entity &&
+          exam &&
               <EntityInfoBoard
-                key={ entity.id }
-                exam={ entity }
+                key={ exam.id }
+                exam={ exam }
               />
         }
       </section>
         <div className={ style.deletion_pop__up }>
           {
-            deletionMode &&
+            examDeletionMode &&
             <DeleteExamPopUp />
           }
         </div>

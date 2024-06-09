@@ -9,10 +9,10 @@ import popUp from '@/app/ui/admin/cards/popUp.module.css';
 export default function DeleteExamPopUp() {
 
   const {
-    setDeletionMode,
-    entityToDelete,
+    setExamDeletionMode,
+    examToDelete,
     setDataLoaded,
-    setEntity,
+    setExam,
   } = useContext(ExamsContext);
 
   const deleteFieldRef = useRef<HTMLInputElement>(null);
@@ -21,11 +21,11 @@ export default function DeleteExamPopUp() {
     event.preventDefault();
 
     if (deleteFieldRef.current?.value === 'DELETAR') {
-      const result = await deleteExam(`${process.env.NEXT_PUBLIC_API_DELETE_EXAM as string}/${entityToDelete}`);
+      const result = await deleteExam(`${process.env.NEXT_PUBLIC_API_DELETE_EXAM as string}/${examToDelete}`);
       console.log('Resultado do delete', result);
-      setEntity(null);
+      setExam(null);
       setDataLoaded(true);
-      setDeletionMode(false);
+      setExamDeletionMode(false);
     }
 
   }
@@ -52,7 +52,7 @@ export default function DeleteExamPopUp() {
               Sim
             </button>
             <button
-            onClick={ () => setDeletionMode(false) }
+            onClick={ () => setExamDeletionMode(false) }
             >
               Não
             </button>
