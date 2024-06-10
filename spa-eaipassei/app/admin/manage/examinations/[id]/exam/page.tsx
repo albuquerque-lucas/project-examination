@@ -1,31 +1,33 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import { useGetExamById } from "@/app/lib/hooks/useGetExamById";
+import { useEffect, useState, useContext } from "react";
+import { ExamsContext } from "@/app/lib/context/ExamsContext";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import QuestionCard from "./QuestionCard";
 import ExamNavButtons from "./ExamNavButtons";
-import { ExamQuestion } from "@/app/lib/types/examTypes";
-import { getQuestionsByExam } from "@/app/lib/api/examsAPI";
+import { getExamById, getQuestionsByExam } from "@/app/lib/api/examsAPI";
 import style from '@/app/ui/admin/pages/examinations/questions.module.css';
 
 function ExamDisplay() {
   const id = window.location.pathname.split('/')[4];
   // const [questions, setQuestions] = useState<ExamQuestion[]>([]);
   const {
-    exam,
-    questions,
+    queryParams,
     questionList,
+    setQuestionList,
     questionsNavLinks,
     setQuestionsNavLinks,
-    setQueryParams,
-    fetchExam,
-    fetchExamQuestions,
-    queryParams,
     questionsCurrentPage,
-  } = useGetExamById();
+  } = useContext(ExamsContext);
 
   useEffect(() => {
+    const fetchData = async () => {
+      const res = await getQuestionsByExam(`${process.env.NEXT_PUBLIC_API_GET_QUESTION_BY_EXAM}`, { exam_id: id, ...queryParams, page: questionsCurrentPage });
+      res && setQuestionList(res.data);
+      res && setQuestionsNavLinks(res.links);
+      console.log(res);
+    }
+    fetchData();
   }, [questionsCurrentPage]);
 
   return (
@@ -45,7 +47,7 @@ function ExamDisplay() {
           {
             questionList && questionList.map((question, index) => {
               return (
-                <QuestionCard key={index} question={question} />
+                <QuestionCard key={question.id as number} question={question} />
               );
             })
           }

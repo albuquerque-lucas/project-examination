@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   background-color: var(--quaternary-background-color);
+  padding: 0 1rem;
 }
 
 .card_sentence__container,
@@ -55,10 +56,10 @@
 
 .card_sentence__container button {
   position: absolute;
-  top: -2.5rem;
-  width: 3rem;
+  top: -2rem;
+  width: 2rem;
   right: 0;
-  height: 2.5rem;
+  height: 2rem;
   border: none;
   outline: none;
   background-color: var(--quaternary-background-color);
@@ -69,6 +70,11 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.card_sentence__container button:hover {
+  background-color: var(--primary-button-hover-color);
+
 }
 
 .input_buttons__container {
