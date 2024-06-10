@@ -26,12 +26,6 @@ function ExamDisplay() {
   } = useGetExamById();
 
   useEffect(() => {
-    console.log('EXAM DISPLAY - QueryParams', queryParams);
-    const fetchLocalData = async () => {
-      const [exam, questions] = await Promise.all([fetchExam(Number(id)), fetchExamQuestions(Number(id))]);
-    }
-
-    fetchLocalData();
   }, [questionsCurrentPage]);
 
   return (
@@ -48,11 +42,13 @@ function ExamDisplay() {
           />
         </div>
         <div className={style.page_questions__container}>
-          {questionList && questionList.map((question, index) => {
-            return (
-              <QuestionCard key={index} question={question} />
-            );
-          })}
+          {
+            questionList && questionList.map((question, index) => {
+              return (
+                <QuestionCard key={index} question={question} />
+              );
+            })
+          }
         </div>
       </section>
     </div>
