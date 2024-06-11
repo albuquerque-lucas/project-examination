@@ -1,0 +1,41 @@
+.add_question__form {
+  color: white;
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.add_question__form label,
+.add_question__form input {
+  margin-bottom: 0.5rem;
+}
+
+.add_question__form input {
+  height: 2rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid white;
+  outline: none;
+  color: white;
+  text-align: center;
+  font-weight: 700;
+  font-size: 2rem;
+  padding: 2rem 0;
+  width: 10rem;
+}
+
+.add_question__form button {
+  border: none;
+  width: 10rem;
+  height: 2rem;
+  color: white;
+  background-color: var(--primary-button-color);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 1.5rem;
+}

@@ -16,6 +16,7 @@ class ExamResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'examination_id' => $this->examination_id,
             'title' => $this->title,
             'examination' => $this->examination->title ?? "Não informado",
             'description'=> $this->description,

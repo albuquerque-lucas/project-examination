@@ -8,7 +8,7 @@
   background-color: var(--quaternary-background-color);
   content: '';
   width: 100%;
-  height: 20vh;
+  height: 40vh;
   display: flex;
 }
 
@@ -17,6 +17,28 @@
   width: 50%;
   height: 100%;
   padding: 0.5rem;
+  /* background-color: blue; */
+  display: flex;
+  flex-direction: column;
+}
+
+.header_control button {
+  cursor: pointer;
+  width: 10rem;
+  height: 2.5rem;
+  margin: 0.25rem 2rem;
+  font-weight: 700;
+}
+
+.header_edit {
+  content: '';
+  width: 50%;
+  height: 100%;
+  padding: 0.5rem;
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+
 }
 
 .page_body {

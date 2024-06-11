@@ -31,9 +31,6 @@ const ExamNavButtons: React.FC<DirectedNavigationProps> = (props) => {
       const page = urlObj.searchParams.get('page');
       setCurrentPage(Number(page));
       setQueryParams([...filterList, { filter: 'page', value: page ? page : ''}]);
-      console.log('GET PAGE - URL PASSADA', url);
-      console.log('GET PAGE - PAGE', page);
-      console.log('GET PAGE - QueryParams', queryParams);
 
 
       const response = await getQuestionsByExam(url, { exam_id: id , page: page ? page : '' });
@@ -49,7 +46,6 @@ const ExamNavButtons: React.FC<DirectedNavigationProps> = (props) => {
   };
 
   useEffect(() => {
-    console.log('ExamButtons QueryParams', queryParams);
   }, [queryParams])
 
   return (
