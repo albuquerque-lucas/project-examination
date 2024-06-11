@@ -64,7 +64,9 @@ function ExamDisplay() {
         <div className={style.header_edit}>
           {
             addQuestionMode &&
-            <AddQuestionForm />
+            <AddQuestionForm
+            exam_id={ id }
+            />
           }
         </div>
       </section>
