@@ -13,6 +13,7 @@ export type Exam = {
   examination?: string | null;
   questions_count?: number | null;
   subjects?: Subject[];
+  topics?: string[];
 }
 
 export type ExamUpdateRequest = {

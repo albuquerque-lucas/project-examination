@@ -31,7 +31,8 @@
   /* background-color: lightcoral; */
 }
 
-.row_item__container input {
+.row_item__container input,
+.row_item__container select {
   width: 65.5%;
   height: inherit;
   outline: none;
@@ -39,6 +40,12 @@
   border-bottom: 1px solid white;
   background-color: transparent;
   color: white;
+  margin-left: 4rem;
+}
+
+.row_item__container option {
+  color: black;
+  font-weight: 700;
 }
 
 .row_item__container button {
@@ -88,7 +95,7 @@
   align-items: center;
   justify-content: flex-end;
   text-align: end;
-  width: 10rem;
+  width: 30rem;
   height: inherit;
   padding: 0 1rem 0 0;
   /* background-color: blueviolet; */
