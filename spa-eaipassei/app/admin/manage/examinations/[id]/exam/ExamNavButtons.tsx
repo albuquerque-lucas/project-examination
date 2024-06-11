@@ -37,6 +37,7 @@ const ExamNavButtons: React.FC<DirectedNavigationProps> = (props) => {
       setQuestions(response);
       response && setQuestionList(response.data);
       response && setQuestionsNavLinks(response.links);
+      response && setQuestionsCurrentPage(Number(page));
       if (response) {
         linksList = updateLinks(response.links);
       }

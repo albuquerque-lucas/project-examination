@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
+import { ExamsContext } from '@/app/lib/context/ExamsContext';
 import { createQuestion } from '@/app/lib/api/examsAPI';
 import { motion } from 'framer-motion';
 import style from '@/app/ui/admin/forms/addQuestionForm.module.css';
@@ -12,6 +13,10 @@ type QuestionFormType = {
   exam_id: string | number;
 }
 export default function AddQuestionForm({ exam_id }: QuestionFormType) {
+  const {
+    dataLoaded,
+    setDataLoaded,
+  } = useContext(ExamsContext);
   const alternativesNumber = useRef<HTMLInputElement>(null);
   
   const addQuestion = async () => {
@@ -25,6 +30,7 @@ export default function AddQuestionForm({ exam_id }: QuestionFormType) {
 
     const result = await createQuestion(`${process.env.NEXT_PUBLIC_API_CREATE_QUESTION}`, form);
     console.log('Resultado de CreateQuestion', result);
+    setDataLoaded(!dataLoaded);
   }
 
   return (

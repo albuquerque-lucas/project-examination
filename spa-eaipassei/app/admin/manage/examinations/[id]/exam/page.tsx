@@ -18,6 +18,7 @@ function ExamDisplay() {
   const [addQuestionMode, setAddQuestionMode] = useState<boolean>(false);
 
   const {
+    dataLoaded,
     queryParams,
     questionList,
     setQuestionList,
@@ -41,7 +42,7 @@ function ExamDisplay() {
       console.log(questions);
       }
     fetchData();
-  }, [questionsCurrentPage]);
+  }, [dataLoaded]);
 
   return (
     <div className={style.questions_page}>
