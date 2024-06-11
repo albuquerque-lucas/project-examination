@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ExamQuestionFormRequest;
 use App\Http\Requests\QuestionsSearchFormRequest;
 use App\Services\DataRetrievalService;
+use App\Services\ExamQuestionAlternativeService;
 use App\Services\ExamQuestionService;
 use Illuminate\Http\Request;
 use Exception;
@@ -13,11 +14,19 @@ use Error;
 class ExamQuestionController extends Controller
 {
     protected ExamQuestionService $examQuestionService;
+
+    protected ExamQuestionAlternativeService $examQuestionAlternativeService;
+
     private DataRetrievalService $dataRetrievalService;
 
-    public function __construct(ExamQuestionService $examQuestionService, DataRetrievalService $dataRetrievalService)
+    public function __construct(
+        ExamQuestionService $examQuestionService,
+        ExamQuestionAlternativeService $examQuestionAlternativeService,
+        DataRetrievalService $dataRetrievalService
+    )
     {
         $this->examQuestionService = $examQuestionService;
+        $this->examQuestionAlternativeService = $examQuestionAlternativeService;
         $this->dataRetrievalService = $dataRetrievalService;
 
         $this->middleware('auth:sanctum', ['except' => ['getAll', 'getById', 'getByStatement']]);
@@ -107,10 +116,12 @@ class ExamQuestionController extends Controller
 
     public function create(Request $request)
     {
-        // return response()->json(['message' => 'This feature is disabled.'], 200);
         try {
-            $requestData = $request->all();
-            $response = $this->examQuestionService->create($requestData);
+            $validated = $request->validate([
+                'exam_id' => 'required|integer',
+                'alternativesNumber' => 'required|integer',
+            ]);
+            $response = $this->examQuestionService->createQuestion($validated);
 
             return response()->json($response->data(), $response->status());
         } catch (Exception $exception) {
