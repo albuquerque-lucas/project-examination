@@ -65,6 +65,7 @@ Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delet
 
   // ROTAS DE SUBJECTS
   Route::get('/subjects/all', [SubjectController::class, 'getAll']);;
+  Route::get('/subjects/by-area', [SubjectController::class, 'getByArea']);;
   Route::get('/subjects/title', [SubjectController::class, 'getByTitle']);
   Route::get('/subjects/id/{id}', [SubjectController::class, 'getById']);
   Route::post('/subjects/create', [SubjectController::class, 'create']);

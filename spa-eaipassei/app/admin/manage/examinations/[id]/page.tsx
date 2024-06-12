@@ -50,6 +50,8 @@ function ExaminationDisplay() {
     dataLoaded,
     setDataLoaded,
     examDeletionMode,
+    areasList,
+    setAreasList,
   } = useContext(ExamsContext);
 
   const {
@@ -178,6 +180,7 @@ function ExaminationDisplay() {
         try {
           const result = await getExaminationById(id);
           setExamination(result);
+          setAreasList(result.study_areas);
           setDataLoaded(false);
         } catch (error: any) {
           console.error('Error fetching examination:', error);
@@ -185,7 +188,7 @@ function ExaminationDisplay() {
       }
       fetchExamination();
     }
-  }, [questionsNavLinks, questionList, dataLoaded, educationalLevelsList]);
+  }, [dataLoaded, educationalLevelsList]);
 
   if (!examination) return <SpinnerLoader />;
 

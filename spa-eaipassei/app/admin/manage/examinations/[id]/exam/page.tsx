@@ -40,6 +40,7 @@ function ExamDisplay() {
         getQuestionsByExam(`${process.env.NEXT_PUBLIC_API_GET_QUESTION_BY_EXAM}`, { exam_id: id, ...queryParams, page: questionsCurrentPage })
       ]);
       exam && setCurrentExam(exam);
+      console.log('Current Exam', exam);
       questions && setQuestionList(questions.data);
       questions && setQuestionsNavLinks(questions.links);
       console.log(exam);

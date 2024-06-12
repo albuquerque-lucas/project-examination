@@ -3,6 +3,7 @@ import { NavigationLink } from "./entityContextTypes";
 import { FlashMessage } from "./messageTypes";
 import { FilterList } from "./entityContextTypes";
 import { Subject } from "./subjectTypes";
+import { StudyArea } from "./studyAreasTypes";
 
 export type Exam = {
   id: number;
@@ -58,6 +59,8 @@ export type ExamContext = {
   setQuestions: (questions: PaginatedAPIResponse<ExamQuestion> | ExamQuestion[] | null) => void;
   questionList: ExamQuestion[] | null;
   setQuestionList: (questionList: ExamQuestion[] | null) => void;
+  areasList: StudyArea[] | null;
+  setAreasList: (areasList: StudyArea[] | null) => void;
   exam: Exam | null;
   setExam: (exam: Exam | null) => void;
   navLinks: NavigationLink[] | null;
@@ -95,6 +98,8 @@ export const defaultExamContextValue: ExamContext = {
   setQuestions: () => {},
   questionList: null,
   setQuestionList: () => {},
+  areasList: null,
+  setAreasList: () => {},
   exam: null,
   setExam: () => {},
   navLinks: null,

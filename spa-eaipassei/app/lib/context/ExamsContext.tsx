@@ -4,6 +4,7 @@ import { createContext, useMemo, useState } from "react";
 import { defaultValue, FilterList, NavigationLink, PaginatedAPIResponse } from "../types/entityContextTypes";
 import { Exam, ExamQueryParams, ExamQuestion, ExamContext, defaultExamContextValue } from "../types/examTypes";
 import { FlashMessage } from "../types/messageTypes";
+import { StudyArea } from "../types/studyAreasTypes";
 
 export const ExamsContext = createContext<ExamContext>(defaultExamContextValue);
 
@@ -16,6 +17,7 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
   const [examList, setExamList] = useState<Exam[] | null>(defaultExamContextValue.examList);
   const [questions, setQuestions] = useState<PaginatedAPIResponse<ExamQuestion> | ExamQuestion[] | null>(defaultExamContextValue.questions);
   const [questionList, setQuestionList] = useState<ExamQuestion[] | null>(defaultExamContextValue.questionList);
+  const [areasList, setAreasList] = useState<StudyArea[] | null>(defaultExamContextValue.areasList);
   const [exam, setExam] = useState<Exam | null>(defaultExamContextValue.exam);
   const [navLinks, setNavLinks] = useState<NavigationLink[] | null>(defaultExamContextValue.navLinks);
   const [questionsNavLinks, setQuestionsNavLinks] = useState<NavigationLink[] | null>(defaultExamContextValue.questionsNavLinks);
@@ -51,6 +53,8 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
       setQuestions,
       questionList,
       setQuestionList,
+      areasList,
+      setAreasList,
       exam,
       setExam,
       navLinks,
@@ -83,6 +87,7 @@ export default function ExamsProvider({ children }: ExamsProviderProps) {
     examList,
     questions,
     questionList,
+    areasList,
     exam,
     navLinks,
     questionsNavLinks,

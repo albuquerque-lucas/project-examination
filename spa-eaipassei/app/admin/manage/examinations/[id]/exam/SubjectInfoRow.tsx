@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { ExamsContext } from "@/app/lib/context/ExamsContext";
 import { IoCloseSharp, IoCheckbox } from "react-icons/io5";
 import { Exam } from "@/app/lib/types/examTypes";
 import { Subject } from "@/app/lib/types/subjectTypes";
+import { getAllSubjects } from "@/app/lib/api/subjectsAPI";
+import { getAllAreas } from "@/app/lib/api/StudyAreasAPI";
+import { getExaminationById } from "@/app/lib/api/examinationsAPI";
 import style from '@/app/ui/admin/forms/updateExamForm.module.css';
+import { StudyArea } from "@/app/lib/types/studyAreasTypes";
 
 type SubjectInfoRowType = {
   exam: Exam | null;
@@ -12,6 +17,8 @@ type SubjectInfoRowType = {
 
 export default function SubjectInfoRow({ exam, fieldKey, label }: SubjectInfoRowType) {
   const [updateMode, setUpdateMode] = useState(false);
+  const [subjectsList, setSubjectsList] = useState<Subject[]>([]);
+
 
   const renderFieldValue = (value: any, fieldKey: string): string => {
     if (Array.isArray(value)) {
@@ -22,6 +29,21 @@ export default function SubjectInfoRow({ exam, fieldKey, label }: SubjectInfoRow
     }
     return value?.toString() ?? '';
   };
+
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      if (!exam || !exam.examination_id) return;
+      const examination = await getExaminationById(exam?.examination_id.toString());
+      const areasIds = examination?.study_areas.map((area: StudyArea) => area.id);
+      const params = {
+        study_area_id: areasIds,
+      };
+      const subjects = await getAllSubjects(`${process.env.NEXT_PUBLIC_GET_SUBJECTS_BY_AREA}`, { params });
+      setSubjectsList(subjects);
+    }
+
+    fetchSubjects();
+  }, []);
 
   if (!updateMode) {
     return (
@@ -48,8 +70,11 @@ export default function SubjectInfoRow({ exam, fieldKey, label }: SubjectInfoRow
         {label}:
       </span>
       <select name="" id="">
-        <option value="1">Lado 1</option>
-        <option value="2">Lado 2</option>
+        {
+          subjectsList.map((subject) => (
+            <option key={subject.id} value={subject.id}>{subject.title}</option>
+          ))
+        }
       </select>
       <span>
       <button

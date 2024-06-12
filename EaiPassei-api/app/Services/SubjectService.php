@@ -26,18 +26,18 @@ class SubjectService
     {
         try {
             $subjects = Subject::getAllOrdered($order, $orderBy, $params);
-
+    
             $collection = SubjectResource::collection($subjects);
             $this->serviceResponse->setAttributes(200, $collection);
             return $this->serviceResponse;
-        } catch(NotFound $exception) {
+        } catch (NotFound $exception) {
             $this->serviceResponse->setAttributes(404, (object)[
                 'info' => $this->serviceResponse->recordsNotFound(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode()
             ]);
             return $this->serviceResponse;
-        } catch(Exception $exception) {
+        } catch (Exception $exception) {
             $this->serviceResponse->setAttributes(400, (object)[
                 'info' => $this->serviceResponse->badRequest(),
                 'message' => $exception->getMessage(),
@@ -79,6 +79,31 @@ class SubjectService
     {
         try {
             $subjects = Subject::getByTitle($title, $order);
+
+            $collection = SubjectResource::collection($subjects);
+            $this->serviceResponse->setAttributes(200, $collection);
+            return $this->serviceResponse;
+        } catch(NotFound $exception) {
+            $this->serviceResponse->setAttributes(404, (object)[
+                'info' => $this->serviceResponse->recordsNotFound(),
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        } catch(Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'info' => $this->serviceResponse->badRequest(),
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        }
+    }
+
+    public function getByArea(array $data, string $order)
+    {
+        try {
+            $subjects = Subject::getByArea($data, $order);
 
             $collection = SubjectResource::collection($subjects);
             $this->serviceResponse->setAttributes(200, $collection);
