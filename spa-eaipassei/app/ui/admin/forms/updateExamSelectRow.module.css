@@ -1,0 +1,92 @@
+.row_item__container {
+  content: '';
+  width: 100%;
+  height: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: lightcoral; */
+}
+
+.row_item__container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 2rem;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  margin: 0 0.25rem;
+}
+
+.row_item__container button.confirm_edit__btn {
+  background-color: var(--primary-button-color);
+}
+
+.row_item__container button.confirm_edit__btn:hover {
+  background-color: var(--primary-button-hover-color);
+
+}
+
+.row_item__container button.cancel_edit__btn {
+  background-color: var(--danger-button-color);
+}
+
+.row_item__container button.cancel_edit__btn:hover {
+  background-color: var(--danger-button-hover-color);
+}
+
+.row_item__container > :first-child {
+  display: flex;
+  align-items: center;
+  text-align: start;
+  width: 10rem;
+  height: inherit;
+  padding: 0 0 0 2rem;
+  /* background-color: blueviolet; */
+}
+
+.row_item__container > :last-child {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: end;
+  width: 30rem;
+  height: inherit;
+  padding: 0 1rem 0 0;
+  /* background-color: blueviolet; */
+}
+
+.display_mode__container:hover {
+  background-color: var(--light-dark-background-hover);
+}
+
+.edit_mode__container {
+  background-color: var(--quaternary-background-color);
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 39.5vh;
+  width: 50%;
+
+}
+
+.edit_mode__container select {
+  width: 50%;
+  height: 2.5rem;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid white;
+  background-color: transparent;
+  color: white;
+  margin-left: 4rem;
+  cursor: pointer;
+}
+
+.edit_mode__container option {
+  color: black;
+}

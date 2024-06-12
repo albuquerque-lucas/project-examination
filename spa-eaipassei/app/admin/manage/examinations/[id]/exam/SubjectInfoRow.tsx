@@ -6,8 +6,8 @@ import { Subject } from "@/app/lib/types/subjectTypes";
 import { getAllSubjects } from "@/app/lib/api/subjectsAPI";
 import { getAllAreas } from "@/app/lib/api/StudyAreasAPI";
 import { getExaminationById } from "@/app/lib/api/examinationsAPI";
-import style from '@/app/ui/admin/forms/updateExamForm.module.css';
 import { StudyArea } from "@/app/lib/types/studyAreasTypes";
+import style from '@/app/ui/admin/forms/updateExamSelectRow.module.css';
 
 type SubjectInfoRowType = {
   exam: Exam | null;
@@ -48,7 +48,7 @@ export default function SubjectInfoRow({ exam, fieldKey, label }: SubjectInfoRow
   if (!updateMode) {
     return (
       <div
-        className={style.row_item__container}
+        className={`${style.row_item__container} ${style.display_mode__container}`}
         onDoubleClick={() => setUpdateMode(true)}
       >
         <span>
@@ -63,7 +63,7 @@ export default function SubjectInfoRow({ exam, fieldKey, label }: SubjectInfoRow
 
   return (
     <div
-      className={style.row_item__container}
+      className={`${style.row_item__container} ${style.edit_mode__container}`}
       onDoubleClick={() => setUpdateMode(prevState => !prevState)}
     >
       <span>

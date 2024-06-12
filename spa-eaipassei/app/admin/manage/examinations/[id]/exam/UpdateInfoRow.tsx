@@ -3,7 +3,7 @@ import { IoCloseSharp, IoCheckbox } from "react-icons/io5";
 import { Exam } from "@/app/lib/types/examTypes";
 import { Subject } from "@/app/lib/types/subjectTypes";
 import { format } from 'date-fns';
-import style from '@/app/ui/admin/forms/updateExamForm.module.css';
+import style from '@/app/ui/admin/forms/updateExamTextRow.module.css';
 
 type UpdateModeKeys = 'title' | 'description' | 'date' | 'topics';
 type UpdateInfoRowType = {
@@ -38,7 +38,7 @@ export default function UpdateInfoRow({ exam, fieldKey, label, inputType }: Upda
   if (!updateMode[fieldKey]) {
     return (
       <div
-        className={style.row_item__container}
+        className={`${style.row_item__container} ${style.display_mode__container}`}
         onDoubleClick={() => setUpdateMode(prevState => ({ ...prevState, [fieldKey]: true }))}
       >
         <span>
@@ -53,7 +53,7 @@ export default function UpdateInfoRow({ exam, fieldKey, label, inputType }: Upda
 
   return (
     <div
-      className={style.row_item__container}
+      className={`${style.row_item__container} ${style.edit_mode__container}`}
       onDoubleClick={() => setUpdateMode(prevState => ({ ...prevState, [fieldKey]: false }))}
     >
       <span>
