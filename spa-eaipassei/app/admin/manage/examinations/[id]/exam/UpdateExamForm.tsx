@@ -44,14 +44,14 @@ export default function UpdateExamForm({ exam }: UpdateExamFormType) {
           label="Assuntos"
         />
       </div>
-      <div className={style.form_row}>
+      {/* <div className={style.form_row}>
         <UpdateInfoRow
           inputType='text'
           exam={exam}
           fieldKey="topics"
           label="Tópicos"
         />
-      </div>
+      </div> */}
     </div>
   );
 }

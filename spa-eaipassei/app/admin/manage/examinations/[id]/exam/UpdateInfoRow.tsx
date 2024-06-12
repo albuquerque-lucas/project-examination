@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { IoCloseSharp, IoCheckbox } from "react-icons/io5";
 import { Exam } from "@/app/lib/types/examTypes";
 import { Subject } from "@/app/lib/types/subjectTypes";

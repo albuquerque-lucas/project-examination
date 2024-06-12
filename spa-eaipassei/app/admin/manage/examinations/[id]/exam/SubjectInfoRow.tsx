@@ -82,7 +82,7 @@ export default function SubjectInfoRow({ exam, fieldKey, label }: SubjectInfoRow
           {label}:
         </span>
         <span className={style.item_container__lastChild}>
-          {exam && exam.subjects && exam.subjects.length}
+          {currentExam && currentExam.subjects && currentExam.subjects.length}
         </span>
       </div>
     );
