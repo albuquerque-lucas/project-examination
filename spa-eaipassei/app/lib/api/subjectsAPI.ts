@@ -14,11 +14,11 @@ const axios = Axios.create({
 
 export const getAllSubjects = async (url: string, params: any) => {
   try {
-    console.log('URL de getAllSubjects', url);
-    console.log('Params de getAllSubjects', params);
+    // console.log('URL de getAllSubjects', url);
+    // console.log('Params de getAllSubjects', params);
     const resp = await axios.get(url, params);
     if (resp.status >= 200 && resp.status < 300) {
-      console.log('Resposta de sucesso de getAllSubjects', resp.data);
+      // console.log('Resposta de sucesso de getAllSubjects', resp.data);
       return resp.data;
     }
     return null;
@@ -33,6 +33,8 @@ export const getAllSubjects = async (url: string, params: any) => {
 export const deleteSubjects = async (url: string, data: any) => {
   try {
     const resp = await axios.delete(url, { data });
+    console.log('Resposta de deleteSubjects', resp);
+    console.log('Data de deleteSubjects', resp.data);
     if (resp.status >= 200 && resp.status < 300) {
       return resp.data;
     }

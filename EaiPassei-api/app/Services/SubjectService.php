@@ -233,6 +233,7 @@ class SubjectService
                         return $this->serviceResponse;
                     }
     
+                    $subject->exams()->detach();
                     $isDeleted = $subject->delete();
     
                     if (!$isDeleted) {
