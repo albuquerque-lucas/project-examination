@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   /* background-color: lightcoral; */
+  cursor: pointer;
 }
 
 .row_item__container button {
@@ -40,17 +41,16 @@
   background-color: var(--danger-button-hover-color);
 }
 
-.row_item__container > :first-child {
+.item_container__firstChild {
   display: flex;
   align-items: center;
   text-align: start;
   width: 10rem;
   height: inherit;
   padding: 0 0 0 2rem;
-  /* background-color: blueviolet; */
 }
 
-.row_item__container > :last-child {
+.item_container__lastChild {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -58,7 +58,6 @@
   width: 30rem;
   height: inherit;
   padding: 0 1rem 0 0;
-  /* background-color: blueviolet; */
 }
 
 .display_mode__container:hover {
@@ -89,4 +88,47 @@
 
 .edit_mode__container option {
   color: black;
+}
+
+.edit_field {
+  display: flex;
+  align-items: center;
+  }
+  
+.display_field {
+  content: '';
+  width: 50%;
+  height: 100%;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.select_field {
+  height: 100%;
+  width: 50%;
+}
+
+.display_field span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
+  width: 90%;
+  margin: 0.25rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.display_field span:hover {
+  border: 2px solid var(--primary-background-hover);
+}
+
+.select_field span {
+  display: flex;
+}
+
+.display_field span button {
+  height: 1.5rem;
+  background-color: transparent;
 }

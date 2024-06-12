@@ -140,3 +140,16 @@ export const updateExam = async (data: ExamUpdateRequest) => {
       }
     }
   }
+
+    export const updateDetachSubject = async (exam_id: string | number, subject_id: string | number) => {
+      try {
+        const resp = await axios.delete(`${process.env.NEXT_PUBLIC_DETACH_SUBJECT_EXAM}/${exam_id}-${subject_id}`);
+        if (resp.status >= 200 && resp.status < 300) {
+          return resp.data;
+        }
+      } catch (error: any) {
+        if (error.response >= 400 && error.response.status < 500) {
+          console.log('Erro ao buscar os concursos', error);
+        }
+      }
+  }

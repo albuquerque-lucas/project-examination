@@ -170,6 +170,7 @@
 .alternative_edit__btn {
   width: 2rem;
   height: 2rem;
+  cursor: pointer;
 }
 
 .alternative_buttons__container button {

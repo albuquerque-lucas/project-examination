@@ -97,6 +97,7 @@ Route::post('/exams/create', [ExamController::class,'create']);
 Route::post('/exams/create/full', [ExamController::class,'createFull']);
 Route::patch('/exams/update/{id}', [ExamController::class,'update']);
 Route::delete('/exams/delete/{id}', [ExamController::class,'delete']);
+Route::delete('exams/subjects/detach/{examId}-{subjectId}', [ExamController::class, 'detachSubject']);
 
 
 // ROTAS DE EXAM QUESTIONS

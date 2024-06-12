@@ -23,6 +23,7 @@ export type ExamUpdateRequest = {
   description?: string | null;
   date?: string | null;
   subjects?: Subject[];
+  subject_id?: number | null;
 }
 
 export type ExamQueryParams = {

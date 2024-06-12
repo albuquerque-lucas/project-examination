@@ -126,4 +126,18 @@ class ExamController extends Controller
             'alternatives' => $alternativesIds,
         ], 200);
     }
+
+    public function detachSubject(Request $request, int $examId, int $subjectId)
+    {
+        try {
+            $response = $this->examService->detachSubject($examId, $subjectId);
+            return response()->json($response->data(), $response->status());
+        } catch (Exception | Error $exception) {
+            return response()->json([
+                'error' => 'An unexpected error occurred.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ], 500);
+        }
+    }
 }
