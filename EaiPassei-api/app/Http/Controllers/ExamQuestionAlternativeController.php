@@ -60,9 +60,13 @@ class ExamQuestionAlternativeController extends Controller
         }
     }
 
-    public function create(ExamQuestionAlternativeRequest $request)
+    public function create(Request $request)
     {
         try {
+            // return response()->json([
+            //     'message' => 'Chegou no Controller das alternativas',
+            //     'data' => $request->all(),
+            // ], 200);
             $requestData = $request->all();
             $response = $this->examQuestionAlternativeService->create($requestData);
 

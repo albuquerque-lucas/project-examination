@@ -90,7 +90,8 @@ class ExamQuestionAlternativeService
             $responseData = (object)[
                 'message' => $this->serviceResponse->createdSuccessfully('Alternativa'),
                 'id' => $alternative->id,
-                'title' => $alternative->title
+                'title' => $alternative->title,
+                'alternative' => $alternative,
             ];
 
             $this->serviceResponse->setAttributes(201, $responseData);

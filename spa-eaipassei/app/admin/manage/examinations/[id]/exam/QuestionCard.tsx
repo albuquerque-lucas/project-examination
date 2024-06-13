@@ -3,7 +3,14 @@ import { ExamsContext } from "@/app/lib/context/ExamsContext";
 import { ExamQuestion, QuestionAlternative } from "@/app/lib/types/examTypes";
 import { FaEdit, FaCheck } from "react-icons/fa";
 import { IoCloseSharp, IoCheckbox, IoAddCircleSharp } from "react-icons/io5";
-import { updateQuestion, deleteQuestion, getQuestionsByExam, deleteAlternative } from "@/app/lib/api/examsAPI";
+import {
+  updateQuestion,
+  deleteQuestion,
+  getQuestionsByExam,
+  deleteAlternative,
+  createAlternative,
+
+} from "@/app/lib/api/examsAPI";
 import style from "@/app/ui/admin/cards/questionCard.module.css";
 import AlternativeRow from "./AlternativeRow";
 
@@ -51,6 +58,35 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
     setDeleteMode(false);
   }
 
+  const handleAlternativeAdd = async () => {
+    const lastAlternative = updatedAlternatives.slice(-1)[0];
+    const lastLetter = lastAlternative ? lastAlternative.letter : '';
+    const newLetter = String.fromCharCode(lastLetter.charCodeAt(0) + 1 || 65); // Default to 'A' if lastLetter is empty
+
+    const newAlternative: QuestionAlternative = {
+      letter: newLetter.toLowerCase(),
+      text: '',
+      is_answer: false,
+      exam_question_id: id
+    };
+
+    // Enviar solicitação para criar uma nova alternativa
+    const result = await createAlternative(newAlternative);
+    console.log('Resultado da criação da nova alternativa', result);
+
+    const updatedAlternativesCopy = [...updatedAlternatives, result.alternative];
+    setUpdatedAlternatives(updatedAlternativesCopy);
+
+    const updatedQuestion = {
+      ...question,
+      alternatives: updatedAlternativesCopy
+    };
+
+    if (!questionList) return;
+    const updatedList = questionList.map(q => q.id === question.id ? updatedQuestion : q);
+    setQuestionList(updatedList);
+  }
+
   const handleAlternativeUpdate = (index: number, updatedAlternative: QuestionAlternative) => {
     const updatedAlternativesCopy = [...updatedAlternatives];
     updatedAlternativesCopy[index] = updatedAlternative;
@@ -60,23 +96,21 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
   const handleAlternativeDelete = async (alternativeId: number | string) => {
     console.log('Deletar alternativa', alternativeId);
     
-    // Excluir a alternativa do banco de dados
     const deleteResult = await deleteAlternative(alternativeId);
     console.log('Resultado da delecao', deleteResult);
-    
-    // Atualizar o estado local das alternativas
+
     const updatedAlternativesCopy = updatedAlternatives.filter(alt => alt.id !== alternativeId);
     setUpdatedAlternatives(updatedAlternativesCopy);
-  
-    // Atualizar a questão com as alternativas atualizadas
+
     const updatedQuestion = {
       ...question,
       alternatives: updatedAlternativesCopy
     };
+
     if (!questionList) return;
-    // Atualizar o estado do contexto para forçar re-renderização dos componentes QuestionCard
     const updatedList = questionList.map(q => q.id === question.id ? updatedQuestion : q);
     setQuestionList(updatedList);
+
   };
 
   useEffect(() => {
@@ -132,6 +166,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
             }
               <button
               className={ style.add_alternative__btn }
+              onClick={ () => handleAlternativeAdd() }
               >
                 <IoAddCircleSharp />
               </button>

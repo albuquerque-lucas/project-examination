@@ -158,6 +158,22 @@ export const updateExam = async (data: ExamUpdateRequest) => {
     }
   }
 
+  export const createAlternative = async (data: Record<string, any>) => {
+    try {
+      const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_CREATE_ALTERNATIVE}`, data);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+      console.log('Erro ao criar a alternativa', resp);
+      return null;
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao criar a alternativa', error);
+      }
+      return null;
+    }
+  }
+
   export const deleteAlternative = async (id: string | number) => {
     try {
       const resp = await axios.delete(`${process.env.NEXT_PUBLIC_API_DELETE_ALTERNATIVE}/${id}`);
