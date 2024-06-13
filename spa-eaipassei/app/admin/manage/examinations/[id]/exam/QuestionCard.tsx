@@ -203,8 +203,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
         )}
       </div>
       <div className={style.alternatives_container}>
-        {updatedAlternatives &&
-          updatedAlternatives.map((alternative, index) => (
+      {updatedAlternatives &&
+        updatedAlternatives
+          .slice()
+          .sort((a, b) => a.letter.localeCompare(b.letter)) // Ordenar alfabeticamente
+          .map((alternative, index) => (
             <AlternativeRow
               key={alternative.id}
               alternative={alternative}
@@ -212,7 +215,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
               onUpdate={handleAlternativeUpdate}
               onDelete={handleAlternativeDelete}
             />
-          ))}
+      ))}
       </div>
     </div>
   );
