@@ -47,7 +47,10 @@ const AlternativeRow: React.FC<AlternativeRowProps> = ({ alternative, index, onU
               </button>
               <button
                 className={style.confirm_delete__btn}
-                onClick={() => onDelete(alternative.id as number)}
+                onClick={() => {
+                  onDelete(alternative.id as number);
+                  setAlternativeDeletionMode(false);
+                }}
               >
                 <FaCheck />
               </button>

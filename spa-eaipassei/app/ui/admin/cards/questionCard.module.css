@@ -72,13 +72,18 @@
   box-shadow: none;
 }
 
+.add_alternative__btn {
+  right: 5rem;
+
+}
+
 .card_sentence__container button.confirm_delete__btn {
   background-color: var(--success-button-color);
 }
 
 .card_sentence__container button.open_edit__btn,
 .card_sentence__container button.cancel_delete__btn {
-  right: 3rem;
+  right: 2.7rem;
 }
 
 .card_sentence__container button.delete_edit__btn,
@@ -201,7 +206,7 @@
 }
 
 .confirm_delete__btn:hover {
-  background-color: var(--success-button-hover-color);
+  background-color: var(--primary-button-hover-color);
 }
 
 .alternative_edit__btn:hover {

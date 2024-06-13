@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { ExamsContext } from "@/app/lib/context/ExamsContext";
 import { ExamQuestion, QuestionAlternative } from "@/app/lib/types/examTypes";
 import { FaEdit, FaCheck } from "react-icons/fa";
-import { IoCloseSharp, IoCheckbox } from "react-icons/io5";
-import { updateQuestion, deleteQuestion, getQuestionsByExam } from "@/app/lib/api/examsAPI";
+import { IoCloseSharp, IoCheckbox, IoAddCircleSharp } from "react-icons/io5";
+import { updateQuestion, deleteQuestion, getQuestionsByExam, deleteAlternative } from "@/app/lib/api/examsAPI";
 import style from "@/app/ui/admin/cards/questionCard.module.css";
 import AlternativeRow from "./AlternativeRow";
 
@@ -57,15 +57,32 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
     setUpdatedAlternatives(updatedAlternativesCopy);
   };
 
-  const handleAlternativeDelete = (alternativeId: number | string) => {
+  const handleAlternativeDelete = async (alternativeId: number | string) => {
     console.log('Deletar alternativa', alternativeId);
-    // setUpdatedAlternatives(updatedAlternatives.filter(alt => alt.id !== alternativeId));
+    
+    // Excluir a alternativa do banco de dados
+    const deleteResult = await deleteAlternative(alternativeId);
+    console.log('Resultado da delecao', deleteResult);
+    
+    // Atualizar o estado local das alternativas
+    const updatedAlternativesCopy = updatedAlternatives.filter(alt => alt.id !== alternativeId);
+    setUpdatedAlternatives(updatedAlternativesCopy);
+  
+    // Atualizar a questão com as alternativas atualizadas
+    const updatedQuestion = {
+      ...question,
+      alternatives: updatedAlternativesCopy
+    };
+    if (!questionList) return;
+    // Atualizar o estado do contexto para forçar re-renderização dos componentes QuestionCard
+    const updatedList = questionList.map(q => q.id === question.id ? updatedQuestion : q);
+    setQuestionList(updatedList);
   };
 
   useEffect(() => {
     setNewNumber(updatedQuestion.question_number);
     setNewStatement(updatedQuestion.statement);
-  }, [updatedQuestion]);
+  }, [updatedQuestion, questionList]);
 
   return (
     <div className={style.question_card__container}>
@@ -113,6 +130,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
                 </button>
               )
             }
+              <button
+              className={ style.add_alternative__btn }
+              >
+                <IoAddCircleSharp />
+              </button>
           </div>
         ) : (
           <div className={style.card_sentence__inputs}>

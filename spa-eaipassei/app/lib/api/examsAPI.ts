@@ -97,7 +97,7 @@ export const createExamFull = async (url: string, data: Record<string, any>): Pr
     }
     throw new Error('Erro ao criar o exame');
   } catch (error: any) {
-    throw new Error('Erro ao criar o exame', error);
+    return null;
   }
 }
 
@@ -107,9 +107,10 @@ export const updateExam = async (data: ExamUpdateRequest) => {
     if (resp.status >= 200 && resp.status < 300) {
       return resp.data;
     }
+    console.log('Resultado inesperado ao atualizar o exame', resp);
   } catch (error: any) {
     if (error.response >= 400 && error.response.status < 500) {
-      console.log('Erro ao buscar os concursos', error);
+      console.log('Erro ao atualizar o exame', error);
     }
   }
 
@@ -121,9 +122,12 @@ export const updateExam = async (data: ExamUpdateRequest) => {
       if (resp.status >= 200 && resp.status < 300) {
         return resp.data;
       }
+      console.log('Resultado inesperado ao atualizar as questoes', resp);
+      return null;
     } catch (error: any) {
       if (error.response >= 400 && error.response.status < 500) {
-        console.log('Erro ao buscar os concursos', error);
+        console.log('Erro ao atualizar as questoes', error);
+        return null;
       }
     }
   }
@@ -136,7 +140,7 @@ export const updateExam = async (data: ExamUpdateRequest) => {
       }
     } catch (error: any) {
       if (error.response >= 400 && error.response.status < 500) {
-        console.log('Erro ao buscar os concursos', error);
+        console.log('Erro ao deletar as questoes', error);
       }
     }
   }
@@ -149,20 +153,36 @@ export const updateExam = async (data: ExamUpdateRequest) => {
       }
     } catch (error: any) {
       if (error.response >= 400 && error.response.status < 500) {
-        console.log('Erro ao buscar os concursos', error);
+        console.log('Erro atualizar a alternativa', error);
       }
     }
   }
 
-    export const updateDetachSubject = async (exam_id: string | number, subject_id: string | number) => {
-      try {
-        const resp = await axios.delete(`${process.env.NEXT_PUBLIC_DETACH_SUBJECT_EXAM}/${exam_id}-${subject_id}`);
-        if (resp.status >= 200 && resp.status < 300) {
-          return resp.data;
-        }
-      } catch (error: any) {
-        if (error.response >= 400 && error.response.status < 500) {
-          console.log('Erro ao buscar os concursos', error);
-        }
+  export const deleteAlternative = async (id: string | number) => {
+    try {
+      const resp = await axios.delete(`${process.env.NEXT_PUBLIC_API_DELETE_ALTERNATIVE}/${id}`);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
       }
+      console.log('Erro ao deletar a alternativa', resp);
+      return null;
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao buscar os concursos', error);
+      }
+      return null;
+    }
+  }
+
+  export const updateDetachSubject = async (exam_id: string | number, subject_id: string | number) => {
+    try {
+      const resp = await axios.delete(`${process.env.NEXT_PUBLIC_DETACH_SUBJECT_EXAM}/${exam_id}-${subject_id}`);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao buscar os concursos', error);
+      }
+    }
   }

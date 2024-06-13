@@ -51,7 +51,13 @@ class ExamQuestionAlternativeController extends Controller
 
     public function delete(int $id)
     {
-        return $this->dataRetrievalService->delete($this->examQuestionAlternativeService, $id);
+        try {
+            $response = $this->examQuestionAlternativeService->delete($id);
+            return response()->json($response->data(), $response->status());
+
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function create(ExamQuestionAlternativeRequest $request)
