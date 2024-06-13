@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ExamsContext } from "@/app/lib/context/ExamsContext";
 import { ExamQuestion, QuestionAlternative } from "@/app/lib/types/examTypes";
 import { FaEdit } from "react-icons/fa";
 import { IoCloseSharp, IoCheckbox } from "react-icons/io5";
-import { updateQuestion, updateAlternative } from "@/app/lib/api/examsAPI";
+import { updateQuestion, updateAlternative, deleteQuestion, getQuestionsByExam } from "@/app/lib/api/examsAPI";
 import style from "@/app/ui/admin/cards/questionCard.module.css";
 
 interface QuestionCardProps {
@@ -11,7 +12,8 @@ interface QuestionCardProps {
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
-  const { id, statement, alternatives, question_number } = question;
+  const { id, exam_id, statement, alternatives, question_number } = question;
+  const { questionList, setQuestionList, queryParams, questionsCurrentPage } = useContext(ExamsContext);
 
   const [questionEditMode, setQuestionEditMode] = useState(false);
   const [alternativeEditMode, setAlternativeEditMode] = useState<number | null>(null);
@@ -53,6 +55,17 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
     setAlternativeEditMode(null);
   }
 
+  const handleDelete = async () => {
+    if (!id) return;
+    console.log('Deletar questão', id);
+    const deleteResult = await deleteQuestion(id);
+    console.log('Resultado da delecao', deleteResult);
+
+    const fetchResult = await getQuestionsByExam(`${process.env.NEXT_PUBLIC_API_GET_QUESTION_BY_EXAM}`, { exam_id: exam_id, ...queryParams, page: questionsCurrentPage });
+    console.log('Resultado do fetch', fetchResult);
+    fetchResult && setQuestionList(fetchResult.data);
+  }
+
   useEffect(() => {
     setNewNumber(updatedQuestion.question_number);
     setNewStatement(updatedQuestion.statement);
@@ -72,8 +85,17 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
           <div className={style.card_sentence__container}>
             <span className={style.sentence_number}>{newNumber} - </span>
             <span className={style.card_sentence}>{newStatement}</span>
-            <button onClick={() => setQuestionEditMode(true)}>
+            <button
+            className={ style.open_edit__btn }
+            onClick={() => setQuestionEditMode(true)}
+            >
               <FaEdit />
+            </button>
+            <button
+            className={ style.delete_edit__btn }
+            onClick={() => handleDelete()}
+            >
+              <IoCloseSharp />
             </button>
           </div>
         ) : (
