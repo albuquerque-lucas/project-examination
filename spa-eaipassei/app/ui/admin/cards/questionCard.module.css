@@ -69,19 +69,29 @@
   align-items: center;
   border-radius: 5px 5px 0 0;
   cursor: pointer;
+  box-shadow: none;
 }
 
-.card_sentence__container button.open_edit__btn {
+.card_sentence__container button.confirm_delete__btn {
+  background-color: var(--success-button-color);
+}
+
+.card_sentence__container button.open_edit__btn,
+.card_sentence__container button.cancel_delete__btn {
   right: 3rem;
 }
 
-.card_sentence__container button.delete_edit__btn {
+.card_sentence__container button.delete_edit__btn,
+.card_sentence__container button.confirm_delete__btn {
   right: 0.5rem;
 }
 
 .card_sentence__container button:hover {
   background-color: var(--primary-button-hover-color);
+}
 
+.card_sentence__container button.cancel_delete__btn {
+  background-color: var(--danger-button-color);
 }
 
 .input_buttons__container {

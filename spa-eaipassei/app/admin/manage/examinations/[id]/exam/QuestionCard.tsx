@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ExamsContext } from "@/app/lib/context/ExamsContext";
 import { ExamQuestion, QuestionAlternative } from "@/app/lib/types/examTypes";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaCheck } from "react-icons/fa";
 import { IoCloseSharp, IoCheckbox } from "react-icons/io5";
 import { updateQuestion, updateAlternative, deleteQuestion, getQuestionsByExam } from "@/app/lib/api/examsAPI";
 import style from "@/app/ui/admin/cards/questionCard.module.css";
@@ -18,6 +18,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
   const [questionEditMode, setQuestionEditMode] = useState(false);
   const [alternativeEditMode, setAlternativeEditMode] = useState<number | null>(null);
   const [dataUpdated, setDataUpdated] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
 
   const [newNumber, setNewNumber] = useState(question_number);
   const [newStatement, setNewStatement] = useState(statement);
@@ -64,6 +65,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
     const fetchResult = await getQuestionsByExam(`${process.env.NEXT_PUBLIC_API_GET_QUESTION_BY_EXAM}`, { exam_id: exam_id, ...queryParams, page: questionsCurrentPage });
     console.log('Resultado do fetch', fetchResult);
     fetchResult && setQuestionList(fetchResult.data);
+    setDeleteMode(false);
   }
 
   useEffect(() => {
@@ -85,18 +87,57 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
           <div className={style.card_sentence__container}>
             <span className={style.sentence_number}>{newNumber} - </span>
             <span className={style.card_sentence}>{newStatement}</span>
-            <button
-            className={ style.open_edit__btn }
-            onClick={() => setQuestionEditMode(true)}
-            >
-              <FaEdit />
-            </button>
-            <button
+            {
+              deleteMode ?
+              (
+              <button
+              className={ style.cancel_delete__btn }
+              onClick={() => setDeleteMode(false)}
+              >
+                <IoCloseSharp />
+              </button>
+
+              )
+              :
+              (
+              <button
+              className={ style.open_edit__btn }
+              onClick={() => setQuestionEditMode(true)}
+              >
+                <FaEdit />
+              </button>
+
+              )
+            }
+            {
+              !deleteMode ? (
+                <button
+                className={ style.delete_edit__btn }
+                onClick={() => setDeleteMode(true)}
+                >
+                  <IoCloseSharp />
+                </button>
+              ) : (
+                <button
+                className={ style.confirm_delete__btn }
+                onClick={() => handleDelete()}
+                >
+                  <FaCheck />
+                </button>
+              )
+            }
+            {/* <button
             className={ style.delete_edit__btn }
             onClick={() => handleDelete()}
             >
               <IoCloseSharp />
             </button>
+            <button
+            className={ style.confirm_delete__btn }
+            onClick={() => handleDelete()}
+            >
+              <FaCheck />
+            </button> */}
           </div>
         ) : (
           <div className={style.card_sentence__inputs}>
@@ -121,6 +162,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
               >
                 <IoCheckbox />
               </button>
+              
               <button onClick={() => setQuestionEditMode(false)} className={style.cancel_edit__btn}>
                 <IoCloseSharp />
               </button>
