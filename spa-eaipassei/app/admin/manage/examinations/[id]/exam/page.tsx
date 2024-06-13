@@ -17,7 +17,6 @@ function ExamDisplay() {
   const id = window.location.pathname.split('/')[4];
   const router = useRouter();
   const [currentExam, setCurrentExam] = useState<Exam | null>(null);
-  const [addQuestionMode, setAddQuestionMode] = useState<boolean>(false);
   const [controlMode, setControlMode] = useState({
     addQuestion: false,
     examInfo: false,
@@ -32,6 +31,10 @@ function ExamDisplay() {
     setQuestionsNavLinks,
     questionsCurrentPage,
   } = useContext(ExamsContext);
+
+  const organizeQuestions = () => {
+    console.log('Organizar questões');
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,15 +71,21 @@ function ExamDisplay() {
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.99 }}
+            onClick={() => handleControlMode('examInfo')}
+          >
+            Info
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.99 }}
             onClick={() => handleControlMode('addQuestion')}
           >
             Adicionar Questão
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.99 }}
-            onClick={() => handleControlMode('examInfo')}
+            onClick={() => organizeQuestions()}
           >
-            Info
+            Organizar Questões
           </motion.button>
         </div>
         <div className={style.header_edit}>
