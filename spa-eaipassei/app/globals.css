@@ -17,10 +17,11 @@
   /* Button Colors */
   --primary-button-color: #007bff;
   --primary-button-hover-color: #3399ff;
+  --secondary-button-color: #36393e;
   --danger-button-color: #dc3545;
   --danger-button-hover-color: #ff4d5a;
   --success-button-color: #28a745;
-  --secondary-button-color: #36393e;
+  --success-button-hover-color: #68c57d;
 
   /* Text Colors */
   --header-dashboard-color: #949191;

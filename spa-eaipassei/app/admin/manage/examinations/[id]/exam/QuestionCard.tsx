@@ -3,8 +3,9 @@ import { ExamsContext } from "@/app/lib/context/ExamsContext";
 import { ExamQuestion, QuestionAlternative } from "@/app/lib/types/examTypes";
 import { FaEdit, FaCheck } from "react-icons/fa";
 import { IoCloseSharp, IoCheckbox } from "react-icons/io5";
-import { updateQuestion, updateAlternative, deleteQuestion, getQuestionsByExam } from "@/app/lib/api/examsAPI";
+import { updateQuestion, deleteQuestion, getQuestionsByExam } from "@/app/lib/api/examsAPI";
 import style from "@/app/ui/admin/cards/questionCard.module.css";
+import AlternativeRow from "./AlternativeRow";
 
 interface QuestionCardProps {
   question: ExamQuestion;
@@ -16,7 +17,6 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
   const { questionList, setQuestionList, queryParams, questionsCurrentPage } = useContext(ExamsContext);
 
   const [questionEditMode, setQuestionEditMode] = useState(false);
-  const [alternativeEditMode, setAlternativeEditMode] = useState<number | null>(null);
   const [dataUpdated, setDataUpdated] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
 
@@ -24,8 +24,6 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
   const [newStatement, setNewStatement] = useState(statement);
   const [updatedQuestion, setUpdatedQuestion] = useState<ExamQuestion>(question);
 
-  const [newAlternativeLetter, setNewAlternativeLetter] = useState<string | null>(null);
-  const [newAlternativeText, setNewAlternativeText] = useState<string | null>(null);
   const [updatedAlternatives, setUpdatedAlternatives] = useState<QuestionAlternative[]>(alternatives ?? []);
 
   const submitSentenceEdit = async () => {
@@ -41,21 +39,6 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
     setDataUpdated(true);
   }
 
-  const submitAlternativeEdit = async (index: number) => {
-    const updatedAlternativesCopy = [...updatedAlternatives];
-    if (newAlternativeLetter !== null && newAlternativeText !== null) {
-      updatedAlternativesCopy[index] = {
-        ...updatedAlternativesCopy[index],
-        letter: newAlternativeLetter,
-        text: newAlternativeText,
-      };
-    }
-    const result = await updateAlternative(updatedAlternativesCopy[index]);
-    console.log('Result de updateAlternative em QuestionCard', result);
-    setUpdatedAlternatives(updatedAlternativesCopy);
-    setAlternativeEditMode(null);
-  }
-
   const handleDelete = async () => {
     if (!id) return;
     console.log('Deletar questão', id);
@@ -68,17 +51,21 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
     setDeleteMode(false);
   }
 
+  const handleAlternativeUpdate = (index: number, updatedAlternative: QuestionAlternative) => {
+    const updatedAlternativesCopy = [...updatedAlternatives];
+    updatedAlternativesCopy[index] = updatedAlternative;
+    setUpdatedAlternatives(updatedAlternativesCopy);
+  };
+
+  const handleAlternativeDelete = (alternativeId: number | string) => {
+    console.log('Deletar alternativa', alternativeId);
+    // setUpdatedAlternatives(updatedAlternatives.filter(alt => alt.id !== alternativeId));
+  };
+
   useEffect(() => {
     setNewNumber(updatedQuestion.question_number);
     setNewStatement(updatedQuestion.statement);
   }, [updatedQuestion]);
-
-  useEffect(() => {
-    if (alternativeEditMode === null) {
-      setNewAlternativeLetter(null);
-      setNewAlternativeText(null);
-    }
-  }, [alternativeEditMode]);
 
   return (
     <div className={style.question_card__container}>
@@ -126,18 +113,6 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
                 </button>
               )
             }
-            {/* <button
-            className={ style.delete_edit__btn }
-            onClick={() => handleDelete()}
-            >
-              <IoCloseSharp />
-            </button>
-            <button
-            className={ style.confirm_delete__btn }
-            onClick={() => handleDelete()}
-            >
-              <FaCheck />
-            </button> */}
           </div>
         ) : (
           <div className={style.card_sentence__inputs}>
@@ -172,58 +147,15 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
       </div>
       <div className={style.alternatives_container}>
         {updatedAlternatives &&
-          updatedAlternatives.map((alternative: QuestionAlternative, index) => {
-            const isEditing = alternativeEditMode === index;
-            return (
-              <div key={index} className={style.question_card__alternative}>
-                {
-                !isEditing ? (
-                  <>
-                    <span className={style.alternative_letter}>{alternative.letter} - </span>
-                    <span className={style.alternative_sentence}>{alternative.text}</span>
-                    <button
-                      className={style.alternative_edit__btn}
-                      onClick={() => {
-                        setAlternativeEditMode(index);
-                        setNewAlternativeLetter(alternative.letter);
-                        setNewAlternativeText(alternative.text);
-                      }}
-                    >
-                      <FaEdit />
-                    </button>
-                  </>
-                ) : (
-                  <div className={style.alternative_sentence__inputs}>
-                    <span className={style.alternative_letter}>
-                      <input
-                        type="text"
-                        value={newAlternativeLetter || ""}
-                        onChange={(e) => setNewAlternativeLetter(e.target.value)}
-                      />
-                    </span>
-                    <span className={style.alternative_sentence}>
-                      <input
-                        type="text"
-                        value={newAlternativeText || ""}
-                        onChange={(e) => setNewAlternativeText(e.target.value)}
-                      />
-                    </span>
-                    <div className={style.alternative_buttons__container}>
-                      <button
-                        className={style.confirm_edit__btn}
-                        onClick={() => submitAlternativeEdit(index)}
-                      >
-                        <IoCheckbox />
-                      </button>
-                      <button onClick={() => setAlternativeEditMode(null)} className={style.cancel_edit__btn}>
-                        <IoCloseSharp />
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          updatedAlternatives.map((alternative, index) => (
+            <AlternativeRow
+              key={alternative.id}
+              alternative={alternative}
+              index={index}
+              onUpdate={handleAlternativeUpdate}
+              onDelete={handleAlternativeDelete}
+            />
+          ))}
       </div>
     </div>
   );

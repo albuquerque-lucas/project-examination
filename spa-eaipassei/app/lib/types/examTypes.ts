@@ -45,6 +45,7 @@ export type ExamQuestion = {
 }
 
 export type QuestionAlternative = {
+  id?: number | string;
   letter: string;
   text: string;
   is_answer: boolean;

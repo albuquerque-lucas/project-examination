@@ -94,6 +94,11 @@
   background-color: var(--danger-button-color);
 }
 
+.card_sentence__container button.cancel_delete__btn:hover {
+  background-color: var(--danger-button-hover-color);
+
+}
+
 .input_buttons__container {
   position: absolute;
   top: -2rem;
@@ -166,7 +171,12 @@
   width: 85vw;
 }
 
-.alternative_edit__btn {
+.alternative_edit__btn,
+.alternative_delete__btn,
+.cancel_delete__btn,
+.confirm_delete__btn {
+  cursor: pointer;
+  margin: 0 0.15rem;
   width: 2rem;
   height: 2rem;
   display: flex;
@@ -176,6 +186,31 @@
   border: none;
   outline: none;
   background-color: var(--primary-background-color);
+}
+
+.cancel_delete__btn {
+  background-color: var(--danger-button-color);
+}
+
+.cancel_delete__btn:hover {
+  background-color: var(--danger-button-hover-color);
+}
+
+.confirm_delete__btn {
+  background-color: var(--success-button-color);
+}
+
+.confirm_delete__btn:hover {
+  background-color: var(--success-button-hover-color);
+}
+
+.alternative_edit__btn:hover {
+  background-color: var(--primary-button-hover-color);
+}
+
+.alternative_delete__btn:hover {
+  background-color: var(--danger-button-hover-color);
+
 }
 
 .alternative_buttons__container {
