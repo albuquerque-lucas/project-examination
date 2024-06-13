@@ -119,7 +119,7 @@ export default function ExaminationEditCell({
   };
 
   return (
-    <div className={style.detail_section__card} onClick={handleDivClick}>
+    <div className={style.detail_section__card} onDoubleClick={handleDivClick}>
       <h4>{`${title}:`}</h4>
       {editMode ? (
         <div className={style.examination_input__container}>

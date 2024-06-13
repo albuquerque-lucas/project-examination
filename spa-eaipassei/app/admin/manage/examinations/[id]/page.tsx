@@ -328,18 +328,20 @@ function ExaminationDisplay() {
           />
         </div>
         <div className={ style.details_edit__section }>
+
+
           <div className={ style.study_areas__input }>
             <input type="text" placeholder="Pesquisar area de estudo..." ref={ searchStudyAreaRef }/>
             <motion.button
             className={ style.study_areas__search_btn }
-            whileTap={ { scale: 0.99 } }
+            whileTap={ { scale: 0.97 } }
             onClick={ submitStudyAreaSearch }
             >
               <FaMagnifyingGlass />
             </motion.button>
             <motion.button
               className={ style.study_areas__cancel_btn }
-              whileTap={ { scale: 0.99 } }
+              whileTap={ { scale: 0.97 } }
               onClick={ cancelStudyAreaSearch }
             >
               <MdCancel />
@@ -374,6 +376,9 @@ function ExaminationDisplay() {
               }
             </ul>
           </div>
+
+
+
         </div>
       </section>
 
@@ -402,21 +407,12 @@ function ExaminationDisplay() {
             <motion.button
               className={ style.search_exam__btn }
               whileTap={ { scale: 0.99 } }
-              onClick={ () => fetchData(selectedExamId) }
+              onClick={ (e) => router.push(`/admin/manage/examinations/${selectedExamId}/exam`) }
             >
               Buscar
             </motion.button>
           </div>
         </div>
-      </section>
-      <section className={ style.exams_info_section }>
-        {
-          exam &&
-              <EntityInfoBoard
-                key={ exam.id }
-                exam={ exam }
-              />
-        }
       </section>
         <div className={ style.deletion_pop__up }>
           {
