@@ -201,4 +201,19 @@ export const updateExam = async (data: ExamUpdateRequest) => {
         console.log('Erro ao buscar os concursos', error);
       }
     }
+
+    }
+
+
+  export const organizeQuestions = async (examId: number) => {
+    try {
+      console.log('Organizar questões');
+      const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_ORGANIZE_QUESTIONS}/${examId}`);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+      return null;
+    } catch(error: any) {
+      console.log('Erro ao organizar as questões', error);
+    }
   }

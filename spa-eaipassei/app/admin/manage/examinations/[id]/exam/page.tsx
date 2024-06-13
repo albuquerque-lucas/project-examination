@@ -6,7 +6,7 @@ import { ExamsContext } from "@/app/lib/context/ExamsContext";
 import withAuth from "@/app/lib/components/withAuth/withAuth";
 import QuestionCard from "./QuestionCard";
 import ExamNavButtons from "./ExamNavButtons";
-import { getExamById, getQuestionsByExam } from "@/app/lib/api/examsAPI";
+import { getExamById, getQuestionsByExam, organizeQuestions } from "@/app/lib/api/examsAPI";
 import { Exam } from "@/app/lib/types/examTypes";
 import AddQuestionForm from "./AddQuestionForm";
 import UpdateExamForm from "./UpdateExamForm";
@@ -17,6 +17,7 @@ function ExamDisplay() {
   const id = window.location.pathname.split('/')[4];
   const router = useRouter();
   const [currentExam, setCurrentExam] = useState<Exam | null>(null);
+  const [refresh, setRefresh] = useState<number>(0);
   const [controlMode, setControlMode] = useState({
     addQuestion: false,
     examInfo: false,
@@ -24,6 +25,7 @@ function ExamDisplay() {
 
   const {
     dataLoaded,
+    setDataLoaded,
     queryParams,
     questionList,
     setQuestionList,
@@ -32,8 +34,17 @@ function ExamDisplay() {
     questionsCurrentPage,
   } = useContext(ExamsContext);
 
-  const organizeQuestions = () => {
+  const organizeQuestionList = async (examId: number) => {
     console.log('Organizar questões');
+    const result = await organizeQuestions(examId);
+    
+    console.log('Resultado de organizeQuestions', result);
+    if (!result) {
+      console.log('Nao obteve resultados');
+      return;
+    }
+    setQuestionList(result.questions);
+    setRefresh(prevState => prevState + 1);
   }
 
   useEffect(() => {
@@ -83,7 +94,7 @@ function ExamDisplay() {
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.99 }}
-            onClick={() => organizeQuestions()}
+            onClick={ () => organizeQuestionList(Number(id)) }
           >
             Organizar Questões
           </motion.button>

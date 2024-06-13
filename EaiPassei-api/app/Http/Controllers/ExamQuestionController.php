@@ -128,4 +128,17 @@ class ExamQuestionController extends Controller
             return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
         }
     }
+
+    public function organize(int $examId)
+    {
+        try {
+            $response = $this->examQuestionService->organize($examId);
+            $data = $response->data();
+            $dataArray = (array)$data;
+
+            return response()->json($data, $response->status());
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
+    }
 }

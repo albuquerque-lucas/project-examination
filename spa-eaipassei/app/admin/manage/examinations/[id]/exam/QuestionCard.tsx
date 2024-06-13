@@ -21,7 +21,7 @@ interface QuestionCardProps {
 
 const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
   const { id, exam_id, statement, alternatives, question_number } = question;
-  const { questionList, setQuestionList, queryParams, questionsCurrentPage } = useContext(ExamsContext);
+  const { questionList, setQuestionList, queryParams, questionsCurrentPage, dataLoaded } = useContext(ExamsContext);
 
   const [questionEditMode, setQuestionEditMode] = useState(false);
   const [dataUpdated, setDataUpdated] = useState(false);

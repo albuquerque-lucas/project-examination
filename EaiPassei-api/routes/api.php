@@ -107,6 +107,7 @@ Route::get('/exam-questions/id/{id}', [ExamQuestionController::class,'getById'])
 Route::post('/exam-questions/create', [ExamQuestionController::class,'create']);
 Route::patch('/exam-questions/update/{id}', [ExamQuestionController::class,'update']);
 Route::delete('/exam-questions/delete/{id}', [ExamQuestionController::class,'delete']);
+Route::get('/exam-questions/organize/{examId}', [ExamQuestionController::class,'organize']);
 
 
 // ROTAS DE EXAM QUESTIONS ALTERNATIVES
