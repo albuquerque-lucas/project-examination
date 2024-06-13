@@ -3,7 +3,7 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ExamsContext } from '@/app/lib/context/ExamsContext';
-import { Exam } from '@/app/lib/types/examTypes';
+import { Exam, ExamUpdateRequest } from '@/app/lib/types/examTypes';
 import { IoCloseSharp } from "react-icons/io5";
 import { useGetExamById } from '@/app/lib/hooks/useGetExamById';
 import { formatDate } from '@/app/lib/utils/formatDate';
@@ -83,7 +83,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
       formattedValue = updatedValue;
     }
   
-    const updatedData = {
+    const updatedData: ExamUpdateRequest = {
       id,
       [field]: formattedValue,
     };

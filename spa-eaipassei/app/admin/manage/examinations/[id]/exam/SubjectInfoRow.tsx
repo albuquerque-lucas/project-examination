@@ -68,9 +68,13 @@ export default function SubjectInfoRow({ exam, fieldKey, label }: SubjectInfoRow
     fetchSubjects();
   }, [currentExam]);
 
-  const availableSubjects = subjectsList.filter(subject => 
-    currentExam && currentExam.subjects && !currentExam?.subjects.some(examSubject => examSubject.id === subject.id)
-  );
+  let availableSubjects: Subject[] = [];
+  if (subjectsList !== null) {
+      availableSubjects = subjectsList.filter(subject => 
+        currentExam && currentExam.subjects && !currentExam?.subjects.some(examSubject => examSubject.id === subject.id)
+      );
+
+  }
 
   if (!updateMode) {
     return (
