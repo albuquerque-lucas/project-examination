@@ -45,6 +45,8 @@ function ExamDisplay() {
     }
     setQuestionList(result.questions);
     setRefresh(prevState => prevState + 1);
+
+    console.log('Result', result);
   }
 
   useEffect(() => {
@@ -114,7 +116,7 @@ function ExamDisplay() {
         <div className={style.page_questions__container}>
           {questionList && questionList.map((question, index) => {
             return (
-              <QuestionCard key={question.id as number} question={question} />
+              <QuestionCard key={Number(`${question.id}${question.question_number}`)} question={question} />
             );
           })}
         </div>
