@@ -116,7 +116,10 @@ function ExamDisplay() {
         <div className={style.page_questions__container}>
           {questionList && questionList.map((question, index) => {
             return (
-              <QuestionCard key={Number(`${question.id}${question.question_number}`)} question={question} />
+              <QuestionCard
+              key={Number(`${question.id}${question.question_number}`)}
+              question={question}
+              />
             );
           })}
         </div>
