@@ -3,7 +3,7 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ExamsContext } from '@/app/lib/context/ExamsContext';
-import { Exam } from '@/app/lib/types/examTypes';
+import { Exam, ExamUpdateRequest } from '@/app/lib/types/examTypes';
 import { IoCloseSharp } from "react-icons/io5";
 import { useGetExamById } from '@/app/lib/hooks/useGetExamById';
 import { formatDate } from '@/app/lib/utils/formatDate';
@@ -42,11 +42,11 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
 
   const formattedDate = date ? formatDateForDisplay(date) : '';
 
-  const { setEntity } = useGetExamById();
+  const { setExam } = useGetExamById();
 
   const {
-    setDeletionMode,
-    setEntityToDelete,
+    setExamDeletionMode,
+    setExamToDelete,
   } = useContext(ExamsContext);
 
   const handleEditClick = (field: 'date' | 'description', event: React.MouseEvent) => {
@@ -83,7 +83,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
       formattedValue = updatedValue;
     }
   
-    const updatedData = {
+    const updatedData: ExamUpdateRequest = {
       id,
       [field]: formattedValue,
     };
@@ -125,7 +125,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
       <motion.button
         className={ style.details_close__btn }
         whileTap={{ scale: 0.9 }}
-        onClick={ () => setEntity(null) }
+        onClick={ () => setExam(null) }
       >
         <IoCloseSharp />
       </motion.button>
@@ -170,7 +170,7 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
               type="text"
               ref={descriptionRef}
               defaultValue=''
-              placeholder={description ? `${description.substring(0, 7)}...` : 'Digite uma descrição...'}
+              placeholder={description ? description : 'Digite uma descrição...'}
             />
             <motion.button 
               className={style.edit_exam__btn} 
@@ -213,8 +213,8 @@ export default function EntityInfoBoard({ exam }: EntityInfoBoardProps) {
           className={style.delete_exam__btn}
           whileTap={{ scale: 0.99 }}
           onClick={() => {
-            setEntityToDelete(exam.id);
-            setDeletionMode(true);
+            setExamToDelete(exam.id);
+            setExamDeletionMode(true);
           }}
         >
           Deletar

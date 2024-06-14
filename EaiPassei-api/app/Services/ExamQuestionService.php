@@ -11,6 +11,7 @@ use Nette\Schema\ValidationException;
 use PDOException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
+use App\Models\ExamQuestionAlternative;
 
 class ExamQuestionService implements IService
 {
@@ -291,6 +292,90 @@ class ExamQuestionService implements IService
                 'message' => 'Ocorreu um erro ao tentar criar as questões no Service.',
                 'info' => $exception->getMessage(),
                 'code' => $exception->getCode()
+            ]);
+            return $this->serviceResponse;
+        }
+    }
+
+    public function createQuestion(array $validated): ServiceResponse
+    {
+        try {
+            DB::transaction(function () use ($validated) {
+                // Recupera a última ExamQuestion criada
+                $lastExamQuestion = ExamQuestion::orderBy('id', 'desc')->first();
+                $lastQuestionNumber = $lastExamQuestion ? $lastExamQuestion->question_number : 0;
+
+                // Cria a nova ExamQuestion
+                $examQuestion = ExamQuestion::create([
+                    'exam_id' => $validated['exam_id'],
+                    'question_number' => $lastQuestionNumber + 1,
+                ]);
+
+                // Cria as alternativas
+                $letters = range('a', 'z');
+                for ($i = 0; $i < $validated['alternativesNumber']; $i++) {
+                    ExamQuestionAlternative::create([
+                        'exam_question_id' => $examQuestion->id,
+                        'letter' => $letters[$i],
+                    ]);
+                }
+
+                $this->serviceResponse->setAttributes(201, (object)[
+                    'message' => 'Exam question created successfully.',
+                    'id' => $examQuestion->id,
+                ]);
+            });
+
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => 'An error occurred while creating the exam question.',
+                'info' => $exception->getMessage(),
+                'code' => $exception->getCode(),
+            ]);
+            return $this->serviceResponse;
+        }
+    }
+
+    public function organize(int $examId)
+    {
+        try {
+            // Organiza as questões por número da questão
+            $examQuestions = ExamQuestion::where('exam_id', $examId)->orderBy('question_number')->get();
+            $order = 1;
+            foreach ($examQuestions as $examQuestion) {
+                $examQuestion->question_number = $order;
+                $examQuestion->save();
+                $order++;
+            }
+    
+            // Organiza as alternativas de cada questão alfabeticamente
+            foreach ($examQuestions as $examQuestion) {
+                $alternatives = ExamQuestionAlternative::where('exam_question_id', $examQuestion->id)
+                    ->orderBy('letter')
+                    ->get();
+                $letterIndex = 0;
+                $letters = range('a', 'z');
+                foreach ($alternatives as $alternative) {
+                    $alternative->letter = $letters[$letterIndex];
+                    $alternative->save();
+                    $letterIndex++;
+                }
+            }
+
+            $questions = ExamQuestion::where('exam_id', $examId)->orderBy('question_number')->get();
+            $collection = ExamQuestionResource::collection($questions);
+    
+            $this->serviceResponse->setAttributes(200, (object)[
+                'message' => 'Questions and alternatives organized successfully.',
+                'questions' => $collection,
+            ]);
+            return $this->serviceResponse;
+        } catch (Exception $exception) {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => 'An error occurred while trying to organize the questions and alternatives.',
+                'info' => $exception->getMessage(),
+                'code' => $exception->getCode(),
             ]);
             return $this->serviceResponse;
         }

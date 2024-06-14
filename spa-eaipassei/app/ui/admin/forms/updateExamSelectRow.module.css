@@ -1,0 +1,134 @@
+.row_item__container {
+  content: '';
+  width: 100%;
+  height: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: lightcoral; */
+  cursor: pointer;
+}
+
+.row_item__container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 2rem;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  margin: 0 0.25rem;
+}
+
+.row_item__container button.confirm_edit__btn {
+  background-color: var(--primary-button-color);
+}
+
+.row_item__container button.confirm_edit__btn:hover {
+  background-color: var(--primary-button-hover-color);
+
+}
+
+.row_item__container button.cancel_edit__btn {
+  background-color: var(--danger-button-color);
+}
+
+.row_item__container button.cancel_edit__btn:hover {
+  background-color: var(--danger-button-hover-color);
+}
+
+.item_container__firstChild {
+  display: flex;
+  align-items: center;
+  text-align: start;
+  width: 10rem;
+  height: inherit;
+  padding: 0 0 0 2rem;
+}
+
+.item_container__lastChild {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: end;
+  width: 30rem;
+  height: inherit;
+  padding: 0 1rem 0 0;
+}
+
+.display_mode__container:hover {
+  background-color: var(--light-dark-background-hover);
+}
+
+.edit_mode__container {
+  background-color: var(--quaternary-background-color);
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 39.5vh;
+  width: 50%;
+
+}
+
+.edit_mode__container select {
+  width: 50%;
+  height: 2.5rem;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid white;
+  background-color: transparent;
+  color: white;
+  margin-left: 4rem;
+  cursor: pointer;
+}
+
+.edit_mode__container option {
+  color: black;
+}
+
+.edit_field {
+  display: flex;
+  align-items: center;
+  }
+  
+.display_field {
+  content: '';
+  width: 50%;
+  height: 100%;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.select_field {
+  height: 100%;
+  width: 50%;
+}
+
+.display_field span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
+  width: 90%;
+  margin: 0.25rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.display_field span:hover {
+  border: 2px solid var(--primary-background-hover);
+}
+
+.select_field span {
+  display: flex;
+}
+
+.display_field span button {
+  height: 1.5rem;
+  background-color: transparent;
+}

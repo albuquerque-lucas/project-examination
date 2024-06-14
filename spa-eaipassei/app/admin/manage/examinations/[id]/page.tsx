@@ -49,17 +49,19 @@ function ExaminationDisplay() {
   const {
     dataLoaded,
     setDataLoaded,
-    deletionMode,
+    examDeletionMode,
+    areasList,
+    setAreasList,
   } = useContext(ExamsContext);
 
   const {
-    entity,
-    secondaryDataList,
-    secondaryNavLinks,
+    exam,
+    questionList,
+    questionsNavLinks,
     fetchExam,
     fetchExamQuestions,
-    setSecondaryDataList,
-    setSecondaryNavLinks,
+    setQuestionList,
+    setQuestionsNavLinks,
   } = useGetExamById();
 
   const removeStudyAreaFromList = (areaId: number) => {
@@ -161,8 +163,8 @@ function ExaminationDisplay() {
       const [exam, questions] = await Promise.all([fetchExam(id), fetchExamQuestions(id)]);
       const data = questions?.data;
       const links = questions?.links;
-      data && setSecondaryDataList(data);
-      links && setSecondaryNavLinks(links);
+      data && setQuestionList(data);
+      links && setQuestionsNavLinks(links);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -178,6 +180,7 @@ function ExaminationDisplay() {
         try {
           const result = await getExaminationById(id);
           setExamination(result);
+          setAreasList(result.study_areas);
           setDataLoaded(false);
         } catch (error: any) {
           console.error('Error fetching examination:', error);
@@ -185,7 +188,7 @@ function ExaminationDisplay() {
       }
       fetchExamination();
     }
-  }, [secondaryNavLinks, secondaryDataList, dataLoaded, educationalLevelsList]);
+  }, [dataLoaded, educationalLevelsList]);
 
   if (!examination) return <SpinnerLoader />;
 
@@ -325,18 +328,20 @@ function ExaminationDisplay() {
           />
         </div>
         <div className={ style.details_edit__section }>
+
+
           <div className={ style.study_areas__input }>
             <input type="text" placeholder="Pesquisar area de estudo..." ref={ searchStudyAreaRef }/>
             <motion.button
             className={ style.study_areas__search_btn }
-            whileTap={ { scale: 0.99 } }
+            whileTap={ { scale: 0.97 } }
             onClick={ submitStudyAreaSearch }
             >
               <FaMagnifyingGlass />
             </motion.button>
             <motion.button
               className={ style.study_areas__cancel_btn }
-              whileTap={ { scale: 0.99 } }
+              whileTap={ { scale: 0.97 } }
               onClick={ cancelStudyAreaSearch }
             >
               <MdCancel />
@@ -371,6 +376,9 @@ function ExaminationDisplay() {
               }
             </ul>
           </div>
+
+
+
         </div>
       </section>
 
@@ -399,25 +407,16 @@ function ExaminationDisplay() {
             <motion.button
               className={ style.search_exam__btn }
               whileTap={ { scale: 0.99 } }
-              onClick={ () => fetchData(selectedExamId) }
+              onClick={ (e) => router.push(`/admin/manage/examinations/${selectedExamId}/exam`) }
             >
               Buscar
             </motion.button>
           </div>
         </div>
       </section>
-      <section className={ style.exams_info_section }>
-        {
-          entity &&
-              <EntityInfoBoard
-                key={ entity.id }
-                exam={ entity }
-              />
-        }
-      </section>
         <div className={ style.deletion_pop__up }>
           {
-            deletionMode &&
+            examDeletionMode &&
             <DeleteExamPopUp />
           }
         </div>

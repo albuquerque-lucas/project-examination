@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -51,11 +52,13 @@ class Subject extends Model
     public static function getAllOrdered(string $order, string $orderBy = 'id', array $params = []): LengthAwarePaginator
     {
         $query = self::orderBy($orderBy, $order);
+        
         foreach ($params as $key => $value) {
             if (!is_null($value)) {
                 $query = $query->where($key, 'like', "%$value%");
             }
         }
+
         return $query->paginate();
     }
 
@@ -67,5 +70,12 @@ class Subject extends Model
     public static function getByTitle(string $title, string $order): LengthAwarePaginator
     {
         return self::where('title', 'like', "%$title%")->orderBy('id', $order)->paginate();
+    }
+
+    public static function getByArea(array $studyAreaIds, string $order = 'desc'): Collection
+    {
+        return self::whereIn('study_area_id', $studyAreaIds)
+            ->orderBy('id', $order)
+            ->get();
     }
 }

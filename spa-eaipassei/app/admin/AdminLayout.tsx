@@ -3,6 +3,7 @@
 import { useEffect, useContext } from "react";
 import { AuthContext } from "../lib/context/AuthContext";
 import { ExaminationsContext } from "../lib/context/ExaminationsContext";
+import { AdminLayoutContext } from "../lib/context/AdminLayoutContext";
 import Navbar from "./Navbar";
 import ConfirmationPopUp from "../lib/components/ConfirmationPopUp/confirmationPopUp";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,11 +13,16 @@ import style from '@/app/ui/admin/layout.module.css';
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, setUser } = useContext(AuthContext);
+  const { setSidebarOpen, pageChange, setPageChange } = useContext(AdminLayoutContext);
   const { dashboardDeletionMode, setDashboardDeletionMode } = useContext(ExaminationsContext);
 
   useEffect(() => {
     // console.log('Layout renderizado pela troca de usuario.');
-  }, [user]);
+    if (pageChange) {
+      setSidebarOpen(false);
+      setPageChange(false);
+    }
+  }, [user, pageChange]);
 
   return (
     <motion.div

@@ -13,7 +13,7 @@ use App\Models\ExamQuestionAlternative;
 use App\Http\Resources\ExamQuestionAlternativeResource;
 use Illuminate\Support\Facades\DB;
 
-class ExamQuestionAlternativeService implements IService
+class ExamQuestionAlternativeService
 {
     private ServiceResponse $serviceResponse;
 
@@ -90,7 +90,8 @@ class ExamQuestionAlternativeService implements IService
             $responseData = (object)[
                 'message' => $this->serviceResponse->createdSuccessfully('Alternativa'),
                 'id' => $alternative->id,
-                'title' => $alternative->title
+                'title' => $alternative->title,
+                'alternative' => $alternative,
             ];
 
             $this->serviceResponse->setAttributes(201, $responseData);
@@ -127,7 +128,7 @@ class ExamQuestionAlternativeService implements IService
     }
 
     
-    function update(int $id, array $data, bool $hasFile): ServiceResponse
+    function update(int $id, array $data): ServiceResponse
     {
         try {
             $alternative = ExamQuestionAlternative::find($id);

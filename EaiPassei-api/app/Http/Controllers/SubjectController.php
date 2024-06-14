@@ -32,11 +32,6 @@ class SubjectController extends Controller
         ]);
         $order = $request->input('order', 'desc');
         $params = $validated;
-        // return response()->json([
-        //     'message' => 'Endpoint desativado temporariamente.',
-        //     'data' => $validated,
-        //     'order' => $order,
-        // ], 200);
         unset($params['order'], $params['page']);
         $response = $this->subjectService->getAll($order, 'id', $params);
         $data = $response->data();
@@ -59,6 +54,30 @@ class SubjectController extends Controller
             $title = $request->input('title');
             $order = $request->input('order', 'desc');
             $response = $this->subjectService->getByTitle($title, $order);
+            $data = $response->data();
+            $dataArray = (array)$data;
+
+            return response()->json($dataArray['resource'], $response->status());
+        } catch (Exception | Error $exception) {
+            return response()->json([
+                'error' => 'An unexpected error occurred.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ], 500);
+        }
+    }
+
+    public function getByArea(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'study_area_id' => 'required|array',
+                'study_area_id.*' => 'integer',
+                'order' => 'nullable|string|in:asc,desc'
+                ]);
+            $studyAreaIds = $validated['study_area_id'];
+            $order = $validated['order'] ?? 'desc';
+            $response = $this->subjectService->getByArea($studyAreaIds, $order);
             $data = $response->data();
             $dataArray = (array)$data;
 

@@ -17,8 +17,8 @@ return new class extends Migration
         Schema::create('exam_questions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Exam::class)->constrained()->onDelete('cascade');
-            $table->foreignIdFor(Subject::class)->nullable()->constrained();
-            $table->foreignIdFor(Topic::class)->nullable()->constrained();
+            $table->foreignIdFor(Subject::class)->nullable()->constrained()->onDelete('set null');
+            $table->foreignIdFor(Topic::class)->nullable()->constrained()->onDelete('set null');
             $table->integer('question_number');
             $table->text('statement')->nullable();
             $table->timestamps();

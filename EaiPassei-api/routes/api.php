@@ -65,6 +65,7 @@ Route::delete("/examinations/delete/{id}", [ExaminationController::class, "delet
 
   // ROTAS DE SUBJECTS
   Route::get('/subjects/all', [SubjectController::class, 'getAll']);;
+  Route::get('/subjects/by-area', [SubjectController::class, 'getByArea']);;
   Route::get('/subjects/title', [SubjectController::class, 'getByTitle']);
   Route::get('/subjects/id/{id}', [SubjectController::class, 'getById']);
   Route::post('/subjects/create', [SubjectController::class, 'create']);
@@ -96,6 +97,7 @@ Route::post('/exams/create', [ExamController::class,'create']);
 Route::post('/exams/create/full', [ExamController::class,'createFull']);
 Route::patch('/exams/update/{id}', [ExamController::class,'update']);
 Route::delete('/exams/delete/{id}', [ExamController::class,'delete']);
+Route::delete('exams/subjects/detach/{examId}-{subjectId}', [ExamController::class, 'detachSubject']);
 
 
 // ROTAS DE EXAM QUESTIONS
@@ -105,6 +107,7 @@ Route::get('/exam-questions/id/{id}', [ExamQuestionController::class,'getById'])
 Route::post('/exam-questions/create', [ExamQuestionController::class,'create']);
 Route::patch('/exam-questions/update/{id}', [ExamQuestionController::class,'update']);
 Route::delete('/exam-questions/delete/{id}', [ExamQuestionController::class,'delete']);
+Route::get('/exam-questions/organize/{examId}', [ExamQuestionController::class,'organize']);
 
 
 // ROTAS DE EXAM QUESTIONS ALTERNATIVES

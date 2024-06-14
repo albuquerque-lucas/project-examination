@@ -8,6 +8,7 @@
   min-height: 100vh;
   overflow-x: hidden;
   font-weight: 400;
+  padding: 0 2rem;
 }
 
 .page_header__section {
@@ -149,7 +150,7 @@ span.toggler_icon {
   content: '';
   width: 100%;
   height: 30rem;
-  padding: 1rem 2rem;
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
   max-width: 950px;
@@ -165,7 +166,7 @@ span.toggler_icon {
   /* background-color: lightgreen; */
   content: '';
   width: 100%;
-  min-height: 25rem;
+  min-height: 30rem;
   max-width: 950px;
 }
 
@@ -181,6 +182,10 @@ span.toggler_icon {
   height: 2rem;
   text-align: start;
   font-weight: 400;
+}
+
+.exams_info__section {
+  width: 100%;
 }
 
 .exam_search__container .exam_search__select {

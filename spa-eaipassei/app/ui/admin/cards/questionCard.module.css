@@ -1,23 +1,260 @@
 .question_card__container {
-  border-radius: var(--default-border-radius);
-  border: 1px solid gray;
-  margin: 0 0 1rem 0;
-  padding: 1rem;
+  margin: 0 0 2.5rem 0;
   width: 100%;
 }
 
-.question_card__sentence {
-  font-weight: var(--font-bold);
-  margin-bottom: 1rem;
-  /* background-color: lightcoral; */
+.card_header {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--quaternary-background-color);
+  padding: 0 1rem;
 }
 
-.question_card__alternative {
-  /* background-color: lightyellow; */
-  margin: 0.1rem 0;
+.card_sentence__container,
+.card_sentence__inputs {
+  margin-bottom: 0.5rem;
+  color: white;
+  display: flex;
+  padding: 0.2rem 0;
+  min-height: 2.5rem;
+  position: relative;
+}
+
+.sentence_number {
+  /* background-color: lightskyblue; */
+  width: 10%;
+  max-width: 10rem;
+  display: flex;
+  cursor: pointer;
+  padding-left: 0.5rem;
+  border: 2px solid transparent;
+  font-weight: 700;
+  position: relative;
+}
+
+.card_sentence {
+  width: 100%;
+  /* background-color: lightsalmon; */
+  display: flex;
+  cursor: pointer;
+  text-align: start;
+}
+
+.sentence_number:hover,
+.card_sentence:hover {
+  background-color: var(--primary-background-hover);
+}
+
+.sentence_number input {
+  max-width: 2rem;
+  font-weight: 700;
+}
+
+.card_sentence input {
+  width: 100%;
+}
+
+.card_sentence__container button {
+  position: absolute;
+  top: -2rem;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  outline: none;
+  background-color: var(--quaternary-background-color);
+  color: white;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px 5px 0 0;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.add_alternative__btn {
+  right: 5rem;
+
+}
+
+.card_sentence__container button.confirm_delete__btn {
+  background-color: var(--success-button-color);
+}
+
+.card_sentence__container button.open_edit__btn,
+.card_sentence__container button.cancel_delete__btn {
+  right: 2.7rem;
+}
+
+.card_sentence__container button.delete_edit__btn,
+.card_sentence__container button.confirm_delete__btn {
+  right: 0.5rem;
+}
+
+.card_sentence__container button:hover {
+  background-color: var(--primary-button-hover-color);
+}
+
+.card_sentence__container button.cancel_delete__btn {
+  background-color: var(--danger-button-color);
+}
+
+.card_sentence__container button.cancel_delete__btn:hover {
+  background-color: var(--danger-button-hover-color);
+
+}
+
+.input_buttons__container {
+  position: absolute;
+  top: -2rem;
+  right: 0;
+  background-color: var(--quaternary-background-color);
+  width: 5rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px 5px 0 0;
+}
+
+.input_buttons__container  button {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.alternatives_container {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+
+.question_card__alternative,
+.alternative_sentence__inputs {
+  /* background-color: lightcoral; */
+  margin: 0.25rem 0;
+  cursor: pointer;
+  display: flex;
+  padding: 0 1rem;
+}
+
+.question_card__alternative:hover {
+  background-color: var(--dashboard-hover-background);
+
+}
+
+.question_card__alternative span.alternative_letter {
+  /* background-color: lightcyan; */
+  font-weight: 700;
+  margin-right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.question_card__alternative span.alternative_sentence {
+  /* background-color: red; */
+  width: 100%;
+  display: flex;
+}
+
+.alternative_letter input {
+  width: 3rem;
+  height: 3rem;
+  font-weight: 700;
+}
+
+.alternative_sentence input {
+  width: 85vw;
+}
+
+.alternative_edit__btn,
+.alternative_delete__btn,
+.cancel_delete__btn,
+.confirm_delete__btn {
+  cursor: pointer;
+  margin: 0 0.15rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: none;
+  outline: none;
+  background-color: var(--primary-background-color);
+}
+
+.cancel_delete__btn {
+  background-color: var(--danger-button-color);
+}
+
+.cancel_delete__btn:hover {
+  background-color: var(--danger-button-hover-color);
+}
+
+.confirm_delete__btn {
+  background-color: var(--success-button-color);
+}
+
+.confirm_delete__btn:hover {
+  background-color: var(--primary-button-hover-color);
+}
+
+.alternative_edit__btn:hover {
+  background-color: var(--primary-button-hover-color);
+}
+
+.alternative_delete__btn:hover {
+  background-color: var(--danger-button-hover-color);
+
+}
+
+.alternative_buttons__container {
+  display: flex;
+  justify-content: space-between;
+  width: 5rem;
+}
+
+.alternative_edit__btn {
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
 }
 
-.question_card__alternative span {
-  font-weight: var(--font-bold);
+.alternative_buttons__container button {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.confirm_edit__btn {
+  background-color: var(--primary-button-color);
+  color: white;
+}
+
+.cancel_edit__btn {
+  background-color: var(--danger-button-color );
+  color: white;
+}
+
+@media(min-width: 768px) {
+  .sentence_number{
+    max-width: 4rem;
+  }
 }

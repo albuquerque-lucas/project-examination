@@ -73,7 +73,7 @@ export const createQuestionAlternative = async (url: string, data: Record<string
   }
 }
 
-export const deleteExam = async (url: string): Promise<boolean> => {
+export const deleteExam = async (url: string): Promise<boolean | null> => {
   try {
     const response: AxiosResponse = await axios.delete(url);
     
@@ -83,7 +83,8 @@ export const deleteExam = async (url: string): Promise<boolean> => {
     
     throw new Error('Erro ao deletar o exame');
   } catch (error: any) {
-    throw new Error('Erro ao deletar o exame', error);
+    console.log('Ocorreu um erro ao deletar a prova', error);
+    return null;
   }
 }
 
@@ -96,7 +97,7 @@ export const createExamFull = async (url: string, data: Record<string, any>): Pr
     }
     throw new Error('Erro ao criar o exame');
   } catch (error: any) {
-    throw new Error('Erro ao criar o exame', error);
+    return null;
   }
 }
 
@@ -106,9 +107,113 @@ export const updateExam = async (data: ExamUpdateRequest) => {
     if (resp.status >= 200 && resp.status < 300) {
       return resp.data;
     }
+    console.log('Resultado inesperado ao atualizar o exame', resp);
   } catch (error: any) {
     if (error.response >= 400 && error.response.status < 500) {
-      console.log('Erro ao buscar os concursos', error);
+      console.log('Erro ao atualizar o exame', error);
     }
   }
-}
+
+  }
+
+  export const updateQuestion = async (data: ExamQuestion) => {
+    try {
+      const resp = await axios.patch(`${process.env.NEXT_PUBLIC_API_UPDATE_QUESTION}/${data.id}`, data);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+      console.log('Resultado inesperado ao atualizar as questoes', resp);
+      return null;
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao atualizar as questoes', error);
+        return null;
+      }
+    }
+  }
+
+  export const deleteQuestion = async (id: string | number) => {
+    try {
+      const resp = await axios.delete(`${process.env.NEXT_PUBLIC_API_DELETE_QUESTION}/${id}`);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao deletar as questoes', error);
+      }
+    }
+  }
+
+  export const updateAlternative = async (data: Record<string, any>) => {
+    try {
+      const resp = await axios.patch(`${process.env.NEXT_PUBLIC_API_UPDATE_ALTERNATIVE}/${data.id}`, data);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro atualizar a alternativa', error);
+      }
+    }
+  }
+
+  export const createAlternative = async (data: Record<string, any>) => {
+    try {
+      const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_CREATE_ALTERNATIVE}`, data);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+      console.log('Erro ao criar a alternativa', resp);
+      return null;
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao criar a alternativa', error);
+      }
+      return null;
+    }
+  }
+
+  export const deleteAlternative = async (id: string | number) => {
+    try {
+      const resp = await axios.delete(`${process.env.NEXT_PUBLIC_API_DELETE_ALTERNATIVE}/${id}`);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+      console.log('Erro ao deletar a alternativa', resp);
+      return null;
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao buscar os concursos', error);
+      }
+      return null;
+    }
+  }
+
+  export const updateDetachSubject = async (exam_id: string | number, subject_id: string | number) => {
+    try {
+      const resp = await axios.delete(`${process.env.NEXT_PUBLIC_DETACH_SUBJECT_EXAM}/${exam_id}-${subject_id}`);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+    } catch (error: any) {
+      if (error.response >= 400 && error.response.status < 500) {
+        console.log('Erro ao buscar os concursos', error);
+      }
+    }
+
+    }
+
+
+  export const organizeQuestions = async (examId: number) => {
+    try {
+      console.log('Organizar questões');
+      const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_ORGANIZE_QUESTIONS}/${examId}`);
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.data;
+      }
+      return null;
+    } catch(error: any) {
+      console.log('Erro ao organizar as questões', error);
+    }
+  }

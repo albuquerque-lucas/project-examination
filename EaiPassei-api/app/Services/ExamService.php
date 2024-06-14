@@ -121,6 +121,7 @@ class ExamService
     function update(int $id, array $data, bool $hasFile)
     {
         try {
+            $foreignRelationshipChanged = false;
             $exam = Exam::find($id);
             if (!$exam) {
                 $this->serviceResponse->setAttributes(404, (object)[
@@ -133,7 +134,12 @@ class ExamService
                 Storage::disk('public')->delete($exam->notice()->file_name);
             }
     
-            // Verificar e converter a data
+            if (isset($data['subject_id'])) {
+                $exam->subjects()->attach($data['subject_id']);
+                unset($data['subject_id']);
+                $foreignRelationshipChanged = true;
+            }
+
             if (isset($data['date'])) {
                 $data['date'] = Carbon::createFromFormat('Y-m-d', $data['date'])->format('Y-m-d');
             }
@@ -143,15 +149,16 @@ class ExamService
             $responseModel = (object)[
                 'message' => $this->serviceResponse->changesSaved(),
                 'id' => $exam->id,
+                'exam' => ExamResource::make($exam),
             ];
     
-            if ($exam->isDirty()) {
+            if ($exam->isDirty() || $foreignRelationshipChanged) {
                 $exam->save();
                 $this->serviceResponse->setAttributes(200, $responseModel);
             } else {
                 $this->serviceResponse->setAttributes(200, (object)[
                     'message' => $this->serviceResponse->noChangesToBeMade(),
-                    'exam' => $exam
+                    'exam' => ExamResource::make($exam)
                 ]);
             }
             return $this->serviceResponse;
@@ -218,5 +225,45 @@ class ExamService
             return $this->serviceResponse;
         }
     }
+
+    public function detachSubject(int $examId, int $subjectId): ServiceResponse
+{
+    try {
+        $exam = Exam::find($examId);
+        if (!$exam) {
+            $this->serviceResponse->setAttributes(404, (object)[
+                'message' => $this->serviceResponse->recordsNotFound('Exam'),
+            ]);
+            return $this->serviceResponse;
+        }
+
+        $subjectDetached = $exam->subjects()->detach($subjectId);
+
+        if ($subjectDetached) {
+            $this->serviceResponse->setAttributes(200, (object)[
+                'message' => $this->serviceResponse->changesSaved(),
+                'exam' => new ExamResource($exam),
+            ]);
+        } else {
+            $this->serviceResponse->setAttributes(400, (object)[
+                'message' => 'Failed to detach subject from exam',
+            ]);
+        }
+        
+        return $this->serviceResponse;
+    } catch (ModelNotFoundException $exception) {
+        $this->serviceResponse->setAttributes(404, (object)[
+            'message' => $this->serviceResponse->recordsNotFound('Exam'),
+            'info' => $exception->getMessage(),
+        ]);
+        return $this->serviceResponse;
+    } catch (Exception $exception) {
+        $this->serviceResponse->setAttributes(400, (object)[
+            'message' => $this->serviceResponse->badRequest(),
+            'info' => $exception->getMessage(),
+        ]);
+        return $this->serviceResponse;
+    }
+}
 
 }

@@ -69,11 +69,6 @@ class ExamController extends Controller
                 $hasFile = true;
             }
 
-            // return response()->json([
-            //     'message' => 'Chegou no controller',
-            //     'data' => $data,
-            // ]);
-
             $response = $this->examService->update($id, $data, $hasFile);
     
             return response()->json($response->data(), $response->status());
@@ -84,7 +79,13 @@ class ExamController extends Controller
 
     public function delete(int $id)
     {
-        return $this->dataRetrievalService->delete($this->examService, $id);
+        try {
+            $response = $this->examService->delete($id);
+            return response()->json($response->data(), $response->status());
+
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage(), 'code' => $exception->getCode()], 400);
+        }
     }
 
     public function create(ExamFormRequest $request)
@@ -124,5 +125,19 @@ class ExamController extends Controller
             'questions' => $questionsIds,
             'alternatives' => $alternativesIds,
         ], 200);
+    }
+
+    public function detachSubject(Request $request, int $examId, int $subjectId)
+    {
+        try {
+            $response = $this->examService->detachSubject($examId, $subjectId);
+            return response()->json($response->data(), $response->status());
+        } catch (Exception | Error $exception) {
+            return response()->json([
+                'error' => 'An unexpected error occurred.',
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode()
+            ], 500);
+        }
     }
 }
